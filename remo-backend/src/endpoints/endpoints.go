@@ -12,13 +12,15 @@ type Book struct {
 	Author string `json:"author"`
 }
 
-var books = []Book{
-	{BookId: "1", Title: "test", Author: "test-author"},
+func books() []Book {
+	return []Book{
+		{BookId: "1", Title: "test", Author: "test-author"},
+	}
 }
 
 // getAlbums responds with the list of all albums as JSON.
 func getBooks(c *gin.Context) {
-	c.IndentedJSON(http.StatusOK, books)
+	c.JSON(http.StatusOK, books())
 }
 
 // Everything above here is going to move to a  folder (controller layer)

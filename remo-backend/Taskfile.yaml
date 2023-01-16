@@ -6,6 +6,7 @@ tasks:
   run:
       - go run src/main.go
 
-  test:
-    - cmd: go test tests/*
-      ignore-error: true
+  test-api:
+    - go test tests/*
+  test-all:
+    - go test ./...
