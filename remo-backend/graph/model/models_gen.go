@@ -2,19 +2,15 @@
 
 package model
 
-type NewTodo struct {
-	Text   string `json:"text"`
+type NewBook struct {
+	Title  string `json:"title"`
+	Author string `json:"author"`
 	UserID string `json:"userId"`
 }
 
-type Todo struct {
-	ID   string `json:"id"`
-	Text string `json:"text"`
-	Done bool   `json:"done"`
-	User *User  `json:"user"`
-}
-
 type User struct {
-	ID   string `json:"id"`
-	Name string `json:"name"`
+	ID        string `json:"id"`
+	FirstName string `json:"first_name"`
+	LastName  string `json:"last_name"`
+	Email     string `json:"email"`
 }
