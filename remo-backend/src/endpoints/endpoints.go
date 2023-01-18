@@ -21,10 +21,10 @@ import (
 func Serve() *gin.Engine {
 	r := gin.Default()
 	// r.GET("/v1/books", getBooks)
-	r.POST("/v1/register", users.Register)
-	r.POST("v1/login", users.Login)
-	r.GET("v1/user", users.Get)
-	r.GET("v1/logout", users.Logout)
+	go r.POST("/v1/register", users.Register)
+	go r.POST("v1/login", users.Login)
+	go r.GET("v1/user", users.Get)
+	go r.GET("v1/logout", users.Logout)
 
 	return r
 }
