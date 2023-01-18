@@ -3,6 +3,7 @@
 
 ### Installations
 [Installing Node](https://nodejs.org/en/download/)
+
 [Installing the React Native Development Environment](https://reactnative.dev/docs/environment-setup)
 
 
