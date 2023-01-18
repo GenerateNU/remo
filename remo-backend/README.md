@@ -1,4 +1,4 @@
-# Backend start-point & installation
+# Backend Installs & Learning References
 
 
 ### Installations
@@ -16,6 +16,6 @@
 [Learning GraphQL](https://learning.oreilly.com/library/view/learning-graphql/9781492030706/)
 
 #### gqlgen
-(gqlgen docs)[https://gqlgen.com]
-(Getting started with gqlgen)[https://gqlgen.com/getting-started/]
-(implemented examples)[https://github.com/99designs/gqlgen/tree/master/_examples]
+[gqlgen docs](https://gqlgen.com)
+[Getting started with gqlgen](https://gqlgen.com/getting-started/)
+[implemented examples](https://github.com/99designs/gqlgen/tree/master/_examples)
