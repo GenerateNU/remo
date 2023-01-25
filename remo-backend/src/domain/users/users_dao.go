@@ -15,18 +15,22 @@ var (
 func (user *User) Save() *errors.RestErr {
 	stmt, err := remodb.Client.Prepare(queryInsertUser)
 	if err != nil {
+		println(err.Error())
 		return errors.NewInternalServerError("database error")
 	}
 	defer stmt.Close()
 
 	insertResult, saveErr := stmt.Exec(user.FirstName, user.LastName, user.Email, user.Password)
 	if saveErr != nil {
+		println("2")
+
 		fmt.Println(saveErr)
 		return errors.NewInternalServerError("database error")
 	}
 
 	userID, err := insertResult.LastInsertId()
 	if err != nil {
+		println("3")
 		return errors.NewInternalServerError("database error")
 	}
 	user.ID = userID

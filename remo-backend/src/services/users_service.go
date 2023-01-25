@@ -51,3 +51,27 @@ func GetUserByID(userId int64) (*users.User, *errors.RestErr) {
 	}
 	return result, nil
 }
+
+func CreateUserTest(user users.User) (*users.User, *errors.RestErr) {
+	println("entered createusertest")
+	// if err := user.Validate(); err != nil {
+	// 	println("validation wrong")
+	// 	return nil, err
+	// }
+
+	// encrpyt the password
+	pwSlice, err := bcrypt.GenerateFromPassword([]byte(user.Password), 14)
+	if err != nil {
+		return nil, errors.NewBadRequestError(("failed to encrypt the password"))
+	}
+
+	user.Password = string(pwSlice[:])
+
+	if err := user.Save(); err != nil {
+		println("create user save error")
+		return nil, err
+	}
+
+	return &user, nil
+
+}

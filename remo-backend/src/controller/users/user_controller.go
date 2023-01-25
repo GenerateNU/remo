@@ -112,3 +112,29 @@ func Logout(c *gin.Context) {
 		"message": "success",
 	})
 }
+
+func Authenticate(c *gin.Context) {
+	var user users.User
+
+	// check for invalid JSON bindings and rasie an error if true
+	if err := c.ShouldBindJSON(&user); err != nil {
+		err := errors.NewBadRequestError("invalid_json_body")
+		c.JSON(err.Status, err)
+		return
+	}
+
+	// create the new user with the CreateUser service
+	result, saveErr := services.CreateUserTest(user)
+
+	// // raise a save error if one occurs
+	if saveErr != nil {
+		println("save error")
+		c.JSON(saveErr.Status, saveErr)
+		return
+	}
+
+	// set the context JSON to the new user
+	c.JSON(http.StatusOK, result)
+
+	println("AUTHENTICATED")
+}
