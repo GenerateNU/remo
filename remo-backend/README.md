@@ -23,3 +23,6 @@
 [Getting started with gqlgen](https://gqlgen.com/getting-started/)
 
 [implemented examples](https://github.com/99designs/gqlgen/tree/master/_examples)
+
+### Simple tutorial
+[gin + graphql](https://medium.com/@krishnan.srm/graphql-with-golang-331de956d956)
