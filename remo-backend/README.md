@@ -26,4 +26,5 @@
 
 ### Simple tutorial
 [gin + graphql](https://medium.com/@krishnan.srm/graphql-with-golang-331de956d956)
+
 [REST api with gin](https://go.dev/doc/tutorial/web-service-gin#prerequisites)
