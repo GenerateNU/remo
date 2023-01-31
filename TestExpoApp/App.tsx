@@ -23,9 +23,10 @@ export default function App() {
     if (strData.length == 10) {
       strData = handleBarcodeConversion(strData);
     } else {
+      // don't do anything for now
     }
     // we want to error check this later
-    alert(`Bar code with type ${type} and data ${data} has been scanned!`);
+    alert(`Bar code with type ${type} and data ${strData} has been scanned!`);
   };
 
   const handleBarcodeConversion = (barcode: string) => {
