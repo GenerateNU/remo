@@ -10,19 +10,119 @@ import (
 	"remo/backend/graph/model"
 )
 
-// Title is the resolver for the title field.
-func (r *bookResolver) Title(ctx context.Context, obj *model.Book) (string, error) {
-	panic(fmt.Errorf("not implemented: Title - title"))
-}
-
 // Author is the resolver for the author field.
 func (r *bookResolver) Author(ctx context.Context, obj *model.Book) (string, error) {
 	panic(fmt.Errorf("not implemented: Author - author"))
 }
 
+// UserID is the resolver for the userID field.
+func (r *bookResolver) UserID(ctx context.Context, obj *model.Book) (int, error) {
+	panic(fmt.Errorf("not implemented: UserID - userID"))
+}
+
 // User is the resolver for the user field.
 func (r *bookResolver) User(ctx context.Context, obj *model.Book) (*model.User, error) {
 	panic(fmt.Errorf("not implemented: User - user"))
+}
+
+// ClassroomID is the resolver for the classroomId field.
+func (r *classroomResolver) ClassroomID(ctx context.Context, obj *model.Classroom) (int, error) {
+	panic(fmt.Errorf("not implemented: ClassroomID - classroomId"))
+}
+
+// ClassroomSchoolID is the resolver for the classroom_school_id field.
+func (r *classroomResolver) ClassroomSchoolID(ctx context.Context, obj *model.Classroom) (int, error) {
+	panic(fmt.Errorf("not implemented: ClassroomSchoolID - classroom_school_id"))
+}
+
+// ClassroomSchoolYear is the resolver for the classroom_school_year field.
+func (r *classroomResolver) ClassroomSchoolYear(ctx context.Context, obj *model.Classroom) (string, error) {
+	panic(fmt.Errorf("not implemented: ClassroomSchoolYear - classroom_school_year"))
+}
+
+// ClassroomStartDate is the resolver for the classroom_start_date field.
+func (r *classroomResolver) ClassroomStartDate(ctx context.Context, obj *model.Classroom) (string, error) {
+	panic(fmt.Errorf("not implemented: ClassroomStartDate - classroom_start_date"))
+}
+
+// ClassroomEndDate is the resolver for the classroom_end_date field.
+func (r *classroomResolver) ClassroomEndDate(ctx context.Context, obj *model.Classroom) (string, error) {
+	panic(fmt.Errorf("not implemented: ClassroomEndDate - classroom_end_date"))
+}
+
+// ClassroomName is the resolver for the classroom_name field.
+func (r *classroomResolver) ClassroomName(ctx context.Context, obj *model.Classroom) (string, error) {
+	panic(fmt.Errorf("not implemented: ClassroomName - classroom_name"))
+}
+
+// ClassroomSubject is the resolver for the classroom_subject field.
+func (r *classroomResolver) ClassroomSubject(ctx context.Context, obj *model.Classroom) (string, error) {
+	panic(fmt.Errorf("not implemented: ClassroomSubject - classroom_subject"))
+}
+
+// ClassroomDisplayName is the resolver for the classroom_display_name field.
+func (r *classroomResolver) ClassroomDisplayName(ctx context.Context, obj *model.Classroom) (string, error) {
+	panic(fmt.Errorf("not implemented: ClassroomDisplayName - classroom_display_name"))
+}
+
+// ClassroomAvgLength is the resolver for the classroom_avg_length field.
+func (r *classroomResolver) ClassroomAvgLength(ctx context.Context, obj *model.Classroom) (string, error) {
+	panic(fmt.Errorf("not implemented: ClassroomAvgLength - classroom_avg_length"))
+}
+
+// ClassroomAvgDays is the resolver for the classroom_avg_days field.
+func (r *classroomResolver) ClassroomAvgDays(ctx context.Context, obj *model.Classroom) (int, error) {
+	panic(fmt.Errorf("not implemented: ClassroomAvgDays - classroom_avg_days"))
+}
+
+// ClassroomGradeLevelType is the resolver for the classroom_grade_level_type field.
+func (r *classroomResolver) ClassroomGradeLevelType(ctx context.Context, obj *model.Classroom) (int, error) {
+	panic(fmt.Errorf("not implemented: ClassroomGradeLevelType - classroom_grade_level_type"))
+}
+
+// ClassroomGradeLevel is the resolver for the classroom_grade_level field.
+func (r *classroomResolver) ClassroomGradeLevel(ctx context.Context, obj *model.Classroom) (string, error) {
+	panic(fmt.Errorf("not implemented: ClassroomGradeLevel - classroom_grade_level"))
+}
+
+// ClassroomCoTeacherID is the resolver for the classroom_co_teacher_id field.
+func (r *classroomResolver) ClassroomCoTeacherID(ctx context.Context, obj *model.Classroom) (int, error) {
+	panic(fmt.Errorf("not implemented: ClassroomCoTeacherID - classroom_co_teacher_id"))
+}
+
+// ClassroomTeacherIDV1 is the resolver for the classroom_teacher_idV1 field.
+func (r *classroomResolver) ClassroomTeacherIDV1(ctx context.Context, obj *model.Classroom) (int, error) {
+	panic(fmt.Errorf("not implemented: ClassroomTeacherIDV1 - classroom_teacher_idV1"))
+}
+
+// ClassroomNumStudents is the resolver for the classroom_num_students field.
+func (r *classroomResolver) ClassroomNumStudents(ctx context.Context, obj *model.Classroom) (int, error) {
+	panic(fmt.Errorf("not implemented: ClassroomNumStudents - classroom_num_students"))
+}
+
+// ClassroomNumSeats is the resolver for the classroom_num_seats field.
+func (r *classroomResolver) ClassroomNumSeats(ctx context.Context, obj *model.Classroom) (int, error) {
+	panic(fmt.Errorf("not implemented: ClassroomNumSeats - classroom_num_seats"))
+}
+
+// ClassroomConfFrequencyAbove is the resolver for the classroom_conf_frequency_above field.
+func (r *classroomResolver) ClassroomConfFrequencyAbove(ctx context.Context, obj *model.Classroom) (int, error) {
+	panic(fmt.Errorf("not implemented: ClassroomConfFrequencyAbove - classroom_conf_frequency_above"))
+}
+
+// ClassroomConfFrequencyOn is the resolver for the classroom_conf_frequency_on field.
+func (r *classroomResolver) ClassroomConfFrequencyOn(ctx context.Context, obj *model.Classroom) (int, error) {
+	panic(fmt.Errorf("not implemented: ClassroomConfFrequencyOn - classroom_conf_frequency_on"))
+}
+
+// ClassroomConfFrequencyBelow is the resolver for the classroom_conf_frequency_below field.
+func (r *classroomResolver) ClassroomConfFrequencyBelow(ctx context.Context, obj *model.Classroom) (int, error) {
+	panic(fmt.Errorf("not implemented: ClassroomConfFrequencyBelow - classroom_conf_frequency_below"))
+}
+
+// ClassroomConfFrequencyFarBelow is the resolver for the classroom_conf_frequency_far_below field.
+func (r *classroomResolver) ClassroomConfFrequencyFarBelow(ctx context.Context, obj *model.Classroom) (int, error) {
+	panic(fmt.Errorf("not implemented: ClassroomConfFrequencyFarBelow - classroom_conf_frequency_far_below"))
 }
 
 // CreateBook is the resolver for the createBook field.
@@ -52,13 +152,11 @@ func (r *queryResolver) Teachers(ctx context.Context) ([]*model.Teacher, error) 
 	panic(fmt.Errorf("not implemented: Teachers - teachers"))
 }
 
-// ID is the resolver for the id field.
-func (r *teacherResolver) ID(ctx context.Context, obj *model.Teacher) (string, error) {
-	panic(fmt.Errorf("not implemented: ID - id"))
-}
-
 // Book returns BookResolver implementation.
 func (r *Resolver) Book() BookResolver { return &bookResolver{r} }
+
+// Classroom returns ClassroomResolver implementation.
+func (r *Resolver) Classroom() ClassroomResolver { return &classroomResolver{r} }
 
 // Mutation returns MutationResolver implementation.
 func (r *Resolver) Mutation() MutationResolver { return &mutationResolver{r} }
@@ -66,10 +164,7 @@ func (r *Resolver) Mutation() MutationResolver { return &mutationResolver{r} }
 // Query returns QueryResolver implementation.
 func (r *Resolver) Query() QueryResolver { return &queryResolver{r} }
 
-// Teacher returns TeacherResolver implementation.
-func (r *Resolver) Teacher() TeacherResolver { return &teacherResolver{r} }
-
 type bookResolver struct{ *Resolver }
+type classroomResolver struct{ *Resolver }
 type mutationResolver struct{ *Resolver }
 type queryResolver struct{ *Resolver }
-type teacherResolver struct{ *Resolver }

@@ -3,40 +3,113 @@
 # https://gqlgen.com/getting-started/
 
 type Query {
-  books: [Book!]!
-  teachers: [Teacher!]!
+    books: [Book!]!
+    teachers: [Teacher!]!
 }
 
 type Teacher {
-  id: ID!
+    teacher_ID: ID!
+    Teacher_login_id: ID!
+    Teacher_title: String!
+    Teacher_first_name: String!
+    Teacher_middle_name: String!
+    Teacher_last_name: String!
+    Teacher_suffix: String!
+    Teacher_date_of_birth: String!
+    #Teacher_date_started_teaching string `json:"teacher_date_started_teaching"`
+    Degree_level_id: ID!
+    Is_certified: Boolean!
+    Certification_id: ID!
+    Certification_start: String!
+    Certification_end: String!
+    Teacher_avatar: String!
+    Teacher_backup_avater: String!
+    Teacher_subscription_type: Int!
+    Teacher_code_name: String!
+    Teacher_display_name: String!
+    Quarantined_books: Boolean!
+    Teacher_backup_email: String!
+    Teacher_gender: String!
+    Teacher_pronoun: String!
+    Teacher_position: Int!
+    Teacher_grade_band: String!
+    Teacher_subjects: String!
+    Teacher_provided_services: String!
+    Teacher_specialized_courses: String!
+    Teacher_state_id: String!
+    Teacher_district: String!
+    Teacher_school: String!
+    Teacher_cell_phone: String!
+    Teacher_texts_enabled: Int!
+    Active: Boolean!
+    Teacher_date_created: String!
+    Teacher_date_updated: String!
+}
+
+type Classroom {
+    classroomId: Int!
+    classroom_school_id: Int!
+    # DOUBLE-CHECK THE TYPE ON THIS
+    classroom_school_year: String!
+    classroom_start_date: String!
+    classroom_end_date: String!
+    classroom_name: String!
+    classroom_subject: String!
+    classroom_display_name: String!
+    classroom_avg_length: String!
+    # HOW TO DEAL WITH THIS? WHICH TYPES CAN BE ENCODED INTO A JSON?
+    #classroom_avg_frequency int DEFAULT NULL COMMENT '1 = weekly 2 = bi-weekly 3 = monthly 4 = yearly',
+    classroom_avg_days: Int!
+    classroom_grade_level_type: Int!
+    classroom_grade_level: String!
+    classroom_co_teacher_id: Int!
+    classroom_teacher_idV1: Int!
+    classroom_num_students: Int!
+    classroom_num_seats: Int!
+    # HOW TO DEAL WITH THIS? WHICH TYPES CAN BE ENCODED INTO A JSON?
+    #//classroom_student_sign_in_mode int DEFAULT NULL COMMENT '1 - Shared (QR or Google code), 2 - Single-user (email/pass).',
+    #//classroom_can_share_books int DEFAULT NULL COMMENT '1 = yes, anything else is no.',
+    #//classroom_can_view_prompt_replies int DEFAULT NULL COMMENT '1 = yes, anything else is no.',
+    #//classroom_can_view_survey_results int DEFAULT NULL COMMENT '1 = yes, anything else is no.',
+    #//classroom_can_view_teacher_bookshelves int DEFAULT NULL COMMENT '1 = yes, anything else is no.',
+    #//classroom_enable_family_access int DEFAULT NULL COMMENT '1 = yes, anything else is no.',
+    #//classroom_status_id int NOT NULL DEFAULT '0' COMMENT '0 = inactive, 1= active, 2 =archived',
+    classroom_conf_frequency_above: Int!
+    classroom_conf_frequency_on: Int!
+    classroom_conf_frequency_below: Int!
+    classroom_conf_frequency_far_below: Int!
 }
 
 type Book {
-  id: ID!
-  title: String!
-  author: String!
-  user: User!
+    id: ID!
+    title: String!
+    text: String!
+    done: Boolean!
+    author: String!
+    userID: Int!
+    user: User!
 }
 
 type User {
-  id: ID!
-  first_name: String!
-  last_name: String!
-  email: String!
+    id: ID!
+    first_name: String!
+    last_name: String!
+    email: String!
 }
 
 input NewBook {
-  id: ID!
-  title: String!
-  author: String!
-  userId: String!
+    id: ID!
+    title: String!
+    author: String!
+    userId: String!
 }
 
 input NewTeacher {
-  id: ID!
+    id: ID!
 }
 
 type Mutation {
-  createBook(input: NewBook!): Book!
-  createTeacher(input: NewTeacher!): Teacher!
+    createBook(input: NewBook!): Book!
+    createTeacher(input: NewTeacher!): Teacher!
+    # NEED TO IMPLEMENT MUTATIONS FOR OTHER STRUCTS
 }
