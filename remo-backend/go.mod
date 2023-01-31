@@ -3,7 +3,7 @@ module remo/backend
 go 1.19
 
 require (
-	github.com/99designs/gqlgen v0.17.22
+	github.com/99designs/gqlgen v0.17.24
 	github.com/gin-gonic/gin v1.8.2
 	github.com/huandu/go-assert v1.1.5
 	github.com/vektah/gqlparser/v2 v2.5.1

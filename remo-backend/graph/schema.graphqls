@@ -2,6 +2,15 @@
 #
 # https://gqlgen.com/getting-started/
 
+type Query {
+  books: [Book!]!
+  teachers: [Teacher!]!
+}
+
+type Teacher {
+  id: ID!
+}
+
 type Book {
   id: ID!
   title: String!
@@ -16,16 +25,17 @@ type User {
   email: String!
 }
 
-type Query {
-  books: [Book!]!
-}
-
 input NewBook {
   title: String!
   author: String!
   userId: String!
 }
 
+input NewTeacher {
+  id: ID!
+}
+
 type Mutation {
   createBook(input: NewBook!): Book!
+  createTeacher(input: NewTeacher!): Teacher!
 }
