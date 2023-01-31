@@ -27,7 +27,12 @@ func (r *bookResolver) User(ctx context.Context, obj *model.Book) (*model.User, 
 
 // CreateBook is the resolver for the createBook field.
 func (r *mutationResolver) CreateBook(ctx context.Context, input model.NewBook) (*model.Book, error) {
-	panic(fmt.Errorf("not implemented: CreateBook - createBook"))
+	book := &model.Book{
+		ID: input.ID,
+	}
+	r.books = append(r.books, book)
+	return book, nil
+	//panic(fmt.Errorf("not implemented: CreateBook - createBook"))
 }
 
 // CreateTeacher is the resolver for the createTeacher field.
@@ -37,7 +42,8 @@ func (r *mutationResolver) CreateTeacher(ctx context.Context, input model.NewTea
 
 // Books is the resolver for the books field.
 func (r *queryResolver) Books(ctx context.Context) ([]*model.Book, error) {
-	panic(fmt.Errorf("not implemented: Books - books"))
+	return r.books, nil
+	//panic(fmt.Errorf("not implemented: Books - books"))
 }
 
 // Teachers is the resolver for the teachers field.

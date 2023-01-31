@@ -3,6 +3,7 @@
 package model
 
 type NewBook struct {
+	ID     string `json:"id"`
 	Title  string `json:"title"`
 	Author string `json:"author"`
 	UserID string `json:"userId"`

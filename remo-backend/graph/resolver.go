@@ -7,5 +7,6 @@ import "remo/backend/graph/model"
 // It serves as dependency injection for your app, add any dependencies you require here.
 
 type Resolver struct {
-	books []*model.Book
+	books    []*model.Book
+	teachers []*model.Teacher
 }

@@ -26,6 +26,7 @@ type User {
 }
 
 input NewBook {
+  id: ID!
   title: String!
   author: String!
   userId: String!
