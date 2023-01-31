@@ -28,7 +28,8 @@ func (r *bookResolver) User(ctx context.Context, obj *model.Book) (*model.User, 
 // CreateBook is the resolver for the createBook field.
 func (r *mutationResolver) CreateBook(ctx context.Context, input model.NewBook) (*model.Book, error) {
 	book := &model.Book{
-		ID: input.ID,
+		ID:    input.ID,
+		Title: input.Title,
 	}
 	r.books = append(r.books, book)
 	return book, nil

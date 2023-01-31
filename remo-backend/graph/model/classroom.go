@@ -3,7 +3,7 @@ package model
 type Classroom struct {
 	classroomId         int `json:"classroomId"`
 	classroom_school_id int `json:"classroom_school_id"`
-	// DOUBLE CHECK THE TYPE ON THIS
+	// DOUBLE-CHECK THE TYPE ON THIS
 	classroom_school_year  string `json:"classroom_school_year"`
 	classroom_start_date   string `json:"classroom_start_date"`
 	classroom_end_date     string `json:"classroom_end_date"`
