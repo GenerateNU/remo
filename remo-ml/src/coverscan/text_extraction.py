@@ -2,15 +2,26 @@ import cv2
 import re
 from PIL import Image
 from pytesseract import image_to_string
-
+import redis
 
 class TextExtraction():
     def __init__(self, filepath: str) -> None:
         # create MSER object
         self.mser: cv2.MSER = cv2.MSER_create()
 
-        self.img: cv2.Image = cv2.imread(filepath)
-        self.imag_obj: Image = Image.open(filepath)
+        try:
+            self.img: cv2.Image = cv2.imread(filepath)
+            self.imag_obj: Image = Image.open(filepath)
+        except FileNotFoundError as f:
+            raise FileNotFoundError("INCORRECT_FILEPATH: %s" % filepath)
+        
+        try:
+            self.r: redis.Redis[bytes] = redis.Redis(host='localhost', port=6379, db=0)
+        
+        except redis.exceptions.AuthenticationError as re:
+            re.printStackTrace()
+
+        self.ml_pipe: list = []
 
     @staticmethod
     def transform_image(image: cv2.Image) -> cv2.Image:
@@ -38,3 +49,13 @@ class TextExtraction():
             array_of_texts.append(str_store)
 
         return array_of_texts
+
+    def build_cv_pipeline(self) -> None:
+        if len(self.pipeline) == 0:
+            self.pipeline: list = [self.transform_image, self.extract_text, self.parse_text]
+        else:
+            print("Pipeline already built")
+    
+    def build_redis_pipeline(self):
+        if self.redis_pipeline is None:
+            print("No Redis pipeline intact")
