@@ -6,6 +6,7 @@ import { BarCodeScanner } from "expo-barcode-scanner";
 export default function App() {
   const [hasPermission, setHasPermission] = useState(null);
   const [scanned, setScanned] = useState(false);
+  // useState -> barcode
 
   useEffect(() => {
     const getBarCodeScannerPermissions = async () => {
@@ -17,6 +18,8 @@ export default function App() {
   }, []);
 
   const handleBarCodeScanned = ({ type, data }) => {
+    // TODO; make a types.d file -> define the value for the type for a barcode
+    // gs1.ean-13
     setScanned(true);
     // computation
     let strData = data.toString();
