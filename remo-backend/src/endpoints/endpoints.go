@@ -2,7 +2,9 @@ package endpoints
 
 import (
 	"remo/backend/src/controller/users"
+	errors "remo/backend/src/utils"
 
+	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
 
 	"net/http"
@@ -22,6 +24,8 @@ import (
 // Everything above here is going to move to a  folder (controller layer)
 func Serve() *gin.Engine {
 	r := gin.Default()
+	r.Use(cors.Default())
+
 	// r.GET("/v1/books", getBooks)
 	go r.POST("/v1/register", users.Register)
 	go r.POST("v1/login", users.Login)
@@ -29,11 +33,37 @@ func Serve() *gin.Engine {
 	go r.GET("v1/logout", users.Logout)
 
 	go r.POST("/auth", users.Authenticate)
-	go r.GET("/albums", getAlbums)
-	go r.GET("/albums/:id", getAlbumByID)
-	go r.POST("/albums", postAlbums)
+	go r.GET("/", googleLogin)
+	go r.GET("/googlelogout", users.GoogleLogout)
+	go r.GET("/google", googleLogin)
+	// go r.GET("/albums", getAlbums)
+	// go r.GET("/albums/:id", getAlbumByID)
+	// go r.POST("/albums", postAlbums)
 
+	protected := r.Group("/protected")
+	go protected.Use(JwtAuthMiddleware())
+	go protected.GET("/hi", users.ProtectedEndpointTest)
 	return r
+}
+
+func JwtAuthMiddleware() gin.HandlerFunc {
+	return func(c *gin.Context) {
+		cookie, err := c.Cookie("remo_jwt")
+		if err != nil {
+			err := errors.NewBadRequestError("token not found")
+			c.JSON(err.Status, err)
+		}
+		if users.DecodeJWT(cookie, "secret") != nil {
+			err := errors.NewBadRequestError("invalid_json_body")
+			c.JSON(err.Status, err)
+		}
+		println("JWT TOKEN VALID")
+		c.Next()
+	}
+}
+
+func googleLogin(c *gin.Context) {
+	println("hi google")
 }
 
 // album represents data about a record album.
