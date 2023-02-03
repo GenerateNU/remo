@@ -14,17 +14,20 @@ import (
 	"google.golang.org/api/idtoken"
 )
 
+//TODO: Put secret key for JWTs in ENV or something. right now it is just "secretkey"
+
 // holds the DB secret key
 const SecretKey = "abcdefghijklmnopqrstuvwxy"
 
+// google client ID
 const audience string = "146112178699-kj35h882rr6711tflocnoodhquqtcv0f.apps.googleusercontent.com"
 
+// struct for the credentials the backend recieves from the google auth endpoint
 type loginInfo struct {
 	Credential string `json:"credential"`
 }
 
 func Authenticate(c *gin.Context) {
-	println("WOOHOO endpoint reached")
 	var loginInfo loginInfo
 
 	// check for invalid JSON bindings and rasie an error if true
@@ -34,6 +37,7 @@ func Authenticate(c *gin.Context) {
 		return
 	}
 
+	//gets the id token from the google login credentials and validate it with our client id (audience)
 	payload, err := idtoken.Validate(c, loginInfo.Credential, audience)
 	if err != nil {
 		errors.NewBadRequestError("Could not validate sign in token")
@@ -42,58 +46,19 @@ func Authenticate(c *gin.Context) {
 	}
 
 	// create a JWT for the app and send it back to the client for future requests
-	tokenString, err := MakeJWT(payload.Subject, "secret")
+	tokenString, err := MakeJWT(payload.Subject, "secretkey")
 	if err != nil {
 		errors.NewBadRequestError("Failed to create JWT")
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "Something went wrong completing your sign in."})
 		return
 	}
 
+	//TODO: we should probably correspond the token to the user in the DB.
+	//We can also get name/email and other stuff from the JWT to connect it to existing users or to make new user profile.
+
+	//sets the token JWT generated above as a cookie in the frontend
 	c.SetCookie("remo_jwt", tokenString, 86400, "/", "", true, true)
 	c.Status(http.StatusOK)
-
-	// println(cred)
-	println(loginInfo.Credential)
-
-	// create the new user with the CreateUser service
-	// result, saveErr := services.CreateUserTest(cred)
-
-	// // // raise a save error if one occurs
-	// if saveErr != nil {
-	// 	println("save error")
-	// 	c.JSON(saveErr.Status, saveErr)
-	// 	return
-	// }
-
-	// // set the context JSON to the new user
-	// c.JSON(http.StatusOK, result)
-	/*
-		var loginInfo loginInfo
-				if err := c.ShouldBindJSON(&loginInfo); err != nil {
-		      server.ErrorLogger("Couldn't convert token to valid struct", err, c)
-					c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid token"})
-					return
-				}
-
-				payload, err := idtoken.Validate(c, loginInfo.Credential, audience)
-				if err != nil {
-					server.ErrorLogger("Could not validate sign in token", err, c)
-					c.JSON(http.StatusInternalServerError, gin.H{"error": "Invalid JWT."})
-					return
-				}
-
-				// create a JWT for the app and send it back to the client for future requests
-				tokenString, err := server.MakeJWT(payload.Subject, "secret")
-				if err != nil {
-					server.ErrorLogger("Failed to create JWT", err, c)
-					c.JSON(http.StatusInternalServerError, gin.H{"error": "Something went wrong completing your sign in."})
-					return
-				}
-
-				c.SetCookie("app_session", tokenString, 86400, "/", "", true, true)
-				c.Status(http.StatusOK)
-			}
-	*/
 
 	println("AUTHENTICATED")
 }
@@ -103,14 +68,14 @@ func ProtectedEndpointTest(c *gin.Context) {
 
 }
 
-// for now takes in secret string, but will put in env later
+// Creates JWT to put in coookie
 func MakeJWT(subject string, secret string) (tokenString string, err error) {
 
+	//example of making a token with specific  details:
 	// claims := jwt.MapClaims{}
 	// claims["subject"] = subject
 	// claims["authorized"] = true
 	// // claims["audience"] = audience
-
 	// token := jwt.NewWithClaims(jwt.SigningMethodRS256, claims)
 
 	mySigningKey := []byte("secret")
@@ -118,20 +83,15 @@ func MakeJWT(subject string, secret string) (tokenString string, err error) {
 	// Create the Claims
 	claims := &jwt.RegisteredClaims{Subject: subject}
 
+	//can use any signing encryption algorithm, this is with HS256, other option could be RS256
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
 	signedToken, err := token.SignedString(mySigningKey)
 
-	//encoded string
-	// t, err := token.SignedString([]byte(secret))
-	// if err != nil {
-	// 	errors.NewBadRequestError("token encoding is bad")
-	// 	panic(err)
-	// }
 	println("signedJWTToken:" + signedToken)
 	return signedToken, err
 }
 
-// move secret to env
+// Decode JWT for middleware validation
 func DecodeJWT(tokenStr string, secretStr string) error {
 	mySigningKey := []byte(secretStr)
 	// claims := jwt.RegisteredClaims{}
@@ -149,13 +109,7 @@ func DecodeJWT(tokenStr string, secretStr string) error {
 		println("VALID TOKEN:" + token.Raw)
 	}
 
-	// if claims, ok := token.Claims.(claims); ok && token.Valid {
-	// 	println("VALID_TOKEN:" + token)
-	// } else {
-	// 	err := errors.NewBadRequestError("invalid json")
-	// 	c.JSON(err.Status, err)
-
-	// }
+	//can do extra validation in this function depending on user types and stuff.
 
 	return nil
 }
