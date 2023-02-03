@@ -114,6 +114,14 @@ func DecodeJWT(tokenStr string, secretStr string) error {
 	return nil
 }
 
+func GoogleLogout(c *gin.Context) {
+	println("Google logout")
+	c.SetCookie("remo_jwt", "", -1, "", "", false, true)
+	c.JSON(http.StatusOK, gin.H{
+		"message": "success",
+	})
+}
+
 // Registers a new user into the MySQL database using the CreateUser service
 func Register(c *gin.Context) {
 	var user users.User
@@ -172,31 +180,30 @@ func Login(c *gin.Context) {
 }
 
 func Get(c *gin.Context) {
-	// cookie, err := c.Cookie("jwt")
-	// if err != nil {
-	// 	getErr := errors.NewInternalServerError("could not retrieve cookie")
-	// 	c.JSON(getErr.Status, getErr)
-	// 	return
-	// }
+	cookie, err := c.Cookie("jwt")
+	if err != nil {
+		getErr := errors.NewInternalServerError("could not retrieve cookie")
+		c.JSON(getErr.Status, getErr)
+		return
+	}
 
-	// token, err := jwt.ParseWithClaims(cookie, &jwt.StandardClaims{}, func(*jwt.Token) (interface{}, error) {
-	// 	return []byte(SecretKey), nil
-	// })
-	// if err != nil {
-	// 	restErr := errors.NewInternalServerError("error parsing cookie")
-	// 	c.JSON(restErr.Status, restErr)
-	// 	return
-	// }
+	token, err := jwt.ParseWithClaims(cookie, &jwt.StandardClaims{}, func(*jwt.Token) (interface{}, error) {
+		return []byte(SecretKey), nil
+	})
+	if err != nil {
+		restErr := errors.NewInternalServerError("error parsing cookie")
+		c.JSON(restErr.Status, restErr)
+		return
+	}
 
-	// claims := token.Claims.(*jwt.StandardClaims)
-	// issuer, err := strconv.ParseInt(claims.Issuer, 10, 64)
-	// if err != nil {
-	// 	restErr := errors.NewBadRequestError("user id should be a number")
-	// 	c.JSON(restErr.Status, restErr)
-	// 	return
-	// }
-	var issuer int64
-	issuer = 1
+	claims := token.Claims.(*jwt.StandardClaims)
+	issuer, err := strconv.ParseInt(claims.Issuer, 10, 64)
+	if err != nil {
+		restErr := errors.NewBadRequestError("user id should be a number")
+		c.JSON(restErr.Status, restErr)
+		return
+	}
+
 	result, restErr := services.GetUserByID(issuer)
 	if restErr != nil {
 		c.JSON(restErr.Status, restErr)
@@ -208,14 +215,6 @@ func Get(c *gin.Context) {
 
 func Logout(c *gin.Context) {
 	c.SetCookie("jwt", "", -1, "", "", false, true)
-	c.JSON(http.StatusOK, gin.H{
-		"message": "success",
-	})
-}
-
-func GoogleLogout(c *gin.Context) {
-	println("Google logout")
-	c.SetCookie("remo_jwt", "", -1, "", "", false, true)
 	c.JSON(http.StatusOK, gin.H{
 		"message": "success",
 	})
