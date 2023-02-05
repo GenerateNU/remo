@@ -2,6 +2,7 @@
 #
 # https://gqlgen.com/getting-started/
 
+
 type Query {
     books: [Book!]!
     teachers: [Teacher!]!
@@ -97,6 +98,76 @@ type User {
     email: String!
 }
 
+type ReadingRateResult {
+  reading_rate_results_id: Int!
+  user_id: Int
+  book_id: Int
+  user_book_id: Int
+  date: String
+  reading_location: Int
+  type_of_reading: Int
+  reading_setting: Int
+  reading_type_details: Int
+  start_time: String
+  end_time: String
+  total_time: Int
+  start_page: Int
+  end_page: Int
+  total_pages: Int
+  word_per_page: Int
+  types_of_reading: String
+  section_rating: Int
+  check_in: Int
+  reader_request: Int
+  reader_request_almost_finished: Int
+  reader_continuum: Int
+  words_per_page: Int
+  observational_notes: String
+  share_feedback: Int
+  reader_response: String
+  reading_response_pages: String
+  reading_response_type: Int
+  reading_response_subtype: Int
+  grade_level: Int
+  grade_level_status: Int
+  teacher_id: Int
+}
+
+type Student {
+  id: Int!
+  studentId: String!
+  studentAppId: String!
+  studentCalpadsSsid: String
+  studentLoginId: Int
+  firstName: String!
+  middleName: String!
+  lastName: String!
+  dateCreated: String
+  dateUpdated: String
+  preferredName: String
+  gender: Int
+  pronoun: Int
+  birthDate: String
+  gradeLevel: Int
+  gradeMovement: Int
+  guidedReadingLevel: String
+  rtiSrvType: Int
+  studentServices: String
+  rtiServices: String
+  specializedCourses: String
+  gradeLevelStatus: Int
+  lexileLevelMin: Int
+  lexileLevelMax: Int
+  type: Int
+  weakness: Int
+  readerType: Int
+  readingStage: Int
+  ethnicity: Int
+  avatar: String
+  backupAvatar: String
+}
+
+
 input NewBook {
     id: ID!
     title: String!
@@ -106,10 +177,49 @@ input NewBook {
 
 input NewTeacher {
     id: ID!
+    classroom_co_teacher_id: ID!
+    classroom_status_id: ID!
+    Teacher_first_name: String!
+    Teacher_last_name: String!
+    Active: Int!
+    Teacher_date_created: Date!
+    Teacher_date_updated: Date!
+}
+
+input NewClassroom {
+    classroom_id: ID!
+    Classroom_co_teacher_id: ID!
+    classroom_status_id: ID! 
+
+}
+
+input NewStudent{
+    id: ID!
+    Student_id: ID!
+    student_app_id: ID!
+    First_name: String!
+    Middle_name: String!
+    last_name: String!
+}
+
+input newUserBook{
+    id: ID!
+    Book_ID: ID!
+    checkout_status: int!
+    Unpaged: int!
+    Own_this_copy: int!
+}
+
+input newReadingRateResults{
+    Reading_rate_results_id:ID!
 }
 
 type Mutation {
     createBook(input: NewBook!): Book!
     createTeacher(input: NewTeacher!): Teacher!
-    # NEED TO IMPLEMENT MUTATIONS FOR OTHER STRUCTS
+    createClassroom(input:newClassroom!): Classroom!
+    createStudent(input:newStudent!): Student!
+    createNewUserBook(input:newUserBook!): UserBook!
+    createNewReadingRateResults(input:newReadingRateResults!): ReadingRateResults!
+    
 }
