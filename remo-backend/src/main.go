@@ -17,6 +17,7 @@ func main() {
 		Host:     "localhost",
 		Port:     3333,
 	})
+
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "Unable to connect to database: %v\n", err)
 		os.Exit(1)

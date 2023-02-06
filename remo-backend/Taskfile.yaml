@@ -11,4 +11,4 @@ tasks:
   test-all:
     - go test ./...
   connect:
-    - mysql -u remo --password=pwd -P 3213 -h localhost --protocol=tcp
+    - mysql -u remo --password=pwd -P 3333 -h localhost --protocol=tcp

@@ -20,7 +20,7 @@ func GetBooksFromDB(pool *pgx.Conn, book_id string) (Book, error) {
 	}
 
 	var bid int
-	err := pool.QueryRow(fmt.Sprintf("SELECT book_id, title, author FROM books where book_id = '%s';", book_id)).Scan(&bid, &book.Title, &book.Author)
+	err := pool.QueryRow(fmt.Sprintf("SELECT id, title, author FROM books WHERE id= '%s';", book_id)).Scan(&bid, &book.Title, &book.Author)
 
 	if err != nil {
 		panic(err)
