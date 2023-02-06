@@ -1,22 +1,17 @@
 package main
 
 import (
+	"database/sql"
 	"fmt"
 	"os"
 	e "remo/backend/src/endpoints"
 	"remo/backend/src/model"
 
-	"github.com/jackc/pgx"
+	_ "github.com/go-sql-driver/mysql"
 )
 
 func main() {
-	conn, err := pgx.Connect(pgx.ConnConfig{
-		User:     "remo",
-		Database: "remodb",
-		Password: "pwd",
-		Host:     "localhost",
-		Port:     3333,
-	})
+	conn, err := sql.Open("mysql", "user:pwd@tcp(localhost:3333)/remodb")
 
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "Unable to connect to database: %v\n", err)
@@ -25,11 +20,11 @@ func main() {
 
 	defer conn.Close()
 
-	m := &model.PgModel{
+	m := &model.MsModel{
 		Conn: conn,
 	}
-	e := &e.PgController{
+	c := &e.MsController{
 		Model: m,
 	}
-	e.Serve().Run(":8080")
+	c.Serve().Run(":8080")
 }

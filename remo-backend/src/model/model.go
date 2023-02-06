@@ -1,11 +1,13 @@
 package model
 
 import (
-	"github.com/jackc/pgx"
+	"database/sql"
+
+	_ "github.com/go-sql-driver/mysql"
 )
 
-type PgModel struct {
-	Conn *pgx.Conn
+type MsModel struct {
+	Conn *sql.DB
 }
 
 type Model interface {
@@ -16,7 +18,7 @@ type Model interface {
 	AddUser(User) (User, error)
 }
 
-func (m *PgModel) Book(id string) Book {
+func (m *MsModel) Book(id string) Book {
 	book, err := GetBooksFromDB(m.Conn, id)
 
 	if err != nil {
@@ -26,7 +28,7 @@ func (m *PgModel) Book(id string) Book {
 	return book
 }
 
-func (m *PgModel) UserByEmail(email string) User {
+func (m *MsModel) UserByEmail(email string) User {
 	user, err := GetUserByEmail(m.Conn, email)
 
 	if err != nil {
@@ -36,7 +38,7 @@ func (m *PgModel) UserByEmail(email string) User {
 	return user
 }
 
-func (m *PgModel) UserByID(id string) User {
+func (m *MsModel) UserByID(id string) User {
 	user, err := GetUserByID(m.Conn, id)
 
 	if err != nil {
@@ -46,7 +48,7 @@ func (m *PgModel) UserByID(id string) User {
 	return user
 }
 
-func (m *PgModel) AddBooks(book Book) (Book, error) {
+func (m *MsModel) AddBooks(book Book) (Book, error) {
 	err := WriteBooksToDb(m.Conn, book)
 
 	if err != nil {
@@ -56,7 +58,7 @@ func (m *PgModel) AddBooks(book Book) (Book, error) {
 	return book, nil
 }
 
-func (m *PgModel) AddUser(usr User) (User, error) {
+func (m *MsModel) AddUser(usr User) (User, error) {
 	err := InsertUser(m.Conn, usr)
 
 	if err != nil {

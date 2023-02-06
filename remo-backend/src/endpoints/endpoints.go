@@ -13,14 +13,14 @@ type Controller interface {
 	Serve() *gin.Engine
 }
 
-type PgController struct {
+type MsController struct {
 	model.Model
 }
 
 const audience string = "146112178699-kj35h882rr6711tflocnoodhquqtcv0f.apps.googleusercontent.com"
 
 // Everything above here is going to move to a  folder (controller layer)
-func (pg *PgController) Serve() *gin.Engine {
+func (ms *MsController) Serve() *gin.Engine {
 	r := gin.Default()
 
 	go r.POST("/v1/register", func(c *gin.Context) {
@@ -31,7 +31,7 @@ func (pg *PgController) Serve() *gin.Engine {
 			return
 		}
 
-		_, err := pg.AddUser(user)
+		_, err := ms.AddUser(user)
 
 		if err != nil {
 			c.JSON(http.StatusBadRequest, "Failed to add a user")
@@ -47,7 +47,7 @@ func (pg *PgController) Serve() *gin.Engine {
 		// check to see if the user exists in the database
 		// if so, continute to create authenticated token & cookie
 		// if not, the model will panic with an error
-		pg.UserByEmail(email)
+		ms.UserByEmail(email)
 
 		var loginInfo model.LoginInfo
 
@@ -94,7 +94,7 @@ func (pg *PgController) Serve() *gin.Engine {
 
 	go r.GET("/v1/books/:bookId", func(c *gin.Context) {
 		id := c.Param("bookId")
-		c.JSON(http.StatusOK, pg.Book(id))
+		c.JSON(http.StatusOK, ms.Book(id))
 	})
 
 	r.POST("/v1/addBook", func(c *gin.Context) {
@@ -105,7 +105,7 @@ func (pg *PgController) Serve() *gin.Engine {
 			return
 		}
 
-		_, err := pg.AddBooks(book)
+		_, err := ms.AddBooks(book)
 
 		if err != nil {
 			c.JSON(http.StatusBadRequest, "Failed to add a book")

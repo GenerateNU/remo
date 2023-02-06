@@ -1,20 +1,19 @@
 package model
 
 import (
+	"database/sql"
 	"fmt"
 	utils "remo/backend/src/utils"
 	"strings"
-
-	"github.com/jackc/pgx"
 )
 
-func WriteBooksToDb(pool *pgx.Conn, book Book) error {
+func WriteBooksToDb(pool *sql.DB, book Book) error {
 	_, err := pool.Exec(fmt.Sprintf("INSERT INTO books (book_id, title, author) VALUES ('%s','%s','%s');", book.BookId, book.Title, book.Author))
 
 	return err
 }
 
-func GetBooksFromDB(pool *pgx.Conn, book_id string) (Book, error) {
+func GetBooksFromDB(pool *sql.DB, book_id string) (Book, error) {
 	book := Book{
 		BookId: book_id,
 	}
@@ -29,14 +28,14 @@ func GetBooksFromDB(pool *pgx.Conn, book_id string) (Book, error) {
 	return book, nil
 }
 
-func InsertUser(pool *pgx.Conn, usr User) error {
+func InsertUser(pool *sql.DB, usr User) error {
 
 	_, err := pool.Exec(fmt.Sprintf("INSERT INTO users (ID, first_name, last_name, email) VALUES ('%s','%s','%s', '%s');", usr.ID, usr.FirstName, usr.LastName, usr.Email))
 
 	return err
 }
 
-func GetUserByEmail(pool *pgx.Conn, user_email string) (User, error) {
+func GetUserByEmail(pool *sql.DB, user_email string) (User, error) {
 	user := User{
 		Email: user_email,
 	}
@@ -51,7 +50,7 @@ func GetUserByEmail(pool *pgx.Conn, user_email string) (User, error) {
 	return user, nil
 }
 
-func GetUserByID(pool *pgx.Conn, user_ID string) (User, error) {
+func GetUserByID(pool *sql.DB, user_ID string) (User, error) {
 	user := User{
 		Email: user_ID,
 	}
