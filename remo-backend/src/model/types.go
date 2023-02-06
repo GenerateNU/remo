@@ -7,12 +7,11 @@ type Book struct {
 }
 
 type User struct {
-	ID           int64  `json:"ID"`
-	FirstName    string `json:"first_name"`
-	LastName     string `json:"last_name"`
-	Password     string `json:"password"`
-	Email        string `json:"email"`
-	PasswordHash string `json:"password_hash"`
+	ID        int64  `json:"ID"`
+	FirstName string `json:"first_name"`
+	LastName  string `json:"last_name"`
+	Password  string `json:"password"`
+	Email     string `json:"email"`
 }
 
 type LoginInfo struct {

@@ -6,7 +6,6 @@ import (
 	"remo/backend/src/utils"
 
 	"github.com/gin-gonic/gin"
-	"golang.org/x/crypto/bcrypt"
 	"google.golang.org/api/idtoken"
 )
 
@@ -44,14 +43,11 @@ func (pg *PgController) Serve() *gin.Engine {
 
 	go r.POST("v1/login", func(c *gin.Context) {
 		email := c.Param("email")
-		password := c.Param("password")
 
-		usr := pg.UserByEmail(email)
-
-		if err := bcrypt.CompareHashAndPassword([]byte(password), []byte(usr.Password)); err != nil {
-			utils.NewBadRequestError("failed to decrypt the password")
-			return
-		}
+		// check to see if the user exists in the database
+		// if so, continute to create authenticated token & cookie
+		// if not, the model will panic with an error
+		pg.UserByEmail(email)
 
 		var loginInfo model.LoginInfo
 

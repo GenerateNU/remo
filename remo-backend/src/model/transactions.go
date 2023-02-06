@@ -6,7 +6,6 @@ import (
 	"strings"
 
 	"github.com/jackc/pgx"
-	"golang.org/x/crypto/bcrypt"
 )
 
 func WriteBooksToDb(pool *pgx.Conn, book Book) error {
@@ -31,16 +30,8 @@ func GetBooksFromDB(pool *pgx.Conn, book_id string) (Book, error) {
 }
 
 func InsertUser(pool *pgx.Conn, usr User) error {
-	// encrpyt the password
-	pwSlice, e := bcrypt.GenerateFromPassword([]byte(usr.Password), 14)
 
-	if e != nil {
-		panic(e)
-	}
-
-	usr.PasswordHash = string(pwSlice[:])
-
-	_, err := pool.Exec(fmt.Sprintf("INSERT INTO users (ID, first_name, last_name, email, password_hash) VALUES ('%s','%s','%s', '%s', '%s');", usr.ID, usr.FirstName, usr.LastName, usr.Email, usr.PasswordHash))
+	_, err := pool.Exec(fmt.Sprintf("INSERT INTO users (ID, first_name, last_name, email) VALUES ('%s','%s','%s', '%s');", usr.ID, usr.FirstName, usr.LastName, usr.Email))
 
 	return err
 }
