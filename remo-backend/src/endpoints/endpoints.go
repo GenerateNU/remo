@@ -1,119 +1,135 @@
 package endpoints
 
 import (
-	"remo/backend/src/controller/users"
-	errors "remo/backend/src/utils"
+	"net/http"
+	"remo/backend/src/model"
+	"remo/backend/src/utils"
 
 	"github.com/gin-gonic/gin"
-	// "github.com/gin-contrib/cors"
-	// "net/http"
+	"golang.org/x/crypto/bcrypt"
+	"google.golang.org/api/idtoken"
 )
 
+type Controller interface {
+	Serve() *gin.Engine
+}
+
+type PgController struct {
+	model.Model
+}
+
+const audience string = "146112178699-kj35h882rr6711tflocnoodhquqtcv0f.apps.googleusercontent.com"
+
 // Everything above here is going to move to a  folder (controller layer)
-func Serve() *gin.Engine {
+func (pg *PgController) Serve() *gin.Engine {
 	r := gin.Default()
-	// r.Use(cors.Default())
 
-	go r.POST("/v1/register", users.Register)
-	go r.POST("v1/login", users.Login)
-	go r.GET("v1/user", users.Get)
-	go r.GET("v1/logout", users.Logout)
+	go r.POST("/v1/register", func(c *gin.Context) {
+		var user model.User
 
-	go r.POST("/auth", users.Authenticate)
-	go r.GET("/googlelogout", users.GoogleLogout)
+		if err := c.BindJSON(&user); err != nil {
+			c.JSON(http.StatusBadRequest, "Failed to unmarshal user")
+			return
+		}
+
+		_, err := pg.AddUser(user)
+
+		if err != nil {
+			c.JSON(http.StatusBadRequest, "Failed to add a user")
+			panic(err)
+		}
+
+		c.JSON(http.StatusOK, user.ID)
+	})
+
+	go r.POST("v1/login", func(c *gin.Context) {
+		email := c.Param("email")
+		password := c.Param("password")
+
+		usr := pg.UserByEmail(email)
+
+		if err := bcrypt.CompareHashAndPassword([]byte(password), []byte(usr.Password)); err != nil {
+			utils.NewBadRequestError("failed to decrypt the password")
+			return
+		}
+
+		var loginInfo model.LoginInfo
+
+		// check for invalid JSON bindings and rasie an error if true
+		if err := c.ShouldBindJSON(&loginInfo); err != nil {
+			err := utils.NewBadRequestError("invalid_json_body")
+			c.JSON(err.Status, err)
+			return
+		}
+
+		//gets the id token from the google login credentials and validate it with our client id (audience)
+		payload, err := idtoken.Validate(c, loginInfo.Credential, audience)
+		if err != nil {
+			utils.NewBadRequestError("Could not validate sign in token")
+			c.JSON(http.StatusInternalServerError, gin.H{"error": "Invalid JWT."})
+			return
+		}
+
+		// create a JWT for the app and send it back to the client for future requests
+		tokenString, err := utils.MakeJWT(payload.Subject, "secretkey")
+		if err != nil {
+			utils.NewBadRequestError("Failed to create JWT")
+			c.JSON(http.StatusInternalServerError, gin.H{"error": "Something went wrong completing your sign in."})
+			return
+		}
+
+		//TODO: we should probably correspond the token to the user in the DB.
+		//We can also get name/email and other stuff from the JWT to connect it to existing users or to make new user profile.
+
+		//sets the token JWT generated above as a cookie in the frontend
+		c.SetCookie("remo_jwt", tokenString, 86400, "/", "", true, true)
+		c.Status(http.StatusOK)
+
+		println("AUTHENTICATED")
+	})
+
+	go r.GET("/logout", func(c *gin.Context) {
+		println("Google logout")
+		c.SetCookie("remo_jwt", "", -1, "", "", false, true)
+		c.JSON(http.StatusOK, gin.H{
+			"message": "success",
+		})
+	})
+
+	go r.GET("/v1/books/:bookId", func(c *gin.Context) {
+		id := c.Param("bookId")
+		c.JSON(http.StatusOK, pg.Book(id))
+	})
+
+	r.POST("/v1/addBook", func(c *gin.Context) {
+		var book model.Book
+
+		if err := c.BindJSON(&book); err != nil {
+			c.JSON(http.StatusBadRequest, "Failed to unmarshal book")
+			return
+		}
+
+		_, err := pg.AddBooks(book)
+
+		if err != nil {
+			c.JSON(http.StatusBadRequest, "Failed to add a book")
+			panic(err)
+		}
+
+		c.JSON(http.StatusOK, book.BookId)
+	})
 
 	//protected endpoint group (uses middelware below)
 	protected := r.Group("/protected")
 	//sets up middleware for this protected endpoint
-	go protected.Use(JwtAuthMiddleware())
-	go protected.GET("/hi", users.ProtectedEndpointTest)
+	go protected.Use(utils.JwtAuthMiddleware())
+	go protected.GET("/hi", ProtectedEndpointTest)
 	return r
-
-	//example endpoints
-	// r.GET("/v1/books", getBooks)
-	// go r.GET("/albums", getAlbums)
-	// go r.GET("/albums/:id", getAlbumByID)
-	// go r.POST("/albums", postAlbums)
 }
 
-// middleware for protected endpoints
-func JwtAuthMiddleware() gin.HandlerFunc {
-	return func(c *gin.Context) {
-		cookie, err := c.Cookie("remo_jwt")
-		if err != nil {
-			err := errors.NewBadRequestError("token not found")
-			c.JSON(err.Status, err)
-		}
-		if users.DecodeJWT(cookie, "secretkey") != nil {
-			err := errors.NewBadRequestError("invalid_json_body")
-			c.JSON(err.Status, err)
-		}
-		println("JWT TOKEN VALID")
-		c.Next()
-	}
+const SecretKey = "abcdefghijklmnopqrstuvwxy"
+
+func ProtectedEndpointTest(c *gin.Context) {
+	println("entered protected endpoint with remo jwt")
+
 }
-
-//EXAMPLE GO/GIN ENDPOINT STUFFS:
-// func books() []t.Book {
-// 	return []t.Book{
-// 		{BookId: "1", Title: "test", Author: "test-author"},
-// 	}
-// }
-
-// // getAlbums responds with the list of all albums as JSON.
-// func getBooks(c *gin.Context) {
-// 	c.JSON(http.StatusOK, books())
-// }
-
-// // album represents data about a record album.
-// type album struct {
-// 	ID     string  `json:"id"`
-// 	Title  string  `json:"title"`
-// 	Artist string  `json:"artist"`
-// 	Price  float64 `json:"price"`
-// }
-
-// // albums slice to seed record album data.
-// var albums = []album{
-// 	{ID: "1", Title: "Blue Train", Artist: "John Coltrane", Price: 56.99},
-// 	{ID: "2", Title: "Jeru", Artist: "Gerry Mulligan", Price: 17.99},
-// 	{ID: "3", Title: "Sarah Vaughan and Clifford Brown", Artist: "Sarah Vaughan", Price: 39.99},
-// }
-
-// // getAlbums responds with the list of all albums as JSON.
-// func getAlbums(c *gin.Context) {
-// 	c.IndentedJSON(http.StatusOK, albums)
-// }
-
-// // postAlbums adds an album from JSON received in the request body.
-// func postAlbums(c *gin.Context) {
-// 	var newAlbum album
-
-// 	// Call BindJSON to bind the received JSON to
-// 	// newAlbum.
-// 	// c.ShouldBindJSON()
-// 	// check for invalid JSON bindings
-// 	if err := c.BindJSON(&newAlbum); err != nil {
-// 		return
-// 	}
-
-// 	// Add the new album to the slice.
-// 	albums = append(albums, newAlbum)
-// 	c.IndentedJSON(http.StatusCreated, newAlbum)
-// }
-
-// // getAlbumByID locates the album whose ID value matches the id
-// // parameter sent by the client, then returns that album as a response.
-// func getAlbumByID(c *gin.Context) {
-// 	id := c.Param("id")
-
-// 	// Loop through the list of albums, looking for
-// 	// an album whose ID value matches the parameter.
-// 	for _, a := range albums {
-// 		if a.ID == id {
-// 			c.IndentedJSON(http.StatusOK, a)
-// 			return
-// 		}
-// 	}
-// 	c.IndentedJSON(http.StatusNotFound, gin.H{"message": "album not found"})
-// }
