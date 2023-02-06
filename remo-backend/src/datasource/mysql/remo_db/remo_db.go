@@ -12,7 +12,7 @@ var (
 	Client   *sql.DB
 	username = "remo"
 	password = "pwd"
-	host     = "127.0.0.1:3213"
+	host     = "127.0.0.1:3333"
 	schema   = "remodb"
 )
 
