@@ -62,14 +62,15 @@ func (r *classroomResolver) ClassroomAvgLength(ctx context.Context, obj *model.C
 
 // CreateBook is the resolver for the createBook field.
 func (r *mutationResolver) CreateBook(ctx context.Context, input *model.NewBook) (*model.Book, error) {
-	book := &model.Book{
-		Id:      input.ID,
-		Title:   input.Title,
-		Author:  input.Author,
-		User_id: input.UserID,
-	}
-	r.books[input.ID] = book
-	return book, nil
+	//book := &model.Book{
+	//	Id:      input.ID,
+	//	Title:   input.Title,
+	//	Author:  input.Author,
+	//	User_id: input.UserID,
+	//}
+	//r.books[input.ID] = book
+	//return book, nil
+	panic(fmt.Errorf("not implemented: Teachers - teachers"))
 }
 
 // CreateTeacher is the resolver for the createTeacher field.
@@ -93,20 +94,27 @@ func (r *mutationResolver) CreateNewReadingRateResults(ctx context.Context, inpu
 }
 
 // CreateNewUser is the resolver for the createNewUser field.
-func (r *mutationResolver) CreateNewUser(ctx context.Context, input model.NewUser) (*model.User, error) {
+func (r *mutationResolver) CreateNewUser(ctx context.Context, input *model.NewUser) (*model.User, error) {
 	user := &model.User{
 		ID:        input.ID,
 		FirstName: input.FirstName,
 		LastName:  input.LastName,
 		Email:     input.Email,
 	}
-	r.users[input.ID] = user
+	//r.users[input.ID] = user
+	r.users = append(r.users, user)
 	return user, nil
 }
 
 // GetBookByID is the resolver for the getBookByID field.
 func (r *queryResolver) GetBookByID(ctx context.Context, id string) (*model.Book, error) {
-	return r.books[id], nil
+	for _, book := range r.books {
+		if id == book.Id {
+			return book, nil
+		}
+	}
+	//return r.books[id], nil
+	panic(fmt.Errorf("not implemented: Teachers - teachers"))
 }
 
 // Teachers is the resolver for the teachers field.
@@ -116,6 +124,12 @@ func (r *queryResolver) Teachers(ctx context.Context) ([]*model.Teacher, error) 
 
 // GetUserByID is the resolver for the getUserByID field.
 func (r *queryResolver) GetUserByID(ctx context.Context, id string) (*model.User, error) {
+	for _, user := range r.users {
+		if id == user.ID {
+			return user, nil
+		}
+	}
+	//return r.users[id], nil
 	panic(fmt.Errorf("not implemented: GetUserByID - getUserByID"))
 }
 

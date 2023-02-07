@@ -267,5 +267,5 @@ type Mutation {
     createClassroom(input:NewClassroom!): Classroom!
     createStudent(input:NewStudent!): Student!
     createNewReadingRateResults(input:newReadingRateResults!): ReadingRateResult!
-    createNewUser(input: NewUser!): User!
+    createNewUser(input: NewUser): User
 }

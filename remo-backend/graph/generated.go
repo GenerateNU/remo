@@ -117,7 +117,7 @@ type ComplexityRoot struct {
 		CreateBook                  func(childComplexity int, input *model.NewBook) int
 		CreateClassroom             func(childComplexity int, input model.NewClassroom) int
 		CreateNewReadingRateResults func(childComplexity int, input model.NewReadingRateResults) int
-		CreateNewUser               func(childComplexity int, input model.NewUser) int
+		CreateNewUser               func(childComplexity int, input *model.NewUser) int
 		CreateStudent               func(childComplexity int, input model.NewStudent) int
 		CreateTeacher               func(childComplexity int, input model.NewTeacher) int
 	}
@@ -265,7 +265,7 @@ type MutationResolver interface {
 	CreateClassroom(ctx context.Context, input model.NewClassroom) (*model.Classroom, error)
 	CreateStudent(ctx context.Context, input model.NewStudent) (*model.Student, error)
 	CreateNewReadingRateResults(ctx context.Context, input model.NewReadingRateResults) (*model.ReadingRateResult, error)
-	CreateNewUser(ctx context.Context, input model.NewUser) (*model.User, error)
+	CreateNewUser(ctx context.Context, input *model.NewUser) (*model.User, error)
 }
 type QueryResolver interface {
 	GetBookByID(ctx context.Context, id string) (*model.Book, error)
@@ -741,7 +741,7 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 			return 0, false
 		}
 
-		return e.complexity.Mutation.CreateNewUser(childComplexity, args["input"].(model.NewUser)), true
+		return e.complexity.Mutation.CreateNewUser(childComplexity, args["input"].(*model.NewUser)), true
 
 	case "Mutation.createStudent":
 		if e.complexity.Mutation.CreateStudent == nil {
@@ -1653,10 +1653,10 @@ func (ec *executionContext) field_Mutation_createNewReadingRateResults_args(ctx 
 func (ec *executionContext) field_Mutation_createNewUser_args(ctx context.Context, rawArgs map[string]interface{}) (map[string]interface{}, error) {
 	var err error
 	args := map[string]interface{}{}
-	var arg0 model.NewUser
+	var arg0 *model.NewUser
 	if tmp, ok := rawArgs["input"]; ok {
 		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("input"))
-		arg0, err = ec.unmarshalNNewUser2remoᚋbackendᚋgraphᚋmodelᚐNewUser(ctx, tmp)
+		arg0, err = ec.unmarshalONewUser2ᚖremoᚋbackendᚋgraphᚋmodelᚐNewUser(ctx, tmp)
 		if err != nil {
 			return nil, err
 		}
@@ -4682,20 +4682,17 @@ func (ec *executionContext) _Mutation_createNewUser(ctx context.Context, field g
 	}()
 	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
 		ctx = rctx // use context from middleware stack in children
-		return ec.resolvers.Mutation().CreateNewUser(rctx, fc.Args["input"].(model.NewUser))
+		return ec.resolvers.Mutation().CreateNewUser(rctx, fc.Args["input"].(*model.NewUser))
 	})
 	if err != nil {
 		ec.Error(ctx, err)
 	}
 	if resTmp == nil {
-		if !graphql.HasFieldError(ctx, fc) {
-			ec.Errorf(ctx, "must not be null")
-		}
 		return graphql.Null
 	}
 	res := resTmp.(*model.User)
 	fc.Result = res
-	return ec.marshalNUser2ᚖremoᚋbackendᚋgraphᚋmodelᚐUser(ctx, field.Selections, res)
+	return ec.marshalOUser2ᚖremoᚋbackendᚋgraphᚋmodelᚐUser(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) fieldContext_Mutation_createNewUser(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -13108,11 +13105,6 @@ func (ec *executionContext) unmarshalNNewTeacher2remoᚋbackendᚋgraphᚋmodel�
 	return res, graphql.ErrorOnPath(ctx, err)
 }
 
-func (ec *executionContext) unmarshalNNewUser2remoᚋbackendᚋgraphᚋmodelᚐNewUser(ctx context.Context, v interface{}) (model.NewUser, error) {
-	res, err := ec.unmarshalInputNewUser(ctx, v)
-	return res, graphql.ErrorOnPath(ctx, err)
-}
-
 func (ec *executionContext) marshalNReadingRateResult2remoᚋbackendᚋgraphᚋmodelᚐReadingRateResult(ctx context.Context, sel ast.SelectionSet, v model.ReadingRateResult) graphql.Marshaler {
 	return ec._ReadingRateResult(ctx, sel, &v)
 }
@@ -13227,20 +13219,6 @@ func (ec *executionContext) marshalNTime2timeᚐTime(ctx context.Context, sel as
 		}
 	}
 	return res
-}
-
-func (ec *executionContext) marshalNUser2remoᚋbackendᚋgraphᚋmodelᚐUser(ctx context.Context, sel ast.SelectionSet, v model.User) graphql.Marshaler {
-	return ec._User(ctx, sel, &v)
-}
-
-func (ec *executionContext) marshalNUser2ᚖremoᚋbackendᚋgraphᚋmodelᚐUser(ctx context.Context, sel ast.SelectionSet, v *model.User) graphql.Marshaler {
-	if v == nil {
-		if !graphql.HasFieldError(ctx, graphql.GetFieldContext(ctx)) {
-			ec.Errorf(ctx, "the requested element is null which the schema does not allow")
-		}
-		return graphql.Null
-	}
-	return ec._User(ctx, sel, v)
 }
 
 func (ec *executionContext) marshalN__Directive2githubᚗcomᚋ99designsᚋgqlgenᚋgraphqlᚋintrospectionᚐDirective(ctx context.Context, sel ast.SelectionSet, v introspection.Directive) graphql.Marshaler {
@@ -13611,6 +13589,14 @@ func (ec *executionContext) unmarshalONewBook2ᚖremoᚋbackendᚋgraphᚋmodel�
 		return nil, nil
 	}
 	res, err := ec.unmarshalInputNewBook(ctx, v)
+	return &res, graphql.ErrorOnPath(ctx, err)
+}
+
+func (ec *executionContext) unmarshalONewUser2ᚖremoᚋbackendᚋgraphᚋmodelᚐNewUser(ctx context.Context, v interface{}) (*model.NewUser, error) {
+	if v == nil {
+		return nil, nil
+	}
+	res, err := ec.unmarshalInputNewUser(ctx, v)
 	return &res, graphql.ErrorOnPath(ctx, err)
 }
 
