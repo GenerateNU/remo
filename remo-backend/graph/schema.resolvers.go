@@ -68,7 +68,7 @@ func (r *mutationResolver) CreateBook(ctx context.Context, input *model.NewBook)
 		Author:  input.Author,
 		User_id: input.UserID,
 	}
-	r.books = append(r.books, book)
+	r.books[input.ID] = book
 	return book, nil
 }
 
@@ -100,14 +100,13 @@ func (r *mutationResolver) CreateNewUser(ctx context.Context, input model.NewUse
 		LastName:  input.LastName,
 		Email:     input.Email,
 	}
-	r.users = append(r.users, user)
+	r.users[input.ID] = user
 	return user, nil
 }
 
-// Books is the resolver for the books field.
-func (r *queryResolver) Books(ctx context.Context) ([]*model.Book, error) {
-	return r.books, nil
-	//panic(fmt.Errorf("not implemented: Books - books"))
+// GetBookByID is the resolver for the getBookByID field.
+func (r *queryResolver) GetBookByID(ctx context.Context, id string) (*model.Book, error) {
+	return r.books[id], nil
 }
 
 // Teachers is the resolver for the teachers field.
@@ -115,20 +114,9 @@ func (r *queryResolver) Teachers(ctx context.Context) ([]*model.Teacher, error) 
 	panic(fmt.Errorf("not implemented: Teachers - teachers"))
 }
 
-// Users is the resolver for the users field.
-func (r *queryResolver) Users(ctx context.Context) ([]*model.User, error) {
-	return r.users, nil
-	//panic(fmt.Errorf("not implemented: Users - users"))
-}
-
-// GetUser is the resolver for the getUser field.
-func (r *queryResolver) GetUser(ctx context.Context, id string) (*model.User, error) {
-	for _, user := range r.users {
-		if user.ID == id {
-			return user, nil
-		}
-	}
-	panic(fmt.Errorf("User with given ID not found in the database"))
+// GetUserByID is the resolver for the getUserByID field.
+func (r *queryResolver) GetUserByID(ctx context.Context, id string) (*model.User, error) {
+	panic(fmt.Errorf("not implemented: GetUserByID - getUserByID"))
 }
 
 // Date is the resolver for the date field.
@@ -203,6 +191,29 @@ type teacherResolver struct{ *Resolver }
 //   - When renaming or deleting a resolver the old code will be put in here. You can safely delete
 //     it when you're done.
 //   - You have helper methods in this file. Move them out to keep these resolver files clean.
+func (r *queryResolver) Books(ctx context.Context) ([]*model.Book, error) {
+	panic(fmt.Errorf("not implemented: Books - books"))
+}
+func (r *queryResolver) Users(ctx context.Context) ([]*model.User, error) {
+	panic(fmt.Errorf("not implemented: Users - users"))
+}
+func (r *queryResolver) GetUserByLastName(ctx context.Context, lastName string) (*model.User, error) {
+	panic(fmt.Errorf("not implemented: GetUserByLastName - getUserByLastName"))
+}
+func (r *queryResolver) GetUserByEmail(ctx context.Context, email string) (*model.User, error) {
+	panic(fmt.Errorf("not implemented: GetUserByEmail - getUserByEmail"))
+}
+func (r *queryResolver) GetBookByTitle(ctx context.Context, title string) (*model.Book, error) {
+	panic(fmt.Errorf("not implemented: GetBookByTitle - getBookByTitle"))
+}
+func (r *queryResolver) GetUser(ctx context.Context, id string) (*model.User, error) {
+	for _, user := range r.users {
+		if user.ID == id {
+			return user, nil
+		}
+	}
+	panic(fmt.Errorf("User with given ID not found in the database"))
+}
 func (r *bookResolver) User(ctx context.Context, obj *model.Book) (*model.User, error) {
 	panic(fmt.Errorf("not implemented: User - user"))
 }

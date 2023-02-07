@@ -7,10 +7,18 @@
 scalar Time
 
 type Query {
-    books: [Book!]!
+    # Book queries
+    #books: [Book!]!
+    getBookByID(id: ID!): Book
+    #getBookByTitle(title: String!): Book
+
     teachers: [Teacher!]!
-    users: [User!]!
-    getUser(id: ID!): User
+
+    # User queries
+    #users: [User!]!
+    getUserByID(id: ID!): User
+    #getUserByLastName(last_name: String!): User
+    #getUserByEmail(email: String!): User
 }
 
 type Teacher {
