@@ -2,13 +2,19 @@
 #
 # https://gqlgen.com/getting-started/
 
+# Maps a Time GraphQL scalar to a Go time.Time struct. This scalar adheres to the time.RFC3339Nano format.
+# https://gqlgen.com/reference/scalars/
+scalar Time
 
 type Query {
     books: [Book!]!
     teachers: [Teacher!]!
+    users: [User!]!
+    getUser(id: ID!): User
 }
 
 type Teacher {
+    test_field: String!
     teacher_ID: ID!
     Teacher_login_id: ID #ID from logins table
     Teacher_title: String
@@ -16,7 +22,7 @@ type Teacher {
     Teacher_middle_name: String
     Teacher_last_name: String!
     Teacher_suffix: String
-    Teacher_date_of_birth: String
+    #Teacher_date_of_birth: String
     #Teacher_date_started_teaching string `json:"teacher_date_started_teaching"`
     Degree_level_id: ID
     Is_certified: Boolean
@@ -43,8 +49,8 @@ type Teacher {
     Teacher_cell_phone: String
     Teacher_texts_enabled: Int
     Active: Boolean!
-    Teacher_date_created: String!
-    Teacher_date_updated: String!
+    Teacher_date_created: Time!
+    Teacher_date_updated: Time
 }
 
 type Classroom {
@@ -79,16 +85,6 @@ type Classroom {
     classroom_conf_frequency_on: Int
     classroom_conf_frequency_below: Int
     classroom_conf_frequency_far_below: Int
-}
-
-type Book {
-    id: ID!
-    title: String!
-    text: String!
-    done: Boolean!
-    author: String!
-    userID: Int!
-    user: User!
 }
 
 type User {
@@ -134,11 +130,11 @@ type ReadingRateResult {
 }
 
 type Student {
-  id: Int!
-  studentId: String!
-  studentAppId: String!
-  studentCalpadsSsid: String
-  studentLoginId: Int
+  id: ID!
+  studentId: ID!
+  studentAppId: ID!
+  studentCalpadsSsid: ID
+  studentLoginId: ID
   firstName: String!
   middleName: String!
   lastName: String!
@@ -167,12 +163,56 @@ type Student {
   backupAvatar: String
 }
 
+type Book {
+    id: ID!
+    default_user_id: ID
+    title: String
+    author: String
+    editor: String
+    illustrator: String
+    Synopsis: String
+    #book_id: ID
+#    `book_type` int DEFAULT NULL COMMENT '1=fiction,2=non-ficiton,3=blended',
+#    `checkout_status` int NOT NULL DEFAULT '4' COMMENT 'id from ''checkout_status_fields'' table.',
+    condition: Int
+    cover_image: String
+    date_created: Time
+    date_updated: Time
+    date_published: Time
+    date_copyright: Time
+#    `format` int DEFAULT NULL COMMENT '1=hardcover,2=PaperBack,3=ebook,4=audio,5=other',
+    guided_reading_level: String
+    lexile_level: Int
+    location: Int
+    mentor_text: Int
+    multiple_pov: Int
+    price: Float
+    qty_label: Int
+    series: Int
+    series_name: String
+    series_pos: Int
+    tags: String
+    teacher_notes: String
+    teacher_read: Int
+    text_complexity: Int
+    unpaged: Int!
+    unreliable_narrative: Int
+    user_id: Int
+    ## the id of the user that entered the book into remo
+    entered_user_id: ID
+    want_for_classroom: Int
+#    `own_this_copy` int NOT NULL DEFAULT '0' COMMENT '0=unspecified 1=user 2=school 3=School Library',
+    want_to_discard: Int
+    word_count: Int
+    words_per_page: Int
+    current_user_id: Int
+}
 
 input NewBook {
     id: ID!
     title: String!
     author: String!
-    userId: String!
+    userId: ID!
 }
 
 input NewTeacher {
@@ -182,8 +222,8 @@ input NewTeacher {
     Teacher_first_name: String!
     Teacher_last_name: String!
     Active: Int!
-    Teacher_date_created: Date!
-    Teacher_date_updated: Date!
+    Teacher_date_created: Time!
+    Teacher_date_updated: Time!
 }
 
 input NewClassroom {
@@ -202,24 +242,22 @@ input NewStudent{
     last_name: String!
 }
 
-input newUserBook{
-    id: ID!
-    Book_ID: ID!
-    checkout_status: int!
-    Unpaged: int!
-    Own_this_copy: int!
-}
-
 input newReadingRateResults{
     Reading_rate_results_id:ID!
 }
 
+input NewUser {
+    id: ID!
+    first_name: String!
+    last_name: String!
+    email: String!
+}
+
 type Mutation {
-    createBook(input: NewBook!): Book!
+    createBook(input: NewBook): Book
     createTeacher(input: NewTeacher!): Teacher!
-    createClassroom(input:newClassroom!): Classroom!
-    createStudent(input:newStudent!): Student!
-    createNewUserBook(input:newUserBook!): UserBook!
-    createNewReadingRateResults(input:newReadingRateResults!): ReadingRateResults!
-    
+    createClassroom(input:NewClassroom!): Classroom!
+    createStudent(input:NewStudent!): Student!
+    createNewReadingRateResults(input:newReadingRateResults!): ReadingRateResult!
+    createNewUser(input: NewUser!): User!
 }

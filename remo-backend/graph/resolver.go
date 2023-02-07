@@ -1,5 +1,6 @@
 package graph
 
+//go:generate go run github.com/99designs/gqlgen generate
 import "remo/backend/graph/model"
 
 // This file will not be regenerated automatically.
@@ -9,4 +10,5 @@ import "remo/backend/graph/model"
 type Resolver struct {
 	books    []*model.Book
 	teachers []*model.Teacher
+	users    []*model.User
 }
