@@ -11,7 +11,7 @@ import (
 )
 
 func main() {
-	conn, err := sql.Open("mysql", "user:pwd@tcp(localhost:3333)/remodb")
+	conn, err := sql.Open("mysql", "remo:pwd@tcp(localhost:3333)/remodb")
 
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "Unable to connect to database: %v\n", err)

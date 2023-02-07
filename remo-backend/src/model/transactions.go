@@ -13,13 +13,12 @@ func WriteBooksToDb(pool *sql.DB, book Book) error {
 	return err
 }
 
-func GetBooksFromDB(pool *sql.DB, book_id string) (Book, error) {
+func GetBooksFromDB(pool *sql.DB, id string) (Book, error) {
 	book := Book{
-		BookId: book_id,
+		BookId: id,
 	}
 
-	var bid int
-	err := pool.QueryRow(fmt.Sprintf("SELECT id, title, author FROM books WHERE id= '%s';", book_id)).Scan(&bid, &book.Title, &book.Author)
+	err := pool.QueryRow(fmt.Sprintf("SELECT title, author FROM books WHERE id= '%s';", id)).Scan(&book.Title, &book.Author)
 
 	if err != nil {
 		panic(err)

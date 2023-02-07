@@ -23,7 +23,7 @@ const audience string = "146112178699-kj35h882rr6711tflocnoodhquqtcv0f.apps.goog
 func (ms *MsController) Serve() *gin.Engine {
 	r := gin.Default()
 
-	go r.POST("/v1/register", func(c *gin.Context) {
+	r.POST("/v1/register", func(c *gin.Context) {
 		var user model.User
 
 		if err := c.BindJSON(&user); err != nil {
@@ -41,7 +41,7 @@ func (ms *MsController) Serve() *gin.Engine {
 		c.JSON(http.StatusOK, user.ID)
 	})
 
-	go r.POST("v1/login", func(c *gin.Context) {
+	r.POST("v1/login", func(c *gin.Context) {
 		email := c.Param("email")
 
 		// check to see if the user exists in the database
@@ -84,7 +84,7 @@ func (ms *MsController) Serve() *gin.Engine {
 		println("AUTHENTICATED")
 	})
 
-	go r.GET("/logout", func(c *gin.Context) {
+	r.GET("/logout", func(c *gin.Context) {
 		println("Google logout")
 		c.SetCookie("remo_jwt", "", -1, "", "", false, true)
 		c.JSON(http.StatusOK, gin.H{
@@ -92,7 +92,7 @@ func (ms *MsController) Serve() *gin.Engine {
 		})
 	})
 
-	go r.GET("/v1/books/:bookId", func(c *gin.Context) {
+	r.GET("/v1/books/:bookId", func(c *gin.Context) {
 		id := c.Param("bookId")
 		c.JSON(http.StatusOK, ms.Book(id))
 	})
@@ -118,8 +118,8 @@ func (ms *MsController) Serve() *gin.Engine {
 	//protected endpoint group (uses middelware below)
 	protected := r.Group("/protected")
 	//sets up middleware for this protected endpoint
-	go protected.Use(utils.JwtAuthMiddleware())
-	go protected.GET("/hi", ProtectedEndpointTest)
+	protected.Use(utils.JwtAuthMiddleware())
+	protected.GET("/hi", ProtectedEndpointTest)
 	return r
 }
 
@@ -127,5 +127,4 @@ const SecretKey = "abcdefghijklmnopqrstuvwxy"
 
 func ProtectedEndpointTest(c *gin.Context) {
 	println("entered protected endpoint with remo jwt")
-
 }
