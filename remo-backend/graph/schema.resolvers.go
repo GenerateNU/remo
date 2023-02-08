@@ -8,6 +8,7 @@ import (
 	"context"
 	"fmt"
 	"remo/backend/graph/model"
+	"strconv"
 	"time"
 )
 
@@ -39,11 +40,6 @@ func (r *bookResolver) DateCreated(ctx context.Context, obj *model.Book) (*time.
 // DateUpdated is the resolver for the date_updated field.
 func (r *bookResolver) DateUpdated(ctx context.Context, obj *model.Book) (*time.Time, error) {
 	panic(fmt.Errorf("not implemented: DateUpdated - date_updated"))
-}
-
-// DefaultUserID is the resolver for the default_user_id field.
-func (r *bookResolver) DefaultUserID(ctx context.Context, obj *model.Book) (int, error) {
-	panic(fmt.Errorf("not implemented: DefaultUserID - default_user_id"))
 }
 
 // Foreword is the resolver for the foreword field.
@@ -154,14 +150,42 @@ func (r *classroomResolver) ClassroomAvgLength(ctx context.Context, obj *model.C
 // CreateBook is the resolver for the createBook field.
 func (r *mutationResolver) CreateBook(ctx context.Context, input *model.NewBook) (*model.Book, error) {
 	//book := &model.Book{
-	//	id:      input.ID,
-	//	Title:   input.Title,
-	//	Author:  input.Author,
-	//	User_id: input.UserID,
+	//	ID:              input.ID,
+	//	Default_user_id: input.DefaultUserID,
 	//}
-	//r.books[input.ID] = book
-	//return book, nil
-	panic(fmt.Errorf("not implemented: Teachers - teachers"))
+	//
+	//n := len(r.Books)
+	//if n == 0 {
+	//	r.Books = make(map[string]*model.Book)
+	//}
+	//
+	//r.Books[input.ID] = book
+	//return r.Books[input.ID], nil
+	//panic(fmt.Errorf("not implemented: Teachers - teachers"))
+
+	id := input.ID
+	var book model.Book
+	book.Default_user_id = input.DefaultUserID
+
+	n := len(r.Resolver.Books)
+	if n == 0 {
+		r.Resolver.Books = make(map[string]model.Book)
+	}
+
+	if id != "" {
+		_, ok := r.Resolver.Books[id]
+		if !ok {
+			return nil, fmt.Errorf("not found")
+		}
+		r.Resolver.Books[id] = book
+	} else {
+		// generate unique id
+		nid := strconv.Itoa(n + 1)
+		book.ID = nid
+		r.Resolver.Books[nid] = book
+	}
+
+	return &book, nil
 }
 
 // CreateTeacher is the resolver for the createTeacher field.
@@ -186,12 +210,12 @@ func (r *mutationResolver) CreateNewReadingRateResults(ctx context.Context, inpu
 
 // GetBookByID is the resolver for the getBookByID field.
 func (r *queryResolver) GetBookByID(ctx context.Context, id string) (*model.Book, error) {
-	//for _, book := range r.books {
+	//for _, book := range r.Books {
 	//	if id == book. {
 	//		return book, nil
 	//	}
 	//}
-	//return r.books[id], nil
+	//return r.Books[id], nil
 	panic(fmt.Errorf("not implemented: Teachers - teachers"))
 }
 
@@ -285,153 +309,3 @@ type readingRateResultResolver struct{ *Resolver }
 type studentResolver struct{ *Resolver }
 type teacherResolver struct{ *Resolver }
 type userBookResolver struct{ *Resolver }
-
-// !!! WARNING !!!
-// The code below was going to be deleted when updating resolvers. It has been copied here so you have
-// one last chance to move it out of harms way if you want. There are two reasons this happens:
-//   - When renaming or deleting a resolver the old code will be put in here. You can safely delete
-//     it when you're done.
-//   - You have helper methods in this file. Move them out to keep these resolver files clean.
-func (r *bookResolver) Condition(ctx context.Context, obj *model.Book) (*int, error) {
-	panic(fmt.Errorf("not implemented: Condition - condition"))
-}
-func (r *bookResolver) DatePublished(ctx context.Context, obj *model.Book) (*time.Time, error) {
-	panic(fmt.Errorf("not implemented: DatePublished - date_published"))
-}
-func (r *bookResolver) DateCopyright(ctx context.Context, obj *model.Book) (*time.Time, error) {
-	panic(fmt.Errorf("not implemented: DateCopyright - date_copyright"))
-}
-func (r *bookResolver) GuidedReadingLevel(ctx context.Context, obj *model.Book) (*string, error) {
-	panic(fmt.Errorf("not implemented: GuidedReadingLevel - guided_reading_level"))
-}
-func (r *bookResolver) LexileLevel(ctx context.Context, obj *model.Book) (*int, error) {
-	panic(fmt.Errorf("not implemented: LexileLevel - lexile_level"))
-}
-func (r *bookResolver) Location(ctx context.Context, obj *model.Book) (*int, error) {
-	panic(fmt.Errorf("not implemented: Location - location"))
-}
-func (r *bookResolver) MentorText(ctx context.Context, obj *model.Book) (*int, error) {
-	panic(fmt.Errorf("not implemented: MentorText - mentor_text"))
-}
-func (r *bookResolver) MultiplePov(ctx context.Context, obj *model.Book) (*int, error) {
-	panic(fmt.Errorf("not implemented: MultiplePov - multiple_pov"))
-}
-func (r *bookResolver) Price(ctx context.Context, obj *model.Book) (*float64, error) {
-	panic(fmt.Errorf("not implemented: Price - price"))
-}
-func (r *bookResolver) QtyLabel(ctx context.Context, obj *model.Book) (*int, error) {
-	panic(fmt.Errorf("not implemented: QtyLabel - qty_label"))
-}
-func (r *bookResolver) Series(ctx context.Context, obj *model.Book) (*int, error) {
-	panic(fmt.Errorf("not implemented: Series - series"))
-}
-func (r *bookResolver) SeriesName(ctx context.Context, obj *model.Book) (*string, error) {
-	panic(fmt.Errorf("not implemented: SeriesName - series_name"))
-}
-func (r *bookResolver) SeriesPos(ctx context.Context, obj *model.Book) (*int, error) {
-	panic(fmt.Errorf("not implemented: SeriesPos - series_pos"))
-}
-func (r *bookResolver) Tags(ctx context.Context, obj *model.Book) (*string, error) {
-	panic(fmt.Errorf("not implemented: Tags - tags"))
-}
-func (r *bookResolver) TeacherNotes(ctx context.Context, obj *model.Book) (*string, error) {
-	panic(fmt.Errorf("not implemented: TeacherNotes - teacher_notes"))
-}
-func (r *bookResolver) TeacherRead(ctx context.Context, obj *model.Book) (*int, error) {
-	panic(fmt.Errorf("not implemented: TeacherRead - teacher_read"))
-}
-func (r *bookResolver) TextComplexity(ctx context.Context, obj *model.Book) (*int, error) {
-	panic(fmt.Errorf("not implemented: TextComplexity - text_complexity"))
-}
-func (r *bookResolver) Unpaged(ctx context.Context, obj *model.Book) (int, error) {
-	panic(fmt.Errorf("not implemented: Unpaged - unpaged"))
-}
-func (r *bookResolver) UnreliableNarrative(ctx context.Context, obj *model.Book) (*int, error) {
-	panic(fmt.Errorf("not implemented: UnreliableNarrative - unreliable_narrative"))
-}
-func (r *bookResolver) UserID(ctx context.Context, obj *model.Book) (*int, error) {
-	panic(fmt.Errorf("not implemented: UserID - user_id"))
-}
-func (r *bookResolver) EnteredUserID(ctx context.Context, obj *model.Book) (*string, error) {
-	panic(fmt.Errorf("not implemented: EnteredUserID - entered_user_id"))
-}
-func (r *bookResolver) WantForClassroom(ctx context.Context, obj *model.Book) (*int, error) {
-	panic(fmt.Errorf("not implemented: WantForClassroom - want_for_classroom"))
-}
-func (r *bookResolver) WantToDiscard(ctx context.Context, obj *model.Book) (*int, error) {
-	panic(fmt.Errorf("not implemented: WantToDiscard - want_to_discard"))
-}
-func (r *bookResolver) WordsPerPage(ctx context.Context, obj *model.Book) (*int, error) {
-	panic(fmt.Errorf("not implemented: WordsPerPage - words_per_page"))
-}
-func (r *bookResolver) CurrentUserID(ctx context.Context, obj *model.Book) (*int, error) {
-	panic(fmt.Errorf("not implemented: CurrentUserID - current_user_id"))
-}
-func (r *queryResolver) Books(ctx context.Context) ([]*model.Book, error) {
-	panic(fmt.Errorf("not implemented: Books - books"))
-}
-func (r *queryResolver) Users(ctx context.Context) ([]*model.User, error) {
-	panic(fmt.Errorf("not implemented: Users - users"))
-}
-func (r *queryResolver) GetUserByLastName(ctx context.Context, lastName string) (*model.User, error) {
-	panic(fmt.Errorf("not implemented: GetUserByLastName - getUserByLastName"))
-}
-func (r *queryResolver) GetUserByEmail(ctx context.Context, email string) (*model.User, error) {
-	panic(fmt.Errorf("not implemented: GetUserByEmail - getUserByEmail"))
-}
-func (r *queryResolver) GetBookByTitle(ctx context.Context, title string) (*model.Book, error) {
-	panic(fmt.Errorf("not implemented: GetBookByTitle - getBookByTitle"))
-}
-func (r *queryResolver) GetUser(ctx context.Context, id string) (*model.User, error) {
-	for _, user := range r.users {
-		if user.ID == id {
-			return user, nil
-		}
-	}
-	panic(fmt.Errorf("User with given ID not found in the database"))
-}
-func (r *bookResolver) User(ctx context.Context, obj *model.Book) (*model.User, error) {
-	panic(fmt.Errorf("not implemented: User - user"))
-}
-func (r *queryResolver) Test(ctx context.Context) ([]*model.Student, error) {
-	panic(fmt.Errorf("not implemented: Test - test"))
-}
-func (r *classroomResolver) ClassroomID(ctx context.Context, obj *model.Classroom) (int, error) {
-	panic(fmt.Errorf("not implemented: ClassroomID - classroomId"))
-}
-func (r *classroomResolver) ClassroomSchoolID(ctx context.Context, obj *model.Classroom) (int, error) {
-	panic(fmt.Errorf("not implemented: ClassroomSchoolID - classroom_school_id"))
-}
-func (r *classroomResolver) ClassroomAvgDays(ctx context.Context, obj *model.Classroom) (int, error) {
-	panic(fmt.Errorf("not implemented: ClassroomAvgDays - classroom_avg_days"))
-}
-func (r *classroomResolver) ClassroomGradeLevelType(ctx context.Context, obj *model.Classroom) (int, error) {
-	panic(fmt.Errorf("not implemented: ClassroomGradeLevelType - classroom_grade_level_type"))
-}
-func (r *classroomResolver) ClassroomGradeLevel(ctx context.Context, obj *model.Classroom) (string, error) {
-	panic(fmt.Errorf("not implemented: ClassroomGradeLevel - classroom_grade_level"))
-}
-func (r *classroomResolver) ClassroomCoTeacherID(ctx context.Context, obj *model.Classroom) (int, error) {
-	panic(fmt.Errorf("not implemented: ClassroomCoTeacherID - classroom_co_teacher_id"))
-}
-func (r *classroomResolver) ClassroomTeacherIDV1(ctx context.Context, obj *model.Classroom) (int, error) {
-	panic(fmt.Errorf("not implemented: ClassroomTeacherIDV1 - classroom_teacher_idV1"))
-}
-func (r *classroomResolver) ClassroomNumStudents(ctx context.Context, obj *model.Classroom) (int, error) {
-	panic(fmt.Errorf("not implemented: ClassroomNumStudents - classroom_num_students"))
-}
-func (r *classroomResolver) ClassroomNumSeats(ctx context.Context, obj *model.Classroom) (int, error) {
-	panic(fmt.Errorf("not implemented: ClassroomNumSeats - classroom_num_seats"))
-}
-func (r *classroomResolver) ClassroomConfFrequencyAbove(ctx context.Context, obj *model.Classroom) (int, error) {
-	panic(fmt.Errorf("not implemented: ClassroomConfFrequencyAbove - classroom_conf_frequency_above"))
-}
-func (r *classroomResolver) ClassroomConfFrequencyOn(ctx context.Context, obj *model.Classroom) (int, error) {
-	panic(fmt.Errorf("not implemented: ClassroomConfFrequencyOn - classroom_conf_frequency_on"))
-}
-func (r *classroomResolver) ClassroomConfFrequencyBelow(ctx context.Context, obj *model.Classroom) (int, error) {
-	panic(fmt.Errorf("not implemented: ClassroomConfFrequencyBelow - classroom_conf_frequency_below"))
-}
-func (r *classroomResolver) ClassroomConfFrequencyFarBelow(ctx context.Context, obj *model.Classroom) (int, error) {
-	panic(fmt.Errorf("not implemented: ClassroomConfFrequencyFarBelow - classroom_conf_frequency_far_below"))
-}

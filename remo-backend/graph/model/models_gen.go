@@ -7,10 +7,8 @@ import (
 )
 
 type NewBook struct {
-	ID     string `json:"id"`
-	Title  string `json:"title"`
-	Author string `json:"author"`
-	UserID string `json:"userId"`
+	ID            string `json:"id"`
+	DefaultUserID int    `json:"default_user_id"`
 }
 
 type NewClassroom struct {

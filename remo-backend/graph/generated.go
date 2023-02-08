@@ -53,27 +53,27 @@ type DirectiveRoot struct {
 
 type ComplexityRoot struct {
 	Book struct {
-		Asin          func(childComplexity int) int
-		Author        func(childComplexity int) int
-		CopyrightDate func(childComplexity int) int
-		CoverImage    func(childComplexity int) int
-		DateCreated   func(childComplexity int) int
-		DateUpdated   func(childComplexity int) int
-		DefaultUserID func(childComplexity int) int
-		Edition       func(childComplexity int) int
-		Editor        func(childComplexity int) int
-		Foreword      func(childComplexity int) int
-		ID            func(childComplexity int) int
-		Illustrator   func(childComplexity int) int
-		Isbn10        func(childComplexity int) int
-		Isbn13        func(childComplexity int) int
-		NumPages      func(childComplexity int) int
-		PubDate       func(childComplexity int) int
-		StoryID       func(childComplexity int) int
-		SubTitle      func(childComplexity int) int
-		Synopsis      func(childComplexity int) int
-		Title         func(childComplexity int) int
-		WordCount     func(childComplexity int) int
+		Asin            func(childComplexity int) int
+		Author          func(childComplexity int) int
+		CopyrightDate   func(childComplexity int) int
+		CoverImage      func(childComplexity int) int
+		DateCreated     func(childComplexity int) int
+		DateUpdated     func(childComplexity int) int
+		Default_user_id func(childComplexity int) int
+		Edition         func(childComplexity int) int
+		Editor          func(childComplexity int) int
+		Foreword        func(childComplexity int) int
+		ID              func(childComplexity int) int
+		Illustrator     func(childComplexity int) int
+		Isbn10          func(childComplexity int) int
+		Isbn13          func(childComplexity int) int
+		NumPages        func(childComplexity int) int
+		PubDate         func(childComplexity int) int
+		StoryID         func(childComplexity int) int
+		SubTitle        func(childComplexity int) int
+		Synopsis        func(childComplexity int) int
+		Title           func(childComplexity int) int
+		WordCount       func(childComplexity int) int
 	}
 
 	Classroom struct {
@@ -271,7 +271,7 @@ type BookResolver interface {
 	CoverImage(ctx context.Context, obj *model.Book) (*string, error)
 	DateCreated(ctx context.Context, obj *model.Book) (*time.Time, error)
 	DateUpdated(ctx context.Context, obj *model.Book) (*time.Time, error)
-	DefaultUserID(ctx context.Context, obj *model.Book) (int, error)
+
 	Foreword(ctx context.Context, obj *model.Book) (*string, error)
 	Editor(ctx context.Context, obj *model.Book) (*string, error)
 	Illustrator(ctx context.Context, obj *model.Book) (*string, error)
@@ -385,11 +385,11 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 		return e.complexity.Book.DateUpdated(childComplexity), true
 
 	case "Book.default_user_id":
-		if e.complexity.Book.DefaultUserID == nil {
+		if e.complexity.Book.Default_user_id == nil {
 			break
 		}
 
-		return e.complexity.Book.DefaultUserID(childComplexity), true
+		return e.complexity.Book.Default_user_id(childComplexity), true
 
 	case "Book.edition":
 		if e.complexity.Book.Edition == nil {
@@ -2178,7 +2178,7 @@ func (ec *executionContext) _Book_default_user_id(ctx context.Context, field gra
 	}()
 	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
 		ctx = rctx // use context from middleware stack in children
-		return ec.resolvers.Book().DefaultUserID(rctx, obj)
+		return obj.Default_user_id, nil
 	})
 	if err != nil {
 		ec.Error(ctx, err)
@@ -2199,8 +2199,8 @@ func (ec *executionContext) fieldContext_Book_default_user_id(ctx context.Contex
 	fc = &graphql.FieldContext{
 		Object:     "Book",
 		Field:      field,
-		IsMethod:   true,
-		IsResolver: true,
+		IsMethod:   false,
+		IsResolver: false,
 		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
 			return nil, errors.New("field of type Int does not have child fields")
 		},
@@ -11939,7 +11939,7 @@ func (ec *executionContext) unmarshalInputNewBook(ctx context.Context, obj inter
 		asMap[k] = v
 	}
 
-	fieldsInOrder := [...]string{"id", "title", "author", "userId"}
+	fieldsInOrder := [...]string{"id", "default_user_id"}
 	for _, k := range fieldsInOrder {
 		v, ok := asMap[k]
 		if !ok {
@@ -11954,27 +11954,11 @@ func (ec *executionContext) unmarshalInputNewBook(ctx context.Context, obj inter
 			if err != nil {
 				return it, err
 			}
-		case "title":
+		case "default_user_id":
 			var err error
 
-			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("title"))
-			it.Title, err = ec.unmarshalNString2string(ctx, v)
-			if err != nil {
-				return it, err
-			}
-		case "author":
-			var err error
-
-			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("author"))
-			it.Author, err = ec.unmarshalNString2string(ctx, v)
-			if err != nil {
-				return it, err
-			}
-		case "userId":
-			var err error
-
-			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("userId"))
-			it.UserID, err = ec.unmarshalNID2string(ctx, v)
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("default_user_id"))
+			it.DefaultUserID, err = ec.unmarshalNInt2int(ctx, v)
 			if err != nil {
 				return it, err
 			}
@@ -12332,25 +12316,12 @@ func (ec *executionContext) _Book(ctx context.Context, sel ast.SelectionSet, obj
 
 			})
 		case "default_user_id":
-			field := field
 
-			innerFunc := func(ctx context.Context) (res graphql.Marshaler) {
-				defer func() {
-					if r := recover(); r != nil {
-						ec.Error(ctx, ec.Recover(ctx, r))
-					}
-				}()
-				res = ec._Book_default_user_id(ctx, field, obj)
-				if res == graphql.Null {
-					atomic.AddUint32(&invalids, 1)
-				}
-				return res
+			out.Values[i] = ec._Book_default_user_id(ctx, field, obj)
+
+			if out.Values[i] == graphql.Null {
+				atomic.AddUint32(&invalids, 1)
 			}
-
-			out.Concurrently(i, func() graphql.Marshaler {
-				return innerFunc(ctx)
-
-			})
 		case "foreword":
 			field := field
 

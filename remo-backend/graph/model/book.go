@@ -3,13 +3,13 @@ package model
 import "time"
 
 type Book struct {
-	id              string    `json:"id"`
+	ID              string    `json:"id"`
 	story_id        int       `json:"story_id"`
 	author          string    `json:"author"`
 	cover_image     string    `json:"cover_image"`
 	date_created    time.Time `json:"date_created"`
 	date_updated    time.Time `json:"date_updated"`
-	default_user_id int       `json:"default_user_id"`
+	Default_user_id int       `json:"default_user_id"`
 	foreword        string    `json:"foreword"`
 	editor          string    `json:"editor"`
 	illustrator     string    `json:"illustrator"`

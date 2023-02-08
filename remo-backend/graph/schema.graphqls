@@ -235,9 +235,7 @@ type UserBook {
 
 input NewBook {
     id: ID!
-    title: String!
-    author: String!
-    userId: ID!
+    default_user_id: Int!
 }
 
 input NewTeacher {
