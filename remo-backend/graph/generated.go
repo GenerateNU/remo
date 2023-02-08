@@ -45,6 +45,7 @@ type ResolverRoot interface {
 	ReadingRateResult() ReadingRateResultResolver
 	Student() StudentResolver
 	Teacher() TeacherResolver
+	UserBook() UserBookResolver
 }
 
 type DirectiveRoot struct {
@@ -52,42 +53,27 @@ type DirectiveRoot struct {
 
 type ComplexityRoot struct {
 	Book struct {
-		Author              func(childComplexity int) int
-		Condition           func(childComplexity int) int
-		CoverImage          func(childComplexity int) int
-		CurrentUserID       func(childComplexity int) int
-		DateCopyright       func(childComplexity int) int
-		DateCreated         func(childComplexity int) int
-		DatePublished       func(childComplexity int) int
-		DateUpdated         func(childComplexity int) int
-		DefaultUserID       func(childComplexity int) int
-		Editor              func(childComplexity int) int
-		EnteredUserID       func(childComplexity int) int
-		GuidedReadingLevel  func(childComplexity int) int
-		ID                  func(childComplexity int) int
-		Illustrator         func(childComplexity int) int
-		LexileLevel         func(childComplexity int) int
-		Location            func(childComplexity int) int
-		MentorText          func(childComplexity int) int
-		MultiplePov         func(childComplexity int) int
-		Price               func(childComplexity int) int
-		QtyLabel            func(childComplexity int) int
-		Series              func(childComplexity int) int
-		SeriesName          func(childComplexity int) int
-		SeriesPos           func(childComplexity int) int
-		Synopsis            func(childComplexity int) int
-		Tags                func(childComplexity int) int
-		TeacherNotes        func(childComplexity int) int
-		TeacherRead         func(childComplexity int) int
-		TextComplexity      func(childComplexity int) int
-		Title               func(childComplexity int) int
-		Unpaged             func(childComplexity int) int
-		UnreliableNarrative func(childComplexity int) int
-		UserID              func(childComplexity int) int
-		WantForClassroom    func(childComplexity int) int
-		WantToDiscard       func(childComplexity int) int
-		WordCount           func(childComplexity int) int
-		WordsPerPage        func(childComplexity int) int
+		Asin          func(childComplexity int) int
+		Author        func(childComplexity int) int
+		CopyrightDate func(childComplexity int) int
+		CoverImage    func(childComplexity int) int
+		DateCreated   func(childComplexity int) int
+		DateUpdated   func(childComplexity int) int
+		DefaultUserID func(childComplexity int) int
+		Edition       func(childComplexity int) int
+		Editor        func(childComplexity int) int
+		Foreword      func(childComplexity int) int
+		ID            func(childComplexity int) int
+		Illustrator   func(childComplexity int) int
+		Isbn10        func(childComplexity int) int
+		Isbn13        func(childComplexity int) int
+		NumPages      func(childComplexity int) int
+		PubDate       func(childComplexity int) int
+		StoryID       func(childComplexity int) int
+		SubTitle      func(childComplexity int) int
+		Synopsis      func(childComplexity int) int
+		Title         func(childComplexity int) int
+		WordCount     func(childComplexity int) int
 	}
 
 	Classroom struct {
@@ -240,45 +226,66 @@ type ComplexityRoot struct {
 		ID        func(childComplexity int) int
 		LastName  func(childComplexity int) int
 	}
+
+	UserBook struct {
+		Book_id              func(childComplexity int) int
+		Book_type            func(childComplexity int) int
+		Checkout_status      func(childComplexity int) int
+		Condition            func(childComplexity int) int
+		Cover_image          func(childComplexity int) int
+		Current_user_id      func(childComplexity int) int
+		Date_created         func(childComplexity int) int
+		Date_updated         func(childComplexity int) int
+		Entered_user_id      func(childComplexity int) int
+		Format               func(childComplexity int) int
+		Guided_reading_level func(childComplexity int) int
+		Id                   func(childComplexity int) int
+		Lexile_level         func(childComplexity int) int
+		Location             func(childComplexity int) int
+		Mentor_text          func(childComplexity int) int
+		Multiple_pov         func(childComplexity int) int
+		Own_this_copy        func(childComplexity int) int
+		Price                func(childComplexity int) int
+		QtyLabel             func(childComplexity int) int
+		Series               func(childComplexity int) int
+		Series_name          func(childComplexity int) int
+		Series_pos           func(childComplexity int) int
+		Tags                 func(childComplexity int) int
+		Teacher_notes        func(childComplexity int) int
+		Teacher_read         func(childComplexity int) int
+		Text_complexity      func(childComplexity int) int
+		Unpaged              func(childComplexity int) int
+		Unreliable_narrative func(childComplexity int) int
+		User_id              func(childComplexity int) int
+		Want_for_classroom   func(childComplexity int) int
+		Want_to_discard      func(childComplexity int) int
+		Word_count           func(childComplexity int) int
+		Words_per_page       func(childComplexity int) int
+	}
 }
 
 type BookResolver interface {
-	ID(ctx context.Context, obj *model.Book) (string, error)
-	DefaultUserID(ctx context.Context, obj *model.Book) (*string, error)
-	Title(ctx context.Context, obj *model.Book) (*string, error)
+	ID(ctx context.Context, obj *model.Book) (int, error)
+	StoryID(ctx context.Context, obj *model.Book) (*int, error)
 	Author(ctx context.Context, obj *model.Book) (*string, error)
-	Editor(ctx context.Context, obj *model.Book) (*string, error)
-	Illustrator(ctx context.Context, obj *model.Book) (*string, error)
-	Synopsis(ctx context.Context, obj *model.Book) (*string, error)
-	Condition(ctx context.Context, obj *model.Book) (*int, error)
 	CoverImage(ctx context.Context, obj *model.Book) (*string, error)
 	DateCreated(ctx context.Context, obj *model.Book) (*time.Time, error)
 	DateUpdated(ctx context.Context, obj *model.Book) (*time.Time, error)
-	DatePublished(ctx context.Context, obj *model.Book) (*time.Time, error)
-	DateCopyright(ctx context.Context, obj *model.Book) (*time.Time, error)
-	GuidedReadingLevel(ctx context.Context, obj *model.Book) (*string, error)
-	LexileLevel(ctx context.Context, obj *model.Book) (*int, error)
-	Location(ctx context.Context, obj *model.Book) (*int, error)
-	MentorText(ctx context.Context, obj *model.Book) (*int, error)
-	MultiplePov(ctx context.Context, obj *model.Book) (*int, error)
-	Price(ctx context.Context, obj *model.Book) (*float64, error)
-	QtyLabel(ctx context.Context, obj *model.Book) (*int, error)
-	Series(ctx context.Context, obj *model.Book) (*int, error)
-	SeriesName(ctx context.Context, obj *model.Book) (*string, error)
-	SeriesPos(ctx context.Context, obj *model.Book) (*int, error)
-	Tags(ctx context.Context, obj *model.Book) (*string, error)
-	TeacherNotes(ctx context.Context, obj *model.Book) (*string, error)
-	TeacherRead(ctx context.Context, obj *model.Book) (*int, error)
-	TextComplexity(ctx context.Context, obj *model.Book) (*int, error)
-	Unpaged(ctx context.Context, obj *model.Book) (int, error)
-	UnreliableNarrative(ctx context.Context, obj *model.Book) (*int, error)
-	UserID(ctx context.Context, obj *model.Book) (*int, error)
-	EnteredUserID(ctx context.Context, obj *model.Book) (*string, error)
-	WantForClassroom(ctx context.Context, obj *model.Book) (*int, error)
-	WantToDiscard(ctx context.Context, obj *model.Book) (*int, error)
+	DefaultUserID(ctx context.Context, obj *model.Book) (int, error)
+	Foreword(ctx context.Context, obj *model.Book) (*string, error)
+	Editor(ctx context.Context, obj *model.Book) (*string, error)
+	Illustrator(ctx context.Context, obj *model.Book) (*string, error)
+	Isbn10(ctx context.Context, obj *model.Book) (*string, error)
+	Isbn13(ctx context.Context, obj *model.Book) (*int, error)
+	NumPages(ctx context.Context, obj *model.Book) (*int, error)
+	PubDate(ctx context.Context, obj *model.Book) (*int, error)
+	CopyrightDate(ctx context.Context, obj *model.Book) (*int, error)
+	Edition(ctx context.Context, obj *model.Book) (*int, error)
+	Synopsis(ctx context.Context, obj *model.Book) (*string, error)
+	Title(ctx context.Context, obj *model.Book) (*string, error)
 	WordCount(ctx context.Context, obj *model.Book) (*int, error)
-	WordsPerPage(ctx context.Context, obj *model.Book) (*int, error)
-	CurrentUserID(ctx context.Context, obj *model.Book) (*int, error)
+	SubTitle(ctx context.Context, obj *model.Book) (*string, error)
+	Asin(ctx context.Context, obj *model.Book) (*string, error)
 }
 type ClassroomResolver interface {
 	ClassroomSchoolYear(ctx context.Context, obj *model.Classroom) (*string, error)
@@ -316,6 +323,9 @@ type StudentResolver interface {
 type TeacherResolver interface {
 	TestField(ctx context.Context, obj *model.Teacher) (string, error)
 }
+type UserBookResolver interface {
+	QtyLabel(ctx context.Context, obj *model.UserBook) (*int, error)
+}
 
 type executableSchema struct {
 	resolvers  ResolverRoot
@@ -332,6 +342,13 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 	_ = ec
 	switch typeName + "." + field {
 
+	case "Book.asin":
+		if e.complexity.Book.Asin == nil {
+			break
+		}
+
+		return e.complexity.Book.Asin(childComplexity), true
+
 	case "Book.author":
 		if e.complexity.Book.Author == nil {
 			break
@@ -339,12 +356,12 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 
 		return e.complexity.Book.Author(childComplexity), true
 
-	case "Book.condition":
-		if e.complexity.Book.Condition == nil {
+	case "Book.copyright_date":
+		if e.complexity.Book.CopyrightDate == nil {
 			break
 		}
 
-		return e.complexity.Book.Condition(childComplexity), true
+		return e.complexity.Book.CopyrightDate(childComplexity), true
 
 	case "Book.cover_image":
 		if e.complexity.Book.CoverImage == nil {
@@ -353,33 +370,12 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 
 		return e.complexity.Book.CoverImage(childComplexity), true
 
-	case "Book.current_user_id":
-		if e.complexity.Book.CurrentUserID == nil {
-			break
-		}
-
-		return e.complexity.Book.CurrentUserID(childComplexity), true
-
-	case "Book.date_copyright":
-		if e.complexity.Book.DateCopyright == nil {
-			break
-		}
-
-		return e.complexity.Book.DateCopyright(childComplexity), true
-
 	case "Book.date_created":
 		if e.complexity.Book.DateCreated == nil {
 			break
 		}
 
 		return e.complexity.Book.DateCreated(childComplexity), true
-
-	case "Book.date_published":
-		if e.complexity.Book.DatePublished == nil {
-			break
-		}
-
-		return e.complexity.Book.DatePublished(childComplexity), true
 
 	case "Book.date_updated":
 		if e.complexity.Book.DateUpdated == nil {
@@ -395,6 +391,13 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 
 		return e.complexity.Book.DefaultUserID(childComplexity), true
 
+	case "Book.edition":
+		if e.complexity.Book.Edition == nil {
+			break
+		}
+
+		return e.complexity.Book.Edition(childComplexity), true
+
 	case "Book.editor":
 		if e.complexity.Book.Editor == nil {
 			break
@@ -402,19 +405,12 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 
 		return e.complexity.Book.Editor(childComplexity), true
 
-	case "Book.entered_user_id":
-		if e.complexity.Book.EnteredUserID == nil {
+	case "Book.foreword":
+		if e.complexity.Book.Foreword == nil {
 			break
 		}
 
-		return e.complexity.Book.EnteredUserID(childComplexity), true
-
-	case "Book.guided_reading_level":
-		if e.complexity.Book.GuidedReadingLevel == nil {
-			break
-		}
-
-		return e.complexity.Book.GuidedReadingLevel(childComplexity), true
+		return e.complexity.Book.Foreword(childComplexity), true
 
 	case "Book.id":
 		if e.complexity.Book.ID == nil {
@@ -430,103 +426,54 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 
 		return e.complexity.Book.Illustrator(childComplexity), true
 
-	case "Book.lexile_level":
-		if e.complexity.Book.LexileLevel == nil {
+	case "Book.isbn_10":
+		if e.complexity.Book.Isbn10 == nil {
 			break
 		}
 
-		return e.complexity.Book.LexileLevel(childComplexity), true
+		return e.complexity.Book.Isbn10(childComplexity), true
 
-	case "Book.location":
-		if e.complexity.Book.Location == nil {
+	case "Book.isbn_13":
+		if e.complexity.Book.Isbn13 == nil {
 			break
 		}
 
-		return e.complexity.Book.Location(childComplexity), true
+		return e.complexity.Book.Isbn13(childComplexity), true
 
-	case "Book.mentor_text":
-		if e.complexity.Book.MentorText == nil {
+	case "Book.num_pages":
+		if e.complexity.Book.NumPages == nil {
 			break
 		}
 
-		return e.complexity.Book.MentorText(childComplexity), true
+		return e.complexity.Book.NumPages(childComplexity), true
 
-	case "Book.multiple_pov":
-		if e.complexity.Book.MultiplePov == nil {
+	case "Book.pub_date":
+		if e.complexity.Book.PubDate == nil {
 			break
 		}
 
-		return e.complexity.Book.MultiplePov(childComplexity), true
+		return e.complexity.Book.PubDate(childComplexity), true
 
-	case "Book.price":
-		if e.complexity.Book.Price == nil {
+	case "Book.story_id":
+		if e.complexity.Book.StoryID == nil {
 			break
 		}
 
-		return e.complexity.Book.Price(childComplexity), true
+		return e.complexity.Book.StoryID(childComplexity), true
 
-	case "Book.qty_label":
-		if e.complexity.Book.QtyLabel == nil {
+	case "Book.sub_title":
+		if e.complexity.Book.SubTitle == nil {
 			break
 		}
 
-		return e.complexity.Book.QtyLabel(childComplexity), true
+		return e.complexity.Book.SubTitle(childComplexity), true
 
-	case "Book.series":
-		if e.complexity.Book.Series == nil {
-			break
-		}
-
-		return e.complexity.Book.Series(childComplexity), true
-
-	case "Book.series_name":
-		if e.complexity.Book.SeriesName == nil {
-			break
-		}
-
-		return e.complexity.Book.SeriesName(childComplexity), true
-
-	case "Book.series_pos":
-		if e.complexity.Book.SeriesPos == nil {
-			break
-		}
-
-		return e.complexity.Book.SeriesPos(childComplexity), true
-
-	case "Book.Synopsis":
+	case "Book.synopsis":
 		if e.complexity.Book.Synopsis == nil {
 			break
 		}
 
 		return e.complexity.Book.Synopsis(childComplexity), true
-
-	case "Book.tags":
-		if e.complexity.Book.Tags == nil {
-			break
-		}
-
-		return e.complexity.Book.Tags(childComplexity), true
-
-	case "Book.teacher_notes":
-		if e.complexity.Book.TeacherNotes == nil {
-			break
-		}
-
-		return e.complexity.Book.TeacherNotes(childComplexity), true
-
-	case "Book.teacher_read":
-		if e.complexity.Book.TeacherRead == nil {
-			break
-		}
-
-		return e.complexity.Book.TeacherRead(childComplexity), true
-
-	case "Book.text_complexity":
-		if e.complexity.Book.TextComplexity == nil {
-			break
-		}
-
-		return e.complexity.Book.TextComplexity(childComplexity), true
 
 	case "Book.title":
 		if e.complexity.Book.Title == nil {
@@ -535,54 +482,12 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 
 		return e.complexity.Book.Title(childComplexity), true
 
-	case "Book.unpaged":
-		if e.complexity.Book.Unpaged == nil {
-			break
-		}
-
-		return e.complexity.Book.Unpaged(childComplexity), true
-
-	case "Book.unreliable_narrative":
-		if e.complexity.Book.UnreliableNarrative == nil {
-			break
-		}
-
-		return e.complexity.Book.UnreliableNarrative(childComplexity), true
-
-	case "Book.user_id":
-		if e.complexity.Book.UserID == nil {
-			break
-		}
-
-		return e.complexity.Book.UserID(childComplexity), true
-
-	case "Book.want_for_classroom":
-		if e.complexity.Book.WantForClassroom == nil {
-			break
-		}
-
-		return e.complexity.Book.WantForClassroom(childComplexity), true
-
-	case "Book.want_to_discard":
-		if e.complexity.Book.WantToDiscard == nil {
-			break
-		}
-
-		return e.complexity.Book.WantToDiscard(childComplexity), true
-
 	case "Book.word_count":
 		if e.complexity.Book.WordCount == nil {
 			break
 		}
 
 		return e.complexity.Book.WordCount(childComplexity), true
-
-	case "Book.words_per_page":
-		if e.complexity.Book.WordsPerPage == nil {
-			break
-		}
-
-		return e.complexity.Book.WordsPerPage(childComplexity), true
 
 	case "Classroom.classroom_avg_length":
 		if e.complexity.Classroom.ClassroomAvgLength == nil {
@@ -1529,6 +1434,237 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 
 		return e.complexity.User.LastName(childComplexity), true
 
+	case "UserBook.book_id":
+		if e.complexity.UserBook.Book_id == nil {
+			break
+		}
+
+		return e.complexity.UserBook.Book_id(childComplexity), true
+
+	case "UserBook.book_type":
+		if e.complexity.UserBook.Book_type == nil {
+			break
+		}
+
+		return e.complexity.UserBook.Book_type(childComplexity), true
+
+	case "UserBook.checkout_status":
+		if e.complexity.UserBook.Checkout_status == nil {
+			break
+		}
+
+		return e.complexity.UserBook.Checkout_status(childComplexity), true
+
+	case "UserBook.condition":
+		if e.complexity.UserBook.Condition == nil {
+			break
+		}
+
+		return e.complexity.UserBook.Condition(childComplexity), true
+
+	case "UserBook.cover_image":
+		if e.complexity.UserBook.Cover_image == nil {
+			break
+		}
+
+		return e.complexity.UserBook.Cover_image(childComplexity), true
+
+	case "UserBook.current_user_id":
+		if e.complexity.UserBook.Current_user_id == nil {
+			break
+		}
+
+		return e.complexity.UserBook.Current_user_id(childComplexity), true
+
+	case "UserBook.date_created":
+		if e.complexity.UserBook.Date_created == nil {
+			break
+		}
+
+		return e.complexity.UserBook.Date_created(childComplexity), true
+
+	case "UserBook.date_updated":
+		if e.complexity.UserBook.Date_updated == nil {
+			break
+		}
+
+		return e.complexity.UserBook.Date_updated(childComplexity), true
+
+	case "UserBook.entered_user_id":
+		if e.complexity.UserBook.Entered_user_id == nil {
+			break
+		}
+
+		return e.complexity.UserBook.Entered_user_id(childComplexity), true
+
+	case "UserBook.format":
+		if e.complexity.UserBook.Format == nil {
+			break
+		}
+
+		return e.complexity.UserBook.Format(childComplexity), true
+
+	case "UserBook.guided_reading_level":
+		if e.complexity.UserBook.Guided_reading_level == nil {
+			break
+		}
+
+		return e.complexity.UserBook.Guided_reading_level(childComplexity), true
+
+	case "UserBook.id":
+		if e.complexity.UserBook.Id == nil {
+			break
+		}
+
+		return e.complexity.UserBook.Id(childComplexity), true
+
+	case "UserBook.lexile_level":
+		if e.complexity.UserBook.Lexile_level == nil {
+			break
+		}
+
+		return e.complexity.UserBook.Lexile_level(childComplexity), true
+
+	case "UserBook.location":
+		if e.complexity.UserBook.Location == nil {
+			break
+		}
+
+		return e.complexity.UserBook.Location(childComplexity), true
+
+	case "UserBook.mentor_text":
+		if e.complexity.UserBook.Mentor_text == nil {
+			break
+		}
+
+		return e.complexity.UserBook.Mentor_text(childComplexity), true
+
+	case "UserBook.multiple_pov":
+		if e.complexity.UserBook.Multiple_pov == nil {
+			break
+		}
+
+		return e.complexity.UserBook.Multiple_pov(childComplexity), true
+
+	case "UserBook.own_this_copy":
+		if e.complexity.UserBook.Own_this_copy == nil {
+			break
+		}
+
+		return e.complexity.UserBook.Own_this_copy(childComplexity), true
+
+	case "UserBook.price":
+		if e.complexity.UserBook.Price == nil {
+			break
+		}
+
+		return e.complexity.UserBook.Price(childComplexity), true
+
+	case "UserBook.qty_label":
+		if e.complexity.UserBook.QtyLabel == nil {
+			break
+		}
+
+		return e.complexity.UserBook.QtyLabel(childComplexity), true
+
+	case "UserBook.series":
+		if e.complexity.UserBook.Series == nil {
+			break
+		}
+
+		return e.complexity.UserBook.Series(childComplexity), true
+
+	case "UserBook.series_name":
+		if e.complexity.UserBook.Series_name == nil {
+			break
+		}
+
+		return e.complexity.UserBook.Series_name(childComplexity), true
+
+	case "UserBook.series_pos":
+		if e.complexity.UserBook.Series_pos == nil {
+			break
+		}
+
+		return e.complexity.UserBook.Series_pos(childComplexity), true
+
+	case "UserBook.tags":
+		if e.complexity.UserBook.Tags == nil {
+			break
+		}
+
+		return e.complexity.UserBook.Tags(childComplexity), true
+
+	case "UserBook.teacher_notes":
+		if e.complexity.UserBook.Teacher_notes == nil {
+			break
+		}
+
+		return e.complexity.UserBook.Teacher_notes(childComplexity), true
+
+	case "UserBook.teacher_read":
+		if e.complexity.UserBook.Teacher_read == nil {
+			break
+		}
+
+		return e.complexity.UserBook.Teacher_read(childComplexity), true
+
+	case "UserBook.text_complexity":
+		if e.complexity.UserBook.Text_complexity == nil {
+			break
+		}
+
+		return e.complexity.UserBook.Text_complexity(childComplexity), true
+
+	case "UserBook.unpaged":
+		if e.complexity.UserBook.Unpaged == nil {
+			break
+		}
+
+		return e.complexity.UserBook.Unpaged(childComplexity), true
+
+	case "UserBook.unreliable_narrative":
+		if e.complexity.UserBook.Unreliable_narrative == nil {
+			break
+		}
+
+		return e.complexity.UserBook.Unreliable_narrative(childComplexity), true
+
+	case "UserBook.user_id":
+		if e.complexity.UserBook.User_id == nil {
+			break
+		}
+
+		return e.complexity.UserBook.User_id(childComplexity), true
+
+	case "UserBook.want_for_classroom":
+		if e.complexity.UserBook.Want_for_classroom == nil {
+			break
+		}
+
+		return e.complexity.UserBook.Want_for_classroom(childComplexity), true
+
+	case "UserBook.want_to_discard":
+		if e.complexity.UserBook.Want_to_discard == nil {
+			break
+		}
+
+		return e.complexity.UserBook.Want_to_discard(childComplexity), true
+
+	case "UserBook.word_count":
+		if e.complexity.UserBook.Word_count == nil {
+			break
+		}
+
+		return e.complexity.UserBook.Word_count(childComplexity), true
+
+	case "UserBook.words_per_page":
+		if e.complexity.UserBook.Words_per_page == nil {
+			break
+		}
+
+		return e.complexity.UserBook.Words_per_page(childComplexity), true
+
 	}
 	return 0, false
 }
@@ -1805,9 +1941,9 @@ func (ec *executionContext) _Book_id(ctx context.Context, field graphql.Collecte
 		}
 		return graphql.Null
 	}
-	res := resTmp.(string)
+	res := resTmp.(int)
 	fc.Result = res
-	return ec.marshalNID2string(ctx, field.Selections, res)
+	return ec.marshalNInt2int(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) fieldContext_Book_id(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -1817,14 +1953,14 @@ func (ec *executionContext) fieldContext_Book_id(ctx context.Context, field grap
 		IsMethod:   true,
 		IsResolver: true,
 		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
-			return nil, errors.New("field of type ID does not have child fields")
+			return nil, errors.New("field of type Int does not have child fields")
 		},
 	}
 	return fc, nil
 }
 
-func (ec *executionContext) _Book_default_user_id(ctx context.Context, field graphql.CollectedField, obj *model.Book) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_Book_default_user_id(ctx, field)
+func (ec *executionContext) _Book_story_id(ctx context.Context, field graphql.CollectedField, obj *model.Book) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Book_story_id(ctx, field)
 	if err != nil {
 		return graphql.Null
 	}
@@ -1837,7 +1973,7 @@ func (ec *executionContext) _Book_default_user_id(ctx context.Context, field gra
 	}()
 	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
 		ctx = rctx // use context from middleware stack in children
-		return ec.resolvers.Book().DefaultUserID(rctx, obj)
+		return ec.resolvers.Book().StoryID(rctx, obj)
 	})
 	if err != nil {
 		ec.Error(ctx, err)
@@ -1846,60 +1982,19 @@ func (ec *executionContext) _Book_default_user_id(ctx context.Context, field gra
 	if resTmp == nil {
 		return graphql.Null
 	}
-	res := resTmp.(*string)
+	res := resTmp.(*int)
 	fc.Result = res
-	return ec.marshalOID2ᚖstring(ctx, field.Selections, res)
+	return ec.marshalOInt2ᚖint(ctx, field.Selections, res)
 }
 
-func (ec *executionContext) fieldContext_Book_default_user_id(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+func (ec *executionContext) fieldContext_Book_story_id(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
 	fc = &graphql.FieldContext{
 		Object:     "Book",
 		Field:      field,
 		IsMethod:   true,
 		IsResolver: true,
 		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
-			return nil, errors.New("field of type ID does not have child fields")
-		},
-	}
-	return fc, nil
-}
-
-func (ec *executionContext) _Book_title(ctx context.Context, field graphql.CollectedField, obj *model.Book) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_Book_title(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
-		ctx = rctx // use context from middleware stack in children
-		return ec.resolvers.Book().Title(rctx, obj)
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		return graphql.Null
-	}
-	res := resTmp.(*string)
-	fc.Result = res
-	return ec.marshalOString2ᚖstring(ctx, field.Selections, res)
-}
-
-func (ec *executionContext) fieldContext_Book_title(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
-	fc = &graphql.FieldContext{
-		Object:     "Book",
-		Field:      field,
-		IsMethod:   true,
-		IsResolver: true,
-		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
-			return nil, errors.New("field of type String does not have child fields")
+			return nil, errors.New("field of type Int does not have child fields")
 		},
 	}
 	return fc, nil
@@ -1941,170 +2036,6 @@ func (ec *executionContext) fieldContext_Book_author(ctx context.Context, field 
 		IsResolver: true,
 		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
 			return nil, errors.New("field of type String does not have child fields")
-		},
-	}
-	return fc, nil
-}
-
-func (ec *executionContext) _Book_editor(ctx context.Context, field graphql.CollectedField, obj *model.Book) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_Book_editor(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
-		ctx = rctx // use context from middleware stack in children
-		return ec.resolvers.Book().Editor(rctx, obj)
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		return graphql.Null
-	}
-	res := resTmp.(*string)
-	fc.Result = res
-	return ec.marshalOString2ᚖstring(ctx, field.Selections, res)
-}
-
-func (ec *executionContext) fieldContext_Book_editor(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
-	fc = &graphql.FieldContext{
-		Object:     "Book",
-		Field:      field,
-		IsMethod:   true,
-		IsResolver: true,
-		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
-			return nil, errors.New("field of type String does not have child fields")
-		},
-	}
-	return fc, nil
-}
-
-func (ec *executionContext) _Book_illustrator(ctx context.Context, field graphql.CollectedField, obj *model.Book) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_Book_illustrator(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
-		ctx = rctx // use context from middleware stack in children
-		return ec.resolvers.Book().Illustrator(rctx, obj)
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		return graphql.Null
-	}
-	res := resTmp.(*string)
-	fc.Result = res
-	return ec.marshalOString2ᚖstring(ctx, field.Selections, res)
-}
-
-func (ec *executionContext) fieldContext_Book_illustrator(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
-	fc = &graphql.FieldContext{
-		Object:     "Book",
-		Field:      field,
-		IsMethod:   true,
-		IsResolver: true,
-		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
-			return nil, errors.New("field of type String does not have child fields")
-		},
-	}
-	return fc, nil
-}
-
-func (ec *executionContext) _Book_Synopsis(ctx context.Context, field graphql.CollectedField, obj *model.Book) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_Book_Synopsis(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
-		ctx = rctx // use context from middleware stack in children
-		return ec.resolvers.Book().Synopsis(rctx, obj)
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		return graphql.Null
-	}
-	res := resTmp.(*string)
-	fc.Result = res
-	return ec.marshalOString2ᚖstring(ctx, field.Selections, res)
-}
-
-func (ec *executionContext) fieldContext_Book_Synopsis(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
-	fc = &graphql.FieldContext{
-		Object:     "Book",
-		Field:      field,
-		IsMethod:   true,
-		IsResolver: true,
-		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
-			return nil, errors.New("field of type String does not have child fields")
-		},
-	}
-	return fc, nil
-}
-
-func (ec *executionContext) _Book_condition(ctx context.Context, field graphql.CollectedField, obj *model.Book) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_Book_condition(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
-		ctx = rctx // use context from middleware stack in children
-		return ec.resolvers.Book().Condition(rctx, obj)
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		return graphql.Null
-	}
-	res := resTmp.(*int)
-	fc.Result = res
-	return ec.marshalOInt2ᚖint(ctx, field.Selections, res)
-}
-
-func (ec *executionContext) fieldContext_Book_condition(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
-	fc = &graphql.FieldContext{
-		Object:     "Book",
-		Field:      field,
-		IsMethod:   true,
-		IsResolver: true,
-		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
-			return nil, errors.New("field of type Int does not have child fields")
 		},
 	}
 	return fc, nil
@@ -2233,8 +2164,8 @@ func (ec *executionContext) fieldContext_Book_date_updated(ctx context.Context, 
 	return fc, nil
 }
 
-func (ec *executionContext) _Book_date_published(ctx context.Context, field graphql.CollectedField, obj *model.Book) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_Book_date_published(ctx, field)
+func (ec *executionContext) _Book_default_user_id(ctx context.Context, field graphql.CollectedField, obj *model.Book) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Book_default_user_id(ctx, field)
 	if err != nil {
 		return graphql.Null
 	}
@@ -2247,663 +2178,7 @@ func (ec *executionContext) _Book_date_published(ctx context.Context, field grap
 	}()
 	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
 		ctx = rctx // use context from middleware stack in children
-		return ec.resolvers.Book().DatePublished(rctx, obj)
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		return graphql.Null
-	}
-	res := resTmp.(*time.Time)
-	fc.Result = res
-	return ec.marshalOTime2ᚖtimeᚐTime(ctx, field.Selections, res)
-}
-
-func (ec *executionContext) fieldContext_Book_date_published(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
-	fc = &graphql.FieldContext{
-		Object:     "Book",
-		Field:      field,
-		IsMethod:   true,
-		IsResolver: true,
-		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
-			return nil, errors.New("field of type Time does not have child fields")
-		},
-	}
-	return fc, nil
-}
-
-func (ec *executionContext) _Book_date_copyright(ctx context.Context, field graphql.CollectedField, obj *model.Book) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_Book_date_copyright(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
-		ctx = rctx // use context from middleware stack in children
-		return ec.resolvers.Book().DateCopyright(rctx, obj)
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		return graphql.Null
-	}
-	res := resTmp.(*time.Time)
-	fc.Result = res
-	return ec.marshalOTime2ᚖtimeᚐTime(ctx, field.Selections, res)
-}
-
-func (ec *executionContext) fieldContext_Book_date_copyright(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
-	fc = &graphql.FieldContext{
-		Object:     "Book",
-		Field:      field,
-		IsMethod:   true,
-		IsResolver: true,
-		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
-			return nil, errors.New("field of type Time does not have child fields")
-		},
-	}
-	return fc, nil
-}
-
-func (ec *executionContext) _Book_guided_reading_level(ctx context.Context, field graphql.CollectedField, obj *model.Book) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_Book_guided_reading_level(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
-		ctx = rctx // use context from middleware stack in children
-		return ec.resolvers.Book().GuidedReadingLevel(rctx, obj)
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		return graphql.Null
-	}
-	res := resTmp.(*string)
-	fc.Result = res
-	return ec.marshalOString2ᚖstring(ctx, field.Selections, res)
-}
-
-func (ec *executionContext) fieldContext_Book_guided_reading_level(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
-	fc = &graphql.FieldContext{
-		Object:     "Book",
-		Field:      field,
-		IsMethod:   true,
-		IsResolver: true,
-		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
-			return nil, errors.New("field of type String does not have child fields")
-		},
-	}
-	return fc, nil
-}
-
-func (ec *executionContext) _Book_lexile_level(ctx context.Context, field graphql.CollectedField, obj *model.Book) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_Book_lexile_level(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
-		ctx = rctx // use context from middleware stack in children
-		return ec.resolvers.Book().LexileLevel(rctx, obj)
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		return graphql.Null
-	}
-	res := resTmp.(*int)
-	fc.Result = res
-	return ec.marshalOInt2ᚖint(ctx, field.Selections, res)
-}
-
-func (ec *executionContext) fieldContext_Book_lexile_level(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
-	fc = &graphql.FieldContext{
-		Object:     "Book",
-		Field:      field,
-		IsMethod:   true,
-		IsResolver: true,
-		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
-			return nil, errors.New("field of type Int does not have child fields")
-		},
-	}
-	return fc, nil
-}
-
-func (ec *executionContext) _Book_location(ctx context.Context, field graphql.CollectedField, obj *model.Book) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_Book_location(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
-		ctx = rctx // use context from middleware stack in children
-		return ec.resolvers.Book().Location(rctx, obj)
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		return graphql.Null
-	}
-	res := resTmp.(*int)
-	fc.Result = res
-	return ec.marshalOInt2ᚖint(ctx, field.Selections, res)
-}
-
-func (ec *executionContext) fieldContext_Book_location(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
-	fc = &graphql.FieldContext{
-		Object:     "Book",
-		Field:      field,
-		IsMethod:   true,
-		IsResolver: true,
-		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
-			return nil, errors.New("field of type Int does not have child fields")
-		},
-	}
-	return fc, nil
-}
-
-func (ec *executionContext) _Book_mentor_text(ctx context.Context, field graphql.CollectedField, obj *model.Book) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_Book_mentor_text(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
-		ctx = rctx // use context from middleware stack in children
-		return ec.resolvers.Book().MentorText(rctx, obj)
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		return graphql.Null
-	}
-	res := resTmp.(*int)
-	fc.Result = res
-	return ec.marshalOInt2ᚖint(ctx, field.Selections, res)
-}
-
-func (ec *executionContext) fieldContext_Book_mentor_text(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
-	fc = &graphql.FieldContext{
-		Object:     "Book",
-		Field:      field,
-		IsMethod:   true,
-		IsResolver: true,
-		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
-			return nil, errors.New("field of type Int does not have child fields")
-		},
-	}
-	return fc, nil
-}
-
-func (ec *executionContext) _Book_multiple_pov(ctx context.Context, field graphql.CollectedField, obj *model.Book) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_Book_multiple_pov(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
-		ctx = rctx // use context from middleware stack in children
-		return ec.resolvers.Book().MultiplePov(rctx, obj)
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		return graphql.Null
-	}
-	res := resTmp.(*int)
-	fc.Result = res
-	return ec.marshalOInt2ᚖint(ctx, field.Selections, res)
-}
-
-func (ec *executionContext) fieldContext_Book_multiple_pov(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
-	fc = &graphql.FieldContext{
-		Object:     "Book",
-		Field:      field,
-		IsMethod:   true,
-		IsResolver: true,
-		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
-			return nil, errors.New("field of type Int does not have child fields")
-		},
-	}
-	return fc, nil
-}
-
-func (ec *executionContext) _Book_price(ctx context.Context, field graphql.CollectedField, obj *model.Book) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_Book_price(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
-		ctx = rctx // use context from middleware stack in children
-		return ec.resolvers.Book().Price(rctx, obj)
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		return graphql.Null
-	}
-	res := resTmp.(*float64)
-	fc.Result = res
-	return ec.marshalOFloat2ᚖfloat64(ctx, field.Selections, res)
-}
-
-func (ec *executionContext) fieldContext_Book_price(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
-	fc = &graphql.FieldContext{
-		Object:     "Book",
-		Field:      field,
-		IsMethod:   true,
-		IsResolver: true,
-		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
-			return nil, errors.New("field of type Float does not have child fields")
-		},
-	}
-	return fc, nil
-}
-
-func (ec *executionContext) _Book_qty_label(ctx context.Context, field graphql.CollectedField, obj *model.Book) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_Book_qty_label(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
-		ctx = rctx // use context from middleware stack in children
-		return ec.resolvers.Book().QtyLabel(rctx, obj)
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		return graphql.Null
-	}
-	res := resTmp.(*int)
-	fc.Result = res
-	return ec.marshalOInt2ᚖint(ctx, field.Selections, res)
-}
-
-func (ec *executionContext) fieldContext_Book_qty_label(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
-	fc = &graphql.FieldContext{
-		Object:     "Book",
-		Field:      field,
-		IsMethod:   true,
-		IsResolver: true,
-		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
-			return nil, errors.New("field of type Int does not have child fields")
-		},
-	}
-	return fc, nil
-}
-
-func (ec *executionContext) _Book_series(ctx context.Context, field graphql.CollectedField, obj *model.Book) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_Book_series(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
-		ctx = rctx // use context from middleware stack in children
-		return ec.resolvers.Book().Series(rctx, obj)
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		return graphql.Null
-	}
-	res := resTmp.(*int)
-	fc.Result = res
-	return ec.marshalOInt2ᚖint(ctx, field.Selections, res)
-}
-
-func (ec *executionContext) fieldContext_Book_series(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
-	fc = &graphql.FieldContext{
-		Object:     "Book",
-		Field:      field,
-		IsMethod:   true,
-		IsResolver: true,
-		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
-			return nil, errors.New("field of type Int does not have child fields")
-		},
-	}
-	return fc, nil
-}
-
-func (ec *executionContext) _Book_series_name(ctx context.Context, field graphql.CollectedField, obj *model.Book) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_Book_series_name(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
-		ctx = rctx // use context from middleware stack in children
-		return ec.resolvers.Book().SeriesName(rctx, obj)
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		return graphql.Null
-	}
-	res := resTmp.(*string)
-	fc.Result = res
-	return ec.marshalOString2ᚖstring(ctx, field.Selections, res)
-}
-
-func (ec *executionContext) fieldContext_Book_series_name(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
-	fc = &graphql.FieldContext{
-		Object:     "Book",
-		Field:      field,
-		IsMethod:   true,
-		IsResolver: true,
-		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
-			return nil, errors.New("field of type String does not have child fields")
-		},
-	}
-	return fc, nil
-}
-
-func (ec *executionContext) _Book_series_pos(ctx context.Context, field graphql.CollectedField, obj *model.Book) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_Book_series_pos(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
-		ctx = rctx // use context from middleware stack in children
-		return ec.resolvers.Book().SeriesPos(rctx, obj)
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		return graphql.Null
-	}
-	res := resTmp.(*int)
-	fc.Result = res
-	return ec.marshalOInt2ᚖint(ctx, field.Selections, res)
-}
-
-func (ec *executionContext) fieldContext_Book_series_pos(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
-	fc = &graphql.FieldContext{
-		Object:     "Book",
-		Field:      field,
-		IsMethod:   true,
-		IsResolver: true,
-		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
-			return nil, errors.New("field of type Int does not have child fields")
-		},
-	}
-	return fc, nil
-}
-
-func (ec *executionContext) _Book_tags(ctx context.Context, field graphql.CollectedField, obj *model.Book) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_Book_tags(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
-		ctx = rctx // use context from middleware stack in children
-		return ec.resolvers.Book().Tags(rctx, obj)
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		return graphql.Null
-	}
-	res := resTmp.(*string)
-	fc.Result = res
-	return ec.marshalOString2ᚖstring(ctx, field.Selections, res)
-}
-
-func (ec *executionContext) fieldContext_Book_tags(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
-	fc = &graphql.FieldContext{
-		Object:     "Book",
-		Field:      field,
-		IsMethod:   true,
-		IsResolver: true,
-		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
-			return nil, errors.New("field of type String does not have child fields")
-		},
-	}
-	return fc, nil
-}
-
-func (ec *executionContext) _Book_teacher_notes(ctx context.Context, field graphql.CollectedField, obj *model.Book) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_Book_teacher_notes(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
-		ctx = rctx // use context from middleware stack in children
-		return ec.resolvers.Book().TeacherNotes(rctx, obj)
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		return graphql.Null
-	}
-	res := resTmp.(*string)
-	fc.Result = res
-	return ec.marshalOString2ᚖstring(ctx, field.Selections, res)
-}
-
-func (ec *executionContext) fieldContext_Book_teacher_notes(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
-	fc = &graphql.FieldContext{
-		Object:     "Book",
-		Field:      field,
-		IsMethod:   true,
-		IsResolver: true,
-		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
-			return nil, errors.New("field of type String does not have child fields")
-		},
-	}
-	return fc, nil
-}
-
-func (ec *executionContext) _Book_teacher_read(ctx context.Context, field graphql.CollectedField, obj *model.Book) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_Book_teacher_read(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
-		ctx = rctx // use context from middleware stack in children
-		return ec.resolvers.Book().TeacherRead(rctx, obj)
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		return graphql.Null
-	}
-	res := resTmp.(*int)
-	fc.Result = res
-	return ec.marshalOInt2ᚖint(ctx, field.Selections, res)
-}
-
-func (ec *executionContext) fieldContext_Book_teacher_read(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
-	fc = &graphql.FieldContext{
-		Object:     "Book",
-		Field:      field,
-		IsMethod:   true,
-		IsResolver: true,
-		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
-			return nil, errors.New("field of type Int does not have child fields")
-		},
-	}
-	return fc, nil
-}
-
-func (ec *executionContext) _Book_text_complexity(ctx context.Context, field graphql.CollectedField, obj *model.Book) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_Book_text_complexity(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
-		ctx = rctx // use context from middleware stack in children
-		return ec.resolvers.Book().TextComplexity(rctx, obj)
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		return graphql.Null
-	}
-	res := resTmp.(*int)
-	fc.Result = res
-	return ec.marshalOInt2ᚖint(ctx, field.Selections, res)
-}
-
-func (ec *executionContext) fieldContext_Book_text_complexity(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
-	fc = &graphql.FieldContext{
-		Object:     "Book",
-		Field:      field,
-		IsMethod:   true,
-		IsResolver: true,
-		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
-			return nil, errors.New("field of type Int does not have child fields")
-		},
-	}
-	return fc, nil
-}
-
-func (ec *executionContext) _Book_unpaged(ctx context.Context, field graphql.CollectedField, obj *model.Book) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_Book_unpaged(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
-		ctx = rctx // use context from middleware stack in children
-		return ec.resolvers.Book().Unpaged(rctx, obj)
+		return ec.resolvers.Book().DefaultUserID(rctx, obj)
 	})
 	if err != nil {
 		ec.Error(ctx, err)
@@ -2920,7 +2195,7 @@ func (ec *executionContext) _Book_unpaged(ctx context.Context, field graphql.Col
 	return ec.marshalNInt2int(ctx, field.Selections, res)
 }
 
-func (ec *executionContext) fieldContext_Book_unpaged(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+func (ec *executionContext) fieldContext_Book_default_user_id(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
 	fc = &graphql.FieldContext{
 		Object:     "Book",
 		Field:      field,
@@ -2933,8 +2208,8 @@ func (ec *executionContext) fieldContext_Book_unpaged(ctx context.Context, field
 	return fc, nil
 }
 
-func (ec *executionContext) _Book_unreliable_narrative(ctx context.Context, field graphql.CollectedField, obj *model.Book) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_Book_unreliable_narrative(ctx, field)
+func (ec *executionContext) _Book_foreword(ctx context.Context, field graphql.CollectedField, obj *model.Book) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Book_foreword(ctx, field)
 	if err != nil {
 		return graphql.Null
 	}
@@ -2947,89 +2222,7 @@ func (ec *executionContext) _Book_unreliable_narrative(ctx context.Context, fiel
 	}()
 	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
 		ctx = rctx // use context from middleware stack in children
-		return ec.resolvers.Book().UnreliableNarrative(rctx, obj)
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		return graphql.Null
-	}
-	res := resTmp.(*int)
-	fc.Result = res
-	return ec.marshalOInt2ᚖint(ctx, field.Selections, res)
-}
-
-func (ec *executionContext) fieldContext_Book_unreliable_narrative(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
-	fc = &graphql.FieldContext{
-		Object:     "Book",
-		Field:      field,
-		IsMethod:   true,
-		IsResolver: true,
-		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
-			return nil, errors.New("field of type Int does not have child fields")
-		},
-	}
-	return fc, nil
-}
-
-func (ec *executionContext) _Book_user_id(ctx context.Context, field graphql.CollectedField, obj *model.Book) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_Book_user_id(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
-		ctx = rctx // use context from middleware stack in children
-		return ec.resolvers.Book().UserID(rctx, obj)
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		return graphql.Null
-	}
-	res := resTmp.(*int)
-	fc.Result = res
-	return ec.marshalOInt2ᚖint(ctx, field.Selections, res)
-}
-
-func (ec *executionContext) fieldContext_Book_user_id(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
-	fc = &graphql.FieldContext{
-		Object:     "Book",
-		Field:      field,
-		IsMethod:   true,
-		IsResolver: true,
-		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
-			return nil, errors.New("field of type Int does not have child fields")
-		},
-	}
-	return fc, nil
-}
-
-func (ec *executionContext) _Book_entered_user_id(ctx context.Context, field graphql.CollectedField, obj *model.Book) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_Book_entered_user_id(ctx, field)
-	if err != nil {
-		return graphql.Null
-	}
-	ctx = graphql.WithFieldContext(ctx, fc)
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
-		ctx = rctx // use context from middleware stack in children
-		return ec.resolvers.Book().EnteredUserID(rctx, obj)
+		return ec.resolvers.Book().Foreword(rctx, obj)
 	})
 	if err != nil {
 		ec.Error(ctx, err)
@@ -3040,24 +2233,24 @@ func (ec *executionContext) _Book_entered_user_id(ctx context.Context, field gra
 	}
 	res := resTmp.(*string)
 	fc.Result = res
-	return ec.marshalOID2ᚖstring(ctx, field.Selections, res)
+	return ec.marshalOString2ᚖstring(ctx, field.Selections, res)
 }
 
-func (ec *executionContext) fieldContext_Book_entered_user_id(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+func (ec *executionContext) fieldContext_Book_foreword(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
 	fc = &graphql.FieldContext{
 		Object:     "Book",
 		Field:      field,
 		IsMethod:   true,
 		IsResolver: true,
 		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
-			return nil, errors.New("field of type ID does not have child fields")
+			return nil, errors.New("field of type String does not have child fields")
 		},
 	}
 	return fc, nil
 }
 
-func (ec *executionContext) _Book_want_for_classroom(ctx context.Context, field graphql.CollectedField, obj *model.Book) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_Book_want_for_classroom(ctx, field)
+func (ec *executionContext) _Book_editor(ctx context.Context, field graphql.CollectedField, obj *model.Book) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Book_editor(ctx, field)
 	if err != nil {
 		return graphql.Null
 	}
@@ -3070,7 +2263,130 @@ func (ec *executionContext) _Book_want_for_classroom(ctx context.Context, field 
 	}()
 	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
 		ctx = rctx // use context from middleware stack in children
-		return ec.resolvers.Book().WantForClassroom(rctx, obj)
+		return ec.resolvers.Book().Editor(rctx, obj)
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(*string)
+	fc.Result = res
+	return ec.marshalOString2ᚖstring(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_Book_editor(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Book",
+		Field:      field,
+		IsMethod:   true,
+		IsResolver: true,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type String does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _Book_illustrator(ctx context.Context, field graphql.CollectedField, obj *model.Book) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Book_illustrator(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return ec.resolvers.Book().Illustrator(rctx, obj)
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(*string)
+	fc.Result = res
+	return ec.marshalOString2ᚖstring(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_Book_illustrator(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Book",
+		Field:      field,
+		IsMethod:   true,
+		IsResolver: true,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type String does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _Book_isbn_10(ctx context.Context, field graphql.CollectedField, obj *model.Book) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Book_isbn_10(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return ec.resolvers.Book().Isbn10(rctx, obj)
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(*string)
+	fc.Result = res
+	return ec.marshalOString2ᚖstring(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_Book_isbn_10(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Book",
+		Field:      field,
+		IsMethod:   true,
+		IsResolver: true,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type String does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _Book_isbn_13(ctx context.Context, field graphql.CollectedField, obj *model.Book) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Book_isbn_13(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return ec.resolvers.Book().Isbn13(rctx, obj)
 	})
 	if err != nil {
 		ec.Error(ctx, err)
@@ -3084,7 +2400,7 @@ func (ec *executionContext) _Book_want_for_classroom(ctx context.Context, field 
 	return ec.marshalOInt2ᚖint(ctx, field.Selections, res)
 }
 
-func (ec *executionContext) fieldContext_Book_want_for_classroom(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+func (ec *executionContext) fieldContext_Book_isbn_13(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
 	fc = &graphql.FieldContext{
 		Object:     "Book",
 		Field:      field,
@@ -3097,8 +2413,8 @@ func (ec *executionContext) fieldContext_Book_want_for_classroom(ctx context.Con
 	return fc, nil
 }
 
-func (ec *executionContext) _Book_want_to_discard(ctx context.Context, field graphql.CollectedField, obj *model.Book) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_Book_want_to_discard(ctx, field)
+func (ec *executionContext) _Book_num_pages(ctx context.Context, field graphql.CollectedField, obj *model.Book) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Book_num_pages(ctx, field)
 	if err != nil {
 		return graphql.Null
 	}
@@ -3111,7 +2427,7 @@ func (ec *executionContext) _Book_want_to_discard(ctx context.Context, field gra
 	}()
 	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
 		ctx = rctx // use context from middleware stack in children
-		return ec.resolvers.Book().WantToDiscard(rctx, obj)
+		return ec.resolvers.Book().NumPages(rctx, obj)
 	})
 	if err != nil {
 		ec.Error(ctx, err)
@@ -3125,7 +2441,7 @@ func (ec *executionContext) _Book_want_to_discard(ctx context.Context, field gra
 	return ec.marshalOInt2ᚖint(ctx, field.Selections, res)
 }
 
-func (ec *executionContext) fieldContext_Book_want_to_discard(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+func (ec *executionContext) fieldContext_Book_num_pages(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
 	fc = &graphql.FieldContext{
 		Object:     "Book",
 		Field:      field,
@@ -3133,6 +2449,211 @@ func (ec *executionContext) fieldContext_Book_want_to_discard(ctx context.Contex
 		IsResolver: true,
 		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
 			return nil, errors.New("field of type Int does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _Book_pub_date(ctx context.Context, field graphql.CollectedField, obj *model.Book) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Book_pub_date(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return ec.resolvers.Book().PubDate(rctx, obj)
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(*int)
+	fc.Result = res
+	return ec.marshalOInt2ᚖint(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_Book_pub_date(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Book",
+		Field:      field,
+		IsMethod:   true,
+		IsResolver: true,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type Int does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _Book_copyright_date(ctx context.Context, field graphql.CollectedField, obj *model.Book) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Book_copyright_date(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return ec.resolvers.Book().CopyrightDate(rctx, obj)
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(*int)
+	fc.Result = res
+	return ec.marshalOInt2ᚖint(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_Book_copyright_date(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Book",
+		Field:      field,
+		IsMethod:   true,
+		IsResolver: true,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type Int does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _Book_edition(ctx context.Context, field graphql.CollectedField, obj *model.Book) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Book_edition(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return ec.resolvers.Book().Edition(rctx, obj)
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(*int)
+	fc.Result = res
+	return ec.marshalOInt2ᚖint(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_Book_edition(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Book",
+		Field:      field,
+		IsMethod:   true,
+		IsResolver: true,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type Int does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _Book_synopsis(ctx context.Context, field graphql.CollectedField, obj *model.Book) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Book_synopsis(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return ec.resolvers.Book().Synopsis(rctx, obj)
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(*string)
+	fc.Result = res
+	return ec.marshalOString2ᚖstring(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_Book_synopsis(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Book",
+		Field:      field,
+		IsMethod:   true,
+		IsResolver: true,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type String does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _Book_title(ctx context.Context, field graphql.CollectedField, obj *model.Book) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Book_title(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return ec.resolvers.Book().Title(rctx, obj)
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(*string)
+	fc.Result = res
+	return ec.marshalOString2ᚖstring(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_Book_title(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Book",
+		Field:      field,
+		IsMethod:   true,
+		IsResolver: true,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type String does not have child fields")
 		},
 	}
 	return fc, nil
@@ -3179,8 +2700,8 @@ func (ec *executionContext) fieldContext_Book_word_count(ctx context.Context, fi
 	return fc, nil
 }
 
-func (ec *executionContext) _Book_words_per_page(ctx context.Context, field graphql.CollectedField, obj *model.Book) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_Book_words_per_page(ctx, field)
+func (ec *executionContext) _Book_sub_title(ctx context.Context, field graphql.CollectedField, obj *model.Book) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Book_sub_title(ctx, field)
 	if err != nil {
 		return graphql.Null
 	}
@@ -3193,7 +2714,7 @@ func (ec *executionContext) _Book_words_per_page(ctx context.Context, field grap
 	}()
 	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
 		ctx = rctx // use context from middleware stack in children
-		return ec.resolvers.Book().WordsPerPage(rctx, obj)
+		return ec.resolvers.Book().SubTitle(rctx, obj)
 	})
 	if err != nil {
 		ec.Error(ctx, err)
@@ -3202,26 +2723,26 @@ func (ec *executionContext) _Book_words_per_page(ctx context.Context, field grap
 	if resTmp == nil {
 		return graphql.Null
 	}
-	res := resTmp.(*int)
+	res := resTmp.(*string)
 	fc.Result = res
-	return ec.marshalOInt2ᚖint(ctx, field.Selections, res)
+	return ec.marshalOString2ᚖstring(ctx, field.Selections, res)
 }
 
-func (ec *executionContext) fieldContext_Book_words_per_page(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+func (ec *executionContext) fieldContext_Book_sub_title(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
 	fc = &graphql.FieldContext{
 		Object:     "Book",
 		Field:      field,
 		IsMethod:   true,
 		IsResolver: true,
 		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
-			return nil, errors.New("field of type Int does not have child fields")
+			return nil, errors.New("field of type String does not have child fields")
 		},
 	}
 	return fc, nil
 }
 
-func (ec *executionContext) _Book_current_user_id(ctx context.Context, field graphql.CollectedField, obj *model.Book) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_Book_current_user_id(ctx, field)
+func (ec *executionContext) _Book_asin(ctx context.Context, field graphql.CollectedField, obj *model.Book) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Book_asin(ctx, field)
 	if err != nil {
 		return graphql.Null
 	}
@@ -3234,7 +2755,7 @@ func (ec *executionContext) _Book_current_user_id(ctx context.Context, field gra
 	}()
 	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
 		ctx = rctx // use context from middleware stack in children
-		return ec.resolvers.Book().CurrentUserID(rctx, obj)
+		return ec.resolvers.Book().Asin(rctx, obj)
 	})
 	if err != nil {
 		ec.Error(ctx, err)
@@ -3243,19 +2764,19 @@ func (ec *executionContext) _Book_current_user_id(ctx context.Context, field gra
 	if resTmp == nil {
 		return graphql.Null
 	}
-	res := resTmp.(*int)
+	res := resTmp.(*string)
 	fc.Result = res
-	return ec.marshalOInt2ᚖint(ctx, field.Selections, res)
+	return ec.marshalOString2ᚖstring(ctx, field.Selections, res)
 }
 
-func (ec *executionContext) fieldContext_Book_current_user_id(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+func (ec *executionContext) fieldContext_Book_asin(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
 	fc = &graphql.FieldContext{
 		Object:     "Book",
 		Field:      field,
 		IsMethod:   true,
 		IsResolver: true,
 		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
-			return nil, errors.New("field of type Int does not have child fields")
+			return nil, errors.New("field of type String does not have child fields")
 		},
 	}
 	return fc, nil
@@ -4121,76 +3642,46 @@ func (ec *executionContext) fieldContext_Mutation_createBook(ctx context.Context
 			switch field.Name {
 			case "id":
 				return ec.fieldContext_Book_id(ctx, field)
-			case "default_user_id":
-				return ec.fieldContext_Book_default_user_id(ctx, field)
-			case "title":
-				return ec.fieldContext_Book_title(ctx, field)
+			case "story_id":
+				return ec.fieldContext_Book_story_id(ctx, field)
 			case "author":
 				return ec.fieldContext_Book_author(ctx, field)
-			case "editor":
-				return ec.fieldContext_Book_editor(ctx, field)
-			case "illustrator":
-				return ec.fieldContext_Book_illustrator(ctx, field)
-			case "Synopsis":
-				return ec.fieldContext_Book_Synopsis(ctx, field)
-			case "condition":
-				return ec.fieldContext_Book_condition(ctx, field)
 			case "cover_image":
 				return ec.fieldContext_Book_cover_image(ctx, field)
 			case "date_created":
 				return ec.fieldContext_Book_date_created(ctx, field)
 			case "date_updated":
 				return ec.fieldContext_Book_date_updated(ctx, field)
-			case "date_published":
-				return ec.fieldContext_Book_date_published(ctx, field)
-			case "date_copyright":
-				return ec.fieldContext_Book_date_copyright(ctx, field)
-			case "guided_reading_level":
-				return ec.fieldContext_Book_guided_reading_level(ctx, field)
-			case "lexile_level":
-				return ec.fieldContext_Book_lexile_level(ctx, field)
-			case "location":
-				return ec.fieldContext_Book_location(ctx, field)
-			case "mentor_text":
-				return ec.fieldContext_Book_mentor_text(ctx, field)
-			case "multiple_pov":
-				return ec.fieldContext_Book_multiple_pov(ctx, field)
-			case "price":
-				return ec.fieldContext_Book_price(ctx, field)
-			case "qty_label":
-				return ec.fieldContext_Book_qty_label(ctx, field)
-			case "series":
-				return ec.fieldContext_Book_series(ctx, field)
-			case "series_name":
-				return ec.fieldContext_Book_series_name(ctx, field)
-			case "series_pos":
-				return ec.fieldContext_Book_series_pos(ctx, field)
-			case "tags":
-				return ec.fieldContext_Book_tags(ctx, field)
-			case "teacher_notes":
-				return ec.fieldContext_Book_teacher_notes(ctx, field)
-			case "teacher_read":
-				return ec.fieldContext_Book_teacher_read(ctx, field)
-			case "text_complexity":
-				return ec.fieldContext_Book_text_complexity(ctx, field)
-			case "unpaged":
-				return ec.fieldContext_Book_unpaged(ctx, field)
-			case "unreliable_narrative":
-				return ec.fieldContext_Book_unreliable_narrative(ctx, field)
-			case "user_id":
-				return ec.fieldContext_Book_user_id(ctx, field)
-			case "entered_user_id":
-				return ec.fieldContext_Book_entered_user_id(ctx, field)
-			case "want_for_classroom":
-				return ec.fieldContext_Book_want_for_classroom(ctx, field)
-			case "want_to_discard":
-				return ec.fieldContext_Book_want_to_discard(ctx, field)
+			case "default_user_id":
+				return ec.fieldContext_Book_default_user_id(ctx, field)
+			case "foreword":
+				return ec.fieldContext_Book_foreword(ctx, field)
+			case "editor":
+				return ec.fieldContext_Book_editor(ctx, field)
+			case "illustrator":
+				return ec.fieldContext_Book_illustrator(ctx, field)
+			case "isbn_10":
+				return ec.fieldContext_Book_isbn_10(ctx, field)
+			case "isbn_13":
+				return ec.fieldContext_Book_isbn_13(ctx, field)
+			case "num_pages":
+				return ec.fieldContext_Book_num_pages(ctx, field)
+			case "pub_date":
+				return ec.fieldContext_Book_pub_date(ctx, field)
+			case "copyright_date":
+				return ec.fieldContext_Book_copyright_date(ctx, field)
+			case "edition":
+				return ec.fieldContext_Book_edition(ctx, field)
+			case "synopsis":
+				return ec.fieldContext_Book_synopsis(ctx, field)
+			case "title":
+				return ec.fieldContext_Book_title(ctx, field)
 			case "word_count":
 				return ec.fieldContext_Book_word_count(ctx, field)
-			case "words_per_page":
-				return ec.fieldContext_Book_words_per_page(ctx, field)
-			case "current_user_id":
-				return ec.fieldContext_Book_current_user_id(ctx, field)
+			case "sub_title":
+				return ec.fieldContext_Book_sub_title(ctx, field)
+			case "asin":
+				return ec.fieldContext_Book_asin(ctx, field)
 			}
 			return nil, fmt.Errorf("no field named %q was found under type Book", field.Name)
 		},
@@ -4706,76 +4197,46 @@ func (ec *executionContext) fieldContext_Query_getBookByID(ctx context.Context, 
 			switch field.Name {
 			case "id":
 				return ec.fieldContext_Book_id(ctx, field)
-			case "default_user_id":
-				return ec.fieldContext_Book_default_user_id(ctx, field)
-			case "title":
-				return ec.fieldContext_Book_title(ctx, field)
+			case "story_id":
+				return ec.fieldContext_Book_story_id(ctx, field)
 			case "author":
 				return ec.fieldContext_Book_author(ctx, field)
-			case "editor":
-				return ec.fieldContext_Book_editor(ctx, field)
-			case "illustrator":
-				return ec.fieldContext_Book_illustrator(ctx, field)
-			case "Synopsis":
-				return ec.fieldContext_Book_Synopsis(ctx, field)
-			case "condition":
-				return ec.fieldContext_Book_condition(ctx, field)
 			case "cover_image":
 				return ec.fieldContext_Book_cover_image(ctx, field)
 			case "date_created":
 				return ec.fieldContext_Book_date_created(ctx, field)
 			case "date_updated":
 				return ec.fieldContext_Book_date_updated(ctx, field)
-			case "date_published":
-				return ec.fieldContext_Book_date_published(ctx, field)
-			case "date_copyright":
-				return ec.fieldContext_Book_date_copyright(ctx, field)
-			case "guided_reading_level":
-				return ec.fieldContext_Book_guided_reading_level(ctx, field)
-			case "lexile_level":
-				return ec.fieldContext_Book_lexile_level(ctx, field)
-			case "location":
-				return ec.fieldContext_Book_location(ctx, field)
-			case "mentor_text":
-				return ec.fieldContext_Book_mentor_text(ctx, field)
-			case "multiple_pov":
-				return ec.fieldContext_Book_multiple_pov(ctx, field)
-			case "price":
-				return ec.fieldContext_Book_price(ctx, field)
-			case "qty_label":
-				return ec.fieldContext_Book_qty_label(ctx, field)
-			case "series":
-				return ec.fieldContext_Book_series(ctx, field)
-			case "series_name":
-				return ec.fieldContext_Book_series_name(ctx, field)
-			case "series_pos":
-				return ec.fieldContext_Book_series_pos(ctx, field)
-			case "tags":
-				return ec.fieldContext_Book_tags(ctx, field)
-			case "teacher_notes":
-				return ec.fieldContext_Book_teacher_notes(ctx, field)
-			case "teacher_read":
-				return ec.fieldContext_Book_teacher_read(ctx, field)
-			case "text_complexity":
-				return ec.fieldContext_Book_text_complexity(ctx, field)
-			case "unpaged":
-				return ec.fieldContext_Book_unpaged(ctx, field)
-			case "unreliable_narrative":
-				return ec.fieldContext_Book_unreliable_narrative(ctx, field)
-			case "user_id":
-				return ec.fieldContext_Book_user_id(ctx, field)
-			case "entered_user_id":
-				return ec.fieldContext_Book_entered_user_id(ctx, field)
-			case "want_for_classroom":
-				return ec.fieldContext_Book_want_for_classroom(ctx, field)
-			case "want_to_discard":
-				return ec.fieldContext_Book_want_to_discard(ctx, field)
+			case "default_user_id":
+				return ec.fieldContext_Book_default_user_id(ctx, field)
+			case "foreword":
+				return ec.fieldContext_Book_foreword(ctx, field)
+			case "editor":
+				return ec.fieldContext_Book_editor(ctx, field)
+			case "illustrator":
+				return ec.fieldContext_Book_illustrator(ctx, field)
+			case "isbn_10":
+				return ec.fieldContext_Book_isbn_10(ctx, field)
+			case "isbn_13":
+				return ec.fieldContext_Book_isbn_13(ctx, field)
+			case "num_pages":
+				return ec.fieldContext_Book_num_pages(ctx, field)
+			case "pub_date":
+				return ec.fieldContext_Book_pub_date(ctx, field)
+			case "copyright_date":
+				return ec.fieldContext_Book_copyright_date(ctx, field)
+			case "edition":
+				return ec.fieldContext_Book_edition(ctx, field)
+			case "synopsis":
+				return ec.fieldContext_Book_synopsis(ctx, field)
+			case "title":
+				return ec.fieldContext_Book_title(ctx, field)
 			case "word_count":
 				return ec.fieldContext_Book_word_count(ctx, field)
-			case "words_per_page":
-				return ec.fieldContext_Book_words_per_page(ctx, field)
-			case "current_user_id":
-				return ec.fieldContext_Book_current_user_id(ctx, field)
+			case "sub_title":
+				return ec.fieldContext_Book_sub_title(ctx, field)
+			case "asin":
+				return ec.fieldContext_Book_asin(ctx, field)
 			}
 			return nil, fmt.Errorf("no field named %q was found under type Book", field.Name)
 		},
@@ -9330,6 +8791,1374 @@ func (ec *executionContext) fieldContext_User_email(ctx context.Context, field g
 	return fc, nil
 }
 
+func (ec *executionContext) _UserBook_id(ctx context.Context, field graphql.CollectedField, obj *model.UserBook) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_UserBook_id(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Id, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(int)
+	fc.Result = res
+	return ec.marshalNID2int(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_UserBook_id(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "UserBook",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type ID does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _UserBook_book_id(ctx context.Context, field graphql.CollectedField, obj *model.UserBook) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_UserBook_book_id(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Book_id, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(int)
+	fc.Result = res
+	return ec.marshalNID2int(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_UserBook_book_id(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "UserBook",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type ID does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _UserBook_book_type(ctx context.Context, field graphql.CollectedField, obj *model.UserBook) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_UserBook_book_type(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Book_type, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(int)
+	fc.Result = res
+	return ec.marshalOInt2int(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_UserBook_book_type(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "UserBook",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type Int does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _UserBook_checkout_status(ctx context.Context, field graphql.CollectedField, obj *model.UserBook) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_UserBook_checkout_status(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Checkout_status, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(int)
+	fc.Result = res
+	return ec.marshalNInt2int(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_UserBook_checkout_status(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "UserBook",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type Int does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _UserBook_condition(ctx context.Context, field graphql.CollectedField, obj *model.UserBook) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_UserBook_condition(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Condition, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(int)
+	fc.Result = res
+	return ec.marshalOInt2int(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_UserBook_condition(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "UserBook",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type Int does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _UserBook_cover_image(ctx context.Context, field graphql.CollectedField, obj *model.UserBook) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_UserBook_cover_image(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Cover_image, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(string)
+	fc.Result = res
+	return ec.marshalOString2string(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_UserBook_cover_image(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "UserBook",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type String does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _UserBook_date_created(ctx context.Context, field graphql.CollectedField, obj *model.UserBook) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_UserBook_date_created(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Date_created, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(time.Time)
+	fc.Result = res
+	return ec.marshalOTime2timeᚐTime(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_UserBook_date_created(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "UserBook",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type Time does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _UserBook_date_updated(ctx context.Context, field graphql.CollectedField, obj *model.UserBook) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_UserBook_date_updated(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Date_updated, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(time.Time)
+	fc.Result = res
+	return ec.marshalOTime2timeᚐTime(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_UserBook_date_updated(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "UserBook",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type Time does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _UserBook_format(ctx context.Context, field graphql.CollectedField, obj *model.UserBook) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_UserBook_format(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Format, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(int)
+	fc.Result = res
+	return ec.marshalOInt2int(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_UserBook_format(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "UserBook",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type Int does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _UserBook_guided_reading_level(ctx context.Context, field graphql.CollectedField, obj *model.UserBook) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_UserBook_guided_reading_level(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Guided_reading_level, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(string)
+	fc.Result = res
+	return ec.marshalOString2string(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_UserBook_guided_reading_level(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "UserBook",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type String does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _UserBook_lexile_level(ctx context.Context, field graphql.CollectedField, obj *model.UserBook) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_UserBook_lexile_level(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Lexile_level, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(int)
+	fc.Result = res
+	return ec.marshalOInt2int(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_UserBook_lexile_level(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "UserBook",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type Int does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _UserBook_location(ctx context.Context, field graphql.CollectedField, obj *model.UserBook) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_UserBook_location(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Location, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(int)
+	fc.Result = res
+	return ec.marshalOInt2int(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_UserBook_location(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "UserBook",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type Int does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _UserBook_mentor_text(ctx context.Context, field graphql.CollectedField, obj *model.UserBook) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_UserBook_mentor_text(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Mentor_text, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(int)
+	fc.Result = res
+	return ec.marshalOInt2int(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_UserBook_mentor_text(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "UserBook",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type Int does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _UserBook_multiple_pov(ctx context.Context, field graphql.CollectedField, obj *model.UserBook) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_UserBook_multiple_pov(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Multiple_pov, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(int)
+	fc.Result = res
+	return ec.marshalOInt2int(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_UserBook_multiple_pov(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "UserBook",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type Int does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _UserBook_price(ctx context.Context, field graphql.CollectedField, obj *model.UserBook) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_UserBook_price(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Price, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(float64)
+	fc.Result = res
+	return ec.marshalOFloat2float64(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_UserBook_price(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "UserBook",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type Float does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _UserBook_qty_label(ctx context.Context, field graphql.CollectedField, obj *model.UserBook) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_UserBook_qty_label(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return ec.resolvers.UserBook().QtyLabel(rctx, obj)
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(*int)
+	fc.Result = res
+	return ec.marshalOInt2ᚖint(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_UserBook_qty_label(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "UserBook",
+		Field:      field,
+		IsMethod:   true,
+		IsResolver: true,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type Int does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _UserBook_series(ctx context.Context, field graphql.CollectedField, obj *model.UserBook) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_UserBook_series(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Series, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(int)
+	fc.Result = res
+	return ec.marshalOInt2int(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_UserBook_series(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "UserBook",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type Int does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _UserBook_series_name(ctx context.Context, field graphql.CollectedField, obj *model.UserBook) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_UserBook_series_name(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Series_name, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(string)
+	fc.Result = res
+	return ec.marshalOString2string(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_UserBook_series_name(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "UserBook",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type String does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _UserBook_series_pos(ctx context.Context, field graphql.CollectedField, obj *model.UserBook) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_UserBook_series_pos(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Series_pos, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(int)
+	fc.Result = res
+	return ec.marshalOInt2int(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_UserBook_series_pos(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "UserBook",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type Int does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _UserBook_tags(ctx context.Context, field graphql.CollectedField, obj *model.UserBook) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_UserBook_tags(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Tags, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(string)
+	fc.Result = res
+	return ec.marshalOString2string(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_UserBook_tags(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "UserBook",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type String does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _UserBook_teacher_notes(ctx context.Context, field graphql.CollectedField, obj *model.UserBook) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_UserBook_teacher_notes(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Teacher_notes, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(string)
+	fc.Result = res
+	return ec.marshalOString2string(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_UserBook_teacher_notes(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "UserBook",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type String does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _UserBook_teacher_read(ctx context.Context, field graphql.CollectedField, obj *model.UserBook) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_UserBook_teacher_read(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Teacher_read, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(int)
+	fc.Result = res
+	return ec.marshalOInt2int(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_UserBook_teacher_read(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "UserBook",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type Int does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _UserBook_text_complexity(ctx context.Context, field graphql.CollectedField, obj *model.UserBook) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_UserBook_text_complexity(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Text_complexity, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(int)
+	fc.Result = res
+	return ec.marshalOInt2int(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_UserBook_text_complexity(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "UserBook",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type Int does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _UserBook_unpaged(ctx context.Context, field graphql.CollectedField, obj *model.UserBook) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_UserBook_unpaged(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Unpaged, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(int)
+	fc.Result = res
+	return ec.marshalNInt2int(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_UserBook_unpaged(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "UserBook",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type Int does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _UserBook_unreliable_narrative(ctx context.Context, field graphql.CollectedField, obj *model.UserBook) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_UserBook_unreliable_narrative(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Unreliable_narrative, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(int)
+	fc.Result = res
+	return ec.marshalOInt2int(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_UserBook_unreliable_narrative(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "UserBook",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type Int does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _UserBook_user_id(ctx context.Context, field graphql.CollectedField, obj *model.UserBook) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_UserBook_user_id(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.User_id, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(int)
+	fc.Result = res
+	return ec.marshalOInt2int(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_UserBook_user_id(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "UserBook",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type Int does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _UserBook_entered_user_id(ctx context.Context, field graphql.CollectedField, obj *model.UserBook) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_UserBook_entered_user_id(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Entered_user_id, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(int)
+	fc.Result = res
+	return ec.marshalOID2int(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_UserBook_entered_user_id(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "UserBook",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type ID does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _UserBook_want_for_classroom(ctx context.Context, field graphql.CollectedField, obj *model.UserBook) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_UserBook_want_for_classroom(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Want_for_classroom, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(int)
+	fc.Result = res
+	return ec.marshalOInt2int(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_UserBook_want_for_classroom(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "UserBook",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type Int does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _UserBook_own_this_copy(ctx context.Context, field graphql.CollectedField, obj *model.UserBook) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_UserBook_own_this_copy(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Own_this_copy, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(int)
+	fc.Result = res
+	return ec.marshalNInt2int(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_UserBook_own_this_copy(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "UserBook",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type Int does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _UserBook_want_to_discard(ctx context.Context, field graphql.CollectedField, obj *model.UserBook) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_UserBook_want_to_discard(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Want_to_discard, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(int)
+	fc.Result = res
+	return ec.marshalOInt2int(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_UserBook_want_to_discard(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "UserBook",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type Int does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _UserBook_word_count(ctx context.Context, field graphql.CollectedField, obj *model.UserBook) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_UserBook_word_count(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Word_count, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(int)
+	fc.Result = res
+	return ec.marshalOInt2int(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_UserBook_word_count(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "UserBook",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type Int does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _UserBook_words_per_page(ctx context.Context, field graphql.CollectedField, obj *model.UserBook) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_UserBook_words_per_page(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Words_per_page, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(int)
+	fc.Result = res
+	return ec.marshalOInt2int(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_UserBook_words_per_page(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "UserBook",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type Int does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _UserBook_current_user_id(ctx context.Context, field graphql.CollectedField, obj *model.UserBook) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_UserBook_current_user_id(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Current_user_id, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(int)
+	fc.Result = res
+	return ec.marshalOInt2int(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_UserBook_current_user_id(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "UserBook",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type Int does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
 func (ec *executionContext) ___Directive_name(ctx context.Context, field graphql.CollectedField, obj *introspection.Directive) (ret graphql.Marshaler) {
 	fc, err := ec.fieldContext___Directive_name(ctx, field)
 	if err != nil {
@@ -11417,7 +12246,7 @@ func (ec *executionContext) _Book(ctx context.Context, sel ast.SelectionSet, obj
 				return innerFunc(ctx)
 
 			})
-		case "default_user_id":
+		case "story_id":
 			field := field
 
 			innerFunc := func(ctx context.Context) (res graphql.Marshaler) {
@@ -11426,24 +12255,7 @@ func (ec *executionContext) _Book(ctx context.Context, sel ast.SelectionSet, obj
 						ec.Error(ctx, ec.Recover(ctx, r))
 					}
 				}()
-				res = ec._Book_default_user_id(ctx, field, obj)
-				return res
-			}
-
-			out.Concurrently(i, func() graphql.Marshaler {
-				return innerFunc(ctx)
-
-			})
-		case "title":
-			field := field
-
-			innerFunc := func(ctx context.Context) (res graphql.Marshaler) {
-				defer func() {
-					if r := recover(); r != nil {
-						ec.Error(ctx, ec.Recover(ctx, r))
-					}
-				}()
-				res = ec._Book_title(ctx, field, obj)
+				res = ec._Book_story_id(ctx, field, obj)
 				return res
 			}
 
@@ -11461,74 +12273,6 @@ func (ec *executionContext) _Book(ctx context.Context, sel ast.SelectionSet, obj
 					}
 				}()
 				res = ec._Book_author(ctx, field, obj)
-				return res
-			}
-
-			out.Concurrently(i, func() graphql.Marshaler {
-				return innerFunc(ctx)
-
-			})
-		case "editor":
-			field := field
-
-			innerFunc := func(ctx context.Context) (res graphql.Marshaler) {
-				defer func() {
-					if r := recover(); r != nil {
-						ec.Error(ctx, ec.Recover(ctx, r))
-					}
-				}()
-				res = ec._Book_editor(ctx, field, obj)
-				return res
-			}
-
-			out.Concurrently(i, func() graphql.Marshaler {
-				return innerFunc(ctx)
-
-			})
-		case "illustrator":
-			field := field
-
-			innerFunc := func(ctx context.Context) (res graphql.Marshaler) {
-				defer func() {
-					if r := recover(); r != nil {
-						ec.Error(ctx, ec.Recover(ctx, r))
-					}
-				}()
-				res = ec._Book_illustrator(ctx, field, obj)
-				return res
-			}
-
-			out.Concurrently(i, func() graphql.Marshaler {
-				return innerFunc(ctx)
-
-			})
-		case "Synopsis":
-			field := field
-
-			innerFunc := func(ctx context.Context) (res graphql.Marshaler) {
-				defer func() {
-					if r := recover(); r != nil {
-						ec.Error(ctx, ec.Recover(ctx, r))
-					}
-				}()
-				res = ec._Book_Synopsis(ctx, field, obj)
-				return res
-			}
-
-			out.Concurrently(i, func() graphql.Marshaler {
-				return innerFunc(ctx)
-
-			})
-		case "condition":
-			field := field
-
-			innerFunc := func(ctx context.Context) (res graphql.Marshaler) {
-				defer func() {
-					if r := recover(); r != nil {
-						ec.Error(ctx, ec.Recover(ctx, r))
-					}
-				}()
-				res = ec._Book_condition(ctx, field, obj)
 				return res
 			}
 
@@ -11587,7 +12331,7 @@ func (ec *executionContext) _Book(ctx context.Context, sel ast.SelectionSet, obj
 				return innerFunc(ctx)
 
 			})
-		case "date_published":
+		case "default_user_id":
 			field := field
 
 			innerFunc := func(ctx context.Context) (res graphql.Marshaler) {
@@ -11596,279 +12340,7 @@ func (ec *executionContext) _Book(ctx context.Context, sel ast.SelectionSet, obj
 						ec.Error(ctx, ec.Recover(ctx, r))
 					}
 				}()
-				res = ec._Book_date_published(ctx, field, obj)
-				return res
-			}
-
-			out.Concurrently(i, func() graphql.Marshaler {
-				return innerFunc(ctx)
-
-			})
-		case "date_copyright":
-			field := field
-
-			innerFunc := func(ctx context.Context) (res graphql.Marshaler) {
-				defer func() {
-					if r := recover(); r != nil {
-						ec.Error(ctx, ec.Recover(ctx, r))
-					}
-				}()
-				res = ec._Book_date_copyright(ctx, field, obj)
-				return res
-			}
-
-			out.Concurrently(i, func() graphql.Marshaler {
-				return innerFunc(ctx)
-
-			})
-		case "guided_reading_level":
-			field := field
-
-			innerFunc := func(ctx context.Context) (res graphql.Marshaler) {
-				defer func() {
-					if r := recover(); r != nil {
-						ec.Error(ctx, ec.Recover(ctx, r))
-					}
-				}()
-				res = ec._Book_guided_reading_level(ctx, field, obj)
-				return res
-			}
-
-			out.Concurrently(i, func() graphql.Marshaler {
-				return innerFunc(ctx)
-
-			})
-		case "lexile_level":
-			field := field
-
-			innerFunc := func(ctx context.Context) (res graphql.Marshaler) {
-				defer func() {
-					if r := recover(); r != nil {
-						ec.Error(ctx, ec.Recover(ctx, r))
-					}
-				}()
-				res = ec._Book_lexile_level(ctx, field, obj)
-				return res
-			}
-
-			out.Concurrently(i, func() graphql.Marshaler {
-				return innerFunc(ctx)
-
-			})
-		case "location":
-			field := field
-
-			innerFunc := func(ctx context.Context) (res graphql.Marshaler) {
-				defer func() {
-					if r := recover(); r != nil {
-						ec.Error(ctx, ec.Recover(ctx, r))
-					}
-				}()
-				res = ec._Book_location(ctx, field, obj)
-				return res
-			}
-
-			out.Concurrently(i, func() graphql.Marshaler {
-				return innerFunc(ctx)
-
-			})
-		case "mentor_text":
-			field := field
-
-			innerFunc := func(ctx context.Context) (res graphql.Marshaler) {
-				defer func() {
-					if r := recover(); r != nil {
-						ec.Error(ctx, ec.Recover(ctx, r))
-					}
-				}()
-				res = ec._Book_mentor_text(ctx, field, obj)
-				return res
-			}
-
-			out.Concurrently(i, func() graphql.Marshaler {
-				return innerFunc(ctx)
-
-			})
-		case "multiple_pov":
-			field := field
-
-			innerFunc := func(ctx context.Context) (res graphql.Marshaler) {
-				defer func() {
-					if r := recover(); r != nil {
-						ec.Error(ctx, ec.Recover(ctx, r))
-					}
-				}()
-				res = ec._Book_multiple_pov(ctx, field, obj)
-				return res
-			}
-
-			out.Concurrently(i, func() graphql.Marshaler {
-				return innerFunc(ctx)
-
-			})
-		case "price":
-			field := field
-
-			innerFunc := func(ctx context.Context) (res graphql.Marshaler) {
-				defer func() {
-					if r := recover(); r != nil {
-						ec.Error(ctx, ec.Recover(ctx, r))
-					}
-				}()
-				res = ec._Book_price(ctx, field, obj)
-				return res
-			}
-
-			out.Concurrently(i, func() graphql.Marshaler {
-				return innerFunc(ctx)
-
-			})
-		case "qty_label":
-			field := field
-
-			innerFunc := func(ctx context.Context) (res graphql.Marshaler) {
-				defer func() {
-					if r := recover(); r != nil {
-						ec.Error(ctx, ec.Recover(ctx, r))
-					}
-				}()
-				res = ec._Book_qty_label(ctx, field, obj)
-				return res
-			}
-
-			out.Concurrently(i, func() graphql.Marshaler {
-				return innerFunc(ctx)
-
-			})
-		case "series":
-			field := field
-
-			innerFunc := func(ctx context.Context) (res graphql.Marshaler) {
-				defer func() {
-					if r := recover(); r != nil {
-						ec.Error(ctx, ec.Recover(ctx, r))
-					}
-				}()
-				res = ec._Book_series(ctx, field, obj)
-				return res
-			}
-
-			out.Concurrently(i, func() graphql.Marshaler {
-				return innerFunc(ctx)
-
-			})
-		case "series_name":
-			field := field
-
-			innerFunc := func(ctx context.Context) (res graphql.Marshaler) {
-				defer func() {
-					if r := recover(); r != nil {
-						ec.Error(ctx, ec.Recover(ctx, r))
-					}
-				}()
-				res = ec._Book_series_name(ctx, field, obj)
-				return res
-			}
-
-			out.Concurrently(i, func() graphql.Marshaler {
-				return innerFunc(ctx)
-
-			})
-		case "series_pos":
-			field := field
-
-			innerFunc := func(ctx context.Context) (res graphql.Marshaler) {
-				defer func() {
-					if r := recover(); r != nil {
-						ec.Error(ctx, ec.Recover(ctx, r))
-					}
-				}()
-				res = ec._Book_series_pos(ctx, field, obj)
-				return res
-			}
-
-			out.Concurrently(i, func() graphql.Marshaler {
-				return innerFunc(ctx)
-
-			})
-		case "tags":
-			field := field
-
-			innerFunc := func(ctx context.Context) (res graphql.Marshaler) {
-				defer func() {
-					if r := recover(); r != nil {
-						ec.Error(ctx, ec.Recover(ctx, r))
-					}
-				}()
-				res = ec._Book_tags(ctx, field, obj)
-				return res
-			}
-
-			out.Concurrently(i, func() graphql.Marshaler {
-				return innerFunc(ctx)
-
-			})
-		case "teacher_notes":
-			field := field
-
-			innerFunc := func(ctx context.Context) (res graphql.Marshaler) {
-				defer func() {
-					if r := recover(); r != nil {
-						ec.Error(ctx, ec.Recover(ctx, r))
-					}
-				}()
-				res = ec._Book_teacher_notes(ctx, field, obj)
-				return res
-			}
-
-			out.Concurrently(i, func() graphql.Marshaler {
-				return innerFunc(ctx)
-
-			})
-		case "teacher_read":
-			field := field
-
-			innerFunc := func(ctx context.Context) (res graphql.Marshaler) {
-				defer func() {
-					if r := recover(); r != nil {
-						ec.Error(ctx, ec.Recover(ctx, r))
-					}
-				}()
-				res = ec._Book_teacher_read(ctx, field, obj)
-				return res
-			}
-
-			out.Concurrently(i, func() graphql.Marshaler {
-				return innerFunc(ctx)
-
-			})
-		case "text_complexity":
-			field := field
-
-			innerFunc := func(ctx context.Context) (res graphql.Marshaler) {
-				defer func() {
-					if r := recover(); r != nil {
-						ec.Error(ctx, ec.Recover(ctx, r))
-					}
-				}()
-				res = ec._Book_text_complexity(ctx, field, obj)
-				return res
-			}
-
-			out.Concurrently(i, func() graphql.Marshaler {
-				return innerFunc(ctx)
-
-			})
-		case "unpaged":
-			field := field
-
-			innerFunc := func(ctx context.Context) (res graphql.Marshaler) {
-				defer func() {
-					if r := recover(); r != nil {
-						ec.Error(ctx, ec.Recover(ctx, r))
-					}
-				}()
-				res = ec._Book_unpaged(ctx, field, obj)
+				res = ec._Book_default_user_id(ctx, field, obj)
 				if res == graphql.Null {
 					atomic.AddUint32(&invalids, 1)
 				}
@@ -11879,7 +12351,7 @@ func (ec *executionContext) _Book(ctx context.Context, sel ast.SelectionSet, obj
 				return innerFunc(ctx)
 
 			})
-		case "unreliable_narrative":
+		case "foreword":
 			field := field
 
 			innerFunc := func(ctx context.Context) (res graphql.Marshaler) {
@@ -11888,7 +12360,7 @@ func (ec *executionContext) _Book(ctx context.Context, sel ast.SelectionSet, obj
 						ec.Error(ctx, ec.Recover(ctx, r))
 					}
 				}()
-				res = ec._Book_unreliable_narrative(ctx, field, obj)
+				res = ec._Book_foreword(ctx, field, obj)
 				return res
 			}
 
@@ -11896,7 +12368,7 @@ func (ec *executionContext) _Book(ctx context.Context, sel ast.SelectionSet, obj
 				return innerFunc(ctx)
 
 			})
-		case "user_id":
+		case "editor":
 			field := field
 
 			innerFunc := func(ctx context.Context) (res graphql.Marshaler) {
@@ -11905,7 +12377,7 @@ func (ec *executionContext) _Book(ctx context.Context, sel ast.SelectionSet, obj
 						ec.Error(ctx, ec.Recover(ctx, r))
 					}
 				}()
-				res = ec._Book_user_id(ctx, field, obj)
+				res = ec._Book_editor(ctx, field, obj)
 				return res
 			}
 
@@ -11913,7 +12385,7 @@ func (ec *executionContext) _Book(ctx context.Context, sel ast.SelectionSet, obj
 				return innerFunc(ctx)
 
 			})
-		case "entered_user_id":
+		case "illustrator":
 			field := field
 
 			innerFunc := func(ctx context.Context) (res graphql.Marshaler) {
@@ -11922,7 +12394,7 @@ func (ec *executionContext) _Book(ctx context.Context, sel ast.SelectionSet, obj
 						ec.Error(ctx, ec.Recover(ctx, r))
 					}
 				}()
-				res = ec._Book_entered_user_id(ctx, field, obj)
+				res = ec._Book_illustrator(ctx, field, obj)
 				return res
 			}
 
@@ -11930,7 +12402,7 @@ func (ec *executionContext) _Book(ctx context.Context, sel ast.SelectionSet, obj
 				return innerFunc(ctx)
 
 			})
-		case "want_for_classroom":
+		case "isbn_10":
 			field := field
 
 			innerFunc := func(ctx context.Context) (res graphql.Marshaler) {
@@ -11939,7 +12411,7 @@ func (ec *executionContext) _Book(ctx context.Context, sel ast.SelectionSet, obj
 						ec.Error(ctx, ec.Recover(ctx, r))
 					}
 				}()
-				res = ec._Book_want_for_classroom(ctx, field, obj)
+				res = ec._Book_isbn_10(ctx, field, obj)
 				return res
 			}
 
@@ -11947,7 +12419,7 @@ func (ec *executionContext) _Book(ctx context.Context, sel ast.SelectionSet, obj
 				return innerFunc(ctx)
 
 			})
-		case "want_to_discard":
+		case "isbn_13":
 			field := field
 
 			innerFunc := func(ctx context.Context) (res graphql.Marshaler) {
@@ -11956,7 +12428,109 @@ func (ec *executionContext) _Book(ctx context.Context, sel ast.SelectionSet, obj
 						ec.Error(ctx, ec.Recover(ctx, r))
 					}
 				}()
-				res = ec._Book_want_to_discard(ctx, field, obj)
+				res = ec._Book_isbn_13(ctx, field, obj)
+				return res
+			}
+
+			out.Concurrently(i, func() graphql.Marshaler {
+				return innerFunc(ctx)
+
+			})
+		case "num_pages":
+			field := field
+
+			innerFunc := func(ctx context.Context) (res graphql.Marshaler) {
+				defer func() {
+					if r := recover(); r != nil {
+						ec.Error(ctx, ec.Recover(ctx, r))
+					}
+				}()
+				res = ec._Book_num_pages(ctx, field, obj)
+				return res
+			}
+
+			out.Concurrently(i, func() graphql.Marshaler {
+				return innerFunc(ctx)
+
+			})
+		case "pub_date":
+			field := field
+
+			innerFunc := func(ctx context.Context) (res graphql.Marshaler) {
+				defer func() {
+					if r := recover(); r != nil {
+						ec.Error(ctx, ec.Recover(ctx, r))
+					}
+				}()
+				res = ec._Book_pub_date(ctx, field, obj)
+				return res
+			}
+
+			out.Concurrently(i, func() graphql.Marshaler {
+				return innerFunc(ctx)
+
+			})
+		case "copyright_date":
+			field := field
+
+			innerFunc := func(ctx context.Context) (res graphql.Marshaler) {
+				defer func() {
+					if r := recover(); r != nil {
+						ec.Error(ctx, ec.Recover(ctx, r))
+					}
+				}()
+				res = ec._Book_copyright_date(ctx, field, obj)
+				return res
+			}
+
+			out.Concurrently(i, func() graphql.Marshaler {
+				return innerFunc(ctx)
+
+			})
+		case "edition":
+			field := field
+
+			innerFunc := func(ctx context.Context) (res graphql.Marshaler) {
+				defer func() {
+					if r := recover(); r != nil {
+						ec.Error(ctx, ec.Recover(ctx, r))
+					}
+				}()
+				res = ec._Book_edition(ctx, field, obj)
+				return res
+			}
+
+			out.Concurrently(i, func() graphql.Marshaler {
+				return innerFunc(ctx)
+
+			})
+		case "synopsis":
+			field := field
+
+			innerFunc := func(ctx context.Context) (res graphql.Marshaler) {
+				defer func() {
+					if r := recover(); r != nil {
+						ec.Error(ctx, ec.Recover(ctx, r))
+					}
+				}()
+				res = ec._Book_synopsis(ctx, field, obj)
+				return res
+			}
+
+			out.Concurrently(i, func() graphql.Marshaler {
+				return innerFunc(ctx)
+
+			})
+		case "title":
+			field := field
+
+			innerFunc := func(ctx context.Context) (res graphql.Marshaler) {
+				defer func() {
+					if r := recover(); r != nil {
+						ec.Error(ctx, ec.Recover(ctx, r))
+					}
+				}()
+				res = ec._Book_title(ctx, field, obj)
 				return res
 			}
 
@@ -11981,7 +12555,7 @@ func (ec *executionContext) _Book(ctx context.Context, sel ast.SelectionSet, obj
 				return innerFunc(ctx)
 
 			})
-		case "words_per_page":
+		case "sub_title":
 			field := field
 
 			innerFunc := func(ctx context.Context) (res graphql.Marshaler) {
@@ -11990,7 +12564,7 @@ func (ec *executionContext) _Book(ctx context.Context, sel ast.SelectionSet, obj
 						ec.Error(ctx, ec.Recover(ctx, r))
 					}
 				}()
-				res = ec._Book_words_per_page(ctx, field, obj)
+				res = ec._Book_sub_title(ctx, field, obj)
 				return res
 			}
 
@@ -11998,7 +12572,7 @@ func (ec *executionContext) _Book(ctx context.Context, sel ast.SelectionSet, obj
 				return innerFunc(ctx)
 
 			})
-		case "current_user_id":
+		case "asin":
 			field := field
 
 			innerFunc := func(ctx context.Context) (res graphql.Marshaler) {
@@ -12007,7 +12581,7 @@ func (ec *executionContext) _Book(ctx context.Context, sel ast.SelectionSet, obj
 						ec.Error(ctx, ec.Recover(ctx, r))
 					}
 				}()
-				res = ec._Book_current_user_id(ctx, field, obj)
+				res = ec._Book_asin(ctx, field, obj)
 				return res
 			}
 
@@ -13009,6 +13583,187 @@ func (ec *executionContext) _User(ctx context.Context, sel ast.SelectionSet, obj
 	return out
 }
 
+var userBookImplementors = []string{"UserBook"}
+
+func (ec *executionContext) _UserBook(ctx context.Context, sel ast.SelectionSet, obj *model.UserBook) graphql.Marshaler {
+	fields := graphql.CollectFields(ec.OperationContext, sel, userBookImplementors)
+	out := graphql.NewFieldSet(fields)
+	var invalids uint32
+	for i, field := range fields {
+		switch field.Name {
+		case "__typename":
+			out.Values[i] = graphql.MarshalString("UserBook")
+		case "id":
+
+			out.Values[i] = ec._UserBook_id(ctx, field, obj)
+
+			if out.Values[i] == graphql.Null {
+				atomic.AddUint32(&invalids, 1)
+			}
+		case "book_id":
+
+			out.Values[i] = ec._UserBook_book_id(ctx, field, obj)
+
+			if out.Values[i] == graphql.Null {
+				atomic.AddUint32(&invalids, 1)
+			}
+		case "book_type":
+
+			out.Values[i] = ec._UserBook_book_type(ctx, field, obj)
+
+		case "checkout_status":
+
+			out.Values[i] = ec._UserBook_checkout_status(ctx, field, obj)
+
+			if out.Values[i] == graphql.Null {
+				atomic.AddUint32(&invalids, 1)
+			}
+		case "condition":
+
+			out.Values[i] = ec._UserBook_condition(ctx, field, obj)
+
+		case "cover_image":
+
+			out.Values[i] = ec._UserBook_cover_image(ctx, field, obj)
+
+		case "date_created":
+
+			out.Values[i] = ec._UserBook_date_created(ctx, field, obj)
+
+		case "date_updated":
+
+			out.Values[i] = ec._UserBook_date_updated(ctx, field, obj)
+
+		case "format":
+
+			out.Values[i] = ec._UserBook_format(ctx, field, obj)
+
+		case "guided_reading_level":
+
+			out.Values[i] = ec._UserBook_guided_reading_level(ctx, field, obj)
+
+		case "lexile_level":
+
+			out.Values[i] = ec._UserBook_lexile_level(ctx, field, obj)
+
+		case "location":
+
+			out.Values[i] = ec._UserBook_location(ctx, field, obj)
+
+		case "mentor_text":
+
+			out.Values[i] = ec._UserBook_mentor_text(ctx, field, obj)
+
+		case "multiple_pov":
+
+			out.Values[i] = ec._UserBook_multiple_pov(ctx, field, obj)
+
+		case "price":
+
+			out.Values[i] = ec._UserBook_price(ctx, field, obj)
+
+		case "qty_label":
+			field := field
+
+			innerFunc := func(ctx context.Context) (res graphql.Marshaler) {
+				defer func() {
+					if r := recover(); r != nil {
+						ec.Error(ctx, ec.Recover(ctx, r))
+					}
+				}()
+				res = ec._UserBook_qty_label(ctx, field, obj)
+				return res
+			}
+
+			out.Concurrently(i, func() graphql.Marshaler {
+				return innerFunc(ctx)
+
+			})
+		case "series":
+
+			out.Values[i] = ec._UserBook_series(ctx, field, obj)
+
+		case "series_name":
+
+			out.Values[i] = ec._UserBook_series_name(ctx, field, obj)
+
+		case "series_pos":
+
+			out.Values[i] = ec._UserBook_series_pos(ctx, field, obj)
+
+		case "tags":
+
+			out.Values[i] = ec._UserBook_tags(ctx, field, obj)
+
+		case "teacher_notes":
+
+			out.Values[i] = ec._UserBook_teacher_notes(ctx, field, obj)
+
+		case "teacher_read":
+
+			out.Values[i] = ec._UserBook_teacher_read(ctx, field, obj)
+
+		case "text_complexity":
+
+			out.Values[i] = ec._UserBook_text_complexity(ctx, field, obj)
+
+		case "unpaged":
+
+			out.Values[i] = ec._UserBook_unpaged(ctx, field, obj)
+
+			if out.Values[i] == graphql.Null {
+				atomic.AddUint32(&invalids, 1)
+			}
+		case "unreliable_narrative":
+
+			out.Values[i] = ec._UserBook_unreliable_narrative(ctx, field, obj)
+
+		case "user_id":
+
+			out.Values[i] = ec._UserBook_user_id(ctx, field, obj)
+
+		case "entered_user_id":
+
+			out.Values[i] = ec._UserBook_entered_user_id(ctx, field, obj)
+
+		case "want_for_classroom":
+
+			out.Values[i] = ec._UserBook_want_for_classroom(ctx, field, obj)
+
+		case "own_this_copy":
+
+			out.Values[i] = ec._UserBook_own_this_copy(ctx, field, obj)
+
+			if out.Values[i] == graphql.Null {
+				atomic.AddUint32(&invalids, 1)
+			}
+		case "want_to_discard":
+
+			out.Values[i] = ec._UserBook_want_to_discard(ctx, field, obj)
+
+		case "word_count":
+
+			out.Values[i] = ec._UserBook_word_count(ctx, field, obj)
+
+		case "words_per_page":
+
+			out.Values[i] = ec._UserBook_words_per_page(ctx, field, obj)
+
+		case "current_user_id":
+
+			out.Values[i] = ec._UserBook_current_user_id(ctx, field, obj)
+
+		default:
+			panic("unknown field " + strconv.Quote(field.Name))
+		}
+	}
+	out.Dispatch()
+	if invalids > 0 {
+		return graphql.Null
+	}
+	return out
+}
+
 var __DirectiveImplementors = []string{"__Directive"}
 
 func (ec *executionContext) ___Directive(ctx context.Context, sel ast.SelectionSet, obj *introspection.Directive) graphql.Marshaler {
@@ -13823,19 +14578,13 @@ func (ec *executionContext) marshalOBoolean2ᚖbool(ctx context.Context, sel ast
 	return res
 }
 
-func (ec *executionContext) unmarshalOFloat2ᚖfloat64(ctx context.Context, v interface{}) (*float64, error) {
-	if v == nil {
-		return nil, nil
-	}
+func (ec *executionContext) unmarshalOFloat2float64(ctx context.Context, v interface{}) (float64, error) {
 	res, err := graphql.UnmarshalFloatContext(ctx, v)
-	return &res, graphql.ErrorOnPath(ctx, err)
+	return res, graphql.ErrorOnPath(ctx, err)
 }
 
-func (ec *executionContext) marshalOFloat2ᚖfloat64(ctx context.Context, sel ast.SelectionSet, v *float64) graphql.Marshaler {
-	if v == nil {
-		return graphql.Null
-	}
-	res := graphql.MarshalFloatContext(*v)
+func (ec *executionContext) marshalOFloat2float64(ctx context.Context, sel ast.SelectionSet, v float64) graphql.Marshaler {
+	res := graphql.MarshalFloatContext(v)
 	return graphql.WrapContextMarshaler(ctx, res)
 }
 
@@ -13856,22 +14605,6 @@ func (ec *executionContext) unmarshalOID2string(ctx context.Context, v interface
 
 func (ec *executionContext) marshalOID2string(ctx context.Context, sel ast.SelectionSet, v string) graphql.Marshaler {
 	res := graphql.MarshalID(v)
-	return res
-}
-
-func (ec *executionContext) unmarshalOID2ᚖstring(ctx context.Context, v interface{}) (*string, error) {
-	if v == nil {
-		return nil, nil
-	}
-	res, err := graphql.UnmarshalID(v)
-	return &res, graphql.ErrorOnPath(ctx, err)
-}
-
-func (ec *executionContext) marshalOID2ᚖstring(ctx context.Context, sel ast.SelectionSet, v *string) graphql.Marshaler {
-	if v == nil {
-		return graphql.Null
-	}
-	res := graphql.MarshalID(*v)
 	return res
 }
 

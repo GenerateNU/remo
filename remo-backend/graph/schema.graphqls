@@ -196,7 +196,8 @@ type Book {
     #PRIMARY KEY (`id`)
 }
 
-type user_book {
+# why are these separate? We may never know
+type UserBook {
     id: ID!
     book_id: ID!
     book_type: Int #COMMENT '1=fiction,2=non-ficiton,3=blended',

@@ -12,43 +12,18 @@ import (
 )
 
 // ID is the resolver for the id field.
-func (r *bookResolver) ID(ctx context.Context, obj *model.Book) (string, error) {
+func (r *bookResolver) ID(ctx context.Context, obj *model.Book) (int, error) {
 	panic(fmt.Errorf("not implemented: ID - id"))
 }
 
-// DefaultUserID is the resolver for the default_user_id field.
-func (r *bookResolver) DefaultUserID(ctx context.Context, obj *model.Book) (*string, error) {
-	panic(fmt.Errorf("not implemented: DefaultUserID - default_user_id"))
-}
-
-// Title is the resolver for the title field.
-func (r *bookResolver) Title(ctx context.Context, obj *model.Book) (*string, error) {
-	panic(fmt.Errorf("not implemented: Title - title"))
+// StoryID is the resolver for the story_id field.
+func (r *bookResolver) StoryID(ctx context.Context, obj *model.Book) (*int, error) {
+	panic(fmt.Errorf("not implemented: StoryID - story_id"))
 }
 
 // Author is the resolver for the author field.
 func (r *bookResolver) Author(ctx context.Context, obj *model.Book) (*string, error) {
 	panic(fmt.Errorf("not implemented: Author - author"))
-}
-
-// Editor is the resolver for the editor field.
-func (r *bookResolver) Editor(ctx context.Context, obj *model.Book) (*string, error) {
-	panic(fmt.Errorf("not implemented: Editor - editor"))
-}
-
-// Illustrator is the resolver for the illustrator field.
-func (r *bookResolver) Illustrator(ctx context.Context, obj *model.Book) (*string, error) {
-	panic(fmt.Errorf("not implemented: Illustrator - illustrator"))
-}
-
-// Synopsis is the resolver for the Synopsis field.
-func (r *bookResolver) Synopsis(ctx context.Context, obj *model.Book) (*string, error) {
-	panic(fmt.Errorf("not implemented: Synopsis - Synopsis"))
-}
-
-// Condition is the resolver for the condition field.
-func (r *bookResolver) Condition(ctx context.Context, obj *model.Book) (*int, error) {
-	panic(fmt.Errorf("not implemented: Condition - condition"))
 }
 
 // CoverImage is the resolver for the cover_image field.
@@ -66,114 +41,64 @@ func (r *bookResolver) DateUpdated(ctx context.Context, obj *model.Book) (*time.
 	panic(fmt.Errorf("not implemented: DateUpdated - date_updated"))
 }
 
-// DatePublished is the resolver for the date_published field.
-func (r *bookResolver) DatePublished(ctx context.Context, obj *model.Book) (*time.Time, error) {
-	panic(fmt.Errorf("not implemented: DatePublished - date_published"))
+// DefaultUserID is the resolver for the default_user_id field.
+func (r *bookResolver) DefaultUserID(ctx context.Context, obj *model.Book) (int, error) {
+	panic(fmt.Errorf("not implemented: DefaultUserID - default_user_id"))
 }
 
-// DateCopyright is the resolver for the date_copyright field.
-func (r *bookResolver) DateCopyright(ctx context.Context, obj *model.Book) (*time.Time, error) {
-	panic(fmt.Errorf("not implemented: DateCopyright - date_copyright"))
+// Foreword is the resolver for the foreword field.
+func (r *bookResolver) Foreword(ctx context.Context, obj *model.Book) (*string, error) {
+	panic(fmt.Errorf("not implemented: Foreword - foreword"))
 }
 
-// GuidedReadingLevel is the resolver for the guided_reading_level field.
-func (r *bookResolver) GuidedReadingLevel(ctx context.Context, obj *model.Book) (*string, error) {
-	panic(fmt.Errorf("not implemented: GuidedReadingLevel - guided_reading_level"))
+// Editor is the resolver for the editor field.
+func (r *bookResolver) Editor(ctx context.Context, obj *model.Book) (*string, error) {
+	panic(fmt.Errorf("not implemented: Editor - editor"))
 }
 
-// LexileLevel is the resolver for the lexile_level field.
-func (r *bookResolver) LexileLevel(ctx context.Context, obj *model.Book) (*int, error) {
-	panic(fmt.Errorf("not implemented: LexileLevel - lexile_level"))
+// Illustrator is the resolver for the illustrator field.
+func (r *bookResolver) Illustrator(ctx context.Context, obj *model.Book) (*string, error) {
+	panic(fmt.Errorf("not implemented: Illustrator - illustrator"))
 }
 
-// Location is the resolver for the location field.
-func (r *bookResolver) Location(ctx context.Context, obj *model.Book) (*int, error) {
-	panic(fmt.Errorf("not implemented: Location - location"))
+// Isbn10 is the resolver for the isbn_10 field.
+func (r *bookResolver) Isbn10(ctx context.Context, obj *model.Book) (*string, error) {
+	panic(fmt.Errorf("not implemented: Isbn10 - isbn_10"))
 }
 
-// MentorText is the resolver for the mentor_text field.
-func (r *bookResolver) MentorText(ctx context.Context, obj *model.Book) (*int, error) {
-	panic(fmt.Errorf("not implemented: MentorText - mentor_text"))
+// Isbn13 is the resolver for the isbn_13 field.
+func (r *bookResolver) Isbn13(ctx context.Context, obj *model.Book) (*int, error) {
+	panic(fmt.Errorf("not implemented: Isbn13 - isbn_13"))
 }
 
-// MultiplePov is the resolver for the multiple_pov field.
-func (r *bookResolver) MultiplePov(ctx context.Context, obj *model.Book) (*int, error) {
-	panic(fmt.Errorf("not implemented: MultiplePov - multiple_pov"))
+// NumPages is the resolver for the num_pages field.
+func (r *bookResolver) NumPages(ctx context.Context, obj *model.Book) (*int, error) {
+	panic(fmt.Errorf("not implemented: NumPages - num_pages"))
 }
 
-// Price is the resolver for the price field.
-func (r *bookResolver) Price(ctx context.Context, obj *model.Book) (*float64, error) {
-	panic(fmt.Errorf("not implemented: Price - price"))
+// PubDate is the resolver for the pub_date field.
+func (r *bookResolver) PubDate(ctx context.Context, obj *model.Book) (*int, error) {
+	panic(fmt.Errorf("not implemented: PubDate - pub_date"))
 }
 
-// QtyLabel is the resolver for the qty_label field.
-func (r *bookResolver) QtyLabel(ctx context.Context, obj *model.Book) (*int, error) {
-	panic(fmt.Errorf("not implemented: QtyLabel - qty_label"))
+// CopyrightDate is the resolver for the copyright_date field.
+func (r *bookResolver) CopyrightDate(ctx context.Context, obj *model.Book) (*int, error) {
+	panic(fmt.Errorf("not implemented: CopyrightDate - copyright_date"))
 }
 
-// Series is the resolver for the series field.
-func (r *bookResolver) Series(ctx context.Context, obj *model.Book) (*int, error) {
-	panic(fmt.Errorf("not implemented: Series - series"))
+// Edition is the resolver for the edition field.
+func (r *bookResolver) Edition(ctx context.Context, obj *model.Book) (*int, error) {
+	panic(fmt.Errorf("not implemented: Edition - edition"))
 }
 
-// SeriesName is the resolver for the series_name field.
-func (r *bookResolver) SeriesName(ctx context.Context, obj *model.Book) (*string, error) {
-	panic(fmt.Errorf("not implemented: SeriesName - series_name"))
+// Synopsis is the resolver for the Synopsis field.
+func (r *bookResolver) Synopsis(ctx context.Context, obj *model.Book) (*string, error) {
+	panic(fmt.Errorf("not implemented: Synopsis - Synopsis"))
 }
 
-// SeriesPos is the resolver for the series_pos field.
-func (r *bookResolver) SeriesPos(ctx context.Context, obj *model.Book) (*int, error) {
-	panic(fmt.Errorf("not implemented: SeriesPos - series_pos"))
-}
-
-// Tags is the resolver for the tags field.
-func (r *bookResolver) Tags(ctx context.Context, obj *model.Book) (*string, error) {
-	panic(fmt.Errorf("not implemented: Tags - tags"))
-}
-
-// TeacherNotes is the resolver for the teacher_notes field.
-func (r *bookResolver) TeacherNotes(ctx context.Context, obj *model.Book) (*string, error) {
-	panic(fmt.Errorf("not implemented: TeacherNotes - teacher_notes"))
-}
-
-// TeacherRead is the resolver for the teacher_read field.
-func (r *bookResolver) TeacherRead(ctx context.Context, obj *model.Book) (*int, error) {
-	panic(fmt.Errorf("not implemented: TeacherRead - teacher_read"))
-}
-
-// TextComplexity is the resolver for the text_complexity field.
-func (r *bookResolver) TextComplexity(ctx context.Context, obj *model.Book) (*int, error) {
-	panic(fmt.Errorf("not implemented: TextComplexity - text_complexity"))
-}
-
-// Unpaged is the resolver for the unpaged field.
-func (r *bookResolver) Unpaged(ctx context.Context, obj *model.Book) (int, error) {
-	panic(fmt.Errorf("not implemented: Unpaged - unpaged"))
-}
-
-// UnreliableNarrative is the resolver for the unreliable_narrative field.
-func (r *bookResolver) UnreliableNarrative(ctx context.Context, obj *model.Book) (*int, error) {
-	panic(fmt.Errorf("not implemented: UnreliableNarrative - unreliable_narrative"))
-}
-
-// UserID is the resolver for the user_id field.
-func (r *bookResolver) UserID(ctx context.Context, obj *model.Book) (*int, error) {
-	panic(fmt.Errorf("not implemented: UserID - user_id"))
-}
-
-// EnteredUserID is the resolver for the entered_user_id field.
-func (r *bookResolver) EnteredUserID(ctx context.Context, obj *model.Book) (*string, error) {
-	panic(fmt.Errorf("not implemented: EnteredUserID - entered_user_id"))
-}
-
-// WantForClassroom is the resolver for the want_for_classroom field.
-func (r *bookResolver) WantForClassroom(ctx context.Context, obj *model.Book) (*int, error) {
-	panic(fmt.Errorf("not implemented: WantForClassroom - want_for_classroom"))
-}
-
-// WantToDiscard is the resolver for the want_to_discard field.
-func (r *bookResolver) WantToDiscard(ctx context.Context, obj *model.Book) (*int, error) {
-	panic(fmt.Errorf("not implemented: WantToDiscard - want_to_discard"))
+// Title is the resolver for the title field.
+func (r *bookResolver) Title(ctx context.Context, obj *model.Book) (*string, error) {
+	panic(fmt.Errorf("not implemented: Title - title"))
 }
 
 // WordCount is the resolver for the word_count field.
@@ -181,14 +106,14 @@ func (r *bookResolver) WordCount(ctx context.Context, obj *model.Book) (*int, er
 	panic(fmt.Errorf("not implemented: WordCount - word_count"))
 }
 
-// WordsPerPage is the resolver for the words_per_page field.
-func (r *bookResolver) WordsPerPage(ctx context.Context, obj *model.Book) (*int, error) {
-	panic(fmt.Errorf("not implemented: WordsPerPage - words_per_page"))
+// SubTitle is the resolver for the sub_title field.
+func (r *bookResolver) SubTitle(ctx context.Context, obj *model.Book) (*string, error) {
+	panic(fmt.Errorf("not implemented: SubTitle - sub_title"))
 }
 
-// CurrentUserID is the resolver for the current_user_id field.
-func (r *bookResolver) CurrentUserID(ctx context.Context, obj *model.Book) (*int, error) {
-	panic(fmt.Errorf("not implemented: CurrentUserID - current_user_id"))
+// Asin is the resolver for the asin field.
+func (r *bookResolver) Asin(ctx context.Context, obj *model.Book) (*string, error) {
+	panic(fmt.Errorf("not implemented: Asin - asin"))
 }
 
 // ClassroomSchoolYear is the resolver for the classroom_school_year field.
@@ -321,6 +246,11 @@ func (r *teacherResolver) TestField(ctx context.Context, obj *model.Teacher) (st
 	panic(fmt.Errorf("not implemented: TestField - test_field"))
 }
 
+// QtyLabel is the resolver for the qty_label field.
+func (r *userBookResolver) QtyLabel(ctx context.Context, obj *model.UserBook) (*int, error) {
+	panic(fmt.Errorf("not implemented: QtyLabel - qty_label"))
+}
+
 // Book returns BookResolver implementation.
 func (r *Resolver) Book() BookResolver { return &bookResolver{r} }
 
@@ -344,6 +274,9 @@ func (r *Resolver) Student() StudentResolver { return &studentResolver{r} }
 // Teacher returns TeacherResolver implementation.
 func (r *Resolver) Teacher() TeacherResolver { return &teacherResolver{r} }
 
+// UserBook returns UserBookResolver implementation.
+func (r *Resolver) UserBook() UserBookResolver { return &userBookResolver{r} }
+
 type bookResolver struct{ *Resolver }
 type classroomResolver struct{ *Resolver }
 type mutationResolver struct{ *Resolver }
@@ -351,6 +284,7 @@ type queryResolver struct{ *Resolver }
 type readingRateResultResolver struct{ *Resolver }
 type studentResolver struct{ *Resolver }
 type teacherResolver struct{ *Resolver }
+type userBookResolver struct{ *Resolver }
 
 // !!! WARNING !!!
 // The code below was going to be deleted when updating resolvers. It has been copied here so you have
@@ -358,6 +292,81 @@ type teacherResolver struct{ *Resolver }
 //   - When renaming or deleting a resolver the old code will be put in here. You can safely delete
 //     it when you're done.
 //   - You have helper methods in this file. Move them out to keep these resolver files clean.
+func (r *bookResolver) Condition(ctx context.Context, obj *model.Book) (*int, error) {
+	panic(fmt.Errorf("not implemented: Condition - condition"))
+}
+func (r *bookResolver) DatePublished(ctx context.Context, obj *model.Book) (*time.Time, error) {
+	panic(fmt.Errorf("not implemented: DatePublished - date_published"))
+}
+func (r *bookResolver) DateCopyright(ctx context.Context, obj *model.Book) (*time.Time, error) {
+	panic(fmt.Errorf("not implemented: DateCopyright - date_copyright"))
+}
+func (r *bookResolver) GuidedReadingLevel(ctx context.Context, obj *model.Book) (*string, error) {
+	panic(fmt.Errorf("not implemented: GuidedReadingLevel - guided_reading_level"))
+}
+func (r *bookResolver) LexileLevel(ctx context.Context, obj *model.Book) (*int, error) {
+	panic(fmt.Errorf("not implemented: LexileLevel - lexile_level"))
+}
+func (r *bookResolver) Location(ctx context.Context, obj *model.Book) (*int, error) {
+	panic(fmt.Errorf("not implemented: Location - location"))
+}
+func (r *bookResolver) MentorText(ctx context.Context, obj *model.Book) (*int, error) {
+	panic(fmt.Errorf("not implemented: MentorText - mentor_text"))
+}
+func (r *bookResolver) MultiplePov(ctx context.Context, obj *model.Book) (*int, error) {
+	panic(fmt.Errorf("not implemented: MultiplePov - multiple_pov"))
+}
+func (r *bookResolver) Price(ctx context.Context, obj *model.Book) (*float64, error) {
+	panic(fmt.Errorf("not implemented: Price - price"))
+}
+func (r *bookResolver) QtyLabel(ctx context.Context, obj *model.Book) (*int, error) {
+	panic(fmt.Errorf("not implemented: QtyLabel - qty_label"))
+}
+func (r *bookResolver) Series(ctx context.Context, obj *model.Book) (*int, error) {
+	panic(fmt.Errorf("not implemented: Series - series"))
+}
+func (r *bookResolver) SeriesName(ctx context.Context, obj *model.Book) (*string, error) {
+	panic(fmt.Errorf("not implemented: SeriesName - series_name"))
+}
+func (r *bookResolver) SeriesPos(ctx context.Context, obj *model.Book) (*int, error) {
+	panic(fmt.Errorf("not implemented: SeriesPos - series_pos"))
+}
+func (r *bookResolver) Tags(ctx context.Context, obj *model.Book) (*string, error) {
+	panic(fmt.Errorf("not implemented: Tags - tags"))
+}
+func (r *bookResolver) TeacherNotes(ctx context.Context, obj *model.Book) (*string, error) {
+	panic(fmt.Errorf("not implemented: TeacherNotes - teacher_notes"))
+}
+func (r *bookResolver) TeacherRead(ctx context.Context, obj *model.Book) (*int, error) {
+	panic(fmt.Errorf("not implemented: TeacherRead - teacher_read"))
+}
+func (r *bookResolver) TextComplexity(ctx context.Context, obj *model.Book) (*int, error) {
+	panic(fmt.Errorf("not implemented: TextComplexity - text_complexity"))
+}
+func (r *bookResolver) Unpaged(ctx context.Context, obj *model.Book) (int, error) {
+	panic(fmt.Errorf("not implemented: Unpaged - unpaged"))
+}
+func (r *bookResolver) UnreliableNarrative(ctx context.Context, obj *model.Book) (*int, error) {
+	panic(fmt.Errorf("not implemented: UnreliableNarrative - unreliable_narrative"))
+}
+func (r *bookResolver) UserID(ctx context.Context, obj *model.Book) (*int, error) {
+	panic(fmt.Errorf("not implemented: UserID - user_id"))
+}
+func (r *bookResolver) EnteredUserID(ctx context.Context, obj *model.Book) (*string, error) {
+	panic(fmt.Errorf("not implemented: EnteredUserID - entered_user_id"))
+}
+func (r *bookResolver) WantForClassroom(ctx context.Context, obj *model.Book) (*int, error) {
+	panic(fmt.Errorf("not implemented: WantForClassroom - want_for_classroom"))
+}
+func (r *bookResolver) WantToDiscard(ctx context.Context, obj *model.Book) (*int, error) {
+	panic(fmt.Errorf("not implemented: WantToDiscard - want_to_discard"))
+}
+func (r *bookResolver) WordsPerPage(ctx context.Context, obj *model.Book) (*int, error) {
+	panic(fmt.Errorf("not implemented: WordsPerPage - words_per_page"))
+}
+func (r *bookResolver) CurrentUserID(ctx context.Context, obj *model.Book) (*int, error) {
+	panic(fmt.Errorf("not implemented: CurrentUserID - current_user_id"))
+}
 func (r *queryResolver) Books(ctx context.Context) ([]*model.Book, error) {
 	panic(fmt.Errorf("not implemented: Books - books"))
 }
