@@ -278,7 +278,7 @@ input newReadingRateResults{
 #}
 
 type Mutation {
-    createBook(input: NewBook): Book
+    createBook(input: NewBook!): Book!
     createTeacher(input: NewTeacher!): Teacher!
     createClassroom(input:NewClassroom!): Classroom!
     createStudent(input:NewStudent!): Student!

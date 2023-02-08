@@ -8,7 +8,6 @@ import (
 	"context"
 	"fmt"
 	"remo/backend/graph/model"
-	"strconv"
 	"time"
 )
 
@@ -148,44 +147,20 @@ func (r *classroomResolver) ClassroomAvgLength(ctx context.Context, obj *model.C
 }
 
 // CreateBook is the resolver for the createBook field.
-func (r *mutationResolver) CreateBook(ctx context.Context, input *model.NewBook) (*model.Book, error) {
-	//book := &model.Book{
-	//	ID:              input.ID,
-	//	Default_user_id: input.DefaultUserID,
-	//}
-	//
-	//n := len(r.Books)
-	//if n == 0 {
-	//	r.Books = make(map[string]*model.Book)
-	//}
-	//
-	//r.Books[input.ID] = book
-	//return r.Books[input.ID], nil
-	//panic(fmt.Errorf("not implemented: Teachers - teachers"))
+func (r *mutationResolver) CreateBook(ctx context.Context, input model.NewBook) (*model.Book, error) {
+	book := &model.Book{
+		ID:              input.ID,
+		Default_user_id: input.DefaultUserID,
+	}
 
-	id := input.ID
-	var book model.Book
-	book.Default_user_id = input.DefaultUserID
-
-	n := len(r.Resolver.Books)
+	n := len(r.Books)
 	if n == 0 {
-		r.Resolver.Books = make(map[string]model.Book)
+		r.Books = make(map[string]*model.Book)
 	}
 
-	if id != "" {
-		_, ok := r.Resolver.Books[id]
-		if !ok {
-			return nil, fmt.Errorf("not found")
-		}
-		r.Resolver.Books[id] = book
-	} else {
-		// generate unique id
-		nid := strconv.Itoa(n + 1)
-		book.ID = nid
-		r.Resolver.Books[nid] = book
-	}
-
-	return &book, nil
+	r.Books[input.ID] = book
+	return r.Books[input.ID], nil
+	//panic(fmt.Errorf("not implemented: Teachers - teachers"))
 }
 
 // CreateTeacher is the resolver for the createTeacher field.
@@ -226,11 +201,11 @@ func (r *queryResolver) Teachers(ctx context.Context) ([]*model.Teacher, error) 
 
 // GetUserByID is the resolver for the getUserByID field.
 func (r *queryResolver) GetUserByID(ctx context.Context, id string) (*model.User, error) {
-	for _, user := range r.users {
-		if id == user.ID {
-			return user, nil
-		}
-	}
+	//for _, user := range r.users {
+	//	if id == user.ID {
+	//		return user, nil
+	//	}
+	//}
 	//return r.users[id], nil
 	panic(fmt.Errorf("not implemented: GetUserByID - getUserByID"))
 }

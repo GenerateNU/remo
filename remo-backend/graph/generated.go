@@ -100,7 +100,7 @@ type ComplexityRoot struct {
 	}
 
 	Mutation struct {
-		CreateBook                  func(childComplexity int, input *model.NewBook) int
+		CreateBook                  func(childComplexity int, input model.NewBook) int
 		CreateClassroom             func(childComplexity int, input model.NewClassroom) int
 		CreateNewReadingRateResults func(childComplexity int, input model.NewReadingRateResults) int
 		CreateStudent               func(childComplexity int, input model.NewStudent) int
@@ -297,7 +297,7 @@ type ClassroomResolver interface {
 	ClassroomAvgLength(ctx context.Context, obj *model.Classroom) (*string, error)
 }
 type MutationResolver interface {
-	CreateBook(ctx context.Context, input *model.NewBook) (*model.Book, error)
+	CreateBook(ctx context.Context, input model.NewBook) (*model.Book, error)
 	CreateTeacher(ctx context.Context, input model.NewTeacher) (*model.Teacher, error)
 	CreateClassroom(ctx context.Context, input model.NewClassroom) (*model.Classroom, error)
 	CreateStudent(ctx context.Context, input model.NewStudent) (*model.Student, error)
@@ -639,7 +639,7 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 			return 0, false
 		}
 
-		return e.complexity.Mutation.CreateBook(childComplexity, args["input"].(*model.NewBook)), true
+		return e.complexity.Mutation.CreateBook(childComplexity, args["input"].(model.NewBook)), true
 
 	case "Mutation.createClassroom":
 		if e.complexity.Mutation.CreateClassroom == nil {
@@ -1760,10 +1760,10 @@ var parsedSchema = gqlparser.MustLoadSchema(sources...)
 func (ec *executionContext) field_Mutation_createBook_args(ctx context.Context, rawArgs map[string]interface{}) (map[string]interface{}, error) {
 	var err error
 	args := map[string]interface{}{}
-	var arg0 *model.NewBook
+	var arg0 model.NewBook
 	if tmp, ok := rawArgs["input"]; ok {
 		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("input"))
-		arg0, err = ec.unmarshalONewBook2ᚖremoᚋbackendᚋgraphᚋmodelᚐNewBook(ctx, tmp)
+		arg0, err = ec.unmarshalNNewBook2remoᚋbackendᚋgraphᚋmodelᚐNewBook(ctx, tmp)
 		if err != nil {
 			return nil, err
 		}
@@ -3619,17 +3619,20 @@ func (ec *executionContext) _Mutation_createBook(ctx context.Context, field grap
 	}()
 	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
 		ctx = rctx // use context from middleware stack in children
-		return ec.resolvers.Mutation().CreateBook(rctx, fc.Args["input"].(*model.NewBook))
+		return ec.resolvers.Mutation().CreateBook(rctx, fc.Args["input"].(model.NewBook))
 	})
 	if err != nil {
 		ec.Error(ctx, err)
 	}
 	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
 		return graphql.Null
 	}
 	res := resTmp.(*model.Book)
 	fc.Result = res
-	return ec.marshalOBook2ᚖremoᚋbackendᚋgraphᚋmodelᚐBook(ctx, field.Selections, res)
+	return ec.marshalNBook2ᚖremoᚋbackendᚋgraphᚋmodelᚐBook(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) fieldContext_Mutation_createBook(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -14053,6 +14056,20 @@ func (ec *executionContext) ___Type(ctx context.Context, sel ast.SelectionSet, o
 
 // region    ***************************** type.gotpl *****************************
 
+func (ec *executionContext) marshalNBook2remoᚋbackendᚋgraphᚋmodelᚐBook(ctx context.Context, sel ast.SelectionSet, v model.Book) graphql.Marshaler {
+	return ec._Book(ctx, sel, &v)
+}
+
+func (ec *executionContext) marshalNBook2ᚖremoᚋbackendᚋgraphᚋmodelᚐBook(ctx context.Context, sel ast.SelectionSet, v *model.Book) graphql.Marshaler {
+	if v == nil {
+		if !graphql.HasFieldError(ctx, graphql.GetFieldContext(ctx)) {
+			ec.Errorf(ctx, "the requested element is null which the schema does not allow")
+		}
+		return graphql.Null
+	}
+	return ec._Book(ctx, sel, v)
+}
+
 func (ec *executionContext) unmarshalNBoolean2bool(ctx context.Context, v interface{}) (bool, error) {
 	res, err := graphql.UnmarshalBoolean(v)
 	return res, graphql.ErrorOnPath(ctx, err)
@@ -14125,6 +14142,11 @@ func (ec *executionContext) marshalNInt2int(ctx context.Context, sel ast.Selecti
 		}
 	}
 	return res
+}
+
+func (ec *executionContext) unmarshalNNewBook2remoᚋbackendᚋgraphᚋmodelᚐNewBook(ctx context.Context, v interface{}) (model.NewBook, error) {
+	res, err := ec.unmarshalInputNewBook(ctx, v)
+	return res, graphql.ErrorOnPath(ctx, err)
 }
 
 func (ec *executionContext) unmarshalNNewClassroom2remoᚋbackendᚋgraphᚋmodelᚐNewClassroom(ctx context.Context, v interface{}) (model.NewClassroom, error) {
@@ -14603,14 +14625,6 @@ func (ec *executionContext) marshalOInt2ᚖint(ctx context.Context, sel ast.Sele
 	}
 	res := graphql.MarshalInt(*v)
 	return res
-}
-
-func (ec *executionContext) unmarshalONewBook2ᚖremoᚋbackendᚋgraphᚋmodelᚐNewBook(ctx context.Context, v interface{}) (*model.NewBook, error) {
-	if v == nil {
-		return nil, nil
-	}
-	res, err := ec.unmarshalInputNewBook(ctx, v)
-	return &res, graphql.ErrorOnPath(ctx, err)
 }
 
 func (ec *executionContext) unmarshalOString2string(ctx context.Context, v interface{}) (string, error) {
