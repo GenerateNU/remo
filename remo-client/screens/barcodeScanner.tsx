@@ -2,6 +2,7 @@ import { StatusBar } from "expo-status-bar";
 import React, { useState, useEffect } from "react";
 import { StyleSheet, Text, View, Button } from "react-native";
 import { BarCodeScanner } from "expo-barcode-scanner";
+import { BarcodeResponse } from "../types/index";
 import { AbsoluteCenter } from "@chakra-ui/react";
 
 export default function BarcodeScanner({ navigation }) {
@@ -11,7 +12,7 @@ export default function BarcodeScanner({ navigation }) {
 
   const pressHandler = () => {
     navigation.goBack();
-  }
+  };
 
   useEffect(() => {
     const getBarCodeScannerPermissions = async () => {
@@ -27,7 +28,7 @@ export default function BarcodeScanner({ navigation }) {
   }, [barcode]);
 
   // TODO; figure out how to type <type> and <data>
-  const handleBarCodeScanned = ({ type: string, data: string }: ) => {
+  const handleBarCodeScanned = ({ type, data }: BarcodeResponse) => {
     setScanned(true);
     // check that this is indeed an isbn-13 or isbn-10 barcode
     // setBarcode(data);
@@ -95,7 +96,7 @@ export default function BarcodeScanner({ navigation }) {
       )}
       <Text style={styles.display}>Barcode: {barcode}</Text>
       <StatusBar style="auto" />
-      <Button title='back to home screen' onPress={pressHandler} />
+      <Button title="back to home screen" onPress={pressHandler} />
     </View>
   );
 }
