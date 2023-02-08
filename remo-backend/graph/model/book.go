@@ -4,12 +4,12 @@ import "time"
 
 type Book struct {
 	ID              string    `json:"id"`
-	Story_id        int       `json:"story_id"`
+	Story_id        string    `json:"story_id"`
 	Author          string    `json:"author"`
 	Cover_image     string    `json:"cover_image"`
 	Date_created    time.Time `json:"date_created"`
 	Date_updated    time.Time `json:"date_updated"`
-	Default_user_id int       `json:"default_user_id"`
+	Default_user_id string    `json:"default_user_id"`
 	Foreword        string    `json:"foreword"`
 	Editor          string    `json:"editor"`
 	Illustrator     string    `json:"illustrator"`

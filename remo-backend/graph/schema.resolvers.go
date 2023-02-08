@@ -49,15 +49,17 @@ func (r *classroomResolver) ClassroomAvgLength(ctx context.Context, obj *model.C
 // CreateBook is the resolver for the createBook field.
 func (r *mutationResolver) CreateBook(ctx context.Context, input model.BookInput) (*model.Book, error) {
 	// worse array implementation
+
+	for _, book := range r.Books {
+		if book.ID == input.ID {
+			return nil, errors.New("Requested Book ID already exists in database. Maybe try update book mutation.")
+		}
+	}
 	newBook := &model.Book{
 		ID:              input.ID,
 		Default_user_id: input.DefaultUserID,
 	}
-	for _, book := range r.Books {
-		if book.ID == newBook.ID {
-			return nil, errors.New("Requested Book ID already exists in database. Maybe try update book mutation.")
-		}
-	}
+
 	r.Books = append(r.Books, newBook)
 	return newBook, nil
 
@@ -80,36 +82,21 @@ func (r *mutationResolver) CreateBook(ctx context.Context, input model.BookInput
 // UpdateBook is the resolver for the updateBook field.
 func (r *mutationResolver) UpdateBook(ctx context.Context, input model.BookInput) (*model.Book, error) {
 	// worse array implementation
-	inputBook := &model.Book{
-		ID: input.ID,
-		//Author:          input.Author,
-		//Cover_image:     input.CoverImage,
-		//Date_created:    input.DateCreated,
-		//Date_updated:    input.DateUpdated,
-		Default_user_id: input.DefaultUserID,
-		//Foreword:        input.Foreword,
-		//Editor:          input.Editor,
-		//Illustrator:     input.Illustrator,
-		//Isbn_10:         input.Isbn10,
-		//Isbn_13:         input.Isbn13,
-		//Num_pages:       input.NumPages,
-		//Pub_date:        input.PubDate,
-		//Copyright_date:  input.CopyrightDate,
-		//Edition:         input.Edition,
-		//Synopsis:        input.Synopsis,
-		//Title:           input.Title,
-		//Word_count:      input.WordCount,
-		//Sub_title:       input.SubTitle,
-		//Asin:            input.Asin,
-	}
-	if input.StoryID != nil {
-		inputBook.Story_id = *input.StoryID
+	UpdateRequestedFields(input)
 
+	if input.StoryID != nil {
+		input.StoryID = book.StoryID
 	}
+
+	//if input.StoryID != nil {
+	//	inputBook.Story_id = *input.StoryID
+	//
+	//}
 
 	for _, book := range r.Books {
-		if book.ID == inputBook.ID {
-			book = inputBook
+		if book.ID == input.ID {
+			//book = inputBook
+			// code to replace fields here
 			return book, nil
 		}
 	}

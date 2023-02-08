@@ -239,12 +239,12 @@ type UserBook {
 
 input BookInput {
     id: ID!
-    story_id: Int
+    story_id: ID
     author: String
     cover_image: String
     date_created: Time #NULL DEFAULT NULL
     date_updated: Time #NULL DEFAULT NULL
-    default_user_id: Int! #NOT NULL DEFAULT '3'
+    default_user_id: ID! #NOT NULL DEFAULT '3'
     foreword: String
     editor: String
     illustrator: String
