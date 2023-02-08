@@ -103,92 +103,109 @@ type User {
 }
 
 type ReadingRateResult {
-  reading_rate_results_id: Int!
-  user_id: Int
-  book_id: Int
-  user_book_id: Int
-  date: String
-  reading_location: Int
-  type_of_reading: Int
-  reading_setting: Int
-  reading_type_details: Int
-  start_time: String
-  end_time: String
-  total_time: Int
-  start_page: Int
-  end_page: Int
-  total_pages: Int
-  word_per_page: Int
-  types_of_reading: String
-  section_rating: Int
-  check_in: Int
-  reader_request: Int
-  reader_request_almost_finished: Int
-  reader_continuum: Int
-  words_per_page: Int
-  observational_notes: String
-  share_feedback: Int
-  reader_response: String
-  reading_response_pages: String
-  reading_response_type: Int
-  reading_response_subtype: Int
-  grade_level: Int
-  grade_level_status: Int
-  teacher_id: Int
+    reading_rate_results_id: Int!
+    user_id: Int
+    book_id: Int
+    user_book_id: Int
+    date: String
+    reading_location: Int
+    type_of_reading: Int
+    reading_setting: Int
+    reading_type_details: Int
+    start_time: String
+    end_time: String
+    total_time: Int
+    start_page: Int
+    end_page: Int
+    total_pages: Int
+    word_per_page: Int
+    types_of_reading: String
+    section_rating: Int
+    check_in: Int
+    reader_request: Int
+    reader_request_almost_finished: Int
+    reader_continuum: Int
+    words_per_page: Int
+    observational_notes: String
+    share_feedback: Int
+    reader_response: String
+    reading_response_pages: String
+    reading_response_type: Int
+    reading_response_subtype: Int
+    grade_level: Int
+    grade_level_status: Int
+    teacher_id: Int
 }
 
 type Student {
-  id: ID!
-  studentId: ID!
-  studentAppId: ID!
-  studentCalpadsSsid: ID
-  studentLoginId: ID
-  firstName: String!
-  middleName: String!
-  lastName: String!
-  dateCreated: String
-  dateUpdated: String
-  preferredName: String
-  gender: Int
-  pronoun: Int
-  birthDate: String
-  gradeLevel: Int
-  gradeMovement: Int
-  guidedReadingLevel: String
-  rtiSrvType: Int
-  studentServices: String
-  rtiServices: String
-  specializedCourses: String
-  gradeLevelStatus: Int
-  lexileLevelMin: Int
-  lexileLevelMax: Int
-  type: Int
-  weakness: Int
-  readerType: Int
-  readingStage: Int
-  ethnicity: Int
-  avatar: String
-  backupAvatar: String
+    id: ID!
+    studentId: ID!
+    studentAppId: ID!
+    studentCalpadsSsid: ID
+    studentLoginId: ID
+    firstName: String!
+    middleName: String!
+    lastName: String!
+    dateCreated: String
+    dateUpdated: String
+    preferredName: String
+    gender: Int
+    pronoun: Int
+    birthDate: String
+    gradeLevel: Int
+    gradeMovement: Int
+    guidedReadingLevel: String
+    rtiSrvType: Int
+    studentServices: String
+    rtiServices: String
+    specializedCourses: String
+    gradeLevelStatus: Int
+    lexileLevelMin: Int
+    lexileLevelMax: Int
+    type: Int
+    weakness: Int
+    readerType: Int
+    readingStage: Int
+    ethnicity: Int
+    avatar: String
+    backupAvatar: String
 }
 
 type Book {
-    id: ID!
-    default_user_id: ID
-    title: String
+    id: Int! #NOT NULL AUTO_INCREMENT
+    story_id: Int
     author: String
+    cover_image: String
+    date_created: Time #NULL DEFAULT NULL
+    date_updated: Time #NULL DEFAULT NULL
+    default_user_id: Int! #NOT NULL DEFAULT '3'
+    foreword: String
     editor: String
     illustrator: String
-    Synopsis: String
-    #book_id: ID
-#    `book_type` int DEFAULT NULL COMMENT '1=fiction,2=non-ficiton,3=blended',
-#    `checkout_status` int NOT NULL DEFAULT '4' COMMENT 'id from ''checkout_status_fields'' table.',
+    isbn_10: String
+    isbn_13: Int
+    num_pages: Int
+    pub_date: Int
+    copyright_date: Int
+    edition: Int
+    synopsis: String
+    title: String
+    word_count: Int
+    sub_title: String
+    asin: String
+    #PRIMARY KEY (`id`)
+}
+
+type user_book {
+    id: ID!
+    book_id: ID!
+    book_type: Int #COMMENT '1=fiction,2=non-ficiton,3=blended',
+    checkout_status: Int! #NOT NULL DEFAULT '4' COMMENT 'id from ''checkout_status_fields'' table.',
     condition: Int
     cover_image: String
     date_created: Time
     date_updated: Time
-    date_published: Time
-    date_copyright: Time
-#    `format` int DEFAULT NULL COMMENT '1=hardcover,2=PaperBack,3=ebook,4=audio,5=other',
+    format: Int #COMMENT '1=hardcover,2=PaperBack,3=ebook,4=audio,5=other',
     guided_reading_level: String
     lexile_level: Int
     location: Int
@@ -206,10 +223,9 @@ type Book {
     unpaged: Int!
     unreliable_narrative: Int
     user_id: Int
-    ## the id of the user that entered the book into remo
-    entered_user_id: ID
+    entered_user_id: ID # the id of the user that entered the book into remo
     want_for_classroom: Int
-#    `own_this_copy` int NOT NULL DEFAULT '0' COMMENT '0=unspecified 1=user 2=school 3=School Library',
+    own_this_copy: Int! #NOT NULL DEFAULT '0' COMMENT '0=unspecified 1=user 2=school 3=School Library',
     want_to_discard: Int
     word_count: Int
     words_per_page: Int
@@ -237,7 +253,7 @@ input NewTeacher {
 input NewClassroom {
     classroom_id: ID!
     Classroom_co_teacher_id: ID!
-    classroom_status_id: ID! 
+    classroom_status_id: ID!
 
 }
 
@@ -254,12 +270,13 @@ input newReadingRateResults{
     Reading_rate_results_id:ID!
 }
 
-input NewUser {
-    id: ID!
-    first_name: String!
-    last_name: String!
-    email: String!
-}
+# Brian said to eliminate. Will be handled elsewhere
+#input NewUser {
+#    id: ID!
+#    first_name: String!
+#    last_name: String!
+#    email: String!
+#}
 
 type Mutation {
     createBook(input: NewBook): Book
@@ -267,5 +284,4 @@ type Mutation {
     createClassroom(input:NewClassroom!): Classroom!
     createStudent(input:NewStudent!): Student!
     createNewReadingRateResults(input:newReadingRateResults!): ReadingRateResult!
-    createNewUser(input: NewUser): User
 }
