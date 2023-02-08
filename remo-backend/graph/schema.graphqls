@@ -172,21 +172,23 @@ type Student {
 }
 
 type Book {
-    id: Int! #NOT NULL AUTO_INCREMENT
-    story_id: Int
+    id: ID! #NOT NULL AUTO_INCREMENT
+    story_id: ID
     author: String
     cover_image: String
     date_created: Time #NULL DEFAULT NULL
     date_updated: Time #NULL DEFAULT NULL
-    default_user_id: Int! #NOT NULL DEFAULT '3'
+    default_user_id: ID! #NOT NULL DEFAULT '3'
     foreword: String
     editor: String
     illustrator: String
     isbn_10: String
     isbn_13: Int
     num_pages: Int
+    # these were ints but they seem wrong - should be times imo
     pub_date: Int
     copyright_date: Int
+    #
     edition: Int
     synopsis: String
     title: String
@@ -195,6 +197,8 @@ type Book {
     asin: String
     #PRIMARY KEY (`id`)
 }
+
+#type BookType implements Book{}
 
 # why are these separate? We may never know
 type UserBook {
@@ -233,9 +237,28 @@ type UserBook {
     current_user_id: Int
 }
 
-input NewBook {
+input BookInput {
     id: ID!
-    default_user_id: Int!
+    story_id: Int
+    author: String
+    cover_image: String
+    date_created: Time #NULL DEFAULT NULL
+    date_updated: Time #NULL DEFAULT NULL
+    default_user_id: Int! #NOT NULL DEFAULT '3'
+    foreword: String
+    editor: String
+    illustrator: String
+    isbn_10: String
+    isbn_13: Int
+    num_pages: Int
+    pub_date: Int
+    copyright_date: Int
+    edition: Int
+    synopsis: String
+    title: String
+    word_count: Int
+    sub_title: String
+    asin: String
 }
 
 input NewTeacher {
@@ -278,9 +301,19 @@ input newReadingRateResults{
 #}
 
 type Mutation {
-    createBook(input: NewBook!): Book!
+    # Book mutations
+    createBook(input: BookInput!): Book!
+    updateBook(input: BookInput!): Book!
+
+    #Teacher mutations
     createTeacher(input: NewTeacher!): Teacher!
+
+    #Classroom mutations
     createClassroom(input:NewClassroom!): Classroom!
+
+    #Student mutations
     createStudent(input:NewStudent!): Student!
+
+    #ReadingRatesResults mutations
     createNewReadingRateResults(input:newReadingRateResults!): ReadingRateResult!
 }

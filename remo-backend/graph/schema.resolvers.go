@@ -6,110 +6,10 @@ package graph
 
 import (
 	"context"
+	"errors"
 	"fmt"
 	"remo/backend/graph/model"
-	"time"
 )
-
-// ID is the resolver for the id field.
-func (r *bookResolver) ID(ctx context.Context, obj *model.Book) (int, error) {
-	panic(fmt.Errorf("not implemented: ID - id"))
-}
-
-// StoryID is the resolver for the story_id field.
-func (r *bookResolver) StoryID(ctx context.Context, obj *model.Book) (*int, error) {
-	panic(fmt.Errorf("not implemented: StoryID - story_id"))
-}
-
-// Author is the resolver for the author field.
-func (r *bookResolver) Author(ctx context.Context, obj *model.Book) (*string, error) {
-	panic(fmt.Errorf("not implemented: Author - author"))
-}
-
-// CoverImage is the resolver for the cover_image field.
-func (r *bookResolver) CoverImage(ctx context.Context, obj *model.Book) (*string, error) {
-	panic(fmt.Errorf("not implemented: CoverImage - cover_image"))
-}
-
-// DateCreated is the resolver for the date_created field.
-func (r *bookResolver) DateCreated(ctx context.Context, obj *model.Book) (*time.Time, error) {
-	panic(fmt.Errorf("not implemented: DateCreated - date_created"))
-}
-
-// DateUpdated is the resolver for the date_updated field.
-func (r *bookResolver) DateUpdated(ctx context.Context, obj *model.Book) (*time.Time, error) {
-	panic(fmt.Errorf("not implemented: DateUpdated - date_updated"))
-}
-
-// Foreword is the resolver for the foreword field.
-func (r *bookResolver) Foreword(ctx context.Context, obj *model.Book) (*string, error) {
-	panic(fmt.Errorf("not implemented: Foreword - foreword"))
-}
-
-// Editor is the resolver for the editor field.
-func (r *bookResolver) Editor(ctx context.Context, obj *model.Book) (*string, error) {
-	panic(fmt.Errorf("not implemented: Editor - editor"))
-}
-
-// Illustrator is the resolver for the illustrator field.
-func (r *bookResolver) Illustrator(ctx context.Context, obj *model.Book) (*string, error) {
-	panic(fmt.Errorf("not implemented: Illustrator - illustrator"))
-}
-
-// Isbn10 is the resolver for the isbn_10 field.
-func (r *bookResolver) Isbn10(ctx context.Context, obj *model.Book) (*string, error) {
-	panic(fmt.Errorf("not implemented: Isbn10 - isbn_10"))
-}
-
-// Isbn13 is the resolver for the isbn_13 field.
-func (r *bookResolver) Isbn13(ctx context.Context, obj *model.Book) (*int, error) {
-	panic(fmt.Errorf("not implemented: Isbn13 - isbn_13"))
-}
-
-// NumPages is the resolver for the num_pages field.
-func (r *bookResolver) NumPages(ctx context.Context, obj *model.Book) (*int, error) {
-	panic(fmt.Errorf("not implemented: NumPages - num_pages"))
-}
-
-// PubDate is the resolver for the pub_date field.
-func (r *bookResolver) PubDate(ctx context.Context, obj *model.Book) (*int, error) {
-	panic(fmt.Errorf("not implemented: PubDate - pub_date"))
-}
-
-// CopyrightDate is the resolver for the copyright_date field.
-func (r *bookResolver) CopyrightDate(ctx context.Context, obj *model.Book) (*int, error) {
-	panic(fmt.Errorf("not implemented: CopyrightDate - copyright_date"))
-}
-
-// Edition is the resolver for the edition field.
-func (r *bookResolver) Edition(ctx context.Context, obj *model.Book) (*int, error) {
-	panic(fmt.Errorf("not implemented: Edition - edition"))
-}
-
-// Synopsis is the resolver for the Synopsis field.
-func (r *bookResolver) Synopsis(ctx context.Context, obj *model.Book) (*string, error) {
-	panic(fmt.Errorf("not implemented: Synopsis - Synopsis"))
-}
-
-// Title is the resolver for the title field.
-func (r *bookResolver) Title(ctx context.Context, obj *model.Book) (*string, error) {
-	panic(fmt.Errorf("not implemented: Title - title"))
-}
-
-// WordCount is the resolver for the word_count field.
-func (r *bookResolver) WordCount(ctx context.Context, obj *model.Book) (*int, error) {
-	panic(fmt.Errorf("not implemented: WordCount - word_count"))
-}
-
-// SubTitle is the resolver for the sub_title field.
-func (r *bookResolver) SubTitle(ctx context.Context, obj *model.Book) (*string, error) {
-	panic(fmt.Errorf("not implemented: SubTitle - sub_title"))
-}
-
-// Asin is the resolver for the asin field.
-func (r *bookResolver) Asin(ctx context.Context, obj *model.Book) (*string, error) {
-	panic(fmt.Errorf("not implemented: Asin - asin"))
-}
 
 // ClassroomSchoolYear is the resolver for the classroom_school_year field.
 func (r *classroomResolver) ClassroomSchoolYear(ctx context.Context, obj *model.Classroom) (*string, error) {
@@ -147,20 +47,73 @@ func (r *classroomResolver) ClassroomAvgLength(ctx context.Context, obj *model.C
 }
 
 // CreateBook is the resolver for the createBook field.
-func (r *mutationResolver) CreateBook(ctx context.Context, input model.NewBook) (*model.Book, error) {
-	book := &model.Book{
+func (r *mutationResolver) CreateBook(ctx context.Context, input model.BookInput) (*model.Book, error) {
+	// worse array implementation
+	newBook := &model.Book{
 		ID:              input.ID,
 		Default_user_id: input.DefaultUserID,
 	}
+	for _, book := range r.Books {
+		if book.ID == newBook.ID {
+			return nil, errors.New("Requested Book ID already exists in database. Maybe try update book mutation.")
+		}
+	}
+	r.Books = append(r.Books, newBook)
+	return newBook, nil
 
-	n := len(r.Books)
-	if n == 0 {
-		r.Books = make(map[string]*model.Book)
+	// CORRECT BUT NOT WORKING IMPLEMENTATION
+	//book := &model.Book{
+	//	ID:              input.ID,
+	//	Default_user_id: input.DefaultUserID,
+	//}
+	//
+	//n := len(r.Books)
+	//if n == 0 {
+	//	r.Books = make(map[string]*model.Book)
+	//}
+	//
+	//r.Books[input.ID] = book
+	//return r.Books[input.ID], nil
+	//panic(fmt.Errorf("not implemented: Teachers - teachers"))
+}
+
+// UpdateBook is the resolver for the updateBook field.
+func (r *mutationResolver) UpdateBook(ctx context.Context, input model.BookInput) (*model.Book, error) {
+	// worse array implementation
+	inputBook := &model.Book{
+		ID: input.ID,
+		//Author:          input.Author,
+		//Cover_image:     input.CoverImage,
+		//Date_created:    input.DateCreated,
+		//Date_updated:    input.DateUpdated,
+		Default_user_id: input.DefaultUserID,
+		//Foreword:        input.Foreword,
+		//Editor:          input.Editor,
+		//Illustrator:     input.Illustrator,
+		//Isbn_10:         input.Isbn10,
+		//Isbn_13:         input.Isbn13,
+		//Num_pages:       input.NumPages,
+		//Pub_date:        input.PubDate,
+		//Copyright_date:  input.CopyrightDate,
+		//Edition:         input.Edition,
+		//Synopsis:        input.Synopsis,
+		//Title:           input.Title,
+		//Word_count:      input.WordCount,
+		//Sub_title:       input.SubTitle,
+		//Asin:            input.Asin,
+	}
+	if input.StoryID != nil {
+		inputBook.Story_id = *input.StoryID
+
 	}
 
-	r.Books[input.ID] = book
-	return r.Books[input.ID], nil
-	//panic(fmt.Errorf("not implemented: Teachers - teachers"))
+	for _, book := range r.Books {
+		if book.ID == inputBook.ID {
+			book = inputBook
+			return book, nil
+		}
+	}
+	return nil, errors.New("Requested book to update was not find. Try create new book mutation")
 }
 
 // CreateTeacher is the resolver for the createTeacher field.
@@ -185,13 +138,12 @@ func (r *mutationResolver) CreateNewReadingRateResults(ctx context.Context, inpu
 
 // GetBookByID is the resolver for the getBookByID field.
 func (r *queryResolver) GetBookByID(ctx context.Context, id string) (*model.Book, error) {
-	//for _, book := range r.Books {
-	//	if id == book. {
-	//		return book, nil
-	//	}
-	//}
-	//return r.Books[id], nil
-	panic(fmt.Errorf("not implemented: Teachers - teachers"))
+	for _, book := range r.Books {
+		if id == book.ID {
+			return book, nil
+		}
+	}
+	return nil, errors.New("Requested book was not find. Try create new book mutation")
 }
 
 // Teachers is the resolver for the teachers field.
@@ -250,9 +202,6 @@ func (r *userBookResolver) QtyLabel(ctx context.Context, obj *model.UserBook) (*
 	panic(fmt.Errorf("not implemented: QtyLabel - qty_label"))
 }
 
-// Book returns BookResolver implementation.
-func (r *Resolver) Book() BookResolver { return &bookResolver{r} }
-
 // Classroom returns ClassroomResolver implementation.
 func (r *Resolver) Classroom() ClassroomResolver { return &classroomResolver{r} }
 
@@ -276,7 +225,6 @@ func (r *Resolver) Teacher() TeacherResolver { return &teacherResolver{r} }
 // UserBook returns UserBookResolver implementation.
 func (r *Resolver) UserBook() UserBookResolver { return &userBookResolver{r} }
 
-type bookResolver struct{ *Resolver }
 type classroomResolver struct{ *Resolver }
 type mutationResolver struct{ *Resolver }
 type queryResolver struct{ *Resolver }

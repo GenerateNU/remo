@@ -6,9 +6,28 @@ import (
 	"time"
 )
 
-type NewBook struct {
-	ID            string `json:"id"`
-	DefaultUserID int    `json:"default_user_id"`
+type BookInput struct {
+	ID            string     `json:"id"`
+	StoryID       *int       `json:"story_id"`
+	Author        *string    `json:"author"`
+	CoverImage    *string    `json:"cover_image"`
+	DateCreated   *time.Time `json:"date_created"`
+	DateUpdated   *time.Time `json:"date_updated"`
+	DefaultUserID int        `json:"default_user_id"`
+	Foreword      *string    `json:"foreword"`
+	Editor        *string    `json:"editor"`
+	Illustrator   *string    `json:"illustrator"`
+	Isbn10        *string    `json:"isbn_10"`
+	Isbn13        *int       `json:"isbn_13"`
+	NumPages      *int       `json:"num_pages"`
+	PubDate       *int       `json:"pub_date"`
+	CopyrightDate *int       `json:"copyright_date"`
+	Edition       *int       `json:"edition"`
+	Synopsis      *string    `json:"synopsis"`
+	Title         *string    `json:"title"`
+	WordCount     *int       `json:"word_count"`
+	SubTitle      *string    `json:"sub_title"`
+	Asin          *string    `json:"asin"`
 }
 
 type NewClassroom struct {
