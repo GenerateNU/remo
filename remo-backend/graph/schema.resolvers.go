@@ -59,7 +59,7 @@ func (r *mutationResolver) CreateBook(ctx context.Context, input model.BookInput
 		ID:              input.ID,
 		Default_user_id: input.DefaultUserID,
 	}
-
+	UpdateRequestedBookFields(input, newBook)
 	r.Books = append(r.Books, newBook)
 	return newBook, nil
 
@@ -82,21 +82,17 @@ func (r *mutationResolver) CreateBook(ctx context.Context, input model.BookInput
 // UpdateBook is the resolver for the updateBook field.
 func (r *mutationResolver) UpdateBook(ctx context.Context, input model.BookInput) (*model.Book, error) {
 	// worse array implementation
-	UpdateRequestedFields(input)
-
-	if input.StoryID != nil {
-		input.StoryID = book.StoryID
-	}
-
-	//if input.StoryID != nil {
-	//	inputBook.Story_id = *input.StoryID
-	//
-	//}
-
 	for _, book := range r.Books {
 		if book.ID == input.ID {
-			//book = inputBook
-			// code to replace fields here
+			if input.StoryID == nil {
+				return nil, errors.New("Shits nil dawg")
+			} else {
+				return nil, errors.New(*input.StoryID)
+			}
+			UpdateRequestedBookFields(input, book)
+			//if input.StoryID != nil {
+			//	book.Story_id = input.StoryID
+			//}
 			return book, nil
 		}
 	}

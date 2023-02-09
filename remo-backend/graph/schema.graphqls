@@ -303,7 +303,7 @@ input newReadingRateResults{
 type Mutation {
     # Book mutations
     createBook(input: BookInput!): Book!
-    updateBook(input: BookInput!): Book!
+    updateBook(input: BookInput): Book
 
     #Teacher mutations
     createTeacher(input: NewTeacher!): Teacher!
