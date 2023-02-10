@@ -84,11 +84,10 @@ func (r *mutationResolver) UpdateBook(ctx context.Context, input model.BookInput
 	// worse array implementation
 	for _, book := range r.Books {
 		if book.ID == input.ID {
-			if input.StoryID == nil {
-				return nil, errors.New("Shits nil dawg")
-			} else {
-				return nil, errors.New(*input.StoryID)
+			if input.Author == nil {
+				return nil, errors.New("Pointer to Author is nil. Should not be nil")
 			}
+			book.Author = *input.Author
 			UpdateRequestedBookFields(input, book)
 			//if input.StoryID != nil {
 			//	book.Story_id = input.StoryID
