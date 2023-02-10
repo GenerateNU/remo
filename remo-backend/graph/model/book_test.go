@@ -1,6 +1,7 @@
 package model
 
 import (
+	"remo/backend/graph"
 	"testing"
 	"time"
 )
@@ -28,7 +29,7 @@ var reassignFieldTests = []reassignFieldTest{
 
 func TestReassignFieldString(t *testing.T) {
 	for _, test := range reassignFieldTests {
-		reassignFieldString(test.input, test.target)
+		graph.ReassignFieldString(test.input, test.target)
 		if output := test.input; output != test.expected {
 			t.Errorf("Output %q not equal to expected %q", *output, *test.expected)
 		}

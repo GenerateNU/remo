@@ -1,6 +1,9 @@
 package model
 
-import "time"
+import (
+	"remo/backend/graph"
+	"time"
+)
 
 type Book struct {
 	ID              string    `json:"id"`
@@ -26,69 +29,27 @@ type Book struct {
 	Asin            string    `json:"asin"`
 }
 
-// reassignFieldString
-// Helper function to update the value of the target string if the input string is not null.
-func reassignFieldString(input *string, target *string) {
-	if input != nil {
-		// case where there is no entry in this field yet
-		if target == nil {
-			target = input
-			// case where there is already an entry in this field
-		} else {
-			*target = *input
-		}
-	}
-}
-
-// reassignFieldInt
-// Helper function to update the value of the target Int if the input Int is not null.
-func reassignFieldInt(input *int, target *int) {
-	if input != nil {
-		// case where there is no entry in this field yet
-		if target == nil {
-			target = input
-			// case where there is already an entry in this field
-		} else {
-			*target = *input
-		}
-	}
-}
-
-// reassignFieldTime
-// Helper function to update the value of the target Time if the input Time is not null.
-func reassignFieldTime(input *time.Time, target *time.Time) {
-	if input != nil {
-		// case where there is no entry in this field yet
-		if target == nil {
-			target = input
-			// case where there is already an entry in this field
-		} else {
-			*target = *input
-		}
-	}
-}
-
 // UpdateBook
 // Updates all the requested fields of this book using the BookInput
 func (target *Book) UpdateBook(input BookInput) {
-	reassignFieldString(input.StoryID, &target.Story_id)
-	reassignFieldString(input.Author, &target.Author)
-	reassignFieldString(input.CoverImage, &target.Cover_image)
-	reassignFieldTime(input.DateCreated, &target.Date_created)
-	reassignFieldTime(input.DateUpdated, &target.Date_updated)
-	reassignFieldString(&input.DefaultUserID, &target.Default_user_id)
-	reassignFieldString(input.Foreword, &target.Foreword)
-	reassignFieldString(input.Editor, &target.Editor)
-	reassignFieldString(input.Illustrator, &target.Illustrator)
-	reassignFieldString(input.Isbn10, &target.Isbn_10)
-	reassignFieldInt(input.Isbn13, &target.Isbn_13)
-	reassignFieldInt(input.NumPages, &target.Num_pages)
-	reassignFieldInt(input.PubDate, &target.Pub_date)
-	reassignFieldInt(input.CopyrightDate, &target.Copyright_date)
-	reassignFieldInt(input.Edition, &target.Edition)
-	reassignFieldString(input.Synopsis, &target.Synopsis)
-	reassignFieldString(input.Title, &target.Title)
-	reassignFieldInt(input.WordCount, &target.Word_count)
-	reassignFieldString(input.SubTitle, &target.Sub_title)
-	reassignFieldString(input.Asin, &target.Asin)
+	graph.ReassignFieldString(input.StoryID, &target.Story_id)
+	graph.ReassignFieldString(input.Author, &target.Author)
+	graph.ReassignFieldString(input.CoverImage, &target.Cover_image)
+	graph.ReassignFieldTime(input.DateCreated, &target.Date_created)
+	graph.ReassignFieldTime(input.DateUpdated, &target.Date_updated)
+	graph.ReassignFieldString(&input.DefaultUserID, &target.Default_user_id)
+	graph.ReassignFieldString(input.Foreword, &target.Foreword)
+	graph.ReassignFieldString(input.Editor, &target.Editor)
+	graph.ReassignFieldString(input.Illustrator, &target.Illustrator)
+	graph.ReassignFieldString(input.Isbn10, &target.Isbn_10)
+	graph.ReassignFieldInt(input.Isbn13, &target.Isbn_13)
+	graph.ReassignFieldInt(input.NumPages, &target.Num_pages)
+	graph.ReassignFieldInt(input.PubDate, &target.Pub_date)
+	graph.ReassignFieldInt(input.CopyrightDate, &target.Copyright_date)
+	graph.ReassignFieldInt(input.Edition, &target.Edition)
+	graph.ReassignFieldString(input.Synopsis, &target.Synopsis)
+	graph.ReassignFieldString(input.Title, &target.Title)
+	graph.ReassignFieldInt(input.WordCount, &target.Word_count)
+	graph.ReassignFieldString(input.SubTitle, &target.Sub_title)
+	graph.ReassignFieldString(input.Asin, &target.Asin)
 }
