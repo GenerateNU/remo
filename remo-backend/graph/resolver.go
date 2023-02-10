@@ -21,8 +21,9 @@ type Resolver struct {
 	//users map[string]*model.User
 }
 
+// ReassignFieldString
 // Helper function to update the value of the target string if the input string is not null.
-func reassignFieldString(input *string, target string) {
+func ReassignFieldString(input *string, target string) {
 	if input != nil {
 		target = *input
 	}
@@ -38,34 +39,33 @@ func reassignFieldInt(input *int, target int) {
 // Helper function to update the value of the target time if the input time is not null.
 func reassignFieldTime(input *time.Time, target time.Time) {
 	if input != nil {
-		//target = *input
-		*input = target
+		target = *input
 	}
 }
 
 // UpdateRequestedBookFields
 // Function to update the requested fields of a book.
 func UpdateRequestedBookFields(input model.BookInput, target *model.Book) {
-	reassignFieldString(input.StoryID, target.Story_id)
-	reassignFieldString(input.Author, target.Author)
-	reassignFieldString(input.CoverImage, target.Cover_image)
+	ReassignFieldString(input.StoryID, target.Story_id)
+	ReassignFieldString(input.Author, target.Author)
+	ReassignFieldString(input.CoverImage, target.Cover_image)
 	reassignFieldTime(input.DateCreated, target.Date_created)
 	reassignFieldTime(input.DateUpdated, target.Date_updated)
-	reassignFieldString(&input.DefaultUserID, target.Default_user_id)
-	reassignFieldString(input.Foreword, target.Foreword)
-	reassignFieldString(input.Editor, target.Editor)
-	reassignFieldString(input.Illustrator, target.Illustrator)
-	reassignFieldString(input.Isbn10, target.Isbn_10)
+	ReassignFieldString(&input.DefaultUserID, target.Default_user_id)
+	ReassignFieldString(input.Foreword, target.Foreword)
+	ReassignFieldString(input.Editor, target.Editor)
+	ReassignFieldString(input.Illustrator, target.Illustrator)
+	ReassignFieldString(input.Isbn10, target.Isbn_10)
 	reassignFieldInt(input.Isbn13, target.Isbn_13)
 	reassignFieldInt(input.NumPages, target.Num_pages)
 	reassignFieldInt(input.PubDate, target.Pub_date)
 	reassignFieldInt(input.CopyrightDate, target.Copyright_date)
 	reassignFieldInt(input.Edition, target.Edition)
-	reassignFieldString(input.Synopsis, target.Synopsis)
-	reassignFieldString(input.Title, target.Title)
+	ReassignFieldString(input.Synopsis, target.Synopsis)
+	ReassignFieldString(input.Title, target.Title)
 	reassignFieldInt(input.WordCount, target.Word_count)
-	reassignFieldString(input.SubTitle, target.Sub_title)
-	reassignFieldString(input.Asin, target.Asin)
+	ReassignFieldString(input.SubTitle, target.Sub_title)
+	ReassignFieldString(input.Asin, target.Asin)
 	//if input.Foreword != nil {
 	//	*input.Foreword = target.Foreword
 	//}

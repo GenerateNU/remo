@@ -88,6 +88,7 @@ func (r *mutationResolver) UpdateBook(ctx context.Context, input model.BookInput
 				return nil, errors.New("Pointer to Author is nil. Should not be nil")
 			}
 			book.Author = *input.Author
+			ReassignFieldString(input.Author, book.Author)
 			UpdateRequestedBookFields(input, book)
 			//if input.StoryID != nil {
 			//	book.Story_id = input.StoryID
