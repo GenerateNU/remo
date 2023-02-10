@@ -59,11 +59,11 @@ func (r *mutationResolver) CreateBook(ctx context.Context, input model.BookInput
 		ID:              input.ID,
 		Default_user_id: input.DefaultUserID,
 	}
-	UpdateRequestedBookFields(input, newBook)
+	newBook.UpdateBook(input)
 	r.Books = append(r.Books, newBook)
 	return newBook, nil
 
-	// CORRECT BUT NOT WORKING IMPLEMENTATION
+	// BETTER BUT NOT WORKING IMPLEMENTATION
 	//book := &model.Book{
 	//	ID:              input.ID,
 	//	Default_user_id: input.DefaultUserID,
@@ -84,12 +84,13 @@ func (r *mutationResolver) UpdateBook(ctx context.Context, input model.BookInput
 	// worse array implementation
 	for _, book := range r.Books {
 		if book.ID == input.ID {
-			if input.Author == nil {
-				return nil, errors.New("Pointer to Author is nil. Should not be nil")
-			}
-			book.Author = *input.Author
-			ReassignFieldString(input.Author, book.Author)
-			UpdateRequestedBookFields(input, book)
+			//if input.Author == nil {
+			//	return nil, errors.New("Pointer to Author is nil. Should not be nil")
+			//}
+			book.UpdateBook(input)
+			//book.Author = *input.Author
+			//reassignFieldString(input.Author, book.Author)
+			//UpdateRequestedBookFields(input, book)
 			//if input.StoryID != nil {
 			//	book.Story_id = input.StoryID
 			//}
