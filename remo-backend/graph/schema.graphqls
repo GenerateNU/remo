@@ -6,6 +6,9 @@
 # https://gqlgen.com/reference/scalars/
 scalar Time
 
+#Maps an arbitrary GraphQL value to a map[string]interface{} Go type
+scalar Map
+
 type Query {
     # Book queries
     #books: [Book!]!

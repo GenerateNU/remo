@@ -50,52 +50,43 @@ func (r *classroomResolver) ClassroomAvgLength(ctx context.Context, obj *model.C
 func (r *mutationResolver) CreateBook(ctx context.Context, input model.BookInput) (*model.Book, error) {
 	// worse array implementation
 
-	for _, book := range r.Books {
-		if book.ID == input.ID {
-			return nil, errors.New("Requested Book ID already exists in database. Maybe try update book mutation.")
-		}
-	}
-	newBook := &model.Book{
-		ID:              input.ID,
-		Default_user_id: input.DefaultUserID,
-	}
-	newBook.UpdateBook(input)
-	r.Books = append(r.Books, newBook)
-	return newBook, nil
-
-	// BETTER BUT NOT WORKING IMPLEMENTATION
-	//book := &model.Book{
+	//for _, book := range r.Books {
+	//	if book.ID == input.ID {
+	//		return nil, errors.New("Requested Book ID already exists in database. Maybe try update book mutation.")
+	//	}
+	//}
+	//newBook := &model.Book{
 	//	ID:              input.ID,
 	//	Default_user_id: input.DefaultUserID,
 	//}
-	//
-	//n := len(r.Books)
-	//if n == 0 {
-	//	r.Books = make(map[string]*model.Book)
-	//}
-	//
-	//r.Books[input.ID] = book
-	//return r.Books[input.ID], nil
-	//panic(fmt.Errorf("not implemented: Teachers - teachers"))
+	//newBook.UpdateBook(input)
+	//r.Books = append(r.Books, newBook)
+	//return newBook, nil
+
+	//BETTER BUT NOT WORKING IMPLEMENTATION
+	book := &model.Book{
+		ID:              input.ID,
+		Default_user_id: input.DefaultUserID,
+	}
+
+	n := len(r.Books)
+	if n == 0 {
+		r.Books = make(map[string]*model.Book)
+	}
+
+	if _, ok := r.Books[input.ID]; !ok {
+		r.Books[input.ID] = book
+		r.Books[input.ID].UpdateBook(input)
+		return r.Books[input.ID], nil
+	}
+	return nil, errors.New("Requested Book ID already exists in database. Maybe try update book mutation.")
 }
 
 // UpdateBook is the resolver for the updateBook field.
 func (r *mutationResolver) UpdateBook(ctx context.Context, input model.BookInput) (*model.Book, error) {
-	// worse array implementation
-	for _, book := range r.Books {
-		if book.ID == input.ID {
-			//if input.Author == nil {
-			//	return nil, errors.New("Pointer to Author is nil. Should not be nil")
-			//}
-			book.UpdateBook(input)
-			//book.Author = *input.Author
-			//reassignFieldString(input.Author, book.Author)
-			//UpdateRequestedBookFields(input, book)
-			//if input.StoryID != nil {
-			//	book.Story_id = input.StoryID
-			//}
-			return book, nil
-		}
+	if _, ok := r.Books[input.ID]; ok {
+		r.Books[input.ID].UpdateBook(input)
+		return r.Books[input.ID], nil
 	}
 	return nil, errors.New("Requested book to update was not find. Try create new book mutation")
 }
@@ -122,10 +113,13 @@ func (r *mutationResolver) CreateNewReadingRateResults(ctx context.Context, inpu
 
 // GetBookByID is the resolver for the getBookByID field.
 func (r *queryResolver) GetBookByID(ctx context.Context, id string) (*model.Book, error) {
-	for _, book := range r.Books {
-		if id == book.ID {
-			return book, nil
-		}
+	//for _, book := range r.Books {
+	//	if id == book.ID {
+	//		return book, nil
+	//	}
+	//}
+	if _, ok := r.Books[id]; ok {
+		return r.Books[id], nil
 	}
 	return nil, errors.New("Requested book was not find. Try create new book mutation")
 }
