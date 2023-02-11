@@ -4,15 +4,11 @@ import BarcodeScanner from './barcodeScanner';
 import { NavigationContainer, useNavigation, Stack } from '@react-navigation/native';
 import { StyleSheet, Text, View, Button } from 'react-native';
 
-export default function Home() {
-    const navigation = useNavigation();
+export default function Home({ navigation }) {
+   
 
     const pressHandler = () => {
-        <NavigationContainer> 
-            <Stack.Navigator>
-                <Stack.Screen name="Home" component={BarcodeScanner} />
-            </Stack.Navigator>
-        </NavigationContainer>
+        navigation.navigate("BarcodeScanner")
     }
 
     return (
