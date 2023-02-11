@@ -3,9 +3,12 @@ import React, { useState, useEffect } from "react";
 import { StyleSheet, Text, View, Button } from "react-native";
 import { BarCodeScanner } from "expo-barcode-scanner";
 import { BarcodeResponse } from "../types/index";
+import { useNavigation } from '@react-navigation/native';
 import { AbsoluteCenter } from "@chakra-ui/react";
 
-export default function BarcodeScanner({ navigation }) {
+export default function BarcodeScanner() {
+  const navigation = useNavigation();
+
   const [hasPermission, setHasPermission] = useState(null);
   const [scanned, setScanned] = useState(false);
   const [barcode, setBarcode] = useState<string | null>(null);
