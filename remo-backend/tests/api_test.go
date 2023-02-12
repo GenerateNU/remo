@@ -53,3 +53,43 @@ func TestGetBooks(t *testing.T) {
 	}
 	assert.Equal(t, test_book, books)
 }
+
+func TestGetUserByID(t *testing.T) {
+	conn, err := sql.Open("mysql", "remo:pwd@tcp(localhost:3333)/remodb")
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "Unable to connect to database: %v\n", err)
+		os.Exit(1)
+	}
+
+	defer conn.Close()
+
+	m := &model.MsModel{
+		Conn: conn,
+	}
+	c := &e.MsController{
+		Model: m,
+	}
+	router := c.Serve()
+
+	w := httptest.NewRecorder()
+
+	req, _ := http.NewRequest("GET", "/v1/user/22", nil)
+
+	router.ServeHTTP(w, req)
+
+	assert.Equal(t, 200, w.Code)
+
+	var user model.User
+
+	if e := json.Unmarshal(w.Body.Bytes(), &user); e != nil {
+		panic(err)
+	}
+
+	test_user := model.User{
+		ID:        22,
+		FirstName: "Brian",
+		LastName:  "Reicher",
+		Email:     "bk.reicher@gmail.com",
+	}
+	assert.Equal(t, test_user, user)
+}

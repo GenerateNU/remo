@@ -29,7 +29,7 @@ func GetBooksFromDB(pool *sql.DB, isbn_13 string) (Book, error) {
 }
 
 func InsertUser(pool *sql.DB, usr User) error {
-	_, err := pool.Exec(fmt.Sprintf("INSERT INTO logins (id, email, first, last) VALUES ('%s','%s','%s', '%s');", strconv.Itoa(usr.ID), usr.FirstName, usr.LastName, usr.Email))
+	_, err := pool.Exec(fmt.Sprintf("INSERT INTO logins (id, first, last, email) VALUES ('%s','%s','%s', '%s');", strconv.Itoa(usr.ID), usr.FirstName, usr.LastName, usr.Email))
 
 	return err
 }
