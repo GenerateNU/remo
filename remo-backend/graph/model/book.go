@@ -1,7 +1,6 @@
 package model
 
 import (
-	"remo/backend/graph"
 	"time"
 )
 
@@ -32,24 +31,24 @@ type Book struct {
 // UpdateBook
 // Updates all the requested fields of this book using the BookInput
 func (target *Book) UpdateBook(input BookInput) {
-	graph.ReassignFieldString(input.StoryID, &target.Story_id)
-	graph.ReassignFieldString(input.Author, &target.Author)
-	graph.ReassignFieldString(input.CoverImage, &target.Cover_image)
-	graph.ReassignFieldTime(input.DateCreated, &target.Date_created)
-	graph.ReassignFieldTime(input.DateUpdated, &target.Date_updated)
-	graph.ReassignFieldString(&input.DefaultUserID, &target.Default_user_id)
-	graph.ReassignFieldString(input.Foreword, &target.Foreword)
-	graph.ReassignFieldString(input.Editor, &target.Editor)
-	graph.ReassignFieldString(input.Illustrator, &target.Illustrator)
-	graph.ReassignFieldString(input.Isbn10, &target.Isbn_10)
-	graph.ReassignFieldInt(input.Isbn13, &target.Isbn_13)
-	graph.ReassignFieldInt(input.NumPages, &target.Num_pages)
-	graph.ReassignFieldInt(input.PubDate, &target.Pub_date)
-	graph.ReassignFieldInt(input.CopyrightDate, &target.Copyright_date)
-	graph.ReassignFieldInt(input.Edition, &target.Edition)
-	graph.ReassignFieldString(input.Synopsis, &target.Synopsis)
-	graph.ReassignFieldString(input.Title, &target.Title)
-	graph.ReassignFieldInt(input.WordCount, &target.Word_count)
-	graph.ReassignFieldString(input.SubTitle, &target.Sub_title)
-	graph.ReassignFieldString(input.Asin, &target.Asin)
+	ReassignFieldString(input.StoryID, &target.Story_id)
+	ReassignFieldString(input.Author, &target.Author)
+	ReassignFieldString(input.CoverImage, &target.Cover_image)
+	ReassignFieldTime(input.DateCreated, &target.Date_created)
+	ReassignFieldTime(input.DateUpdated, &target.Date_updated)
+	ReassignFieldString(&input.DefaultUserID, &target.Default_user_id)
+	ReassignFieldString(input.Foreword, &target.Foreword)
+	ReassignFieldString(input.Editor, &target.Editor)
+	ReassignFieldString(input.Illustrator, &target.Illustrator)
+	ReassignFieldString(input.Isbn10, &target.Isbn_10)
+	ReassignFieldInt(input.Isbn13, &target.Isbn_13)
+	ReassignFieldInt(input.NumPages, &target.Num_pages)
+	ReassignFieldInt(input.PubDate, &target.Pub_date)
+	ReassignFieldInt(input.CopyrightDate, &target.Copyright_date)
+	ReassignFieldInt(input.Edition, &target.Edition)
+	ReassignFieldString(input.Synopsis, &target.Synopsis)
+	ReassignFieldString(input.Title, &target.Title)
+	ReassignFieldInt(input.WordCount, &target.Word_count)
+	ReassignFieldString(input.SubTitle, &target.Sub_title)
+	ReassignFieldString(input.Asin, &target.Asin)
 }
