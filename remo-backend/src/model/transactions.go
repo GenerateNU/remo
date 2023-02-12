@@ -49,12 +49,12 @@ func GetUserByEmail(pool *sql.DB, user_email string) (User, error) {
 }
 
 func GetUserByID(pool *sql.DB, user_ID string) (User, error) {
+	id, _ := strconv.Atoi(user_ID)
 	user := User{
-		Email: user_ID,
+		ID: id,
 	}
 
-	var bid int
-	err := pool.QueryRow(fmt.Sprintf("SELECT * FROM user where ID = '%s';", user_ID)).Scan(&bid, &user.Email)
+	err := pool.QueryRow(fmt.Sprintf("SELECT first, last, email FROM logins where ID = '%s';", user_ID)).Scan(&user.FirstName, &user.LastName, &user.Email)
 
 	if err != nil {
 		panic(err)
