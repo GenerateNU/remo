@@ -50,6 +50,7 @@ func TestGetBooks(t *testing.T) {
 		Title:   "Percy Jackson and the Olympians",
 		Author:  "Rick Riordan",
 		ISBN_13: "9780786838653",
+		ISBN_10: "0786838655",
 	}
 	assert.Equal(t, test_book, books)
 }
