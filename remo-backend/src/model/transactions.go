@@ -9,7 +9,20 @@ import (
 )
 
 func WriteBooksToDb(pool *sql.DB, book Book) error {
-	_, err := pool.Exec(fmt.Sprintf("INSERT INTO books (book_id, title, author) VALUES ('%s','%s','%s');", book.BookId, book.Title, book.Author))
+	var new_id int
+	id, e := pool.Exec("SELECT COUNT(id) FROM books;")
+	if e != nil {
+		panic(e)
+	}
+	if result, ok := id.(sql.Result); ok {
+		count64, e2 := result.RowsAffected()
+		if e2 != nil {
+			panic(e2)
+		}
+		new_id = int(count64) + 1
+	}
+
+	_, err := pool.Exec(fmt.Sprintf("INSERT INTO books (id, title, author, isbn_13, isbn_10) VALUES ('%s', '%s', '%s', '%s', '%s');", strconv.Itoa(new_id), book.Title, book.Author, book.ISBN_13, book.ISBN_10))
 
 	return err
 }

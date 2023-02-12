@@ -5,6 +5,7 @@ type Book struct {
 	Title   string `json:"title" db:"title"`
 	Author  string `json:"author" db:"author"`
 	ISBN_13 string `json:"isbn_13" db:"isbn_13"`
+	ISBN_10 string `json:"isbn_10" db:"isbn_10"`
 }
 
 type User struct {
