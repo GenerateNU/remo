@@ -52,7 +52,7 @@ func (ms *MsController) Serve() *gin.Engine {
 
 		// check to see if the user exists in the database
 		// if so, continute to create authenticated token & cookie
-		// if not, the model will panic with an error
+		// if not, the model will panic with an error TODO: implement better error handling for invalid logins
 		ms.UserByEmail(email)
 
 		var loginInfo model.LoginInfo
