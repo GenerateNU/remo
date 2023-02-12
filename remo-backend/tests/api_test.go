@@ -1,32 +1,55 @@
 package main
 
 import (
+	"database/sql"
+	"encoding/json"
+	"fmt"
+	"net/http"
+	"net/http/httptest"
+	"os"
+	e "remo/backend/src/endpoints"
+	"remo/backend/src/model"
 	"testing"
+
+	"github.com/huandu/go-assert"
 )
 
 func TestGetBooks(t *testing.T) {
-	// router := e.Serve()
+	conn, err := sql.Open("mysql", "remo:pwd@tcp(localhost:3333)/remodb")
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "Unable to connect to database: %v\n", err)
+		os.Exit(1)
+	}
 
-	// w := httptest.NewRecorder()
+	defer conn.Close()
 
-	// req, _ := http.NewRequest("GET", "/v1/books", nil)
-	// router.ServeHTTP(w, req)
+	m := &model.MsModel{
+		Conn: conn,
+	}
+	c := &e.MsController{
+		Model: m,
+	}
+	router := c.Serve()
 
-	// assert.Equal(t, 200, w.Code)
+	w := httptest.NewRecorder()
 
-	// var books []e.Book
+	req, _ := http.NewRequest("GET", "/v1/books/9780786838653", nil)
 
-	// err := json.Unmarshal(w.Body.Bytes(), &books)
+	router.ServeHTTP(w, req)
 
-	// if err != nil {
-	// 	panic(err)
-	// }
+	assert.Equal(t, 200, w.Code)
 
-	// assert.Equal(t, []e.Book{
-	// 	{
-	// 		BookId: "1",
-	// 		Title:  "test",
-	// 		Author: "test-author",
-	// 	},
-	// }, books)
+	var books model.Book
+
+	if e := json.Unmarshal(w.Body.Bytes(), &books); e != nil {
+		panic(err)
+	}
+
+	test_book := model.Book{
+		BookId:  "3757",
+		Title:   "Percy Jackson and the Olympians",
+		Author:  "Rick Riordan",
+		ISBN_13: "9780786838653",
+	}
+	assert.Equal(t, test_book, books)
 }
