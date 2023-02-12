@@ -13,7 +13,7 @@ export default function BarcodeScanner() {
   const [scanned, setScanned] = useState(false);
   const [barcode, setBarcode] = useState<string | null>(null);
   const [book, setBook] = useState<JSON | null>();
-  const barcodeEndpoint = "https://localhost:8080/v1/books/:";
+  const barcodeEndpoint = "https://localhost:8080/v1/books/";
 
   const pressHandler = () => {
     navigation.goBack();
@@ -29,7 +29,19 @@ export default function BarcodeScanner() {
   }, []);
 
   useEffect(() => {
-    console.log(barcode);
+    //console.log(barcode);
+    fetchData();
+
+    // let book = ...;
+    // if (!book) {
+    //   const isbn10 = handleBarcodeConversion(data);
+    //   setBarcode(isbn10);
+    // }
+
+    // if it still doesn't exist, check the google api
+    if (!book) {
+      // google books implementation
+    }
   }, [barcode]);
 
   const fetchData = async () => {
@@ -43,7 +55,7 @@ export default function BarcodeScanner() {
   };
 
   // TODO; figure out how to type <type> and <data>
-  const handleBarCodeScanned = ({ type, data }: BarcodeResponse) => {
+  const handleBarCodeScanned = async ({ type, data }: BarcodeResponse) => {
     setScanned(true);
     // check that this is indeed an isbn-13 or isbn-10 barcode
     // setBarcode(data);
@@ -51,20 +63,6 @@ export default function BarcodeScanner() {
       // first, try retrieving the barcode from the database data -> retrieve
       // we want to error check this later
       setBarcode(data);
-      const bookEndpoint = barcodeEndpoint + barcode;
-
-      fetchData();
-
-      // let book = ...;
-      // if (!book) {
-      //   const isbn10 = handleBarcodeConversion(data);
-      //   setBarcode(isbn10);
-      // }
-
-      // if it still doesn't exist, check the google api
-      if (!book) {
-        // google books implementation
-      }
     } else if (type === "org.gs1.EAN-13" && data.substring(0, 3) === "979") {
       setBarcode(data);
       // if it still doesn't exist, check the google api
