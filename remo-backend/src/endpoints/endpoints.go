@@ -41,6 +41,12 @@ func (ms *MsController) Serve() *gin.Engine {
 		c.JSON(http.StatusOK, user.ID)
 	})
 
+	r.GET("/v1/user/:userID", func(c *gin.Context) {
+		email := c.Param("useID")
+		c.JSON(http.StatusOK, ms.UserByEmail(email))
+
+	})
+
 	r.POST("v1/login", func(c *gin.Context) {
 		email := c.Param("email")
 
