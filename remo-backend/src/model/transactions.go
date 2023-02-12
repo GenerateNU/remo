@@ -4,6 +4,7 @@ import (
 	"database/sql"
 	"fmt"
 	utils "remo/backend/src/utils"
+	"strconv"
 	"strings"
 )
 
@@ -28,8 +29,7 @@ func GetBooksFromDB(pool *sql.DB, isbn_13 string) (Book, error) {
 }
 
 func InsertUser(pool *sql.DB, usr User) error {
-
-	_, err := pool.Exec(fmt.Sprintf("INSERT INTO users (ID, first_name, last_name, email) VALUES ('%s','%s','%s', '%s');", usr.ID, usr.FirstName, usr.LastName, usr.Email))
+	_, err := pool.Exec(fmt.Sprintf("INSERT INTO logins (id, email, first, last, active) VALUES ('%s','%s','%s', '%s', '%s');", strconv.Itoa(usr.ID), usr.FirstName, usr.LastName, usr.Email, strconv.FormatBool(usr.Active)))
 
 	return err
 }
@@ -71,9 +71,5 @@ func (user *User) Validate() *utils.RestErr {
 		return utils.NewBadRequestError("invalid email address")
 	}
 
-	user.Password = strings.TrimSpace(user.Password)
-	if user.Password == "" {
-		return utils.NewBadRequestError("invalid password")
-	}
 	return nil
 }
