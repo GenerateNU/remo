@@ -9,6 +9,7 @@ import (
 	"errors"
 	"fmt"
 	"remo/backend/graph/model"
+	remodb "remo/backend/src/datasource/mysql/remo_db"
 )
 
 // ClassroomSchoolYear is the resolver for the classroom_school_year field.
@@ -63,24 +64,44 @@ func (r *mutationResolver) CreateBook(ctx context.Context, input model.BookInput
 	//r.Books = append(r.Books, newBook)
 	//return newBook, nil
 
-	//BETTER BUT NOT WORKING IMPLEMENTATION
-	book := &model.Book{
-		ID:              input.ID,
-		Default_user_id: input.DefaultUserID,
+	db, err := remodb.ConnectDB() // connect to DB.
+	if err != nil {
+		panic(err)
+	} else {
+		fmt.Println("Successful Connection to DB !")
 	}
+	var book model.Book
+	book.ID = input.ID
+	book.Default_user_id = *&input.DefaultUserID
 
-	n := len(r.Books)
-	if n == 0 {
-		r.Books = make(map[string]*model.Book)
+	_, err = db.Exec(`INSERT INTO users (username, email, password, created_at, updated_at, is_deleted) VALUES (?, ?, ?, ?, ?, ?)`, user.Username, user.Email, user.Password, user.CreatedAt, user.UpdatedAt, user.IsDeleted)
+	if err != nil {
+		panic(err)
+	} else {
+		fmt.Println("Insert User is successed !")
 	}
-
-	if _, ok := r.Books[input.ID]; !ok {
-		r.Books[input.ID] = book
-		r.Books[input.ID].UpdateBook(input)
-		return r.Books[input.ID], nil
-	}
-	return nil, errors.New("Requested Book ID already exists in database. Maybe try update book mutation.")
+	defer db.Close()
+	return &book, nil
 }
+
+// 	//BETTER BUT NOT WORKING IMPLEMENTATION
+// 	book := &model.Book{
+// 		ID:              input.ID,
+// 		Default_user_id: input.DefaultUserID,
+// 	}
+
+// 	n := len(r.Books)
+// 	if n == 0 {
+// 		r.Books = make(map[string]*model.Book)
+// 	}
+
+// 	if _, ok := r.Books[input.ID]; !ok {
+// 		r.Books[input.ID] = book
+// 		r.Books[input.ID].UpdateBook(input)
+// 		return r.Books[input.ID], nil
+// 	}
+// 	return nil, errors.New("Requested Book ID already exists in database. Maybe try update book mutation.")
+// }
 
 // UpdateBook is the resolver for the updateBook field.
 func (r *mutationResolver) UpdateBook(ctx context.Context, input model.BookInput) (*model.Book, error) {
