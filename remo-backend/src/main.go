@@ -6,5 +6,7 @@ import (
 
 func main() {
 
+	// connection string 
+	// SQL.open will create this connection string 
 	e.Serve().Run(":8080")
 }

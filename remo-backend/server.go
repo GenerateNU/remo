@@ -38,6 +38,18 @@ func main() {
 	defer db.Close()
 
 	r := gin.Default()
+// 
+
+	// books := r.Group("/books")
+	// {
+	// books.POST("/", books)
+	// }
+
+	protected := r.Group("/books")
+
+	protected.Use(utils.graphqlHandler())
+	protected.post(graphqlHandler())
+	
 	r.POST("/query", graphqlHandler())
 	r.GET("/", playgroundHandler())
 	r.Run()

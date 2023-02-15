@@ -113,6 +113,7 @@ func (r *mutationResolver) CreateNewReadingRateResults(ctx context.Context, inpu
 
 // GetBookByID is the resolver for the getBookByID field.
 func (r *queryResolver) GetBookByID(ctx context.Context, id string) (*model.Book, error) {
+	obj* model.FetchConnection; 
 	if _, ok := r.Books[id]; ok {
 		return r.Books[id], nil
 	}
@@ -190,7 +191,10 @@ func (r *Resolver) ReadingRateResult() ReadingRateResultResolver {
 }
 
 // Student returns StudentResolver implementation.
-func (r *Resolver) Student() StudentResolver { return &studentResolver{r} }
+func (r *Resolver) Student() StudentResolver { 
+
+	return &studentResolver{r} 
+}
 
 // Teacher returns TeacherResolver implementation.
 func (r *Resolver) Teacher() TeacherResolver { return &teacherResolver{r} }
