@@ -13,10 +13,15 @@ export default function Home({ navigation }) {
     navigation.navigate("BarcodeScanner");
   };
 
+  const googlePressHandler = () => {
+      navigation.navigate('GoogleSSO')
+  }
+
   return (
     <View style={styles.container}>
       <Text>Home Screen</Text>
       <Button title="Scan a Book" onPress={pressHandler}></Button>
+      <Button title="Google SSO" color="black" onPress={googlePressHandler}></Button>
     </View>
   );
 }

@@ -2,6 +2,7 @@ import { createStackNavigator } from "react-navigation-stack";
 import { createAppContainer } from "react-navigation";
 import Home from '../screens/home';
 import BarcodeScanner from '../screens/barcodeScanner';
+import GoogleSSO from '../screens/googleSSO';
 
 const screens = {
     Home: {
@@ -9,6 +10,9 @@ const screens = {
     },
     BarcodeScanner: {
         screen: BarcodeScanner
+    },
+    GoogleSSO: {
+        screen: GoogleSSO
     }
 }
 
