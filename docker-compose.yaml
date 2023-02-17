@@ -3,7 +3,7 @@ services:
     image: mysql:8
 
     volumes:
-      - ./remo-backend/src/migrations/remo_staging.sql:/docker-entrypoint-initdb.d/remo_staging.sql:ro
+      - ./remo-backend/src/migrations/:/docker-entrypoint-initdb.d/
       - db:/var/lib/mysql
     ports:
       # mapping host port 3200 to container port 3306
