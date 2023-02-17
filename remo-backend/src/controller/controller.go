@@ -48,13 +48,11 @@ func (ms *MsController) Serve() *gin.Engine {
 	})
 
 	r.POST("v1/login", func(c *gin.Context) {
-		email := c.Param("email")
 
-		// check to see if the user exists in the database
-		// if so, continute to create authenticated token & cookie
-		// if not, the model will panic with an error TODO: implement better error handling for invalid logins
-		ms.UserByEmail(email)
-
+		/* check to see if the user exists in the database
+		if so, continute to create authenticated token & cookie
+		if not, the model will panic with an error TODO: implement better error handling for invalid logins
+		*/
 		var loginInfo model.LoginInfo
 
 		// check for invalid JSON bindings and rasie an error if true
@@ -63,6 +61,13 @@ func (ms *MsController) Serve() *gin.Engine {
 			c.JSON(err.Status, err)
 			return
 		}
+
+		/*
+			 send LoginInfo email element to --> will panic with an error if resultset is null
+			 ms.UserByEmail(email)
+
+			TODO: given a user that exist in the DB, fetch & set their user type
+		*/
 
 		//gets the id token from the google login credentials and validate it with our client id (audience)
 		payload, err := idtoken.Validate(c, loginInfo.Credential, audience)

@@ -17,4 +17,8 @@ type User struct {
 
 type LoginInfo struct {
 	Credential string `json:"credential"`
+	Email      string `json:"email"`
+	FirstName  string `json:"first_name"`
+	LastName   string `json:"last_name"`
+	Picture    string `json:"picture"`
 }
