@@ -4,13 +4,6 @@ import "github.com/golang-jwt/jwt/v4"
 
 func MakeJWT(subject string, secret string) (tokenString string, err error) {
 
-	//example of making a token with specific  details:
-	// claims := jwt.MapClaims{}
-	// claims["subject"] = subject
-	// claims["authorized"] = true
-	// // claims["audience"] = audience
-	// token := jwt.NewWithClaims(jwt.SigningMethodRS256, claims)
-
 	mySigningKey := []byte("secret")
 
 	// Create the Claims
