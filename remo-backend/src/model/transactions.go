@@ -35,7 +35,7 @@ func GetBooksFromDB(pool *sql.DB, isbn_13 string) (Book, error) {
 	err := pool.QueryRow(fmt.Sprintf("SELECT id, title, author, isbn_10 FROM books WHERE isbn_13= '%s';", isbn_13)).Scan(&book.BookId, &book.Title, &book.Author, &book.ISBN_10)
 
 	if err != nil {
-		panic(err)
+		return Book{}, nil
 	}
 
 	return book, nil

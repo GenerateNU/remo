@@ -74,7 +74,7 @@ func TestGetUserByID(t *testing.T) {
 
 	w := httptest.NewRecorder()
 
-	req, _ := http.NewRequest("GET", "/v1/user/22", nil)
+	req, _ := http.NewRequest("GET", "/v1/user/1", nil)
 
 	router.ServeHTTP(w, req)
 
@@ -87,7 +87,7 @@ func TestGetUserByID(t *testing.T) {
 	}
 
 	test_user := model.User{
-		ID:        22,
+		ID:        1,
 		FirstName: "Brian",
 		LastName:  "Reicher",
 		Email:     "bk.reicher@gmail.com",
