@@ -48,13 +48,11 @@ func (ms *MsController) Serve() *gin.Engine {
 	})
 
 	r.POST("v1/login", func(c *gin.Context) {
-		email := c.Param("email")
-
-		// check to see if the user exists in the database
-		// if so, continute to create authenticated token & cookie
-		// if not, the model will panic with an error TODO: implement better error handling for invalid logins
-		ms.UserByEmail(email)
-
+		/*
+			check to see if the user exists in the database
+			if so, continute to create authenticated token & cookie
+			if not, the model will panic with an error TODO: implement better error handling for invalid logins
+		*/
 		var loginInfo model.LoginInfo
 
 		// check for invalid JSON bindings and rasie an error if true
@@ -67,7 +65,7 @@ func (ms *MsController) Serve() *gin.Engine {
 		//gets the id token from the google login credentials and validate it with our client id (audience)
 		payload, err := idtoken.Validate(c, loginInfo.Credential, audience)
 		if err != nil {
-			utils.NewBadRequestError("Could not validate sign in token")
+			utils.NewBadRequestError("Could not validate login token")
 			c.JSON(http.StatusInternalServerError, gin.H{"error": "Invalid JWT."})
 			return
 		}
@@ -87,7 +85,7 @@ func (ms *MsController) Serve() *gin.Engine {
 		c.SetCookie("remo_jwt", tokenString, 86400, "/", "", true, true)
 		c.Status(http.StatusOK)
 
-		println("AUTHENTICATED")
+		println("Loged in!")
 	})
 
 	r.GET("/logout", func(c *gin.Context) {
