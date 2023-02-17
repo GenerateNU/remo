@@ -3,7 +3,7 @@ package model
 import (
 	"database/sql"
 	"fmt"
-	utils "remo/backend/src/utils"
+	middleware "remo/backend/src/middleware"
 	"strconv"
 	"strings"
 )
@@ -76,12 +76,12 @@ func GetUserByID(pool *sql.DB, user_ID string) (User, error) {
 	return user, nil
 }
 
-func (user *User) Validate() *utils.RestErr {
+func (user *User) Validate() *middleware.RestErr {
 	user.FirstName = strings.TrimSpace(user.FirstName)
 	user.LastName = strings.TrimSpace(user.LastName)
 	user.Email = strings.TrimSpace(user.Email)
 	if user.Email == "" {
-		return utils.NewBadRequestError("invalid email address")
+		return middleware.NewBadRequestError("invalid email address")
 	}
 
 	return nil

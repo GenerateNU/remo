@@ -2,8 +2,8 @@ package endpoints
 
 import (
 	"net/http"
+	"remo/backend/src/middleware"
 	"remo/backend/src/model"
-	"remo/backend/src/utils"
 
 	"github.com/gin-gonic/gin"
 	"google.golang.org/api/idtoken"
@@ -59,7 +59,7 @@ func (ms *MsController) Serve() *gin.Engine {
 
 		// check for invalid JSON bindings and rasie an error if true
 		if err := c.ShouldBindJSON(&loginInfo); err != nil {
-			err := utils.NewBadRequestError("invalid_json_body")
+			err := middleware.NewBadRequestError("invalid_json_body")
 			c.JSON(err.Status, err)
 			return
 		}
@@ -67,15 +67,15 @@ func (ms *MsController) Serve() *gin.Engine {
 		//gets the id token from the google login credentials and validate it with our client id (audience)
 		payload, err := idtoken.Validate(c, loginInfo.Credential, audience)
 		if err != nil {
-			utils.NewBadRequestError("Could not validate sign in token")
+			middleware.NewBadRequestError("Could not validate sign in token")
 			c.JSON(http.StatusInternalServerError, gin.H{"error": "Invalid JWT."})
 			return
 		}
 
 		// create a JWT for the app and send it back to the client for future requests
-		tokenString, err := utils.MakeJWT(payload.Subject, "secretkey")
+		tokenString, err := middleware.MakeJWT(payload.Subject, "secretkey")
 		if err != nil {
-			utils.NewBadRequestError("Failed to create JWT")
+			middleware.NewBadRequestError("Failed to create JWT")
 			c.JSON(http.StatusInternalServerError, gin.H{"error": "Something went wrong completing your sign in."})
 			return
 		}
@@ -124,12 +124,12 @@ func (ms *MsController) Serve() *gin.Engine {
 	//protected endpoint group (uses middelware below)
 	protected := r.Group("/protected")
 	//sets up middleware for this protected endpoint
-	protected.Use(utils.JwtAuthMiddleware())
+	protected.Use(middleware.JwtAuthMiddleware())
 	protected.GET("/hi", ProtectedEndpointTest)
 	return r
 }
 
-// const SecretKey = "abcdefghijklmnopqrstuvwxy"
+const SecretKey = "abcdefghijklmnopqrstuvwxy"
 
 func ProtectedEndpointTest(c *gin.Context) {
 	println("entered protected endpoint with remo jwt")
