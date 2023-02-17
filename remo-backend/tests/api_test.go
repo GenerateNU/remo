@@ -7,7 +7,7 @@ import (
 	"net/http"
 	"net/http/httptest"
 	"os"
-	e "remo/backend/src/endpoints"
+	c "remo/backend/src/controller"
 	"remo/backend/src/model"
 	"testing"
 
@@ -26,7 +26,7 @@ func TestGetBooks(t *testing.T) {
 	m := &model.MsModel{
 		Conn: conn,
 	}
-	c := &e.MsController{
+	c := &c.MsController{
 		Model: m,
 	}
 	router := c.Serve()
@@ -67,7 +67,7 @@ func TestGetUserByID(t *testing.T) {
 	m := &model.MsModel{
 		Conn: conn,
 	}
-	c := &e.MsController{
+	c := &c.MsController{
 		Model: m,
 	}
 	router := c.Serve()

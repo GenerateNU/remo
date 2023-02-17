@@ -4,7 +4,7 @@ import (
 	"database/sql"
 	"fmt"
 	"os"
-	e "remo/backend/src/endpoints"
+	c "remo/backend/src/controller"
 	"remo/backend/src/model"
 
 	_ "github.com/go-sql-driver/mysql"
@@ -23,7 +23,7 @@ func main() {
 	m := &model.MsModel{
 		Conn: conn,
 	}
-	c := &e.MsController{
+	c := &c.MsController{
 		Model: m,
 	}
 	c.Serve().Run(":8080")
