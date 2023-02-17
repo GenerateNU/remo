@@ -7,7 +7,7 @@ services:
       - db:/var/lib/mysql
     ports:
       # mapping host port 3200 to container port 3306
-      - 3213:3306
+      - 3333:3306
 
     restart: unless-stopped
     environment:
