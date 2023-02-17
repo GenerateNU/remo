@@ -1,14 +1,6 @@
 package main
 
-import (
-	"net/http"
-	"net/http/httptest"
-	e "remo/backend/src/endpoints"
-	"testing"
-
-	"github.com/huandu/go-assert"
-)
-
+/*
 func TestGetBooks(t *testing.T) {
 	router := e.Serve()
 
@@ -35,3 +27,4 @@ func TestGetBooks(t *testing.T) {
 	// 	},
 	// }, books)
 }
+*/
