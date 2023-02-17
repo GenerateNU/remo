@@ -129,7 +129,7 @@ func (ms *MsController) Serve() *gin.Engine {
 	return r
 }
 
-// const SecretKey = "abcdefghijklmnopqrstuvwxy"
+const SecretKey = "abcdefghijklmnopqrstuvwxy"
 
 func ProtectedEndpointTest(c *gin.Context) {
 	println("entered protected endpoint with remo jwt")
