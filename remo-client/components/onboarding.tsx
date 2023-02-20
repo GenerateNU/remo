@@ -13,7 +13,7 @@ import Onboarding3 from "./onboarding3";
 import Onboarding4 from "./onboarding4";
 
 
-export default function Onboarding({ navigation }) {
+export default function Onboarding() {
 
     const [page, setPage] = useState("onboarding1");
 
@@ -21,9 +21,29 @@ export default function Onboarding({ navigation }) {
       setPage(page);
     };
 
+    const nextPageNumber = (pageNumber) => {
+        switch (pageNumber) {
+          case "1":
+            setPage("onboarding1");
+            break;
+          case "2":
+            setPage("onboarding2");
+            break;
+          case "3":
+            setPage("onboarding3");
+            break;
+          case "4":
+            alert("Ooops! Seems like you did not fill the form.");
+            break;
+          default:
+            setPage("1");
+        }
+      };    
+
     return (
         <View style={styles.container}>
           <Text style={{fontSize: 50, fontWeight: 'bold'}}> REMO</Text>
+          <Button title="Next Page" onPress={nextPage}></Button>
           {
         {
           pageone: <Onboarding1 onButtonClick={nextPage} />,

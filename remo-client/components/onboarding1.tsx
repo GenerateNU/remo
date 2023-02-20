@@ -6,12 +6,15 @@ import {
   Stack,
 } from "@react-navigation/native";
 import { StyleSheet, Text, View, Image, Button, TextInput } from "react-native";
+import Onboarding from "./onboarding";
 
 export default function Onboarding1({ nextPage }) {
 
-    return (
+      return (
         <View style={styles.container}>
           <Text style={{fontSize: 50, fontWeight: 'bold'}}> REMO</Text>
+          <Text style={{fontSize: 50, fontWeight: 'bold'}}> Onboarding 1</Text>
+          <Button title="Next Page" onPress={nextPage}></Button>
         </View>
       );
     }
@@ -26,3 +29,4 @@ export default function Onboarding1({ nextPage }) {
         paddingRight: 25,
       }
     });
+
