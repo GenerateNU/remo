@@ -66,7 +66,7 @@ export default function Profile({ navigation }) {
             }}
             />
             <View style={{flex: 1, justifyContent: "flex-end", alignContent: "center", paddingLeft: 80, marginBottom: 50}}>
-                <Button title="Chnage Password" color="black" ></Button>
+                <Button title="Change Password" color="black" ></Button>
                 <Button title="Sign Out" color="black"></Button>
             </View>
         </View>
