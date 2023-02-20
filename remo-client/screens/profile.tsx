@@ -5,8 +5,9 @@ import {
   useNavigation,
   Stack,
 } from "@react-navigation/native";
-import { StyleSheet, Text, View, Image, Button, TextInput } from "react-native";
+import { StyleSheet, Text, TouchableOpacity, View, Image, Button, TextInput } from "react-native";
 import SelectDropdown from 'react-native-select-dropdown';
+
 
 export default function Profile({ navigation }) {
 
@@ -64,7 +65,10 @@ export default function Profile({ navigation }) {
                 return item
             }}
             />
-            
+            <View style={{flex: 1, justifyContent: "flex-end", alignContent: "center", paddingLeft: 80, marginBottom: 50}}>
+                <Button title="Chnage Password" color="black" ></Button>
+                <Button title="Sign Out" color="black"></Button>
+            </View>
         </View>
       );
     }
