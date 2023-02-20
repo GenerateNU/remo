@@ -11,6 +11,29 @@ import (
 	"remo/backend/graph/model"
 )
 
+import (
+	"database/sql"
+	"fmt"
+	"os"
+   _ "github.com/go-sql-driver/mysql"
+   )
+
+
+func init() (*sql.DB, error) {
+		USERNAME := os.Getenv("remo")
+		PASSWORD := os.Getenv("pwd")
+		HOST := os.Getenv("127.0.0.1")
+		PORT := os.Getenv("3213")
+		DATABASE := os.Getenv("remodb")
+	   dbconf := USERNAME + ":" + PASSWORD + "@tcp(" + HOST + ":" + PORT + ")/" + DATABASE + "?charset=utf8mb4" + "&parseTime=True"
+	   db, err := sql.Open(os.Getenv("DRIVER"), dbconf)
+		if err != nil {
+		 fmt.Println("Error connecting to database : error=%v", err)
+		 return nil, err
+		}
+	   return db, err
+}
+
 // ClassroomSchoolYear is the resolver for the classroom_school_year field.
 func (r *classroomResolver) ClassroomSchoolYear(ctx context.Context, obj *model.Classroom) (*string, error) {
 	panic(fmt.Errorf("not implemented: ClassroomSchoolYear - classroom_school_year"))
@@ -50,6 +73,7 @@ func (r *classroomResolver) ClassroomAvgLength(ctx context.Context, obj *model.C
 func (r *mutationResolver) CreateBook(ctx context.Context, input model.BookInput) (*model.Book, error) {
 	// worse array implementation
 
+
 	//for _, book := range r.Books {
 	//	if book.ID == input.ID {
 	//		return nil, errors.New("Requested Book ID already exists in database. Maybe try update book mutation.")
@@ -71,13 +95,13 @@ func (r *mutationResolver) CreateBook(ctx context.Context, input model.BookInput
 
 	n := len(r.Books)
 	if n == 0 {
-		r.Books = make(map[string]*model.Book)
+		r.Books = make(map[string]*model.Book)  
 	}
 
 	if _, ok := r.Books[input.ID]; !ok {
 		r.Books[input.ID] = book
 		r.Books[input.ID].UpdateBook(input)
-		return r.Books[input.ID], nil
+		return r.Books[input.ID], nil 
 	}
 	return nil, errors.New("Requested Book ID already exists in database. Maybe try update book mutation.")
 }
