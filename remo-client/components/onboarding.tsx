@@ -1,10 +1,6 @@
 import { StatusBar } from "expo-status-bar";
 import React, { useState, useEffect } from "react";
-import {
-  NavigationContainer,
-  useNavigation,
-  Stack,
-} from "@react-navigation/native";
+import { NavigationContainer, useNavigation } from "@react-navigation/native";
 import { StyleSheet, Text, View, Image, Button, TextInput } from "react-native";
 import SelectDropdown from "react-native-select-dropdown";
 import Onboarding1 from "./onboarding1";
@@ -24,8 +20,6 @@ export default function Onboarding() {
     setPage(page);
   };
 
-  let BottomComponent = () => <Onboarding1 nextPage={nextPage} />;
-
   useEffect(() => {
     console.log(page);
   }, [page]);
@@ -37,10 +31,10 @@ export default function Onboarding() {
       </View>
       {
         {
-          pageone: <Onboarding1 nextPage={nextPage} />,
-          pagetwo: <Onboarding2 nextPage={nextPage} />,
-          pagethree: <Onboarding3 nextPage={nextPage} />,
-          pagefour: <Onboarding4 nextPage={nextPage} />,
+          pageone: <Onboarding1 nextPage={setPage} />,
+          pagetwo: <Onboarding2 nextPage={setPage} />,
+          pagethree: <Onboarding3 nextPage={setPage} />,
+          pagefour: <Onboarding4 nextPage={setPage} />,
         }[page]
       }
     </View>

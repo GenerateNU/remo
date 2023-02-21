@@ -10,6 +10,22 @@ export default function LateTop({ page, setPage }: StringSetter) {
       setPage("pageone");
     } else if (page === "pagefour") {
       setPage("pagethree");
+    } else if (page === "pagefive") {
+      setPage("pagefour");
+    } else if (page === "pagesix") {
+      setPage("pagefive");
+    } else if (page === "pageseven") {
+      setPage("pagesix");
+    } else if (page === "pageeight") {
+      setPage("pageseven");
+    } else if (page === "pagenine") {
+      setPage("pageeight");
+    } else if (page === "pageten") {
+      setPage("pagenine");
+    } else if (page === "pageeleven") {
+      setPage("pageten");
+    } else if (page === "pagetwelve") {
+      setPage("pageeleven");
     }
   };
   return (

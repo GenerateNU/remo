@@ -15,6 +15,14 @@ export default function TopComponent({ page, setPage }: StringSetter) {
           pagetwo: <EarlyTop />,
           pagethree: <LateTop page={page} setPage={setPage} />,
           pagefour: <LateTop page={page} setPage={setPage} />,
+          pagefive: <LateTop page={page} setPage={setPage} />,
+          pagesix: <LateTop page={page} setPage={setPage} />,
+          pageseven: <LateTop page={page} setPage={setPage} />,
+          pageeight: <LateTop page={page} setPage={setPage} />,
+          pagenine: <LateTop page={page} setPage={setPage} />,
+          pageten: <LateTop page={page} setPage={setPage} />,
+          pageeleven: <LateTop page={page} setPage={setPage} />,
+          pagetwelve: <LateTop page={page} setPage={setPage} />,
         }[page]
       }
     </View>
