@@ -1,6 +1,9 @@
 package model
 
-import "github.com/jinzhu/gorm"
+import (
+	_ "github.com/go-sql-driver/mysql"
+	"github.com/jinzhu/gorm"
+)
 
 func FetchConnection() *gorm.DB {
 	db, err := gorm.Open("mysql", "remo:pwd@tcp(localhost:3333)/remodb")
