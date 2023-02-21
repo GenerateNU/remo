@@ -31,6 +31,8 @@ func (ms *MsController) Serve() *gin.Engine {
 			return
 		}
 
+		user.Validate()
+
 		_, err := ms.AddUser(user)
 
 		if err != nil {

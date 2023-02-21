@@ -76,13 +76,9 @@ func GetUserByID(pool *sql.DB, user_ID string) (User, error) {
 	return user, nil
 }
 
-func (user *User) Validate() *middleware.RestErr {
-	user.FirstName = strings.TrimSpace(user.FirstName)
-	user.LastName = strings.TrimSpace(user.LastName)
+func (user *User) Validate() {
 	user.Email = strings.TrimSpace(user.Email)
 	if user.Email == "" {
-		return middleware.NewBadRequestError("invalid email address")
+		panic(middleware.NewBadRequestError("invalid email address"))
 	}
-
-	return nil
 }
