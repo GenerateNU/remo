@@ -60,7 +60,7 @@ const styles = StyleSheet.create({
     paddingRight: 25,
     borderWidth: 1,
     borderRadius: 20,
-    marginTop: 150,
+    marginTop: 100,
   },
   question: {
     alignItems: "center",
@@ -71,7 +71,7 @@ const styles = StyleSheet.create({
     textAlign: "center",
     paddingRight: 30,
     alignContent: "center",
-    marginTop: 50,
+    marginTop: 30,
   },
   dropdown: {
     width: "75%",
