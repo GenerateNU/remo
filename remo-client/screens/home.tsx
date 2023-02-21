@@ -23,7 +23,7 @@ export default function Home({ navigation }) {
 }
 
 const onboardingPressHandler = () => {
-  navigation.navigate('Onboarding4')
+  navigation.navigate('Onboarding7')
 }
 
   return (
