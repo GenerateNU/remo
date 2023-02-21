@@ -7,10 +7,10 @@ import (
 )
 
 func DbInitConnection() (*sql.DB, error) {
-	USERNAME := os.Getenv("localhost")
+	USERNAME := os.Getenv("remo")
 	PASSWORD := os.Getenv("pwd")
 	HOST := os.Getenv("127.0.0.1")
-	PORT := os.Getenv("3306")
+	PORT := os.Getenv("3333")
 	DATABASE := os.Getenv("remodb")
 	dbconf := USERNAME + ":" + PASSWORD + "@tcp(" + HOST + ":" + PORT + ")/" + DATABASE + "?charset=utf8mb4" + "&parseTime=True"
 	//"mysql"

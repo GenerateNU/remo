@@ -24,7 +24,7 @@ func TestCreateBook(t *testing.T) {
 	if err != nil {
 		t.Fatalf("failed to initialize database connection: %v", err)
 	}
-	defer db.Close()
+	db.Close()
 
 	// Set up the mutation resolver with the mock database connection
 	resolver := &mutationResolver{}

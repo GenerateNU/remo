@@ -83,7 +83,7 @@ func (r *mutationResolver) CreateBook(ctx context.Context, input model.BookInput
 		fmt.Println("Insert User is successed !")
 	}
 
-	defer db.Close()
+	db.Close()
 	return &book, nil
 
 	// //BETTER BUT NOT WORKING IMPLEMENTATION
