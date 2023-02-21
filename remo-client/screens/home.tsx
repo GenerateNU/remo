@@ -15,16 +15,16 @@ export default function Home({ navigation }) {
   };
 
   const googlePressHandler = () => {
-      navigation.navigate('GoogleSSO')
-  }
+    navigation.navigate("GoogleSSO");
+  };
 
   const profilePressHandler = () => {
-    navigation.navigate('Profile')
-}
+    navigation.navigate("Profile");
+  };
 
-const onboardingPressHandler = () => {
-  navigation.navigate('Onboarding7')
-}
+  const onboardingPressHandler = () => {
+    navigation.navigate("Onboarding");
+  };
 
   return (
     <View style={styles.container}>
@@ -32,7 +32,11 @@ const onboardingPressHandler = () => {
       <Button title="Scan a Book" onPress={pressHandler}></Button>
       <Button title="View Profile" onPress={profilePressHandler}></Button>
       <Button title="Onboarding" onPress={onboardingPressHandler}></Button>
-      <Button title="Google SSO" color="black" onPress={googlePressHandler}></Button>
+      <Button
+        title="Google SSO"
+        color="black"
+        onPress={googlePressHandler}
+      ></Button>
     </View>
   );
 }
