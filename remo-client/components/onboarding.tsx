@@ -11,6 +11,14 @@ import Onboarding1 from "./onboarding1";
 import Onboarding2 from "./onboarding2";
 import Onboarding3 from "./onboarding3";
 import Onboarding4 from "./onboarding4";
+import Onboarding5 from "./onboarding5";
+import Onboarding6 from "./onboarding6";
+import Onboarding7 from "./onboarding7";
+import Onboarding8 from "./onboarding8";
+import Onboarding9 from "./onboarding9";
+import Onboarding10 from "./onboarding10";
+import Onboarding11 from "./onboarding11";
+import Onboarding12 from "./onboarding12";
 import TopComponent from "./topOnboarding/topComponent";
 
 export default function Onboarding() {
@@ -41,6 +49,14 @@ export default function Onboarding() {
           pagetwo: <Onboarding2 nextPage={nextPage} />,
           pagethree: <Onboarding3 nextPage={nextPage} />,
           pagefour: <Onboarding4 nextPage={nextPage} />,
+          pagefive: <Onboarding5 nextPage={nextPage} />,
+          pagesix: <Onboarding6 nextPage={nextPage} />,
+          pageseven: <Onboarding7 nextPage={nextPage} />,
+          pageeight: <Onboarding8 nextPage={nextPage} />,
+          pagenine: <Onboarding9 nextPage={nextPage} />,
+          pageten: <Onboarding10 nextPage={nextPage} />,
+          pageeleven: <Onboarding11 nextPage={nextPage} />,
+          pagetwelve: <Onboarding12 nextPage={nextPage} />,
         }[page]
       }
     </View>

@@ -8,10 +8,13 @@ import {
 import SelectDropdown from 'react-native-select-dropdown';
 import { StyleSheet, Text, View, ScrollView, Image, Button, Pressable, TouchableOpacity, TextInput } from "react-native";
 
-export default function Onboarding7({ navigation }) {
+export default function Onboarding7({ nextPage }) {
 
     const [selected, setSelected] = useState(false);
 
+    const onClick = () => {
+      nextPage("pageeight");
+    };
 
     return (
         <View style={styles.container}>
@@ -61,7 +64,7 @@ export default function Onboarding7({ navigation }) {
                     </ScrollView>
                     </View>
              <View style={styles.next}>
-                <Button title="Next Question" color="black" ></Button>
+               <Button title="Next Question" color="black" onPress={onClick}></Button>
              </View>
         </View>
       );
@@ -75,10 +78,11 @@ export default function Onboarding7({ navigation }) {
           justifyContent: "flex-start",
           paddingLeft: 25,
           paddingRight: 25,
+          marginRight: 20,
         },
         block: {
           backgroundColor: "white",
-          flex: 1,
+          flex: 1.5,
           alignItems: "center",
           justifyContent: "flex-start",
           paddingLeft: 25,
@@ -87,21 +91,25 @@ export default function Onboarding7({ navigation }) {
           borderWidth: 1,
           borderRadius: 20,
           marginTop: 100,
+          width: "110%",
+          marginRight: 100,
+    
         },
         question: {
             alignItems: "center",
             fontSize: 20,
-            paddingLeft: 50,
+            paddingLeft: 20,
             paddingBottom: 25,
             fontWeight: 'bold',
             textAlign: 'center',
-            paddingRight: 50,
+            paddingRight: 20,
             alignContent: "center",
             marginTop: 30
            
         }, 
         option: {
-            width: "41%",
+            width: "40%",
+            flex: "flex-start",
             alignContent: "center",
             alignItems: "center",
             justifyContent: "center",
@@ -112,11 +120,11 @@ export default function Onboarding7({ navigation }) {
             marginRight: 10,
         },
         text: {
-            width: "50%",
+            width: "80%",
             alignContent: "center",
             justifyContent: "center",
             textAlign: 'center',
-            fontSize: 8,
+            fontSize: 10,
             paddingTop: 5,
             paddingBottom: 5,
             paddingLeft: 0,

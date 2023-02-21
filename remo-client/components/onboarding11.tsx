@@ -8,10 +8,13 @@ import {
 import SelectDropdown from 'react-native-select-dropdown';
 import { StyleSheet, Text, View, ScrollView, Image, Button, Pressable, TouchableOpacity, TextInput } from "react-native";
 
-export default function Onboarding11({ navigation }) {
+export default function Onboarding11({ nextPage }) {
 
     const [selected, setSelected] = useState(false);
 
+    const onClick = () => {
+      nextPage("pagetwelve");
+    };
 
     return (
         <View style={styles.container}>

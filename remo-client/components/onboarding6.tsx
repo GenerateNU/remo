@@ -8,10 +8,13 @@ import {
 import SelectDropdown from 'react-native-select-dropdown';
 import { StyleSheet, Text, View, Image, Button, Pressable, TouchableOpacity, TextInput } from "react-native";
 
-export default function Onboarding6({ navigation }) {
+export default function Onboarding6({ nextPage }) {
 
     const [selected, setSelected] = useState(false);
 
+    const onClick = () => {
+      nextPage("pageseven");
+    };
 
     return (
         <View style={styles.container}>
@@ -31,7 +34,7 @@ export default function Onboarding6({ navigation }) {
                     </Pressable>
                     </View>
              <View style={styles.next}>
-                <Button title="Next Question" color="black" ></Button>
+                <Button title="Next Question" color="black" onPress={onClick}></Button>
              </View>
         </View>
       );

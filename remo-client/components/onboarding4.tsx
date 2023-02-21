@@ -34,8 +34,6 @@ export default function Onboarding4({ nextPage }) {
             alignContent: "space-around",
             flexDirection: "row",
             paddingBottom: 15,
-            paddingRight: 15,
-            paddingLeft: 15,
           }}
         >
           <Pressable style={styles.option}>
@@ -48,10 +46,11 @@ export default function Onboarding4({ nextPage }) {
         <Pressable style={styles.option}>
           <Text style={styles.text}>{"I like everything!"}</Text>
         </Pressable>
-      </View>
+        </View>
       <View style={styles.next}>
         <Button title="Next Question" color="black" onPress={onClick}></Button>
       </View>
+      
     </View>
   );
 }
@@ -64,6 +63,8 @@ const styles = StyleSheet.create({
     justifyContent: "flex-start",
     paddingLeft: 25,
     paddingRight: 25,
+    marginRight: 10,
+    marginLeft: 10,
   },
   block: {
     backgroundColor: "white",
@@ -75,21 +76,21 @@ const styles = StyleSheet.create({
     flexDirection: "column",
     borderWidth: 1,
     borderRadius: 20,
-    marginTop: 100,
+    marginTop: 90,
+    width: "60%",
+    borderHeight: "20%",
   },
   question: {
     alignItems: "center",
     fontSize: 20,
-    paddingLeft: 50,
     paddingBottom: 25,
     fontWeight: "bold",
     textAlign: "center",
-    paddingRight: 50,
     alignContent: "center",
-    marginTop: 40,
+    marginTop: 20,
   },
   option: {
-    width: "70%",
+    width: "90%",
     alignContent: "center",
     alignItems: "center",
     justifyContent: "center",
@@ -100,7 +101,7 @@ const styles = StyleSheet.create({
     marginRight: 10,
   },
   text: {
-    width: "50%",
+    width: "100%",
     alignContent: "center",
     justifyContent: "center",
     textAlign: "center",
