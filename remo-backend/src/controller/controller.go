@@ -2,6 +2,7 @@ package controller
 
 import (
 	"net/http"
+	"os"
 	"remo/backend/src/middleware"
 	"remo/backend/src/model"
 
@@ -17,8 +18,9 @@ type MsController struct {
 	model.Model
 }
 
-const audience string = "146112178699-kj35h882rr6711tflocnoodhquqtcv0f.apps.googleusercontent.com"
+var audience string = os.Getenv("audience")
 
+// USERNAME := os.Getenv("remo")
 // Everything above here is going to move to a  folder (controller layer)
 func (ms *MsController) Serve() *gin.Engine {
 	r := gin.Default()
@@ -136,7 +138,7 @@ func (ms *MsController) Serve() *gin.Engine {
 	return r
 }
 
-const SecretKey = "abcdefghijklmnopqrstuvwxy"
+var SecretKey string = os.Getenv("secretKey")
 
 func ProtectedEndpointTest(c *gin.Context) {
 	println("entered protected endpoint with remo jwt")
