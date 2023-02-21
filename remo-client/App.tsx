@@ -5,6 +5,8 @@ import BarcodeScanner from './screens/barcodeScanner';
 import GoogleSSO from './screens/googleSSO';
 import Profile from './screens/profile';
 import Onboarding from './components/onboarding';
+import Onboarding4 from './components/onboarding4';
+import Onboarding3 from './components/onboarding3';
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
 
@@ -31,8 +33,8 @@ export default function App() {
           component={Profile}
         />
         <Stack.Screen 
-          name="Onboarding"
-          component={Onboarding}
+          name="Onboarding4"
+          component={Onboarding4}
         />
       </Stack.Navigator>
     </NavigationContainer>
