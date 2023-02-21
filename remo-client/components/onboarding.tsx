@@ -39,8 +39,8 @@ export default function Onboarding() {
       </View>
       {
         {
-          pageone: <Onboarding1 nextPage={nextPage} />,
-          pagetwo: <Onboarding2 nextPage={nextPage} />,
+          pageone: <Onboarding1 nextPage={setPage} />,
+          pagetwo: <Onboarding2 nextPage={setPage} />,
           pagethree: <Onboarding3 nextPage={nextPage} />,
           pagefour: <Onboarding4 nextPage={nextPage} />,
           pagefive: <Onboarding5 nextPage={nextPage} />,
@@ -50,7 +50,7 @@ export default function Onboarding() {
           pagenine: <Onboarding9 nextPage={nextPage} />,
           pageten: <Onboarding10 nextPage={nextPage} />,
           pageeleven: <Onboarding11 nextPage={nextPage} />,
-          pagetwelve: <Onboarding12 nextPage={nextPage} />,
+          pagetwelve: <Onboarding12 nextPage={setPage} />,
         }[page]
       }
     </View>

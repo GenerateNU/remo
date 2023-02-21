@@ -1,15 +1,12 @@
 import { StatusBar } from "expo-status-bar";
 import React, { useState } from "react";
-import {
-  NavigationContainer,
-  useNavigation,
-  Stack,
-} from "@react-navigation/native";
+import { NavigationContainer, useNavigation } from "@react-navigation/native";
 import { StyleSheet, Text, View, Image, TextInput } from "react-native";
 import { Button } from "@rneui/themed";
 import Onboarding from "./onboarding";
+import { StringSet } from "../types";
 
-export default function Onboarding2({ nextPage }) {
+export default function Onboarding2({ nextPage }: StringSet) {
   const onClick = () => {
     nextPage("pagethree");
   };
