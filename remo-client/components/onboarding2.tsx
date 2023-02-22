@@ -54,11 +54,11 @@ export default function Onboarding2({ nextPage }: StringSet) {
             <View
               style={{
                 width: "100%",
-                height: "50%",
+                height: "55%",
                 padding: 12,
                 marginTop: 12,
                 flexDirection: "column",
-                justifyContent: "space-between",
+                justifyContent: "space-around",
                 borderColor: "black",
                 borderWidth: 1,
                 borderRadius: 10,
@@ -161,9 +161,7 @@ export default function Onboarding2({ nextPage }: StringSet) {
           }}
         >
           <Button
-            style={{
-              marginBottom: 32,
-            }}
+            buttonStyle={styles.button}
             title="Save Profile"
             onPress={onClick}
           ></Button>
@@ -183,7 +181,6 @@ const styles = StyleSheet.create({
     paddingRight: 25,
   },
   profile: {
-    marginTop: 12,
     width: 100,
     height: 100,
     borderRadius: "50%",
@@ -224,5 +221,10 @@ const styles = StyleSheet.create({
     height: 26,
     width: "100%",
     fontSize: 12,
+  },
+  button: {
+    borderRadius: 20,
+    backgroundColor: "black",
+    marginBottom: 32,
   },
 });

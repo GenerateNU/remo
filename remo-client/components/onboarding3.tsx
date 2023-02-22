@@ -8,6 +8,7 @@ import {
 import SelectDropdown from "react-native-select-dropdown";
 import { StyleSheet, Text, View, Image, TextInput } from "react-native";
 import { Button } from "@rneui/themed";
+import { FontAwesome } from "@expo/vector-icons";
 
 export default function Onboarding3({ nextPage }) {
   const books = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
@@ -17,26 +18,61 @@ export default function Onboarding3({ nextPage }) {
 
   return (
     <View style={styles.container}>
-      <View style={styles.block}>
-        <Text style={styles.question}>
-          How many books will you read this year?
-        </Text>
-        <SelectDropdown
-          data={books}
-          buttonStyle={styles.dropdown}
-          onSelect={(selectedItem, index) => {
-            console.log(selectedItem, index);
-          }}
-          buttonTextAfterSelection={(selectedItem, index) => {
-            return selectedItem;
-          }}
-          rowTextForSelection={(item, index) => {
-            return item;
-          }}
-        />
+      <View
+        style={{
+          flex: 3,
+          width: "100%",
+          alignItems: "center",
+        }}
+      >
+        <View style={styles.block}>
+          <Text style={styles.question}>
+            How many books will you read this year?
+          </Text>
+          <SelectDropdown
+            data={books}
+            buttonStyle={styles.dropdown}
+            buttonTextStyle={styles.dropdownText}
+            rowStyle={styles.dropdownRow}
+            renderDropdownIcon={(isOpened) => {
+              return (
+                <FontAwesome
+                  name={isOpened ? "chevron-up" : "chevron-down"}
+                  color={"#444"}
+                  size={16}
+                />
+              );
+            }}
+            onSelect={(selectedItem, index) => {
+              console.log(selectedItem, index);
+            }}
+            buttonTextAfterSelection={(selectedItem, index) => {
+              return selectedItem;
+            }}
+            rowTextForSelection={(item, index) => {
+              return item;
+            }}
+          />
+        </View>
       </View>
+
       <View style={styles.next}>
-        <Button title="Next Question" color="black" onPress={onClick}></Button>
+        <View
+          style={{
+            flex: 1,
+            width: "100%",
+            flexDirection: "row",
+            justifyContent: "flex-end",
+            alignItems: "flex-end",
+            paddingBottom: 32,
+          }}
+        >
+          <Button
+            title="Next Question"
+            onPress={onClick}
+            buttonStyle={styles.button}
+          ></Button>
+        </View>
       </View>
     </View>
   );
@@ -45,11 +81,9 @@ export default function Onboarding3({ nextPage }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "white",
     alignItems: "center",
     justifyContent: "flex-start",
-    paddingLeft: 25,
-    paddingRight: 25,
+    width: "100%",
   },
   block: {
     backgroundColor: "white",
@@ -60,7 +94,7 @@ const styles = StyleSheet.create({
     paddingRight: 25,
     borderWidth: 1,
     borderRadius: 20,
-    marginTop: 100,
+    marginBottom: 250,
   },
   question: {
     alignItems: "center",
@@ -75,11 +109,21 @@ const styles = StyleSheet.create({
   },
   dropdown: {
     width: "75%",
+    backgroundColor: "white",
+    borderColor: "black",
+    borderWidth: 1,
   },
   next: {
     flex: 1,
     justifyContent: "flex-end",
-    paddingLeft: 100,
-    marginBottom: 80,
+    alignItems: "flex-end",
+  },
+  dropdownText: {
+    color: "black",
+  },
+  dropdownRow: {},
+  button: {
+    borderRadius: 20,
+    backgroundColor: "black",
   },
 });

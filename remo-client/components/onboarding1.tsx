@@ -43,7 +43,7 @@ export default function Onboarding1({ nextPage }: StringSet) {
             />
             <View
               style={{
-                width: "80%",
+                width: "100%",
                 height: "50%",
                 padding: 15,
                 marginTop: 12,
@@ -90,9 +90,7 @@ export default function Onboarding1({ nextPage }: StringSet) {
           }}
         >
           <Button
-            style={{
-              marginBottom: 32,
-            }}
+            buttonStyle={styles.button}
             title="Customize Profile"
             onPress={onClick}
           ></Button>
@@ -112,12 +110,16 @@ const styles = StyleSheet.create({
     paddingRight: 25,
   },
   profile: {
-    marginTop: 12,
     width: 100,
     height: 100,
     borderRadius: "50%",
   },
   columns: {
     flex: 1,
+  },
+  button: {
+    borderRadius: 20,
+    backgroundColor: "black",
+    marginBottom: 32,
   },
 });
