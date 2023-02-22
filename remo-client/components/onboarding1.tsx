@@ -93,7 +93,7 @@ export default function Onboarding1({ nextPage }: StringSet) {
             style={{
               marginBottom: 32,
             }}
-            title="Next Page"
+            title="Customize Profile"
             onPress={onClick}
           ></Button>
         </View>
