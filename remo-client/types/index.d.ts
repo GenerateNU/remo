@@ -4,4 +4,4 @@ export type StringSetter = {page: string, setPage: React.Dispatch<React.SetState
 
 export type StringSet = {nextPage: React.Dispatch<React.SetStateAction<string>>};
 
-export type Progress = {activeStep: string};
+export type Progress = {activeStep: number};

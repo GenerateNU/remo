@@ -16,13 +16,38 @@ import Onboarding10 from "./onboarding10";
 import Onboarding11 from "./onboarding11";
 import Onboarding12 from "./onboarding12";
 import TopComponent from "./topOnboarding/topComponent";
-//import ProgressBar from "./progressbar/progressbar";
+import ProgressBar from "./progressbar/progressbar";
 
 export default function Onboarding() {
   const [page, setPage] = useState<string>("pageone");
+  const [pageNum, setPageNum] = useState(0);
 
-  const mainTop = () => {
-    <Text style={{ fontSize: 40, fontWeight: "bold" }}> REMO ALT</Text>;
+  const setPageNumber = (page: string) => {
+    if (page === "pageone") {
+      setPageNum(0);
+    } else if (page === "pagetwo") {
+      setPageNum(1);
+    } else if (page === "pagethree") {
+      setPageNum(2);
+    } else if (page === "pagefour") {
+      setPageNum(3);
+    } else if (page === "pagefive") {
+      setPageNum(4);
+    } else if (page === "pagesix") {
+      setPageNum(5);
+    } else if (page === "pageseven") {
+      setPageNum(6);
+    } else if (page === "pageeight") {
+      setPageNum(7);
+    } else if (page === "pagenine") {
+      setPageNum(8);
+    } else if (page === "pageten") {
+      setPageNum(9);
+    } else if (page === "pageeleven") {
+      setPageNum(10);
+    } else if (page === "pagetwelve") {
+      setPageNum(11);
+    }
   };
 
   const nextPage = (page: string) => {
@@ -31,12 +56,16 @@ export default function Onboarding() {
 
   useEffect(() => {
     console.log(page);
+    setPageNumber(page);
   }, [page]);
 
   return (
     <View style={styles.container}>
       <View style={styles.box}>
         <TopComponent page={page} setPage={setPage} />
+      </View>
+      <View style={styles.progressBar}>
+        <ProgressBar activeStep={pageNum} />
       </View>
       {
         {
@@ -69,5 +98,12 @@ const styles = StyleSheet.create({
   },
   box: {
     width: "100%",
+  },
+  progressBar: {
+    width: "100%",
+    flexDirection: "row",
+    justifyContent: "center",
+    marginTop: 15,
+    marginBottom: 15,
   },
 });
