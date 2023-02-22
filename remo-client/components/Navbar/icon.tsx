@@ -1,4 +1,5 @@
-import * as icons from "react-bootstrap-icons";
+import * as icons from "react-native-bootstrap-icons";
+import CheckCircleFillIcon from "react-native-bootstrap-icons/icons/check-circle-fill";
 
 interface IconProps extends icons.IconProps {
   // Cannot use "name" as it is a valid SVG attribute

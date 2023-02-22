@@ -79,7 +79,7 @@ export default function Onboarding11({ nextPage }) {
         </ScrollView>
       </View>
       <View style={styles.next}>
-        <Button title="Next Question" color="black"></Button>
+        <Button title="Next Question" color="black" onPress={onClick}></Button>
       </View>
     </View>
   );

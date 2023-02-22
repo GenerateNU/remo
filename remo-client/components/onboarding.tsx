@@ -16,6 +16,7 @@ import Onboarding10 from "./onboarding10";
 import Onboarding11 from "./onboarding11";
 import Onboarding12 from "./onboarding12";
 import TopComponent from "./topOnboarding/topComponent";
+//import ProgressBar from "./progressbar/progressbar";
 
 export default function Onboarding() {
   const [page, setPage] = useState<string>("pageone");
