@@ -2,6 +2,7 @@ package graph
 
 import (
 	"context"
+	"fmt"
 	"remo/backend/graph/model"
 	"testing"
 
@@ -19,13 +20,6 @@ func TestDbInitConnection(t *testing.T) {
 
 func TestCreateBook(t *testing.T) {
 
-	// Set up a mock database connection
-	db, err := DbInitConnection()
-	if err != nil {
-		t.Fatalf("failed to initialize database connection: %v", err)
-	}
-	db.Close()
-
 	// Set up the mutation resolver with the mock database connection
 	resolver := &mutationResolver{}
 
@@ -34,6 +28,7 @@ func TestCreateBook(t *testing.T) {
 		ID:            "123",
 		DefaultUserID: "456",
 	}
+	fmt.Printf("penis \n")
 
 	// Call the CreateBook method with the input
 	book, err := resolver.CreateBook(context.Background(), input)

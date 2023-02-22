@@ -62,7 +62,6 @@ func (r *mutationResolver) CreateBook(ctx context.Context, input model.BookInput
 	//newBook.UpdateBook(input)
 	//r.Books = append(r.Books, newBook)
 	//return newBook, nil
-
 	db, err := DbInitConnection()
 
 	if err != nil {
@@ -73,7 +72,8 @@ func (r *mutationResolver) CreateBook(ctx context.Context, input model.BookInput
 
 	var book model.Book
 	book.ID = input.ID
-	book.Default_user_id = *&input.DefaultUserID
+	book.Default_user_id = input.DefaultUserID
+	fmt.Printf("hi")
 
 	_, err = db.Exec(`INSERT INTO books (id, default_user_id, password, created_at, updated_at, is_deleted) VALUES (?, ?)`,
 		book.ID, book.Default_user_id)
