@@ -26,31 +26,67 @@ export default function Onboarding4({ nextPage }) {
 
   return (
     <View style={styles.container}>
-      <View style={styles.block}>
-        <Text style={styles.question}>What type of reading do you like?</Text>
+      <View
+        style={{
+          flex: 5,
+          flexDirection: "row",
+          justifyContent: "center",
+        }}
+      >
+        <View style={styles.block}>
+          <Text style={styles.question}>What type of reading do you like?</Text>
 
-        <View
-          style={{
-            alignContent: "space-around",
-            flexDirection: "row",
-            paddingBottom: 15,
-          }}
-        >
-          <Pressable style={styles.option}>
-            <Text style={styles.text}>{"Characters and their stories"}</Text>
-          </Pressable>
-          <Pressable style={styles.option}>
-            <Text style={styles.text}>{"Facts, Figures, and Ideas"}</Text>
+          <View
+            style={{
+              alignContent: "space-around",
+              flexDirection: "row",
+              alignItems: "center",
+              paddingBottom: 15,
+            }}
+          >
+            <Pressable
+              style={({ pressed }) => [
+                { backgroundColor: pressed ? "lightblue" : "white" },
+                styles.option,
+              ]}
+            >
+              <Text style={styles.text}>{"Characters and their stories"}</Text>
+            </Pressable>
+            <Pressable
+              style={({ pressed }) => [
+                { backgroundColor: pressed ? "lightblue" : "white" },
+                styles.option,
+              ]}
+            >
+              <Text style={styles.text}>{"Facts, Figures, and Ideas"}</Text>
+            </Pressable>
+          </View>
+          <Pressable
+            style={({ pressed }) => [
+              { backgroundColor: pressed ? "lightblue" : "white" },
+              styles.option,
+            ]}
+          >
+            <Text style={styles.text}>{"I like everything!"}</Text>
           </Pressable>
         </View>
-        <Pressable style={styles.option}>
-          <Text style={styles.text}>{"I like everything!"}</Text>
-        </Pressable>
-        </View>
-      <View style={styles.next}>
-        <Button title="Next Question" color="black" onPress={onClick}></Button>
       </View>
-      
+      <View
+        style={{
+          flex: 3,
+          width: "100%",
+          flexDirection: "row",
+          alignItems: "flex-end",
+        }}
+      >
+        <View style={styles.next}>
+          <Button
+            title="Next Question"
+            onPress={onClick}
+            buttonStyle={styles.button}
+          ></Button>
+        </View>
+      </View>
     </View>
   );
 }
@@ -58,27 +94,19 @@ export default function Onboarding4({ nextPage }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "white",
     alignItems: "center",
     justifyContent: "flex-start",
-    paddingLeft: 25,
-    paddingRight: 25,
-    marginRight: 10,
-    marginLeft: 10,
   },
   block: {
     backgroundColor: "white",
     flex: 1,
+    paddingLeft: 18,
+    paddingRight: 18,
+    flexDirection: "column",
     alignItems: "center",
     justifyContent: "flex-start",
-    paddingLeft: 25,
-    paddingRight: 25,
-    flexDirection: "column",
     borderWidth: 1,
     borderRadius: 20,
-    marginTop: 90,
-    width: "60%",
-    borderHeight: "20%",
   },
   question: {
     alignItems: "center",
@@ -90,7 +118,8 @@ const styles = StyleSheet.create({
     marginTop: 20,
   },
   option: {
-    width: "90%",
+    width: "35%",
+    height: 100,
     alignContent: "center",
     alignItems: "center",
     justifyContent: "center",
@@ -111,9 +140,14 @@ const styles = StyleSheet.create({
     paddingRight: 5,
   },
   next: {
-    flex: 1,
+    flex: 3,
+    width: "100%",
     justifyContent: "flex-end",
-    paddingLeft: 100,
-    marginBottom: 80,
+    alignItems: "flex-end",
+    paddingBottom: 32,
+  },
+  button: {
+    borderRadius: 20,
+    backgroundColor: "black",
   },
 });
