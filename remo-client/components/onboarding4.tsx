@@ -1,10 +1,6 @@
 import { StatusBar } from "expo-status-bar";
 import React, { useState } from "react";
-import {
-  NavigationContainer,
-  useNavigation,
-  Stack,
-} from "@react-navigation/native";
+import { NavigationContainer, useNavigation } from "@react-navigation/native";
 import SelectDropdown from "react-native-select-dropdown";
 import {
   StyleSheet,
@@ -16,6 +12,7 @@ import {
   TextInput,
 } from "react-native";
 import { Button } from "@rneui/themed";
+import PressableCard from "./pressablecard/pressablecard";
 
 export default function Onboarding4({ nextPage }) {
   const [selected, setSelected] = useState(false);
@@ -40,35 +37,16 @@ export default function Onboarding4({ nextPage }) {
             style={{
               alignContent: "space-around",
               flexDirection: "row",
+              justifyContent: "center",
               alignItems: "center",
+              flexWrap: "wrap",
               paddingBottom: 15,
             }}
           >
-            <Pressable
-              style={({ pressed }) => [
-                { backgroundColor: pressed ? "lightblue" : "white" },
-                styles.option,
-              ]}
-            >
-              <Text style={styles.text}>{"Characters and their stories"}</Text>
-            </Pressable>
-            <Pressable
-              style={({ pressed }) => [
-                { backgroundColor: pressed ? "lightblue" : "white" },
-                styles.option,
-              ]}
-            >
-              <Text style={styles.text}>{"Facts, Figures, and Ideas"}</Text>
-            </Pressable>
+            <PressableCard content={"Characters and their stories"} />
+            <PressableCard content={"Facts, Figures, and Ideas"} />
+            <PressableCard content={"I like everything!"} />
           </View>
-          <Pressable
-            style={({ pressed }) => [
-              { backgroundColor: pressed ? "lightblue" : "white" },
-              styles.option,
-            ]}
-          >
-            <Text style={styles.text}>{"I like everything!"}</Text>
-          </Pressable>
         </View>
       </View>
       <View
@@ -111,11 +89,13 @@ const styles = StyleSheet.create({
   question: {
     alignItems: "center",
     fontSize: 20,
+    paddingLeft: 50,
     paddingBottom: 25,
     fontWeight: "bold",
     textAlign: "center",
+    paddingRight: 50,
     alignContent: "center",
-    marginTop: 20,
+    marginTop: 40,
   },
   option: {
     width: "35%",

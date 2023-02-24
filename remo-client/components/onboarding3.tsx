@@ -99,13 +99,13 @@ const styles = StyleSheet.create({
   question: {
     alignItems: "center",
     fontSize: 20,
-    paddingLeft: 30,
+    paddingLeft: 50,
     paddingBottom: 25,
     fontWeight: "bold",
     textAlign: "center",
-    paddingRight: 30,
+    paddingRight: 50,
     alignContent: "center",
-    marginTop: 30,
+    marginTop: 40,
   },
   dropdown: {
     width: "75%",
