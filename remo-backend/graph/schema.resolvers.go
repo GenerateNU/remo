@@ -6,7 +6,7 @@ package graph
 
 import (
 	"context"
-	"errors"
+	//"errors"
 	"fmt"
 	"remo/backend/graph/model"
 )
@@ -107,11 +107,10 @@ func (r *mutationResolver) CreateBook(ctx context.Context, input model.BookInput
 
 // UpdateBook is the resolver for the updateBook field.
 func (r *mutationResolver) UpdateBook(ctx context.Context, input model.BookInput) (*model.Book, error) {
-	if _, ok := r.Books[input.ID]; ok {
-		r.Books[input.ID].UpdateBook(input)
-		return r.Books[input.ID], nil
-	}
-	return nil, errors.New("Requested book to update was not find. Try create new book mutation")
+	//NEED TO IMPLEMENT: GET BOOK FROM DATABASE
+	//UPDATE QUERY
+	panic(fmt.Errorf("not implemented: UpdateBook - updateBook"))
+	//return nil, errors.New("Requested book to update was not find. Try create new book mutation")
 }
 
 // CreateTeacher is the resolver for the createTeacher field.
@@ -136,10 +135,7 @@ func (r *mutationResolver) CreateNewReadingRateResults(ctx context.Context, inpu
 
 // GetBookByID is the resolver for the getBookByID field.
 func (r *queryResolver) GetBookByID(ctx context.Context, id string) (*model.Book, error) {
-	if _, ok := r.Books[id]; ok {
-		return r.Books[id], nil
-	}
-	return nil, errors.New("Requested book was not find. Try create new book mutation")
+	panic(fmt.Errorf("not implemented: GetBookByID - GetBookByID"))
 }
 
 // Teachers is the resolver for the teachers field.
