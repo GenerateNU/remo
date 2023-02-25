@@ -14,7 +14,7 @@ func DbInitConnection() (*sql.DB, error) {
 	DATABASE := os.Getenv("remodb")
 	dbconf := USERNAME + ":" + PASSWORD + "@tcp(" + HOST + ":" + PORT + ")/" + DATABASE + "?charset=utf8mb4" + "&parseTime=True"
 	//"mysql"
-	//os.Getenv("DRIVER")
+	os.Getenv("DRIVER")
 	db, err := sql.Open("mysql", dbconf)
 	if err != nil {
 		fmt.Printf("Error connecting to database : error= %q\n", err)

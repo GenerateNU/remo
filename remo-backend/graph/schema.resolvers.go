@@ -11,6 +11,8 @@ import (
 	"remo/backend/graph/model"
 )
 
+var DB, err = DbInitConnection()
+
 // ClassroomSchoolYear is the resolver for the classroom_school_year field.
 func (r *classroomResolver) ClassroomSchoolYear(ctx context.Context, obj *model.Classroom) (*string, error) {
 	panic(fmt.Errorf("not implemented: ClassroomSchoolYear - classroom_school_year"))
@@ -62,29 +64,24 @@ func (r *mutationResolver) CreateBook(ctx context.Context, input model.BookInput
 	//newBook.UpdateBook(input)
 	//r.Books = append(r.Books, newBook)
 	//return newBook, nil
-	db, err := DbInitConnection()
 
-	if err != nil {
-		panic(err)
-	} else {
-		fmt.Println("Successful Connection to DB !")
-	}
+	//var book model.Book
+	//book.ID = input.ID
+	//book.Default_user_id = input.DefaultUserID
+	//fmt.Printf("hi")
+	//
+	//_, err = db.Exec(`INSERT INTO books (id, default_user_id, password, created_at, updated_at, is_deleted) VALUES (?, ?)`,
+	//	book.ID, book.Default_user_id)
+	//if err != nil {
+	//	panic(err)
+	//} else {
+	//	fmt.Println("Insert User is successed !")
+	//}
+	//
+	//db.Close()
+	//return &book, nil
 
-	var book model.Book
-	book.ID = input.ID
-	book.Default_user_id = input.DefaultUserID
-	fmt.Printf("hi")
-
-	_, err = db.Exec(`INSERT INTO books (id, default_user_id, password, created_at, updated_at, is_deleted) VALUES (?, ?)`,
-		book.ID, book.Default_user_id)
-	if err != nil {
-		panic(err)
-	} else {
-		fmt.Println("Insert User is successed !")
-	}
-
-	db.Close()
-	return &book, nil
+	panic(fmt.Errorf("not implemented: CreateBook - CreateBook"))
 
 	// //BETTER BUT NOT WORKING IMPLEMENTATION
 	// book := &model.Book{
@@ -135,6 +132,7 @@ func (r *mutationResolver) CreateNewReadingRateResults(ctx context.Context, inpu
 
 // GetBookByID is the resolver for the getBookByID field.
 func (r *queryResolver) GetBookByID(ctx context.Context, id string) (*model.Book, error) {
+
 	panic(fmt.Errorf("not implemented: GetBookByID - GetBookByID"))
 }
 

@@ -15,7 +15,12 @@ func TestDbInitConnection(t *testing.T) {
 	if err != nil {
 		t.Errorf("Connection was not successfully established to Remo db.")
 	}
-	db.Ping()
+
+	// Not sure if this test is necessary? Concerning that it fails tho
+	err2 := db.Ping()
+	if err2 != nil {
+		t.Errorf("Ping message was not successfully sent to Remo db.")
+	}
 }
 
 func TestCreateBook(t *testing.T) {
@@ -28,7 +33,7 @@ func TestCreateBook(t *testing.T) {
 		ID:            "123",
 		DefaultUserID: "456",
 	}
-	fmt.Printf("penis \n")
+	fmt.Printf("totally not explicit message \n")
 
 	// Call the CreateBook method with the input
 	book, err := resolver.CreateBook(context.Background(), input)
