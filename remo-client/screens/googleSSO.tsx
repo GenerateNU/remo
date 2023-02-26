@@ -99,7 +99,7 @@ export default function GoogleSSO() {
 
 	return (
 		<View style={styles.container}>
-			<Text style={{marginBottom: 16}}>Log in to Remo</Text>
+			<Text style={{marginBottom: 16, fontSize: 60, fontWeight: "bold"}}>REMO</Text>
 			
 			<FontAwesome5.Button style={styles.googleButton} name="google" onPress={() => promptAsync()}
 					//any other customization you want, like borderRadius, color, or size
@@ -136,5 +136,6 @@ const styles = StyleSheet.create({
 		color: "white",
 	},
 	googleButton: {
+		width: 180,
 	}
 });
