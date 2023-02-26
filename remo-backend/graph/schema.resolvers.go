@@ -7,6 +7,7 @@ package graph
 import (
 	"context"
 	//"errors"
+	"database/sql"
 	"fmt"
 	"remo/backend/graph/model"
 )
@@ -134,21 +135,36 @@ func (r *mutationResolver) CreateNewReadingRateResults(ctx context.Context, inpu
 // GetBookByID is the resolver for the getBookByID field.
 func (r *queryResolver) GetBookByID(ctx context.Context, id string) (*model.Book, error) {
 
-	// query to search for a book by id
-	query := "SELECT * FROM books WHERE id = " + id
+	// // query to search for a book by id
+	// query := "SELECT * FROM books WHERE id = " + id
 
-	// executing query
-	rows, err := DB.Query(query)
+	// // executing query
+	// rows, err := DB.Query(query)
 
-	// panic if query fails
-	if err != nil {
-		panic("lmao rip")
+	// // panic if query fails
+	// if err != nil {
+	// 	panic("lmao rip")
+	// }
+
+	// foundBook := model.Book{}
+
+	// return foundBook, nil
+	// //panic(fmt.Errorf("not implemented: GetBookByID - GetBookByID"))
+
+	// An album to hold data from the returned row.
+	var book model.Book
+
+	row := DB.QueryRow("SELECT * FROM books WHERE id = ?", id)
+
+	if err := row.Scan(&book.ID, &book.Author); err != nil {
+		if err == sql.ErrNoRows {
+			var mtBook *model.Book
+			return mtBook, fmt.Errorf("getBookByID %d: no such book", id)
+		}
+
+		return &book, fmt.Errorf("getBookByID %d: %v", id, err)
 	}
-
-	foundBook := model.Book{}
-
-	return foundBook, nil
-	//panic(fmt.Errorf("not implemented: GetBookByID - GetBookByID"))
+	return &book, nil
 }
 
 // Teachers is the resolver for the teachers field.
