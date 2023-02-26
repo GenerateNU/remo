@@ -6,9 +6,11 @@ import {
   Stack,
 } from "@react-navigation/native";
 import SelectDropdown from 'react-native-select-dropdown';
-import { StyleSheet, Text, View, ScrollView, Image, Button, Pressable, TouchableOpacity, TextInput } from "react-native";
+import { StyleSheet, Text, View, ScrollView, Image, Pressable, TouchableOpacity, TextInput } from "react-native";
+import PressableCard from "./pressablecard/pressablecard";
+import { Button } from "@rneui/themed";
 
-export default function Onboarding9({ nextPage }) {
+export default function Onboarding7({ nextPage }) {
 
     const [selected, setSelected] = useState(false);
 
@@ -18,50 +20,46 @@ export default function Onboarding9({ nextPage }) {
 
     return (
         <View style={styles.container}>
-             <View style={styles.block}>
-                <Text style={styles.question}>How do you choose a book you want to read?</Text>
-                <ScrollView>
-             <View style={{
-            alignContent: "space-around",
-            flexDirection: "row",
-            paddingBottom: 15,
-          }}>
-             <Pressable style={styles.option}>
-        <Text style={styles.text}>{"By the cover"}</Text>
-         </Pressable>
-                    <Pressable style={styles.option}>
-                 <Text style={styles.text}>{"By reading the first few pages"}</Text>
-                    </Pressable>
-             </View>
-             <View style={{alignContent: "space-around", flexDirection: 'row', paddingBottom: 15, paddingRight: 15, paddingLeft: 15}}>
-             <Pressable style={styles.option}>
-                 <Text style={styles.text}>{"By Author, Series, Genre"}</Text>
-                    </Pressable>
-                    <Pressable style={styles.option}>
-                 <Text style={styles.text}>{"By topic"}</Text>
-                    </Pressable>
-                    </View>
-                    <View style={{alignContent: "space-around", flexDirection: 'row', paddingBottom: 15, paddingRight: 15, paddingLeft: 15}}>
-             <Pressable style={styles.option}>
-                 <Text style={styles.text}>{"By friends"}</Text>
-                    </Pressable>
-                    <Pressable style={styles.option}>
-                 <Text style={styles.text}>{"By family"}</Text>
-                    </Pressable>
-             </View>
-             <View style={{alignContent: "space-around", flexDirection: 'row', paddingBottom: 15, paddingRight: 15, paddingLeft: 15}}>
-             <Pressable style={styles.option}>
-                 <Text style={styles.text}>{"By Social Media"}</Text>
-                    </Pressable>
-                    <Pressable style={styles.option}>
-                 <Text style={styles.text}>{"By library"}</Text>
-                    </Pressable>
-                    </View>
-                    </ScrollView>
-                    </View>
+         <View style={{
+          flex: 5,
+          flexDirection: "row",
+          justifyContent: "center",
+        }}>
+            <View style={styles.block}>
+               <Text style={styles.question}>How do you choose a book you want to read?</Text>
+               <View style={{flex: 1, flexDirection: "row", width: "100%"}}>
+                  <ScrollView>
+                     <View style={{flex: 1, width: "100%", alignContent: "space-around", justifyContent: "center", flexDirection: 'row', flexWrap: "wrap", paddingBottom: 15, paddingRight: 15, paddingLeft: 15}}>
+                        <PressableCard content={"By the cover"} />
+                        <PressableCard content={"By reading the first few pages"} />
+                        <PressableCard content={"By Author, Series, Genre"} />
+                        <PressableCard content={"By topic"} />
+                        <PressableCard content={"By friends"} />
+                        <PressableCard content={"By family"} />
+                        <PressableCard content={"By social media"} />
+                        <PressableCard content={"By library"} />
+                     </View>
+                  </ScrollView>
+               </View>
+            </View>
+            </View>
+            <View
+        style={{
+          flex: 3,
+          width: "100%",
+          flexDirection: "row",
+          alignItems: "flex-end",
+        }}
+      >
              <View style={styles.next}>
-                  <Button title="Next Question" color="black" onPress={onClick}></Button>
+             <Button
+            title="Next Question"
+            onPress={onClick}
+            buttonStyle={styles.button}
+          ></Button>
              </View>
+             </View>
+           
         </View>
       );
     }
@@ -72,64 +70,57 @@ export default function Onboarding9({ nextPage }) {
         backgroundColor: "white",
         alignItems: "center",
         justifyContent: "flex-start",
-        paddingLeft: 25,
-        paddingRight: 25,
-        marginRight: 20,
       },
       block: {
         backgroundColor: "white",
         flex: 1,
         alignItems: "center",
         justifyContent: "flex-start",
-        paddingLeft: 25,
-        paddingRight: 25,
+        
         flexDirection: "column",
         borderWidth: 1,
         borderRadius: 20,
-        marginTop: 100,
-        width: "110%",
-        marginRight: 100,
-  
       },
       question: {
-          alignItems: "center",
-          fontSize: 20,
-          paddingLeft: 20,
-          paddingBottom: 25,
-          fontWeight: 'bold',
-          textAlign: 'center',
-          paddingRight: 20,
-          alignContent: "center",
-          marginTop: 30
-         
-      }, 
+        alignItems: "center",
+        fontSize: 20,
+        paddingLeft: 50,
+        paddingBottom: 25,
+        fontWeight: "bold",
+        textAlign: "center",
+        paddingRight: 50,
+        alignContent: "center",
+        marginTop: 40,
+      },
       option: {
-          width: "40%",
-          flex: "flex-start",
-          alignContent: "center",
-          alignItems: "center",
-          justifyContent: "center",
-          borderWidth: 1,
-          borderHeight: 10,
-          borderRadius: 20,
-          marginLeft: 10,
-          marginRight: 10,
+        width: "70%",
+        alignContent: "center",
+        alignItems: "center",
+        justifyContent: "center",
+        borderWidth: 1,
+        borderHeight: 10,
+        borderRadius: 20,
+        marginLeft: 10,
+        marginRight: 10,
       },
       text: {
-          width: "80%",
-          alignContent: "center",
-          justifyContent: "center",
-          textAlign: 'center',
-          fontSize: 10,
-          paddingTop: 5,
-          paddingBottom: 5,
-          paddingLeft: 0,
-          paddingRight: 0,
+        width: "50%",
+        alignContent: "center",
+        justifyContent: "center",
+        textAlign: "center",
+        paddingTop: 5,
+        paddingBottom: 50,
       },
       next: {
-          flex: 1, 
-          justifyContent: "flex-end", 
-          paddingLeft: 100, 
-          marginBottom: 80,
-      }
-});
+        flex: 1,
+        width: "100%",
+        justifyContent: "flex-end",
+        alignItems: "flex-end",
+        paddingBottom: 32,
+      },
+      button: {
+        borderRadius: 20,
+        backgroundColor: "black",
+      },
+    });
+    
