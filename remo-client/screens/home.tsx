@@ -1,7 +1,7 @@
 import { StatusBar } from "expo-status-bar";
 import React from "react";
 import BarcodeScanner from "./barcodeScanner";
-import Onboarding from "../components/onboarding";
+import Onboarding from "../screens/onboarding";
 import {
   NavigationContainer,
   useNavigation,
