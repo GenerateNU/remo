@@ -1,0 +1,14 @@
+# https://taskfile.dev
+
+version: '3'
+
+tasks:
+  run:
+      - go run src/main.go
+
+  test-api:
+    - go test tests/*
+  test-all:
+    - go test ./...
+  connect:
+    - mysql -u remo --password=pwd -P 3333 -h localhost --protocol=tcp
