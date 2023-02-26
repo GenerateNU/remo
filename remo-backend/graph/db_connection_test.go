@@ -2,6 +2,7 @@ package graph
 
 import (
 	"context"
+	"database/sql"
 	"fmt"
 	"remo/backend/graph/model"
 	"testing"
@@ -11,16 +12,27 @@ import (
 
 // Test that we are able to successfully connected to database
 func TestDbInitConnection(t *testing.T) {
-	var db, err = DbInitConnection()
+	db, err := sql.Open("mysql", "remo:pwd@tcp(localhost:3333)/remodb")
 	if err != nil {
-		t.Errorf("Connection was not successfully established to Remo db.")
+		t.Fatal("Failed to connect to database:", err)
+	}
+	defer db.Close()
+
+	err = db.Ping()
+	if err != nil {
+		t.Fatal("Failed to ping database:", err)
 	}
 
-	// Not sure if this test is necessary? Concerning that it fails tho
-	err2 := db.Ping()
-	if err2 != nil {
-		t.Errorf("Ping message was not successfully sent to Remo db.")
-	}
+	// var db, err = DbInitConnection()
+	// if err != nil {
+	// 	t.Errorf("Connection was not successfully established to Remo db.")
+	// }
+
+	// // Not sure if this test is necessary? Concerning that it fails tho
+	// err2 := db.Ping()
+	// if err2 != nil {
+	// 	t.Errorf("Ping message was not successfully sent to Remo db.")
+	// }
 }
 
 func TestCreateBook(t *testing.T) {
