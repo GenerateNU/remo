@@ -73,16 +73,16 @@ func (ms *MsController) Serve() *gin.Engine {
 			return
 		}
 		fmt.Print(loginInfo)
+
 		/*
 			 send LoginInfo email element to --> will panic with an error if resultset is null
-			 u, e := ms.UserByEmail(payload.email)
+			 u, e := ms.UserByEmail(loginInfo.email)
 			 if usr == ms.User{}{
 				c.JSON(http.StatusInternalServerError, gin.H{"error": "Email not in database."})
 				return
 			 }
-
-			TODO: given a user that exist in the DB, fetch & set their user type
 		*/
+
 		// create a JWT for the app and send it back to the client for future requests
 		tokenString, err := middleware.MakeJWT(payload.Subject, "secretkey")
 		if err != nil {

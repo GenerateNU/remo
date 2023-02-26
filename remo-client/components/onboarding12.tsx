@@ -8,12 +8,13 @@ import {
   View,
   ScrollView,
   Image,
-  Button,
   Pressable,
   TouchableOpacity,
   TextInput,
 } from "react-native";
 import { StringSet } from "../types";
+import PressableCard from "./pressablecard/pressablecard";
+import { Button } from "@rneui/themed";
 
 export default function Onboarding11({ nextPage }: StringSet) {
   const [selected, setSelected] = useState(false);
@@ -22,9 +23,23 @@ export default function Onboarding11({ nextPage }: StringSet) {
     nextPage("pagetwelve");
   };
 
+  const onPress = () => {
+   /// waiting on brian
+  };
+
   return (
     <View style={styles.container}>
-      <Text>Remo 12</Text>
+            <Text style={{fontSize: 25, fontWeight: "bold", alignItems: "center", paddingBottom: 50}}>All Done!</Text>
+            <Image
+            style={{marginBottom: 50}}
+            source={require("../public/lebron.jpeg")}
+          />
+            <Button 
+            title="View Profile"
+            type = "outline"
+            buttonStyle={styles.button}
+            titleStyle={{ color: "black" }}
+          ></Button>
     </View>
   );
 }
@@ -34,6 +49,7 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: "white",
     alignItems: "center",
+    width: "100%",
     justifyContent: "flex-start",
   },
   next: {
@@ -41,5 +57,10 @@ const styles = StyleSheet.create({
     justifyContent: "flex-end",
     paddingLeft: 100,
     marginBottom: 80,
+  },
+  button: {
+    borderRadius: 20,
+    width: "100%",
+    borderColor: "black",
   },
 });

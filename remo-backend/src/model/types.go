@@ -1,11 +1,15 @@
 package model
 
 type Book struct {
-	BookId  string `json:"id" db:"id"`
-	Title   string `json:"title" db:"title"`
-	Author  string `json:"author" db:"author"`
-	ISBN_13 string `json:"isbn_13" db:"isbn_13"`
-	ISBN_10 string `json:"isbn_10" db:"isbn_10"`
+	BookId      string `json:"id" db:"id"`
+	Title       string `json:"title" db:"title"`
+	Author      string `json:"author" db:"author"`
+	ISBN_13     string `json:"isbn_13" db:"isbn_13"`
+	ISBN_10     string `json:"isbn_10" db:"isbn_10"`
+	Subtitle    string `json:"subtitle" db:"sub_title"`
+	PublishDate string `json:"publish_date" db:"pub_date"`
+	PageCount   string `json:"page_count" db:"num_pages"`
+	Synopsis    string `json:"synopsis" db:"synopsis"`
 }
 
 type User struct {
