@@ -59,7 +59,6 @@ export default function GoogleSSO() {
 
 	return (
 		<View style={styles.container}>
-			<Button title="back to home screen" onPress={pressHandler} />
 			<Button
 				disabled={!request}
 				title="Login"
