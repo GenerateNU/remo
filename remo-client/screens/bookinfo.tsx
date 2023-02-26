@@ -1,6 +1,7 @@
 import { useNavigation, useRoute } from "@react-navigation/native";
 import { useState } from "react";
 import { StyleSheet, View, Image, Text } from "react-native";
+import { Button } from "@rneui/themed";
 
 export default function BookInfo() {
   const route = useRoute();
@@ -75,7 +76,9 @@ export default function BookInfo() {
           justifyContent: "center",
           width: "100%",
         }}
-      ></View>
+      >
+        <Button style={styles.button} title="Checkout" type="outline" />
+      </View>
     </View>
   );
 }
@@ -88,5 +91,9 @@ const styles = StyleSheet.create({
     justifyContent: "flex-start",
     paddingLeft: 25,
     paddingRight: 25,
+  },
+  button: {
+    width: "90%",
+    borderRadius: "50%",
   },
 });
