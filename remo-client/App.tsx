@@ -15,9 +15,9 @@ export default function App() {
   return (
     <NavigationContainer>
       <Stack.Navigator>
+        <Stack.Screen name="GoogleSSO" component={GoogleSSO} />
         <Stack.Screen name="Home" component={Home} />
         <Stack.Screen name="BarcodeScanner" component={BarcodeScanner} />
-        <Stack.Screen name="GoogleSSO" component={GoogleSSO} />
         <Stack.Screen name="Profile" component={Profile} />
         <Stack.Screen name="Onboarding" component={Onboarding} />
       </Stack.Navigator>
