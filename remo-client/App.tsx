@@ -4,9 +4,7 @@ import { NavigationContainer } from "@react-navigation/native";
 import BarcodeScanner from "./screens/barcodeScanner";
 import GoogleSSO from "./screens/googleSSO";
 import Profile from "./screens/profile";
-import Onboarding from "./components/onboarding";
-import Onboarding7 from "./components/onboarding7";
-import Onboarding3 from "./components/onboarding3";
+import Onboarding from "./screens/onboarding";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
 const Stack = createNativeStackNavigator();
