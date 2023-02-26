@@ -1,6 +1,7 @@
 package controller
 
 import (
+	"fmt"
 	"net/http"
 	"os"
 	"remo/backend/src/middleware"
@@ -71,9 +72,10 @@ func (ms *MsController) Serve() *gin.Engine {
 			c.JSON(http.StatusInternalServerError, gin.H{"error": "Invalid JWT."})
 			return
 		}
+		fmt.Print(loginInfo)
 		/*
 			 send LoginInfo email element to --> will panic with an error if resultset is null
-			 u, e := ms.UserByEmail(email)
+			 u, e := ms.UserByEmail(payload.email)
 			 if usr == ms.User{}{
 				c.JSON(http.StatusInternalServerError, gin.H{"error": "Email not in database."})
 				return
