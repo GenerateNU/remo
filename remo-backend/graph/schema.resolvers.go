@@ -155,9 +155,28 @@ func (r *queryResolver) GetBookByID(ctx context.Context, id string) (*model.Book
 	var book model.Book
 
 	row := DB.QueryRow("SELECT * FROM books WHERE id = ?", id)
-
-	var a interface{}
-	if err := row.Scan(&book.ID, &a, &book.Author, &a, &a, &a, &a, &a, &a, &a, &a, &a, &a, &a, &a, &a, &a, &a, &a, &a, &a); err != nil {
+	
+	if err := row.Scan(&book.ID,
+		&book.Story_id,
+		&book.Author,
+		&book.Cover_image,
+		&book.Date_created,
+		&book.Date_updated,
+		&book.Default_user_id,
+		&book.Foreword,
+		&book.Editor,
+		&book.Illustrator,
+		&book.Isbn_10,
+		&book.Isbn_13,
+		&book.Num_pages,
+		&book.Pub_date,
+		&book.Copyright_date,
+		&book.Edition,
+		&book.Synopsis,
+		&book.Title,
+		&book.Word_count,
+		&book.Sub_title,
+		&book.Asin); err != nil {
 		if err == sql.ErrNoRows {
 			var mtBook *model.Book
 			return mtBook, fmt.Errorf("getBookByID %d: no such book", id)
