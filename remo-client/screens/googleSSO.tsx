@@ -99,40 +99,13 @@ export default function GoogleSSO() {
 
 	return (
 		<View style={styles.container}>
-			<Button
-				disabled={!request}
-				title="Login"
-				onPress={() => {
-					promptAsync();
-				}}
-			/>
-			<SocialIcon type='google' disabled={!request} title="login" onPress={() => {promptAsync()}}  />
-			<SocialIcon button
-    //   fontStyle={{}}
-      iconSize={25}
-    //   iconStyle={{}}
-    //   iconType="font-awesome"
-      onPress={() => promptAsync()}
-      style={{ paddingHorizontal: 10 }}
-      title="Google SSO"
-	  underlayColor="#4267b2"
-	  iconColor=""
-	//   background-color: "#4267b2"
-	// theme={}
-      type="google"
-    />
-	<SocialIcon
-  title={"Sign In With Google"}
-  button
-  type={"google"}
-  onPress={() => promptAsync()}
-/>
-
-<FontAwesome5.Button style={styles.googleButton} name="google" onPress={() => promptAsync()}
-        //any other customization you want, like borderRadius, color, or size
->
-  <Text style={styles.googleText}>Log In With Google</Text>
-</FontAwesome5.Button>
+			<Text style={{marginBottom: 16}}>Log in to Remo</Text>
+			
+			<FontAwesome5.Button style={styles.googleButton} name="google" onPress={() => promptAsync()}
+					//any other customization you want, like borderRadius, color, or size
+			>
+			<Text style={styles.googleText}>Log In With Google</Text>
+			</FontAwesome5.Button>
 
 {/* <GoogleButton
   disabled // can also be written as disabled={true} for clarity
@@ -159,4 +132,9 @@ const styles = StyleSheet.create({
 		top: 0,
 		left: 0,
 	},
+	googleText: {
+		color: "white",
+	},
+	googleButton: {
+	}
 });
