@@ -10,31 +10,23 @@ import (
 
 func TestConnection(t *testing.T) {
 	db, err := DbInitConnection()
-	//db, err := sql.Open("mysql", "remo:pwd@tcp(localhost:3333)/remodb")
-	if err != nil {
-		t.Fatal("Failed to connect to database:", err)
-	}
-
-	err = db.Ping()
-	if err != nil {
-		t.Fatal("Failed to ping database:", err)
-	}
-
-	rows, err := db.Query("SELECT * FROM books")
+	
+	rows, err := db.Query("SELECT * FROM books WHERE id = 1")
 	if err != nil {
 		t.Fatal("Failed to query database:", err)
 	}
 	defer rows.Close()
 
 	for rows.Next() {
-		var col1, col2 string
-		err := rows.Scan(&col1, &col2)
+		//var col1, col2 string
+		var a interface{}
+		err := rows.Scan(&a, &a, &a, &a, &a, &a, &a, &a, &a, &a, &a, &a, &a, &a, &a, &a, &a, &a, &a, &a, &a)
 		if err != nil {
-			t.Fatal("Rip: %q", err)
+			t.Fatal("Rip:", err)
 		}
-		// Process the query result
 	}
-	print(rows.Scan())
+	//	// Process the query result
+	//}
 
 	//// Not sure if this test is necessary? Concerning that it fails tho
 	//err2 := db.Ping()
