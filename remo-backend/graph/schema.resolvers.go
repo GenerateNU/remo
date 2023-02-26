@@ -10,6 +10,7 @@ import (
 	"database/sql"
 	"fmt"
 	"remo/backend/graph/model"
+	"strconv"
 )
 
 // Database connection
@@ -52,6 +53,24 @@ func (r *classroomResolver) ClassroomAvgLength(ctx context.Context, obj *model.C
 
 // CreateBook is the resolver for the createBook field.
 func (r *mutationResolver) CreateBook(ctx context.Context, input model.BookInput) (*model.Book, error) {
+	var new_id int
+	id, e := DB.Exec("SELECT COUNT(id) FROM books;")
+	if e != nil {
+		panic(e)
+	}
+	if result, ok := id.(sql.Result); ok {
+		count64, e2 := result.RowsAffected()
+		if e2 != nil {
+			panic(e2)
+		}
+		new_id = int(count64) + 1
+	}
+	_, err := DB.Exec(fmt.Sprintf("INSERT INTO books (id, title, author, isbn_13, isbn_10) VALUES ('%s', '%s', '%s', '%s', '%s');", strconv.Itoa(new_id), &input.Title, &input.Author, &input.Isbn13, &input.Isbn10))
+
+	//_, err := DB.Exec(fmt.Sprintf("INSERT INTO books (id, title, author, isbn_13, isbn_10)
+	//VALUES ('%s', '%s', '%s', '%s', '%s');",  strconv.Itoa(new_id), &input.Title, &input.Author, &input.ISBN_13, &input.ISBN_10))
+
+	return nil, err
 	// worse array implementation
 
 	//for _, book := range r.Books {
@@ -83,7 +102,7 @@ func (r *mutationResolver) CreateBook(ctx context.Context, input model.BookInput
 	//db.Close()
 	//return &book, nil
 
-	panic(fmt.Errorf("not implemented: CreateBook - CreateBook"))
+	//panic(fmt.Errorf("not implemented: CreateBook - CreateBook"))
 
 	// //BETTER BUT NOT WORKING IMPLEMENTATION
 	// book := &model.Book{
