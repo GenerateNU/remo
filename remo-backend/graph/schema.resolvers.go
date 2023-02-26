@@ -11,7 +11,8 @@ import (
 	"remo/backend/graph/model"
 )
 
-//var DB, err = DbInitConnection()
+// Database connection
+var DB, err = DbInitConnection()
 
 // ClassroomSchoolYear is the resolver for the classroom_school_year field.
 func (r *classroomResolver) ClassroomSchoolYear(ctx context.Context, obj *model.Classroom) (*string, error) {
@@ -133,7 +134,21 @@ func (r *mutationResolver) CreateNewReadingRateResults(ctx context.Context, inpu
 // GetBookByID is the resolver for the getBookByID field.
 func (r *queryResolver) GetBookByID(ctx context.Context, id string) (*model.Book, error) {
 
-	panic(fmt.Errorf("not implemented: GetBookByID - GetBookByID"))
+	// query to search for a book by id
+	query := "SELECT * FROM books WHERE id = " + id
+
+	// executing query
+	rows, err := DB.Query(query)
+
+	// panic if query fails
+	if err != nil {
+		panic("lmao rip")
+	}
+
+	foundBook := model.Book{}
+
+	return foundBook, nil
+	//panic(fmt.Errorf("not implemented: GetBookByID - GetBookByID"))
 }
 
 // Teachers is the resolver for the teachers field.
