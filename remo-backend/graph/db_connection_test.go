@@ -8,12 +8,12 @@ import (
 )
 
 // Test that we are able to successfully connect to the database and query for a book
-func TestConnection(t *testing.T) {
+func TestDbInitConnection(t *testing.T) {
 	db, err := DbInitConnection()
 
 	rows, err := db.Query("SELECT * FROM books WHERE id = 1")
 	if err != nil {
-		t.Fatal("Failed to query database:", err)
+		t.Errorf("Failed to query database: %q\n", err)
 	}
 	defer rows.Close()
 
@@ -24,15 +24,14 @@ func TestConnection(t *testing.T) {
 		var a interface{}
 		err := rows.Scan(&testBook.ID, &a, &testBook.Author, &a, &a, &a, &a, &a, &a, &a, &a, &a, &a, &a, &a, &a, &a, &a, &a, &a, &a)
 		if err != nil {
-			t.Fatal("Rip:", err)
+			t.Errorf("Rip: %q\n", err)
 		}
 
 	}
 
 	if testBook.ID == "" {
-		t.Fatal("Test book ID is null.")
+		t.Fatalf("Test book ID is null.")
 	}
-	print(testBook.Author)
 
 	//// Not sure if this test is necessary? Concerning that it fails tho
 	//err2 := db.Ping()
