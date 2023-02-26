@@ -10,11 +10,11 @@ import (
 // It serves as dependency injection for your app, add any dependencies you require here.
 
 type Resolver struct {
-	 Books map[string]*model.Book
-	// //Books    []*model.Book
-	 teachers []*model.Teacher
+	//  Books map[string]*model.Book
+	Books    []*model.Book
+	teachers []*model.Teacher
 	users    []*model.User
-	Model model; //service 
+	// Model model; //service 
 	// Books []*model.Book
 	/**
 	SHOULD ABSOLUTELY CHANGE BOOKS AND USERS TO A MAP
