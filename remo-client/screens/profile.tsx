@@ -117,7 +117,7 @@ export default function Profile({ navigation }) {
         </View>
       </View>
       <View style={styles.bot}>
-        <NavBar navigation={navigation} />
+        <NavBar />
       </View>
     </View>
   );

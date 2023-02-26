@@ -1,6 +1,10 @@
 import { StatusBar } from "expo-status-bar";
 import React, { useState, useEffect } from "react";
-import { NavigationContainer, useNavigation } from "@react-navigation/native";
+import {
+  NavigationContainer,
+  useNavigation,
+  useRoute,
+} from "@react-navigation/native";
 import { StyleSheet, Text, View, Image, Button, TextInput } from "react-native";
 import SelectDropdown from "react-native-select-dropdown";
 import Onboarding1 from "../components/onboarding1";
@@ -18,7 +22,18 @@ import Onboarding12 from "../components/onboarding12";
 import TopComponent from "../components/topOnboarding/topComponent";
 import ProgressBar from "../components/progressbar/progressbar";
 
+// googleResp; username, first, last, email
 export default function Onboarding() {
+  const route = useRoute();
+  const userName = route.params?.userName;
+  const firstName = route.params?.firstName;
+  const lastName = route.params?.lastName;
+  const imgUrl = route.params?.imgUrl;
+  const navigation = useNavigation();
+
+  useEffect(() => {
+    console.log();
+  }, []);
   const [page, setPage] = useState<string>("pageone");
   const [pageNum, setPageNum] = useState(0);
 
