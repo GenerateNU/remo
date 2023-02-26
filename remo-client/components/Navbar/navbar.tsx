@@ -10,12 +10,24 @@ import Ionicons from "@expo/vector-icons/Ionicons";
 import { AntDesign, MaterialCommunityIcons } from "@expo/vector-icons";
 
 import Profile from "../../screens/profile";
+import { useNavigation } from "@react-navigation/native";
 
-export default function NavBar({ navigation }) {
+export default function NavBar() {
+  const navigation = useNavigation();
+
+  const navigateBarcode = () => {
+    navigation.navigate("Barcode");
+  };
+
   return (
     <View style={styles.navbar}>
       <Ionicons style={styles.icon} name="ios-book-outline" size={50} />
-      <AntDesign style={styles.icon} name="search1" size={50} />
+      <AntDesign
+        style={styles.icon}
+        name="search1"
+        size={50}
+        onPress={navigateBarcode}
+      />
       <MaterialCommunityIcons
         name="bookmark-plus-outline"
         style={styles.icon}
