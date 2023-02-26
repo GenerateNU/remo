@@ -55,7 +55,7 @@ func GetUserByEmail(pool *sql.DB, user_email string) (User, error) {
 	err := pool.QueryRow(fmt.Sprintf("SELECT id, first, last FROM logins where email = '%s';", user_email)).Scan(&user.ID, &user.FirstName, &user.LastName)
 
 	if err != nil {
-		panic(err)
+		return User{}, nil
 	}
 
 	return user, nil
