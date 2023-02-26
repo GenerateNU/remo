@@ -58,6 +58,7 @@ func (r *mutationResolver) CreateBook(ctx context.Context, input model.BookInput
 	if e != nil {
 		panic(e)
 	}
+
 	if result, ok := id.(sql.Result); ok {
 		count64, e2 := result.RowsAffected()
 		if e2 != nil {
@@ -65,62 +66,14 @@ func (r *mutationResolver) CreateBook(ctx context.Context, input model.BookInput
 		}
 		new_id = int(count64) + 1
 	}
-	_, err := DB.Exec(fmt.Sprintf("INSERT INTO books (id, title, author, isbn_13, isbn_10) VALUES ('%s', '%s', '%s', '%s', '%s');", strconv.Itoa(new_id), &input.Title, &input.Author, &input.Isbn13, &input.Isbn10))
+
+	_, err := DB.Exec(fmt.Sprintf("INSERT INTO books (id, default_user_id) VALUES ('%s', 1);",
+		strconv.Itoa(new_id), &input.DefaultUserID))
 
 	//_, err := DB.Exec(fmt.Sprintf("INSERT INTO books (id, title, author, isbn_13, isbn_10)
 	//VALUES ('%s', '%s', '%s', '%s', '%s');",  strconv.Itoa(new_id), &input.Title, &input.Author, &input.ISBN_13, &input.ISBN_10))
 
 	return nil, err
-	// worse array implementation
-
-	//for _, book := range r.Books {
-	//	if book.ID == input.ID {
-	//		return nil, errors.New("Requested Book ID already exists in database. Maybe try update book mutation.")
-	//	}
-	//}
-	//newBook := &model.Book{
-	//	ID:              input.ID,
-	//	Default_user_id: input.DefaultUserID,
-	//}
-	//newBook.UpdateBook(input)
-	//r.Books = append(r.Books, newBook)
-	//return newBook, nil
-
-	//var book model.Book
-	//book.ID = input.ID
-	//book.Default_user_id = input.DefaultUserID
-	//fmt.Printf("hi")
-	//
-	//_, err = db.Exec(`INSERT INTO books (id, default_user_id, password, created_at, updated_at, is_deleted) VALUES (?, ?)`,
-	//	book.ID, book.Default_user_id)
-	//if err != nil {
-	//	panic(err)
-	//} else {
-	//	fmt.Println("Insert User is successed !")
-	//}
-	//
-	//db.Close()
-	//return &book, nil
-
-	//panic(fmt.Errorf("not implemented: CreateBook - CreateBook"))
-
-	// //BETTER BUT NOT WORKING IMPLEMENTATION
-	// book := &model.Book{
-	// 	ID:              input.ID,
-	// 	Default_user_id: input.DefaultUserID,
-	// }
-
-	// n := len(r.Books)
-	// if n == 0 {
-	// 	r.Books = make(map[string]*model.Book)
-	// }
-
-	// if _, ok := r.Books[input.ID]; !ok {
-	// 	r.Books[input.ID] = book
-	// 	r.Books[input.ID].UpdateBook(input)
-	// 	return r.Books[input.ID], nil
-	// }
-	// return nil, errors.New("Requested Book ID already exists in database. Maybe try update book mutation.")
 }
 
 // UpdateBook is the resolver for the updateBook field.
