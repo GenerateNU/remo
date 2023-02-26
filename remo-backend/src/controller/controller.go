@@ -33,8 +33,6 @@ func (ms *MsController) Serve() *gin.Engine {
 			return
 		}
 
-		user.Validate()
-
 		_, err := ms.AddUser(user)
 
 		if err != nil {
@@ -66,13 +64,6 @@ func (ms *MsController) Serve() *gin.Engine {
 			return
 		}
 
-		/*
-			 send LoginInfo email element to --> will panic with an error if resultset is null
-			 ms.UserByEmail(email)
-
-			TODO: given a user that exist in the DB, fetch & set their user type
-		*/
-
 		//gets the id token from the google login credentials and validate it with our client id (audience)
 		payload, err := idtoken.Validate(c, loginInfo.Credential, audience)
 		if err != nil {
@@ -80,7 +71,16 @@ func (ms *MsController) Serve() *gin.Engine {
 			c.JSON(http.StatusInternalServerError, gin.H{"error": "Invalid JWT."})
 			return
 		}
+		/*
+			 send LoginInfo email element to --> will panic with an error if resultset is null
+			 u, e := ms.UserByEmail(email)
+			 if usr == ms.User{}{
+				c.JSON(http.StatusInternalServerError, gin.H{"error": "Email not in database."})
+				return
+			 }
 
+			TODO: given a user that exist in the DB, fetch & set their user type
+		*/
 		// create a JWT for the app and send it back to the client for future requests
 		tokenString, err := middleware.MakeJWT(payload.Subject, "secretkey")
 		if err != nil {
