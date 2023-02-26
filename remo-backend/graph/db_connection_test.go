@@ -1,32 +1,38 @@
 package graph
 
 import (
+	"remo/backend/graph/model"
 	"testing"
 
 	_ "github.com/go-sql-driver/mysql"
 )
 
-// Test that we are able to successfully connected to database
-
+// Test that we are able to successfully connect to the database and query for a book
 func TestConnection(t *testing.T) {
 	db, err := DbInitConnection()
-	
+
 	rows, err := db.Query("SELECT * FROM books WHERE id = 1")
 	if err != nil {
 		t.Fatal("Failed to query database:", err)
 	}
 	defer rows.Close()
 
+	testBook := model.Book{}
+
 	for rows.Next() {
 		//var col1, col2 string
 		var a interface{}
-		err := rows.Scan(&a, &a, &a, &a, &a, &a, &a, &a, &a, &a, &a, &a, &a, &a, &a, &a, &a, &a, &a, &a, &a)
+		err := rows.Scan(&testBook.ID, &a, &testBook.Author, &a, &a, &a, &a, &a, &a, &a, &a, &a, &a, &a, &a, &a, &a, &a, &a, &a, &a)
 		if err != nil {
 			t.Fatal("Rip:", err)
 		}
+
 	}
-	//	// Process the query result
-	//}
+
+	if testBook.ID == "" {
+		t.Fatal("Test book ID is null.")
+	}
+	print(testBook.Author)
 
 	//// Not sure if this test is necessary? Concerning that it fails tho
 	//err2 := db.Ping()
