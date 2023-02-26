@@ -2,12 +2,17 @@ import React, { useState, useEffect } from "react";
 import { StyleSheet, Text, View, Pressable } from "react-native";
 
 export default function PressableCard({ content }) {
+  const [pressed, setPressed] = useState(false);
+  const onButtonpress = () => {
+    setPressed(!pressed);
+  };
   return (
     <Pressable
-      style={({ pressed }) => [
-        { backgroundColor: pressed ? "lightblue" : "white" },
+      style={[
+        { backgroundColor: pressed ? "lightgray" : "white" },
         styles.option,
       ]}
+      onPress={onButtonpress}
     >
       <Text style={styles.text}>{content}</Text>
     </Pressable>
