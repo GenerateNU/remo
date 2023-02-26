@@ -14,12 +14,28 @@ func TestDbInitConnection(t *testing.T) {
 	if err != nil {
 		t.Fatal("Failed to connect to database:", err)
 	}
-	defer db.Close()
 
 	err = db.Ping()
 	if err != nil {
 		t.Fatal("Failed to ping database:", err)
 	}
+
+	rows, err := db.Query("SELECT * FROM books")
+	if err != nil {
+		// Handle error
+	}
+	defer rows.Close()
+
+	for rows.Next() {
+		var col1, col2 string
+		err := rows.Scan(&col1, &col2)
+		if err != nil {
+			// Handle error
+		}
+		// Process the query result
+	}
+	print(rows)
+
 	//// Not sure if this test is necessary? Concerning that it fails tho
 	//err2 := db.Ping()
 	//if err2 != nil {
