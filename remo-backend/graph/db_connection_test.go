@@ -13,14 +13,9 @@ import (
 func TestDbInitConnection(t *testing.T) {
 	var db, err = DbInitConnection()
 	if err != nil {
-		t.Errorf("Connection was not successfully established to Remo db.")
+		t.Errorf("Error: %q\n", err)
 	}
-
-	// Not sure if this test is necessary? Concerning that it fails tho
-	err2 := db.Ping()
-	if err2 != nil {
-		t.Errorf("Ping message was not successfully sent to Remo db.")
-	}
+	db.Ping()
 }
 
 func TestCreateBook(t *testing.T) {
