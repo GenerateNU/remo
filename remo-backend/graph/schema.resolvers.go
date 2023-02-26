@@ -11,7 +11,7 @@ import (
 	"remo/backend/graph/model"
 )
 
-var DB, err = DbInitConnection()
+//var DB, err = DbInitConnection()
 
 // ClassroomSchoolYear is the resolver for the classroom_school_year field.
 func (r *classroomResolver) ClassroomSchoolYear(ctx context.Context, obj *model.Classroom) (*string, error) {

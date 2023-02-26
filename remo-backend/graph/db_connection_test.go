@@ -1,7 +1,6 @@
 package graph
 
 import (
-	"database/sql"
 	"testing"
 
 	_ "github.com/go-sql-driver/mysql"
@@ -9,8 +8,9 @@ import (
 
 // Test that we are able to successfully connected to database
 
-func TestDbInitConnection(t *testing.T) {
-	db, err := sql.Open("mysql", "remo:pwd@tcp(localhost:3333)/remodb")
+func TestConnection(t *testing.T) {
+	db, err := DbInitConnection()
+	//db, err := sql.Open("mysql", "remo:pwd@tcp(localhost:3333)/remodb")
 	if err != nil {
 		t.Fatal("Failed to connect to database:", err)
 	}
@@ -22,7 +22,7 @@ func TestDbInitConnection(t *testing.T) {
 
 	rows, err := db.Query("SELECT * FROM books")
 	if err != nil {
-		// Handle error
+		t.Fatal("Failed to query database:", err)
 	}
 	defer rows.Close()
 
@@ -30,11 +30,11 @@ func TestDbInitConnection(t *testing.T) {
 		var col1, col2 string
 		err := rows.Scan(&col1, &col2)
 		if err != nil {
-			// Handle error
+			t.Fatal("Rip: %q", err)
 		}
 		// Process the query result
 	}
-	print(rows)
+	print(rows.Scan())
 
 	//// Not sure if this test is necessary? Concerning that it fails tho
 	//err2 := db.Ping()
