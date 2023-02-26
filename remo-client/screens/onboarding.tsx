@@ -25,17 +25,21 @@ import ProgressBar from "../components/progressbar/progressbar";
 // googleResp; username, first, last, email
 export default function Onboarding() {
   const route = useRoute();
-  const userName = route.params?.userName;
-  const firstName = route.params?.firstName;
-  const lastName = route.params?.lastName;
-  const imgUrl = route.params?.imgUrl;
+  const data = route.params?.data;
   const navigation = useNavigation();
 
   useEffect(() => {
-    console.log();
+    console.log(data);
   }, []);
   const [page, setPage] = useState<string>("pageone");
   const [pageNum, setPageNum] = useState(0);
+  const [pronouns, setPronouns] = useState("");
+
+  const onNextClick = () => {
+    navigation.navigate("Profile", 
+      data: { email: data.Email, firstName: data.First, lastName: data.Last, image: data.Image, prns: pronouns}
+    )
+  }
 
   const setPageNumber = (page: string) => {
     if (page === "pageone") {
@@ -85,7 +89,7 @@ export default function Onboarding() {
       {
         {
           pageone: <Onboarding1 nextPage={setPage} />,
-          pagetwo: <Onboarding2 nextPage={setPage} />,
+          pagetwo: <Onboarding2 nextPage={setPage} setPronouns={setPronouns} />,
           pagethree: <Onboarding3 nextPage={nextPage} />,
           pagefour: <Onboarding4 nextPage={nextPage} />,
           pagefive: <Onboarding5 nextPage={nextPage} />,

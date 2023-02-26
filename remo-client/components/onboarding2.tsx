@@ -7,7 +7,7 @@ import { StringSet } from "../types";
 import SelectDropdown from "react-native-select-dropdown";
 import { FontAwesome } from "@expo/vector-icons";
 
-export default function Onboarding2({ nextPage }: StringSet) {
+export default function Onboarding2({ nextPage, setPage }: String) {
   const onClick = () => {
     nextPage("pagethree");
   };
@@ -98,6 +98,7 @@ export default function Onboarding2({ nextPage }: StringSet) {
                     onChangeText={onChangePronouns}
                     placeholder={"Type Preferred name here..."}
                     style={styles.input}
+                    onChange={setPage}
                     value={pronouns}
                   />
                 </View>
