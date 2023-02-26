@@ -153,36 +153,37 @@ func (r *mutationResolver) CreateNewReadingRateResults(ctx context.Context, inpu
 
 // GetBookByID is the resolver for the getBookByID field.
 func (r *queryResolver) GetBookByID(ctx context.Context, id string) (*model.Book, error) {
-
-	// // query to search for a book by id
-	// query := "SELECT * FROM books WHERE id = " + id
-
-	// // executing query
-	// rows, err := DB.Query(query)
-
-	// // panic if query fails
-	// if err != nil {
-	// 	panic("lmao rip")
-	// }
-
-	// foundBook := model.Book{}
-
-	// return foundBook, nil
-	// //panic(fmt.Errorf("not implemented: GetBookByID - GetBookByID"))
-
-	// An album to hold data from the returned row.
 	var book model.Book
 
 	row := DB.QueryRow("SELECT * FROM books WHERE id = ?", id)
 
-	var a interface{}
-	if err := row.Scan(&book.ID, &a, &book.Author, &a, &a, &a, &a, &a, &a, &a, &a, &a, &a, &a, &a, &a, &a, &a, &a, &a, &a); err != nil {
+	if err := row.Scan(&book.ID,
+		&book.Story_id,
+		&book.Author,
+		&book.Cover_image,
+		&book.Date_created,
+		&book.Date_updated,
+		&book.Default_user_id,
+		&book.Foreword,
+		&book.Editor,
+		&book.Illustrator,
+		&book.Isbn_10,
+		&book.Isbn_13,
+		&book.Num_pages,
+		&book.Pub_date,
+		&book.Copyright_date,
+		&book.Edition,
+		&book.Synopsis,
+		&book.Title,
+		&book.Word_count,
+		&book.Sub_title,
+		&book.Asin); err != nil {
 		if err == sql.ErrNoRows {
 			var mtBook *model.Book
-			return mtBook, fmt.Errorf("getBookByID %d: no such book", id)
+			return mtBook, fmt.Errorf("getBookByID %q: no such book", id)
 		}
 
-		return &book, fmt.Errorf("getBookByID %d: %v", id, err)
+		return &book, fmt.Errorf("getBookByID %q: %v", id, err)
 	}
 	return &book, nil
 }
