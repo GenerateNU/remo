@@ -16,7 +16,11 @@ const UserBookshelf = () => {
       {bookshelf.map(book => (
         <View style={styles.book} key={book.id}>
           <Text style={styles.title}>{book.title}</Text>
-          <Text style={styles.author}>{book.author}</Text>
+          <Text style={styles.author}>Author: {book.author}</Text>
+          <Text>ISBN 13: {book.isbn_13}</Text>
+          <Text>ISBN 10: {book.isbn_10}</Text>
+          <Text>Page Count: {book.page_count}</Text>
+          <Text>Synopsis: {book.synopsis}</Text>
         </View>
       ))}
     </View>

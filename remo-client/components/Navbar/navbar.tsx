@@ -24,7 +24,8 @@ export default function NavBar() {
 
   return (
     <View style={styles.navbar}>
-      <Ionicons style={styles.icon} name="ios-book-outline" size={50} />
+      <Ionicons style={styles.icon} name="ios-book-outline" size={50} onPress={navigateBookshelf}
+/>
       <AntDesign
         style={styles.icon}
         name="search1"
@@ -35,7 +36,6 @@ export default function NavBar() {
         name="bookmark-plus-outline"
         style={styles.icon}
         size={50}
-        onPress={navigateBookshelf}
       />
       <AntDesign style={styles.icon} name="arrowleft" size={50} />
       <Ionicons style={styles.icon} name="person-circle-outline" size={50} />
