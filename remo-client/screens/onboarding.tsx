@@ -32,6 +32,7 @@ export default function Onboarding() {
   useEffect(() => {
     console.log(data);
   }, []);
+  
   const [page, setPage] = useState<string>("pageone");
   const [pageNum, setPageNum] = useState(0);
   const [pronouns, setPronouns] = useState("");
@@ -39,11 +40,12 @@ export default function Onboarding() {
   const onNextClick = () => {
     navigation.navigate("Profile", {
       data: { 
-        email: data.Email, 
-        firstName: data.First, 
-        lastName: data.Last, 
-        image: data.Image, 
-        prns: pronouns} }
+        email: data.email, 
+        firstName: data.firstName, 
+        lastName: data.lastName, 
+        image: data.image, 
+        prns: pronouns} 
+      }
     )
   }
 
@@ -94,7 +96,7 @@ export default function Onboarding() {
       </View>
       {
         {
-          pageone: <Onboarding1 nextPage={setPage} />,
+          pageone: <Onboarding1 nextPage={setPage} data={data} />,
           pagetwo: <Onboarding2 nextPage={setPage} setPronouns={setPronouns} />,
           pagethree: <Onboarding3 nextPage={nextPage} />,
           pagefour: <Onboarding4 nextPage={nextPage} />,

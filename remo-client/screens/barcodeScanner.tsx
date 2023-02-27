@@ -184,7 +184,6 @@ export default function BarcodeScanner() {
       <Text style={styles.display}>Title: {title}</Text>
       <Text style={styles.display}>Author: {author}</Text>
       <StatusBar style="auto" />
-      <Button title="back to home screen" onPress={pressHandler} />
     </View>
   );
 }

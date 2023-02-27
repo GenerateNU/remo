@@ -7,7 +7,7 @@ import Onboarding from "./onboarding";
 
 import { StringSet } from "../types";
 
-export default function Onboarding1({ nextPage }: StringSet) {
+export default function Onboarding1({ nextPage, data}) {
   const onClick = () => {
     nextPage("pagetwo");
   };
@@ -39,7 +39,7 @@ export default function Onboarding1({ nextPage }: StringSet) {
           >
             <Image
               style={styles.profile}
-              source={require("../public/profile-default.jpeg")}
+              source={{uri: data.image}}
             />
             <View
               style={{
@@ -60,13 +60,15 @@ export default function Onboarding1({ nextPage }: StringSet) {
                   justifyContent: "flex-start",
                 }}
               >
-                <View style={styles.columns}>
+                <View style={{flexDirection: "row"}}>
                   <Text>Name:</Text>
+                  <Text> {data.firstName} {data.lastName}</Text>
                 </View>
-                <View style={styles.columns}>
+     
+              </View>
+              <View>
                   <Text>Gender:</Text>
                 </View>
-              </View>
               <Text>Grade:</Text>
               <Text>Class:</Text>
             </View>

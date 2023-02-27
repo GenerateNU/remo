@@ -45,7 +45,7 @@ export default function Profile() {
     "Other",
     "Prefer Not to Say",
   ];
-  const [text, onChangeText] = React.useState("Prefered Name");
+  const [text, onChangeText] = React.useState("Preferred Name");
 
   const renderIcon = () => {
     return <i className="bi bi-caret-down-fill"></i>;
@@ -64,11 +64,11 @@ export default function Profile() {
         >
           <Image
             style={styles.profile}
-            source={require("../public/lebron.jpeg")}
+            source={{uri: data.image}}
           />
           <View>
-            <Text>Lebron</Text>
-            <Text>He/Him/His</Text>
+          <Text> {data.preferredName} {data.lastName}</Text>
+          <Text> {data.pronouns} </Text>
           </View>
         </View>
         <Text>Preferred Name</Text>
