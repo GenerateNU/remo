@@ -39,6 +39,32 @@ func GetBooksFromDB(pool *sql.DB, isbn_13 string) (Book, error) {
 	return book, nil
 }
 
+func GetUserBooksFromDB(pool *sql.DB, user_id string) ([]Book, error) {
+	// TODO: user actual user_id
+	rows, err := pool.Query("SELECT id, title, author, isbn_10, isbn_13, num_pages, synopsis FROM books where default_user_id = 6;")
+
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+
+	var books []Book
+
+	for rows.Next() {
+		book := Book{}
+		err := rows.Scan(&book.BookId, &book.Title, &book.Author, &book.ISBN_10, &book.ISBN_13, &book.PageCount, &book.Synopsis)
+		if err != nil {
+			return nil, err
+		}
+		books = append(books, book)
+	}
+
+	if err = rows.Err(); err != nil {
+		return []Book{}, nil
+	}
+
+	return books, nil
+}
 func InsertUser(pool *sql.DB, usr User) error {
 	_, err := pool.Exec(fmt.Sprintf("INSERT INTO logins (id, first, last, email) VALUES ('%s','%s','%s', '%s');", strconv.Itoa(usr.ID), usr.FirstName, usr.LastName, usr.Email))
 
