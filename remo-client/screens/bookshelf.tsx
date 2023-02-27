@@ -12,6 +12,10 @@ export default function Bookshelf() {
 
   return (
     <ScrollView>
+        <View style={styles.header}>
+        <Text style={styles.header_title}>Bookshelf</Text>
+        <Text style={styles.count}>{books.length} Books</Text>
+      </View>
       <View style={styles.container}>
         {books.map((book) => (
           <View style={styles.book} key={book.id}>
@@ -33,6 +37,22 @@ const styles = StyleSheet.create({
     flexWrap: 'wrap',
     justifyContent: 'space-between',
     padding: 20,
+  },
+  header: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    paddingHorizontal: 20,
+    paddingVertical: 10,
+    borderBottomWidth: 1,
+    borderBottomColor: '#ccc',
+  },
+  header_title: {
+    fontSize: 24,
+    fontWeight: 'bold',
+  },
+  count: {
+    fontSize: 18,
   },
   book: {
     width: '48%',
