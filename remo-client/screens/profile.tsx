@@ -1,9 +1,10 @@
 import { StatusBar } from "expo-status-bar";
-import React from "react";
+import React, { useState, useEffect } from "react";
 import {
   NavigationContainer,
   useNavigation,
-  Stack,
+  useRoute,
+
 } from "@react-navigation/native";
 import {
   StyleSheet,
@@ -17,7 +18,19 @@ import { Button } from "@rneui/themed";
 import SelectDropdown from "react-native-select-dropdown";
 import NavBar from "../components/Navbar/navbar";
 
-export default function Profile({ navigation }) {
+export default function Profile() {
+  const route = useRoute();
+  const data = route.params?.data;
+  const navigation = useNavigation();
+
+  const [firstName, setFirst] = useState("");
+  const [lastName, setLastName] = useState("");
+  const [pronouns, setPronouns] = useState("");
+
+  useEffect(() => {
+    console.log(data);
+  }, []);
+
   const ethnicities = [
     "White",
     "African American",

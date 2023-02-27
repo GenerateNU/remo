@@ -5,7 +5,7 @@ import SearchIcon from "react-native-bootstrap-icons/icons/search";
 import BookmarkPlusIcon from "react-native-bootstrap-icons/icons/bookmark-plus";
 import ArrowLeftSquareIcon from "react-native-bootstrap-icons/icons/arrow-left-square";
 import PersonCircleIcon from "react-native-bootstrap-icons/icons/person-circle";
-
+import BarcodeScanner from "../screens/barcodeScanner"
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { AntDesign, MaterialCommunityIcons } from "@expo/vector-icons";
 
@@ -16,7 +16,7 @@ export default function NavBar() {
   const navigation = useNavigation();
 
   const navigateBarcode = () => {
-    navigation.navigate("Barcode");
+    navigation.navigate("BarcodeScanner");
   };
 
   return (

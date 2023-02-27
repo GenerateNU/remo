@@ -88,7 +88,7 @@ export default function GoogleSSO() {
 				// 	pic_url: decodedHeader.picture
 				// })
 				// console.log(googleData)
-				navigation.navigate("BarcodeScanner", {
+				navigation.navigate("Onboarding", {
 					data: {
 						email: decodedHeader.email,
 						first: decodedHeader.given_name,

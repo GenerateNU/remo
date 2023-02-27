@@ -96,7 +96,7 @@ export default function Onboarding2({ nextPage, setPage }: String) {
                 <View style={styles.textInput}>
                   <TextInput
                     onChangeText={onChangePronouns}
-                    placeholder={"Type Preferred name here..."}
+                    placeholder={"Add Pronouns here..."}
                     style={styles.input}
                     onChange={setPage}
                     value={pronouns}
