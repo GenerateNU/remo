@@ -142,7 +142,7 @@ export default function GoogleSSO() {
 					email: decodedHeader.Email,
 					firstName: decodedHeader.FirstName,
 					lastName: decodedHeader.LastName,
-					Pictimageure: decodedHeader.Picture
+					image: decodedHeader.Picture
 				}
 
 				// NAVIGATE TO NEXT PAGE
