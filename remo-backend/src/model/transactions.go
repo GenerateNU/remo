@@ -3,9 +3,7 @@ package model
 import (
 	"database/sql"
 	"fmt"
-	middleware "remo/backend/src/middleware"
 	"strconv"
-	"strings"
 )
 
 func WriteBooksToDb(pool *sql.DB, book Book) error {
@@ -76,9 +74,9 @@ func GetUserByID(pool *sql.DB, user_ID string) (User, error) {
 	return user, nil
 }
 
-func (user *User) Validate() {
-	user.Email = strings.TrimSpace(user.Email)
-	if user.Email == "" {
-		panic(middleware.NewBadRequestError("invalid email address"))
-	}
-}
+// func (user *User) Validate() {
+// 	user.Email = strings.TrimSpace(user.Email)
+// 	if user.Email == "" {
+// 		panic(middleware.NewBadRequestError("invalid email address"))
+// 	}
+// }

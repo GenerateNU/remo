@@ -68,39 +68,14 @@ export default function GoogleSSO() {
 	  }
 
 	var doneWithAuth = false;
+
 	const sendToBackend = async () => {
 		if (response?.type === "success" && doneWithAuth === false) {
 			doneWithAuth = true;
 			const { authentication } = response;
 			// an access token and id token will be returned in the authentication object
 			console.log(authentication?.idToken);
-			if (authentication?.idToken != null) {
-				const decodedHeader = jwt_decode(authentication.idToken);
-				// const data = new GoogleData();
-				// const data: GoogleData = {
-				// 	first: decodedHeader.given_name,
-				// 	last: decodedHeader.family_name,
-				// 	pic_url: decodedHeader.picture
-				// }
-				// setGoogleData({
-				// 	first: decodedHeader.given_name,
-				// 	last: decodedHeader.family_name,
-				// 	pic_url: decodedHeader.picture
-				// })
-				// console.log(googleData)
-				navigation.navigate("Onboarding", {
-					data: {
-						email: decodedHeader.email,
-						first: decodedHeader.given_name,
-						last: decodedHeader.family_name,
-						pic_url: decodedHeader.picture
-					}
-				})
-				// setGoogleData()
-   				// const pic = decodedHeader.picture
-   				// const first_name = decodedHeader.given_name
-   				// const last_name = decodedHeader.family_name
-			}
+			
 			// if authentication?.idToken
 			
 
@@ -114,27 +89,34 @@ export default function GoogleSSO() {
 			// })
 			console.log("woohoo");
 		// }}
+		var googdata = {}
+		if (authentication?.idToken != null) {
+			
+			// const decodedHeader = jwt_decode(authentication.idToken);
 
-		const requestOptions = {
-			// method: "POST",
-			headers: { "Content-Type": "application/json" },
-			body: JSON.stringify({ authentication }),
-		};
+			googdata = {
+				Credential: authentication.idToken,
+				// Email: decodedHeader.email,
+				// first: decodedHeader.given_name,
+				// last: decodedHeader.family_name,
+				// Picture: decodedHeader.picture
+			}
+		}
+		// const requestOptions = {
+		// 	// method: "POST",
+		// 	headers: { "Content-Type": "application/json" },
+		// 	body: JSON.stringify({ authentication }),
+		// };
 		try {
-			console.log("hello")
-			await fetch(
-				"https://0dbe-155-33-132-46.ngrok.io/v1/login/", {
+			// console.log("hello")
+			var res = await fetch(
+				"https://c152-155-33-135-49.ngrok.io/v1/login", {
 					method: "POST",
 					credentials: "include",
 					headers: {
 						'Content-Type': 'application/json',
 					  },
-					body: JSON.stringify({
-						credential: authentication?.idToken,
-						first: decodedHeader.given_name,
-						last: decodedHeader.family_name,
-						email: decodedHeader.email
-					}),
+					body: JSON.stringify({credential: authentication?.idToken}),
 				// }).then((res) => {
 				// 	// console.log(res.text())
 				// 	return res;
@@ -143,12 +125,32 @@ export default function GoogleSSO() {
 				// 	// console.log(res.headers) // undefined
 				// 	// console.log(document.cookie); // nope
 				// 	// return res.json();
-				  }).then((resp) => {
-					console.log(resp)
-
 				  })
+				  
+				//   .then((res) => {
+				// 	console.log("HELLO", resp.text())
+					
+
+				//   })
+				var text = await res.text();
+				console.log("RESPONSE", text)
+
+				const decodedHeader = jwt_decode(text);
+				console.log(decodedHeader)
+				googdata = {
+					// Credential: decodedHeader.Credential,
+					email: decodedHeader.Email,
+					firstName: decodedHeader.FirstName,
+					lastName: decodedHeader.LastName,
+					Pictimageure: decodedHeader.Picture
+				}
+
+				// NAVIGATE TO NEXT PAGE
+				navigation.navigate("Onboarding", {
+					data: googdata
+				})
 				} catch (error) {
-					// console.error(error);
+					console.error(error);
 				}
 			}
 		};

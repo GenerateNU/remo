@@ -7,8 +7,9 @@ import (
 	"remo/backend/src/middleware"
 	"remo/backend/src/model"
 
+	"github.com/dgrijalva/jwt-go"
 	"github.com/gin-gonic/gin"
-	"google.golang.org/api/idtoken"
+	// "github.com/golang-jwt/jwt/v4"
 )
 
 type Controller interface {
@@ -65,14 +66,79 @@ func (ms *MsController) Serve() *gin.Engine {
 			return
 		}
 
-		//gets the id token from the google login credentials and validate it with our client id (audience)
-		payload, err := idtoken.Validate(c, loginInfo.Credential, audience)
-		if err != nil {
-			middleware.NewBadRequestError("Could not validate sign in token")
-			c.JSON(http.StatusInternalServerError, gin.H{"error": "Invalid JWT."})
-			return
+		// token, err := jwt.ParseWithClaims(loginInfo.Credential, &jwt.RegisteredClaims{}, func(token *jwt.Token) (interface{}, error) {
+		// 	return loginInfo, nil
+		// })
+
+		// fmt.Print(token)
+		// fmt.Print(loginInfo)
+
+		// hmacSecretString := // Value
+		// hmacSecret := []byte(hmacSecretString)
+		// token, err := jwt.Parse(loginInfo.Credential, nil)
+
+		//    claims := token.Claims.(jwt.MapClaims)
+		//    jwt.Parser
+		// token, _, err := new(jwt.Parser).ParseUnverified(loginInfo.Credential, jwt.MapClaims{})
+
+		// if claims, ok := token.Claims.(jwt.MapClaims); ok {
+		// 	loginInfo.Email = fmt.Sprint(claims["email"])
+		// }
+		fmt.Println("TEST")
+		// token, err := jwt.Parse(loginInfo.Credential, nil)
+		token, _ := jwt.Parse(loginInfo.Credential, nil)
+		// if token, _ := jwt.Parse(loginInfo.Credential, nil); token != nil {
+		// 	// doStuffWithToken(token)
+		// 	fmt.Print("error")
+		// }
+
+		// if (err.(*jwt.ValidationError).Errors & jwt.ValidationErrorMalformed) {
+		// panic("Token is malformed: " + err.Error())
+		// }
+		// token was parsed
+		// doStuffWithToken(token)
+
+		// token, err := jwt.Parse(loginInfo.Credential, nil)
+		// if err != nil {
+		// 	fmt.Print(err.Error())
+
+		// 	// fmt.Errorf
+		// 	return
+		// }
+
+		// extract the claims
+		claims, ok := token.Claims.(jwt.MapClaims)
+		if !ok {
+			return // nil, fmt.Errorf("invalid JWT claims")
 		}
-		fmt.Print(loginInfo)
+
+		// assign the claims to the fields in myClaims
+		if email, ok := claims["email"].(string); ok {
+			loginInfo.Email = email
+		}
+
+		if first, ok := claims["given_name"].(string); ok {
+			loginInfo.FirstName = first
+		}
+
+		if last, ok := claims["family_name"].(string); ok {
+			loginInfo.LastName = last
+		}
+
+		if pic, ok := claims["picture"].(string); ok {
+			loginInfo.Picture = pic
+		}
+
+		fmt.Println(loginInfo)
+
+		//gets the id token from the google login credentials and validate it with our client id (audience)
+		// payload, err := idtoken.Validate(c, loginInfo.Credential, audience)
+		// if err != nil {
+		// 	middleware.NewBadRequestError("Could not validate sign in token")
+		// 	c.JSON(http.StatusInternalServerError, gin.H{"error": "Invalid JWT."})
+		// 	return
+		// }
+		// fmt.Print(loginInfo)
 
 		/*
 			 send LoginInfo email element to --> will panic with an error if resultset is null
@@ -84,7 +150,7 @@ func (ms *MsController) Serve() *gin.Engine {
 		*/
 
 		// create a JWT for the app and send it back to the client for future requests
-		tokenString, err := middleware.MakeJWT(payload.Subject, "secretkey")
+		tokenString, err := middleware.MakeJWT(loginInfo, "secretkey")
 		if err != nil {
 			middleware.NewBadRequestError("Failed to create JWT")
 			c.JSON(http.StatusInternalServerError, gin.H{"error": "Something went wrong completing your sign in."})
@@ -95,10 +161,13 @@ func (ms *MsController) Serve() *gin.Engine {
 		//We can also get name/email and other stuff from the JWT to connect it to existing users or to make new user profile.
 
 		//sets the token JWT generated above as a cookie in the frontend
-		c.SetCookie("remo_jwt", tokenString, 86400, "/", "", true, true)
-		c.Status(http.StatusOK)
+		// c.SetCookie("remo_jwt", tokenString, 86400, "/", "", true, true)
 
-		println("AUTHENTICATED")
+		// c.Status(http.StatusOK)
+		message := tokenString
+		c.JSON(http.StatusOK, message)
+
+		println("AUTHENTICATED", message)
 	})
 
 	r.GET("/logout", func(c *gin.Context) {

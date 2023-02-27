@@ -38,12 +38,7 @@ export default function Onboarding() {
 
   const onNextClick = () => {
     navigation.navigate("Profile", {
-      data: { 
-        email: data.Email, 
-        firstName: data.First, 
-        lastName: data.Last, 
-        image: data.Image, 
-        prns: pronouns} }
+      data: { email: data.Email, firstName: data.First, lastName: data.Last, image: data.Image, prns: pronouns} }
     )
   }
 
