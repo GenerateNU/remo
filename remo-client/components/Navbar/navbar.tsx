@@ -18,6 +18,9 @@ export default function NavBar() {
   const navigateBarcode = () => {
     navigation.navigate("BarcodeScanner");
   };
+  const navigateBookshelf = () => {
+    navigation.navigate("Bookshelf");
+  };
 
   return (
     <View style={styles.navbar}>
@@ -32,6 +35,7 @@ export default function NavBar() {
         name="bookmark-plus-outline"
         style={styles.icon}
         size={50}
+        onPress={navigateBookshelf}
       />
       <AntDesign style={styles.icon} name="arrowleft" size={50} />
       <Ionicons style={styles.icon} name="person-circle-outline" size={50} />

@@ -3,6 +3,7 @@ import Home from "./screens/home";
 import { NavigationContainer } from "@react-navigation/native";
 import BarcodeScanner from "./screens/barcodeScanner";
 import GoogleSSO from "./screens/googleSSO";
+import Bookshelf from "./screens/bookshelf";
 import Profile from "./screens/profile";
 import Onboarding from "./screens/onboarding";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
@@ -18,6 +19,8 @@ export default function App() {
         <Stack.Screen name="BarcodeScanner" component={BarcodeScanner} />
         <Stack.Screen name="Profile" component={Profile} />
         <Stack.Screen name="Onboarding" component={Onboarding} />
+        <Stack.Screen name="Bookshelf" component={Bookshelf} />
+
       </Stack.Navigator>
     </NavigationContainer>
   );
