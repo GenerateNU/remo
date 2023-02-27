@@ -1,61 +1,56 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { View, Text, StyleSheet, ScrollView } from 'react-native';
 
-const UserBookshelf = () => {
-  const [bookshelf, setBookshelf] = useState([]);
+export default function Bookshelf() {
+  const [books, setBooks] = useState([]);
 
   useEffect(() => {
     fetch('https://9390-2601-197-a7f-9c20-3cb2-d248-7f7-28c6.ngrok.io/v1/user_books/6')
-      .then(response => response.json())
-      .then(data => setBookshelf(data))
-      .catch(error => console.error(error));
+      .then((response) => response.json())
+      .then((data) => setBooks(data));
   }, []);
 
   return (
-    <View style={styles.bookshelf}>
-      {bookshelf.map(book => (
-        <View style={styles.book} key={book.id}>
-          <Text style={styles.title}>{book.title}</Text>
-          <Text style={styles.author}>Author: {book.author}</Text>
-          <Text>ISBN 13: {book.isbn_13}</Text>
-          <Text>ISBN 10: {book.isbn_10}</Text>
-          <Text>Page Count: {book.page_count}</Text>
-          <Text>Synopsis: {book.synopsis}</Text>
-        </View>
-      ))}
-    </View>
+    <ScrollView>
+      <View style={styles.container}>
+        {books.map((book) => (
+          <View style={styles.book} key={book.id}>
+            <Text style={styles.title}>{book.title}</Text>
+            <Text style={styles.author}>{book.author}</Text>
+            <Text style={styles.isbn}>ISBN-13: {book.isbn_13}</Text>
+            <Text style={styles.synopsis}>{book.synopsis}</Text>
+          </View>
+        ))}
+      </View>
+    </ScrollView>
   );
-};
+}
 
 const styles = StyleSheet.create({
-  bookshelf: {
+  container: {
+    flex: 1,
     flexDirection: 'row',
     flexWrap: 'wrap',
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: 'space-between',
+    padding: 20,
   },
   book: {
-    margin: 10,
-    padding: 10,
-    backgroundColor: '#fff',
-    borderRadius: 5,
-    shadowColor: '#000',
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.25,
-    shadowRadius: 3.84,
-    elevation: 5,
+    width: '48%',
+    marginBottom: 20,
   },
   title: {
-    fontSize: 18,
+    fontSize: 16,
     fontWeight: 'bold',
   },
   author: {
     fontSize: 14,
-    fontStyle: 'italic',
+    marginBottom: 5,
+  },
+  isbn: {
+    fontSize: 14,
+    marginBottom: 5,
+  },
+  synopsis: {
+    fontSize: 14,
   },
 });
-
-export default UserBookshelf;
