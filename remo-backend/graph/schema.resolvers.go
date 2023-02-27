@@ -12,7 +12,6 @@ import (
 	"encoding/hex"
 	"fmt"
 	"remo/backend/graph/model"
-	"strconv"
 )
 
 // Database connection
@@ -86,29 +85,30 @@ func (r *mutationResolver) CreateBook(ctx context.Context, input model.BookInput
 	// return book, nil
 
 	// KIND OF WORKING IMPLEMENTATION
-	var new_id int
-	id, e := DB.Exec("SELECT COUNT(id) FROM books;")
-	if e != nil {
-		panic(e)
-	}
+	// var new_id int
+	// id, e := DB.Exec("SELECT COUNT(id) FROM books;")
+	// if e != nil {
+	// 	panic(e)
+	// }
 
 	// id, err := generateID()
 	// if err != nil {
 	//     return nil, err
 	// }
 
-	if result, ok := id.(sql.Result); ok {
-		count64, e2 := result.RowsAffected()
-		if e2 != nil {
-			panic(e2)
-		}
-		new_id = int(count64) + 1
-	}
+	// if result, ok := id.(sql.Result); ok {
+	// 	count64, e2 := result.RowsAffected()
+	// 	if e2 != nil {
+	// 		panic(e2)
+	// 	}
+	// 	new_id = int(count64) + 1
+	// }
 
-	_, err := DB.Exec(fmt.Sprintf("INSERT INTO books (id, default_user_id) VALUES ('%s', 1);",
-		strconv.Itoa(new_id), &input.DefaultUserID))
+	_, err := DB.Exec("INSERT INTO books (id, default_user_id) VALUES (?, ?);",
+		input.ID, 1)
 
-	return nil, err
+	var mtBook *model.Book
+	return mtBook, err
 }
 
 // UpdateBook is the resolver for the updateBook field.
