@@ -7,7 +7,9 @@ package graph
 import (
 	"context"
 	//"errors"
+	"crypto/rand"
 	"database/sql"
+	"encoding/hex"
 	"fmt"
 	"remo/backend/graph/model"
 	"strconv"
@@ -15,6 +17,16 @@ import (
 
 // Database connection
 var DB, err = DbInitConnection()
+
+// Generates a randomID
+func generateID() (string, error) {
+	id := make([]byte, 16)
+	_, err := rand.Read(id)
+	if err != nil {
+		return "", err
+	}
+	return hex.EncodeToString(id), nil
+}
 
 // ClassroomSchoolYear is the resolver for the classroom_school_year field.
 func (r *classroomResolver) ClassroomSchoolYear(ctx context.Context, obj *model.Classroom) (*string, error) {
@@ -53,11 +65,37 @@ func (r *classroomResolver) ClassroomAvgLength(ctx context.Context, obj *model.C
 
 // CreateBook is the resolver for the createBook field.
 func (r *mutationResolver) CreateBook(ctx context.Context, input model.BookInput) (*model.Book, error) {
+
+	// Insert the new Book object into the database
+	// stmt, err := DB.Prepare("INSERT INTO books (story_id, author, cover_image, date_created, date_updated, default_user_id, foreword, editor, illustrator, isbn_10, isbn_13, num_pages, pub_date, copyright_date, edition, synopsis, title, word_count, sub_title, asin) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)")
+	// if err != nil {
+	// 	return nil, err
+	// }
+	// res, err := stmt.Exec(input.StoryID, input.Author, input.CoverImage, input.DateCreated, input.DateUpdated, input.DefaultUserID, input.Foreword, input.Editor, input.Illustrator, input.isbn_10, book.ISBN13, book.NumPages, book.PubDate, book.CopyrightDate, book.Edition, book.Synopsis, book.Title, book.WordCount, input.SubTitle, input.Asin)
+	// if err != nil {
+	// 	return nil, err
+	// }
+
+	// // Get the ID of the newly inserted book
+	// id, err := res.LastInsertId()
+	// if err != nil {
+	// 	return nil, err
+	// }
+	// book.ID = strconv.FormatInt(id, 10)
+
+	// return book, nil
+
+	// KIND OF WORKING IMPLEMENTATION
 	var new_id int
 	id, e := DB.Exec("SELECT COUNT(id) FROM books;")
 	if e != nil {
 		panic(e)
 	}
+
+	// id, err := generateID()
+	// if err != nil {
+	//     return nil, err
+	// }
 
 	if result, ok := id.(sql.Result); ok {
 		count64, e2 := result.RowsAffected()
@@ -69,9 +107,6 @@ func (r *mutationResolver) CreateBook(ctx context.Context, input model.BookInput
 
 	_, err := DB.Exec(fmt.Sprintf("INSERT INTO books (id, default_user_id) VALUES ('%s', 1);",
 		strconv.Itoa(new_id), &input.DefaultUserID))
-
-	//_, err := DB.Exec(fmt.Sprintf("INSERT INTO books (id, title, author, isbn_13, isbn_10)
-	//VALUES ('%s', '%s', '%s', '%s', '%s');",  strconv.Itoa(new_id), &input.Title, &input.Author, &input.ISBN_13, &input.ISBN_10))
 
 	return nil, err
 }
