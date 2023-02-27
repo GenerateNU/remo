@@ -4,10 +4,6 @@ import { StyleSheet, Text, View, Image, Button } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import * as Google from "expo-auth-session/providers/google";
 import AfterSSO from "./afterSSO";
-// import CookieManager from '@react-native-cookies/cookies';
-// import FontAwesome from '@expo/vector-icons/FontAwesome';
-// import { SocialIcon } from 'react-native-elements'
-// import GoogleButton from 'react-google-button'
 import { FontAwesome5 } from '@expo/vector-icons'
 import jwt_decode from 'jwt-decode'
 
@@ -22,10 +18,6 @@ export default function GoogleSSO() {
   const pressHandler = () => {
     navigation.goBack();
   };
-
-	// const pressHandler = () => {
-	// 	// navigation.goBack();
-	// };
 
 	const [request, response, promptAsync] = Google.useAuthRequest({
 		// redirectUri: "localhost:8080",
@@ -45,21 +37,10 @@ export default function GoogleSSO() {
 		clientSecret: "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",
 	});
 
-	const [googleData, setGoogleData] = useState({
-		first: "",
-		last: "",
-		pic_url: "",
-	  })
 
 	useEffect(() => {
 		sendToBackend();
 	});
-
-	// const RouteNextPage = () => {
-	// 	// NAVIGATE HERE
-	// 	// PUT DATA HERE
-		
-	//   };
 	 
 	interface GoogleData {
 		first: string;
@@ -76,37 +57,9 @@ export default function GoogleSSO() {
 			// an access token and id token will be returned in the authentication object
 			console.log(authentication?.idToken);
 			
-			// if authentication?.idToken
-			
-
-			// pressHandler()
-			
-
-
-			
-			// , {
-			// 	idToken: authentication?.idToken,
-			// })
+	
 			console.log("woohoo");
-		// }}
-		var googdata = {}
-		if (authentication?.idToken != null) {
-			
-			// const decodedHeader = jwt_decode(authentication.idToken);
-
-			googdata = {
-				Credential: authentication.idToken,
-				// Email: decodedHeader.email,
-				// first: decodedHeader.given_name,
-				// last: decodedHeader.family_name,
-				// Picture: decodedHeader.picture
-			}
-		}
-		// const requestOptions = {
-		// 	// method: "POST",
-		// 	headers: { "Content-Type": "application/json" },
-		// 	body: JSON.stringify({ authentication }),
-		// };
+		
 		try {
 			// console.log("hello")
 			var res = await fetch(
@@ -117,27 +70,14 @@ export default function GoogleSSO() {
 						'Content-Type': 'application/json',
 					  },
 					body: JSON.stringify({credential: authentication?.idToken}),
-				// }).then((res) => {
-				// 	// console.log(res.text())
-				// 	return res;
-				// 	console.log("res", res.json)
-				// 	console.log("res", res.text())
-				// 	// console.log(res.headers) // undefined
-				// 	// console.log(document.cookie); // nope
-				// 	// return res.json();
 				  })
-				  
-				//   .then((res) => {
-				// 	console.log("HELLO", resp.text())
-					
 
-				//   })
 				var text = await res.text();
 				console.log("RESPONSE", text)
 
 				const decodedHeader = jwt_decode(text);
 				console.log(decodedHeader)
-				googdata = {
+				const googdata = {
 					// Credential: decodedHeader.Credential,
 					email: decodedHeader.Email,
 					firstName: decodedHeader.FirstName,

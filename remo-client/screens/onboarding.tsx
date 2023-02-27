@@ -44,9 +44,9 @@ export default function Onboarding() {
         firstName: data.firstName, 
         lastName: data.lastName, 
         image: data.image, 
-        prns: pronouns} 
-      }
-    )
+        prns: pronouns
+      } 
+    })
   }
 
   const setPageNumber = (page: string) => {

@@ -66,26 +66,32 @@ func (ms *MsController) Serve() *gin.Engine {
 			return
 		}
 
-		fmt.Println("TEST")
+		fmt.Println("TEST", loginInfo.Credential)
 
 		token, _ := jwt.Parse(loginInfo.Credential, nil)
 
 		// extract the claims
 		claims, ok := token.Claims.(jwt.MapClaims)
 		if !ok {
+			fmt.Print("PRITN")
 			return // nil, fmt.Errorf("invalid JWT claims")
 		}
 
-		// assign the claims to the fields in myClaims
-		if email, ok := claims["email"].(string); ok {
-			u := ms.UserByEmail(email)
-			empty_user := model.User{FirstName: "INVALID"}
+		// // assign the claims to the fields in myClaims
+		// if email, ok := claims["email"].(string); ok {
+		// 	u := ms.UserByEmail(email)
+		// 	empty_user := model.User{FirstName: "INVALID"}
 
-			if u == empty_user {
-				middleware.NewBadRequestError("Email not in database.")
-				c.JSON(http.StatusInternalServerError, gin.H{"error": "Something went wrong completing your sign in."})
-				return
-			}
+		// 	if u == empty_user {
+		// 		middleware.NewBadRequestError("Email not in database.")
+		// 		c.JSON(http.StatusInternalServerError, gin.H{"error": "Something went wrong completing your sign in."})
+		// 		return
+		// 	}
+		// 	loginInfo.Email = email
+		// }
+
+		// DELETE THIS WHEN WE HAVE EMAIL CHECKING WORKING ABOVE
+		if email, ok := claims["email"].(string); ok {
 			loginInfo.Email = email
 		}
 
