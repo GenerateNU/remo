@@ -66,45 +66,9 @@ func (ms *MsController) Serve() *gin.Engine {
 			return
 		}
 
-		// token, err := jwt.ParseWithClaims(loginInfo.Credential, &jwt.RegisteredClaims{}, func(token *jwt.Token) (interface{}, error) {
-		// 	return loginInfo, nil
-		// })
-
-		// fmt.Print(token)
-		// fmt.Print(loginInfo)
-
-		// hmacSecretString := // Value
-		// hmacSecret := []byte(hmacSecretString)
-		// token, err := jwt.Parse(loginInfo.Credential, nil)
-
-		//    claims := token.Claims.(jwt.MapClaims)
-		//    jwt.Parser
-		// token, _, err := new(jwt.Parser).ParseUnverified(loginInfo.Credential, jwt.MapClaims{})
-
-		// if claims, ok := token.Claims.(jwt.MapClaims); ok {
-		// 	loginInfo.Email = fmt.Sprint(claims["email"])
-		// }
 		fmt.Println("TEST")
-		// token, err := jwt.Parse(loginInfo.Credential, nil)
+
 		token, _ := jwt.Parse(loginInfo.Credential, nil)
-		// if token, _ := jwt.Parse(loginInfo.Credential, nil); token != nil {
-		// 	// doStuffWithToken(token)
-		// 	fmt.Print("error")
-		// }
-
-		// if (err.(*jwt.ValidationError).Errors & jwt.ValidationErrorMalformed) {
-		// panic("Token is malformed: " + err.Error())
-		// }
-		// token was parsed
-		// doStuffWithToken(token)
-
-		// token, err := jwt.Parse(loginInfo.Credential, nil)
-		// if err != nil {
-		// 	fmt.Print(err.Error())
-
-		// 	// fmt.Errorf
-		// 	return
-		// }
 
 		// extract the claims
 		claims, ok := token.Claims.(jwt.MapClaims)
@@ -114,6 +78,14 @@ func (ms *MsController) Serve() *gin.Engine {
 
 		// assign the claims to the fields in myClaims
 		if email, ok := claims["email"].(string); ok {
+			u := ms.UserByEmail(email)
+			empty_user := model.User{FirstName: "INVALID"}
+
+			if u == empty_user {
+				middleware.NewBadRequestError("Email not in database.")
+				c.JSON(http.StatusInternalServerError, gin.H{"error": "Something went wrong completing your sign in."})
+				return
+			}
 			loginInfo.Email = email
 		}
 
@@ -130,24 +102,6 @@ func (ms *MsController) Serve() *gin.Engine {
 		}
 
 		fmt.Println(loginInfo)
-
-		//gets the id token from the google login credentials and validate it with our client id (audience)
-		// payload, err := idtoken.Validate(c, loginInfo.Credential, audience)
-		// if err != nil {
-		// 	middleware.NewBadRequestError("Could not validate sign in token")
-		// 	c.JSON(http.StatusInternalServerError, gin.H{"error": "Invalid JWT."})
-		// 	return
-		// }
-		// fmt.Print(loginInfo)
-
-		/*
-			 send LoginInfo email element to --> will panic with an error if resultset is null
-			 u, e := ms.UserByEmail(loginInfo.email)
-			 if usr == ms.User{}{
-				c.JSON(http.StatusInternalServerError, gin.H{"error": "Email not in database."})
-				return
-			 }
-		*/
 
 		// create a JWT for the app and send it back to the client for future requests
 		tokenString, err := middleware.MakeJWT(loginInfo, "secretkey")
