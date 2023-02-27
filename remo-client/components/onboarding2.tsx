@@ -11,8 +11,10 @@ export default function Onboarding2({ nextPage, setPage }: String) {
   const onClick = () => {
     nextPage("pagethree");
   };
-  const [name, onChangeName] = React.useState("");
+  const [preferred_name, onChangeName] = React.useState("");
   const [pronouns, onChangePronouns] = React.useState("");
+  const [gender, onChangeGender] = React.useState("");
+  const [ethnicity, onChangeEthnicity] = React.useState("");
 
   const genders: string[] = [
     "Male",
@@ -21,6 +23,15 @@ export default function Onboarding2({ nextPage, setPage }: String) {
     "Other",
     "Prefer Not to Say",
   ];
+  const ethnicities: string[] = [
+  "White",
+  "Black or African American",
+  "Asian",
+  "Hispanic or Latino",
+  "Two or more races",
+  "Native Hawaiian or Other Pacific Islander",
+  "American Indian or Alaska Native",
+  "Other",];
 
   return (
     <View style={styles.container}>
@@ -49,7 +60,7 @@ export default function Onboarding2({ nextPage, setPage }: String) {
           >
             <Image
               style={styles.profile}
-              source={require("../public/profile-default.jpeg")}
+              source={require("../public/profile-default.jpeg")} // TODO: inherit profile image from googdata
             />
             <View
               style={{
@@ -72,14 +83,14 @@ export default function Onboarding2({ nextPage, setPage }: String) {
                 }}
               >
                 <View style={styles.columns}>
-                  <Text>Name:</Text>
+                  <Text>Preferred Name:</Text>
                 </View>
                 <View style={styles.textInput}>
                   <TextInput
                     onChangeText={onChangeName}
                     placeholder={"Type Preferred name here..."}
                     style={styles.input}
-                    value={name}
+                    value={preferred_name}
                   />
                 </View>
               </View>
@@ -130,6 +141,37 @@ export default function Onboarding2({ nextPage, setPage }: String) {
                       );
                     }}
                     onSelect={(selectedItem, index) => {
+                      {onChangeGender}
+                      console.log(selectedItem, index);
+                    }}
+                    buttonTextAfterSelection={(selectedItem, index) => {
+                      return selectedItem;
+                    }}
+                    rowTextForSelection={(item, index) => {
+                      return item;
+                    }}
+                  />
+                </View>
+                <View style={styles.columns}>
+                  <Text>Ethnicity:</Text>
+                </View>
+                <View style={styles.textInput}>
+                  <SelectDropdown
+                    data={ethnicities}
+                    buttonTextStyle={styles.dropdown}
+                    buttonStyle={styles.dropdownButton}
+                    rowStyle={styles.dropdownStyle}
+                    renderDropdownIcon={(isOpened) => {
+                      return (
+                        <FontAwesome
+                          name={isOpened ? "chevron-up" : "chevron-down"}
+                          color={"#444"}
+                          size={14}
+                        />
+                      );
+                    }}
+                    onSelect={(selectedItem, index) => {
+                      {onChangeEthnicity}
                       console.log(selectedItem, index);
                     }}
                     buttonTextAfterSelection={(selectedItem, index) => {
@@ -171,6 +213,8 @@ export default function Onboarding2({ nextPage, setPage }: String) {
     </View>
   );
 }
+
+
 
 const styles = StyleSheet.create({
   container: {
@@ -220,7 +264,7 @@ const styles = StyleSheet.create({
   },
   dropdownStyle: {
     height: 26,
-    width: "100%",
+    width: "150%",
     fontSize: 12,
   },
   button: {

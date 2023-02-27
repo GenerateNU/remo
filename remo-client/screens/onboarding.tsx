@@ -35,7 +35,9 @@ export default function Onboarding() {
   
   const [page, setPage] = useState<string>("pageone");
   const [pageNum, setPageNum] = useState(0);
-  const [pronouns, setPronouns] = useState("");
+  const [pronouns, setPronouns] = useState(""); // TODO: implement
+  const [gender, setGender] = useState(""); // TODO: implement
+  const [ethnicity, setEthnicity] = useState(""); // TODO: implement
 
   const onNextClick = () => {
     navigation.navigate("Profile", {
@@ -44,7 +46,9 @@ export default function Onboarding() {
         firstName: data.firstName, 
         lastName: data.lastName, 
         image: data.image, 
-        prns: pronouns
+        prns: pronouns, // TODO: implement
+        gender: gender, // TODO: implement
+        eth: ethnicity // TODO: implement
       } 
     })
   }

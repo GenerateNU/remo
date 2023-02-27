@@ -67,10 +67,10 @@ export default function Onboarding1({ nextPage, data}) {
      
               </View>
               <View>
-                  <Text>Gender:</Text>
+                  <Text>Email: {data.email}</Text>
                 </View>
-              <Text>Grade:</Text>
-              <Text>Class:</Text>
+              <Text>Grade: 12</Text>
+              <Text>Class: Ms. Heudebourg</Text>
             </View>
           </View>
         </View>

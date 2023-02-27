@@ -26,10 +26,14 @@ export default function Profile() {
   const [firstName, setFirst] = useState("");
   const [lastName, setLastName] = useState("");
   const [pronouns, setPronouns] = useState("");
-
+  console.log(data);
   useEffect(() => {
     console.log(data);
   }, []);
+
+  const navigateLogin = () => {
+    navigation.navigate("GoogleSSO");
+  };
 
   const ethnicities = [
     "White",
@@ -67,17 +71,19 @@ export default function Profile() {
             source={{uri: data.image}}
           />
           <View>
-          <Text> {data.preferredName} {data.lastName}</Text>
-          <Text> {data.pronouns} </Text>
+          <Text style={{ fontWeight: 'bold' }}> {data.firstName} {data.lastName} </Text>
+          <Text> {data.email} </Text>
+
+          <Text> {data.pronouns} </Text> 
           </View>
         </View>
-        <Text>Preferred Name</Text>
+        <Text>Preferred Name  (WANT THIS TO READ THE INHERITED VALUE)</Text>
         <TextInput
           onChangeText={onChangeText}
           value={text}
           style={styles.input}
         />
-        <Text>Ethnicity</Text>
+        <Text>Ethnicity  (WANT THIS TO READ THE INHERITED VALUE)</Text>
         <SelectDropdown
           data={ethnicities}
           buttonStyle={styles.dropdown}
@@ -91,7 +97,7 @@ export default function Profile() {
             return item;
           }}
         />
-        <Text>Gender Identity</Text>
+        <Text>Gender Identity (WANT THIS TO READ THE INHERITED VALUE)</Text>
         <SelectDropdown
           data={genders}
           buttonStyle={styles.dropdown}
@@ -118,14 +124,9 @@ export default function Profile() {
           <Button
             buttonStyle={styles.button}
             type="outline"
-            title="Change Password"
-            color="black"
-          ></Button>
-          <Button
-            buttonStyle={styles.button}
-            type="outline"
             title="Sign Out"
             color="black"
+            onPress={navigateLogin}
           ></Button>
         </View>
       </View>

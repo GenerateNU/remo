@@ -32,7 +32,7 @@ export default function Onboarding11({ nextPage }: StringSet) {
             <Text style={{fontSize: 25, fontWeight: "bold", alignItems: "center", paddingBottom: 50}}>All Done!</Text>
             <Image
             style={{marginBottom: 50}}
-            source={require("../public/lebron.jpeg")}
+            source={require("../public/lebron.jpeg")} // TODO: inherit from googdata
           />
             <Button 
             title="View Profile"
