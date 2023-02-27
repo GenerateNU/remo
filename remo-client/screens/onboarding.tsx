@@ -36,8 +36,8 @@ export default function Onboarding() {
   const [pronouns, setPronouns] = useState("");
 
   const onNextClick = () => {
-    navigation.navigate("Profile", 
-      data: { email: data.Email, firstName: data.First, lastName: data.Last, image: data.Image, prns: pronouns}
+    navigation.navigate("Profile", {
+      data: { email: data.Email, firstName: data.First, lastName: data.Last, image: data.Image, prns: pronouns}}
     )
   }
 
