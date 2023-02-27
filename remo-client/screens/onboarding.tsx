@@ -8,6 +8,7 @@ import {
 import { StyleSheet, Text, View, Image, Button, TextInput } from "react-native";
 import SelectDropdown from "react-native-select-dropdown";
 import Onboarding1 from "../components/onboarding1";
+import Profile from "./profile"
 import Onboarding2 from "../components/onboarding2";
 import Onboarding3 from "../components/onboarding3";
 import Onboarding4 from "../components/onboarding4";
@@ -37,7 +38,12 @@ export default function Onboarding() {
 
   const onNextClick = () => {
     navigation.navigate("Profile", {
-      data: { email: data.Email, firstName: data.First, lastName: data.Last, image: data.Image, prns: pronouns}}
+      data: { 
+        email: data.Email, 
+        firstName: data.First, 
+        lastName: data.Last, 
+        image: data.Image, 
+        prns: pronouns} }
     )
   }
 
@@ -99,7 +105,7 @@ export default function Onboarding() {
           pagenine: <Onboarding9 nextPage={nextPage} />,
           pageten: <Onboarding10 nextPage={nextPage} />,
           pageeleven: <Onboarding11 nextPage={nextPage} />,
-          pagetwelve: <Onboarding12 nextPage={setPage} />,
+          pagetwelve: <Onboarding12 nextPage={onNextClick} />,
         }[page]
       }
     </View>

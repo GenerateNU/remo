@@ -39,6 +39,7 @@ export default function Onboarding11({ nextPage }: StringSet) {
             type = "outline"
             buttonStyle={styles.button}
             titleStyle={{ color: "black" }}
+            onPress={nextPage}
           ></Button>
     </View>
   );
