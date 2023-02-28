@@ -11,10 +11,10 @@ export default function PostReadingLog({navigation}) {
   const [startPage, setStartPage] = useState('');
   const [endPage, setEndPage] = useState('');
 
-
   useEffect(() => {
     console.log(data);
   }, []);
+  
   const onSubmitLog = () => {
     var startpage: number = +startPage;
     var endpage: number = +endPage;
@@ -27,62 +27,66 @@ export default function PostReadingLog({navigation}) {
     };
     navigation.navigate('ReadingLogDisplay', {data:send_data});
   };
+  
   return (
     <ScrollView>
-    <View style={styles.container}>
-      <View style={styles.header}>
-        <Text style={styles.header_title}>Book Title:</Text>
-      </View>
-      <View style={styles.subheader}>
-        <Text style={styles.header_data}>{data.title}</Text>
-      </View>
-      <View style={styles.header}>
-        <Text style={styles.header_title}>Timed Session:</Text>
-      </View>
-      <Text style={styles.timer}>
-        {data.time}
-      </Text>
-      <View style={styles.subheader}>
-        <Text style={styles.note}>Notes:</Text>
-      </View>
       <View style={styles.container}>
-        <TextInput
-          style={styles.input}
-          value={text}
-          onChangeText={setText}
-          placeholder="Enter text"
-        />
-        <Text style={styles.header_title}>Your Pages:</Text>
+        <View style={styles.header}>
+          <Text style={styles.header_title}>Book Title:</Text>
+        </View>
+        <View style={styles.subheader}>
+          <Text style={styles.header_data}>{data.title}</Text>
+        </View>
+        <View style={styles.header}>
+          <Text style={styles.header_title}>Timed Session:</Text>
+        </View>
+        <Text style={styles.timer}>
+          {data.time}
+        </Text>
+        <View style={styles.subheader}>
+          <Text style={styles.note}>Notes:</Text>
+        </View>
+        <View style={styles.container}>
+          <TextInput
+            style={styles.input}
+            value={text}
+            onChangeText={setText}
+            placeholder="Enter text"
+          />
+        </View>
 
-      </View>
-      
-      
-      <View style={styles.page_container}>
+        <View style={styles.page_container}>
 
-      <View style={styles.inputContainer}>
-        <Text style={styles.label}>Start Page:</Text>
-        <TextInput
-          style={styles.page_input}
-          value={startPage}
-          onChangeText={setStartPage}
-          keyboardType="numeric"
-        />
+        <View style={styles.pageContainer}>
+          <Text style={styles.header_title}>Your Pages:</Text>
+        </View>
+        </View>
+
+        <View style={styles.page_container}>
+          <View style={styles.inputContainer}>
+            <Text style={styles.label}>Start Page:</Text>
+            <TextInput
+              style={styles.page_input}
+              value={startPage}
+              onChangeText={setStartPage}
+              keyboardType="numeric"
+            />
+          </View>
+          <View style={styles.inputContainer}>
+            <Text style={styles.label}>End Page:</Text>
+            <TextInput
+              style={styles.page_input}
+              value={endPage}
+              onChangeText={setEndPage}
+              keyboardType="numeric"
+            />
+          </View>
+        </View>
+        <TouchableOpacity style={styles.button} onPress={onSubmitLog}>
+          <Text style={styles.buttonText}>SUBMIT LOG</Text>
+        </TouchableOpacity>
       </View>
-  
-      <View style={styles.inputContainer}>
-        <Text style={styles.label}>End Page:</Text>
-        <TextInput
-          style={styles.page_input}
-          value={endPage}
-          onChangeText={setEndPage}
-          keyboardType="numeric"
-        />
-      </View>
-    </View>
-    <TouchableOpacity style={styles.button} onPress={onSubmitLog}><Text style={styles.buttonText}>SUBMIT LOG</Text></TouchableOpacity>
-    </View>
     </ScrollView>
-
   );
 }
 
@@ -110,6 +114,15 @@ const styles = StyleSheet.create({
   buttonContainer: {
     flexDirection: 'row',
     marginTop: 20,
+  },
+  pageContainer: {
+    flexDirection: 'row',
+    marginTop: 5,
+    marginBottom: 3,
+    alignItems: 'center',
+    paddingHorizontal: 20,
+    paddingVertical: 15,
+    // marginTop: 20,
   },
   header: {
     flexDirection: 'row',

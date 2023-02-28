@@ -4,13 +4,16 @@ import {
   Text,
   StyleSheet,
   ScrollView,
-  TouchableOpacity
+  TouchableOpacity,
+  Alert
 } from 'react-native';
 import { useNavigation, useRoute } from '@react-navigation/native';
 
 export default function ReadingLog({ navigation }) {
   const [books, setBooks] = useState([]);
   const [selectedBook, setSelectedBook] = useState(null);
+  const [showPopup, setShowPopup] = useState(false);
+
   const route = useRoute();
   const data = route.params?.data;
   
@@ -37,6 +40,10 @@ export default function ReadingLog({ navigation }) {
                 styles.book,
                 selectedBook && selectedBook.id === book.id && styles.selected,
               ]}
+              onPress={() => {
+                setSelectedBook(book)
+                setShowPopup(true)
+              }}
               >
               <>
                 <Text style={styles.title}>{book.title}</Text>
@@ -45,6 +52,12 @@ export default function ReadingLog({ navigation }) {
               </>
             </TouchableOpacity>
           ))}
+        {selectedBook && (
+        Alert.alert(
+          selectedBook.title,
+          `Author: ${selectedBook.author}\nISBN-13: ${selectedBook.isbn_13}\nSynopsis: ${selectedBook.synopsis}`
+        )
+      )}
         </View>
       </ScrollView>
       <View style={styles.header}>
