@@ -1,6 +1,13 @@
 import { StatusBar } from "expo-status-bar";
 import React, { useState, useEffect } from "react";
-import { StyleSheet, Text, View, Button } from "react-native";
+import {
+  StyleSheet,
+  Text,
+  View,
+  Button,
+  Alert,
+  ActivityIndicator,
+} from "react-native";
 import { BarCodeScanner } from "expo-barcode-scanner";
 import { BarcodeResponse } from "../types/index";
 import { useNavigation, useRoute } from "@react-navigation/native";
@@ -11,18 +18,19 @@ export default function BarcodeScanner() {
   const route = useRoute();
   const data = route.params?.data;
   // const data = route.params?.data;
-  console.log("wowza", data);
 
   const [hasPermission, setHasPermission] = useState(null);
   const [scanned, setScanned] = useState(false);
   const [barcode, setBarcode] = useState<string | null>(null);
-  const [book, setBook] = useState<JSON | null>();
   const [title, setTitle] = useState("");
   const [author, setAuthor] = useState<string[]>([]);
   const [published, setPublished] = useState("");
   const [pageCount, setPageCount] = useState("");
   const [bookCover, setBookCover] = useState("");
   const [synopsis, setSynopsis] = useState("");
+  const [loading, setLoading] = useState(false);
+
+  const [popUp, setPopUp] = useState(false);
 
   const newData = {
     ...data,
@@ -52,22 +60,44 @@ export default function BarcodeScanner() {
     };
 
     getBarCodeScannerPermissions();
+    console.log("wowza", data);
   }, []);
 
   useEffect(() => {
-    //console.log(barcode);
     fetchData();
-
-    // let book = ...;
-    // if (!book) {
-    //   const isbn10 = handleBarcodeConversion(data);
-    //   setBarcode(isbn10);
-    // }
   }, [barcode]);
 
   useEffect(() => {
-    console.log(newData);
-  }, [published, subtitle, author, published, pageCount, synopsis, bookCover]);
+    if (!popUp && bookCover !== "") {
+      console.log(newData);
+      Alert.alert(
+        "Book Scanned",
+        `${title} by ${author} has been scanned! Do you want to see more information?`,
+        [
+          {
+            text: "Cancel",
+            onPress: () => {
+              console.log("Canceled");
+              setPopUp(false);
+              setLoading(false);
+            },
+          },
+          {
+            text: "Ok",
+            onPress: () => {
+              console.log("navigating");
+              navigation.navigate("BookInfo", {
+                data: newData,
+              });
+            },
+          },
+        ]
+      );
+    }
+    if (bookCover !== "") {
+      setPopUp(true);
+    }
+  }, [published, author, published, pageCount, synopsis, bookCover]); //
 
   const fetchData = async () => {
     const bookEndpoint = barcodeEndpoint + barcode;
@@ -75,26 +105,22 @@ export default function BarcodeScanner() {
       console.log(barcode, " -> fetched barcode");
       const resp = await fetch(bookEndpoint);
       const data = await resp.json();
+      console.log(JSON.stringify(data));
+      const objString =
+        '{"id":"","title":"","author":"","isbn_13":"","isbn_10":"","subtitle":"","publish_date":"","page_count":"","synopsis":""}';
 
-      if (!data) {
+      console.log(objString === JSON.stringify(data));
+      if (objString === JSON.stringify(data)) {
         await fetchGoogle();
       } else {
         await updateTitleAndAuthor(data);
-        setBook(data);
+        await setLargestImage();
       }
-      await setLargestImage();
-
-      console.log(newData);
-      alert(`Book ${book} by ${author} has been scanned!`);
     }
-
-    //setLoading(false);
   };
 
   const updateTitleAndAuthor = (book: JSON) => {
     const obj = JSON.parse(JSON.stringify(book));
-    console.log(obj.author);
-    console.log(obj.title);
     setTitle(obj.title);
     setAuthor(obj.author);
     setPublished(obj.published_date);
@@ -102,27 +128,30 @@ export default function BarcodeScanner() {
     setSynopsis(obj.synopsis);
   };
 
+  // <Text style={styles.display}>Barcode: {barcode}</Text>
+  // <Text style={styles.display}>Title: {title}</Text>
+  // <Text style={styles.display}>Author: {author}</Text>
+
   const fetchGoogle = async () => {
     const bookEndpoint = googleEndpoint + barcode;
     console.log(barcode, " -> google fetched barcode");
     const resp = await fetch(bookEndpoint);
     const data = await resp.json();
-    updateTitleAndAuthorGoogle(data);
+    await updateTitleAndAuthorGoogle(data);
     setBook(data);
   };
 
   const updateTitleAndAuthorGoogle = (book: any) => {
-    console.log(book.items);
     const obj = book.items[0].volumeInfo;
-    console.log(obj.title);
-    console.log(obj.authors);
-    console.log(obj.pageCount);
-    console.log(obj.publishedDate);
     setTitle(obj.title);
     setAuthor(obj.authors);
-    setSynopsis("unavailable");
+    setSynopsis(obj.description);
     setPageCount(obj.pageCount);
     setPublished(obj.publishedDate);
+    const imageLinks = obj.imageLinks;
+    const arr = Object.entries(imageLinks);
+    const lastValue = arr[arr.length - 1][1];
+    setBookCover(lastValue);
   };
 
   const setLargestImage = async () => {
@@ -134,13 +163,13 @@ export default function BarcodeScanner() {
     const imageLinks = obj.imageLinks;
     const arr = Object.entries(imageLinks);
     const lastValue = arr[arr.length - 1][1];
-    console.log(lastValue);
     setBookCover(lastValue);
   };
 
   // TODO; figure out how to type <type> and <data>
   const handleBarCodeScanned = async ({ type, data }: BarcodeResponse) => {
     setScanned(true);
+    setLoading(true);
     // check that this is indeed an isbn-13 or isbn-10 barcode
     // setBarcode(data);
     if (type === "org.gs1.EAN-13" && data.substring(0, 3) === "978") {
@@ -190,9 +219,12 @@ export default function BarcodeScanner() {
       {scanned && (
         <Button title={"Tap to Scan Again"} onPress={() => setScanned(false)} />
       )}
-      <Text style={styles.display}>Barcode: {barcode}</Text>
-      <Text style={styles.display}>Title: {title}</Text>
-      <Text style={styles.display}>Author: {author}</Text>
+      {loading && (
+        <View>
+          <ActivityIndicator />
+          <Text>Loading...</Text>
+        </View>
+      )}
       <StatusBar style="auto" />
     </View>
   );
