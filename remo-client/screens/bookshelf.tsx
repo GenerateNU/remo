@@ -5,7 +5,7 @@ import {
   StyleSheet,
   ScrollView,
   TouchableHighlight,
-  Modal
+  Alert
 } from 'react-native';
 
 export default function Bookshelf() {
@@ -46,16 +46,10 @@ export default function Bookshelf() {
         ))}
       </View>
       {selectedBook && (
-        <View style={styles.selectedBook}>
-          <Text style={styles.selectedTitle}>{selectedBook.title}</Text>
-          <Text style={styles.selectedAuthor}>{selectedBook.author}</Text>
-          <Text style={styles.selectedIsbn}>
-            ISBN-13: {selectedBook.isbn_13}
-          </Text>
-          <Text style={styles.selectedSynopsis}>
-            {selectedBook.synopsis}
-          </Text>
-        </View>
+        Alert.alert(
+          selectedBook.title,
+          `Author: ${selectedBook.author}\nISBN-13: ${selectedBook.isbn_13}\nSynopsis: ${selectedBook.synopsis}`
+        )
       )}
     </ScrollView>
   );
