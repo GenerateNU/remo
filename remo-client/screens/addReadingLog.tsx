@@ -5,24 +5,27 @@ import {
   StyleSheet,
   ScrollView,
   TouchableHighlight,
-  Alert
+  Alert,
+  TouchableOpacity
 } from 'react-native';
 
-export default function AddReadingLog() {
+export default function AddReadingLog({navigation}) {
   const [books, setBooks] = useState([]);
   const [selectedBook, setSelectedBook] = useState(null);
   const [showPopup, setShowPopup] = useState(false);
   useEffect(() => {
     fetch('https://9390-2601-197-a7f-9c20-3cb2-d248-7f7-28c6.ngrok.io/v1/user_books/6')
       .then((response) => response.json())
-      .then((data) => setBooks(data));
+      .then((data) => setBooks(data.slice(0,4)));
   }, []);
 
+  const onLogPress = () => {
+    navigation.navigate('Timer', {data:selectedBook});
+  };
   return (
     <ScrollView>
       <View style={styles.header}>
-        <Text style={styles.header_title}>Bookshelf</Text>
-        <Text style={styles.count}>{books.length} Books</Text>
+        <Text style={styles.header_title}>Select a book you're currently reading or checkout a new book.</Text>
       </View>
       <View style={styles.container}>
         {books.map((book) => (
@@ -35,7 +38,7 @@ export default function AddReadingLog() {
             underlayColor="#ccc"
             onPress={() => {
               setSelectedBook(book)
-              setShowPopup(true)
+              console.log(selectedBook);
             }}>
             <>
               <Text style={styles.title}>{book.title}</Text>
@@ -45,12 +48,9 @@ export default function AddReadingLog() {
           </TouchableHighlight>
         ))}
       </View>
-      {selectedBook && (
-        Alert.alert(
-          selectedBook.title,
-          `Author: ${selectedBook.author}\nISBN-13: ${selectedBook.isbn_13}\nSynopsis: ${selectedBook.synopsis}`
-        )
-      )}
+      <TouchableOpacity style={styles.button} onPress={() => onLogPress()}>
+        <Text style={styles.buttonText}>Add Reading Log</Text>
+      </TouchableOpacity>
     </ScrollView>
   );
 }
@@ -69,12 +69,14 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     paddingHorizontal: 20,
     paddingVertical: 10,
-    borderBottomWidth: 1,
+    borderBottomWidth: 0,
     borderBottomColor: '#ccc',
+    marginBottom:5
   },
   header_title: {
-    fontSize: 24,
+    fontSize: 20,
     fontWeight: 'bold',
+    marginBottom: 7
   },
   count: {
     fontSize: 18,
@@ -119,6 +121,20 @@ const styles = StyleSheet.create({
   },  
   selectedSynopsis: {
     fontSize: 24,
+    fontWeight: 'bold',
+  },
+  button: {
+    backgroundColor: 'black',
+    height: 50,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginHorizontal: 20,
+    marginVertical: 10,
+    borderRadius: 10,
+  },
+  buttonText: {
+    color: 'white',
+    fontSize: 18,
     fontWeight: 'bold',
   },
 });

@@ -19,7 +19,7 @@ export default function ReadingLog({ navigation }) {
   }, []);
 
   const onBookPress = () => {
-    navigation.navigate('Timer');
+    navigation.navigate('AddReadingLog');
   };
   return (
     <ScrollView>
