@@ -2,14 +2,20 @@ import { useNavigation, useRoute } from '@react-navigation/native';
 import React, { useState, useEffect, useRef } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, Alert } from 'react-native';
 
-export default function Timer() {
+export default function Timer({navigation}) {
   const [elapsedTime, setElapsedTime] = useState(0);
   const [isRunning, setIsRunning] = useState(false);
   const intervalRef = useRef(null);
   const route = useRoute();
 
   const data = route.params?.data;
-
+  const onStopPress = () => {
+    const send_data = {
+      time:formatTime(elapsedTime), 
+      title: data.title
+    };
+    navigation.navigate('PostReadingLog', {data:send_data});
+  };
   useEffect(() => {
     console.log(data);
   }, []);
@@ -40,12 +46,13 @@ export default function Timer() {
   const handleStop = () => {
     Alert.alert(
       'Stop Timer',
-      'Are you sure you want to stop the timer?',
+      'Are you sure you want to stop reading?',
       [
         {text: 'Cancel', style: 'cancel'},
         {text: 'Yes', onPress: () => {
           setIsRunning(false);
           clearInterval(intervalRef.current);
+          onStopPress();
           setElapsedTime(0);
         }},
       ],
@@ -60,30 +67,24 @@ export default function Timer() {
 
   return (
     <View style={styles.container}>
-       <View style={styles.header}>
-        <Text style={styles.header_title}>Book Title</Text>
-      </View>
       <View style={styles.header}>
-        <Text style={styles.header_title}>{data.title}</Text>
+        <Text style={styles.header_title}>Book Title:</Text>
       </View>
-      <Text style={styles.timer}>{formatTime(elapsedTime)}</Text>
-      <View style={styles.buttonContainer}>
-        {!isRunning && (
+      <View style={styles.subheader}>
+        <Text style={styles.header_data}>{data.title}</Text>
+      </View>
+      {!isRunning && (
           <TouchableOpacity style={styles.button} onPress={handleStart}>
-            <Text>Start</Text>
+            <Text style={styles.buttonText}>START READING</Text>
           </TouchableOpacity>
         )}
-        {isRunning && (
-          <TouchableOpacity style={styles.button} onPress={handlePause}>
-            <Text>Pause</Text>
-          </TouchableOpacity>
-        )}
-        {isRunning && (
+      
+      <Text style={styles.timer}>{formatTime(elapsedTime)}</Text>
+      {isRunning && (
           <TouchableOpacity style={styles.button} onPress={handleStop}>
-            <Text>Stop</Text>
+            <Text style={styles.buttonText}>STOP READING</Text>
           </TouchableOpacity>
         )}
-      </View>
     </View>
   );
 }
@@ -102,33 +103,42 @@ const styles = StyleSheet.create({
     padding: 20,
   },
   timer: {
+    paddingVertical: 10,
     fontSize: 50,
     fontWeight: 'bold',
+    paddingLeft: 50,
     textAlign: 'center',
   },
   buttonContainer: {
     flexDirection: 'row',
     marginTop: 20,
   },
-  button: {
-    backgroundColor: 'lightgray',
-    padding: 10,
-    borderRadius: 5,
-    marginHorizontal: 10,
-  },
-
   header: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
     paddingHorizontal: 20,
-    paddingVertical: 10,
-    borderBottomWidth: 1,
+    paddingVertical: 7,
+    // borderBottomWidth: 1,
+    borderBottomColor: '#ccc',
+  },
+  subheader: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    paddingHorizontal: 20,
+    paddingVertical: 7,
+    paddingBottom: 75,
     borderBottomColor: '#ccc',
   },
   header_title: {
-    fontSize: 24,
+    fontSize: 20,
     fontWeight: 'bold',
+    paddingRight: 100,
+  },  
+  header_data: {
+    fontSize: 18,
+    // fontWeight: 'bold',
   },
   count: {
     fontSize: 18,
@@ -154,6 +164,16 @@ const styles = StyleSheet.create({
   isbn: {
     fontSize: 14,
     marginBottom: 5,
+  },
+  button: {
+    backgroundColor: 'black',
+    height: 50,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginHorizontal: 5,
+    marginVertical: 10,
+    borderRadius: 10,
+    width: '100%',
   },
   buttonText: {
     color: 'white',

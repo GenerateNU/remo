@@ -35,7 +35,7 @@ export default function ReadingLog({ navigation }) {
                 styles.book,
                 selectedBook && selectedBook.id === book.id && styles.selected,
               ]}
-              onPress={() => onBookPress()}>
+              >
               <>
                 <Text style={styles.title}>{book.title}</Text>
                 <Text style={styles.author}>{book.author}</Text>
@@ -101,7 +101,7 @@ const styles = StyleSheet.create({
   book: {
     width: '22%',
     marginBottom: 5,
-    borderWidth: 5,
+    borderWidth: 1,
     borderColor: '#ccc',
     padding: 1,
   },
