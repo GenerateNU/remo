@@ -200,6 +200,9 @@ const styles = StyleSheet.create({
   dropdown: {
     width: "100%",
     marginBottom: 12,
+    backgroundColor: "white",
+    borderColor: "black",
+    borderWidth: 1,
   },
   profile: {
     width: 65,
