@@ -8,6 +8,7 @@ import Profile from "./screens/profile";
 import Onboarding from "./screens/onboarding";
 import Timer from "./screens/timer";
 import ReadingLog from "./screens/readinglog";
+import AddReadingLog from "./screens/addReadingLog";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
 const Stack = createNativeStackNavigator();
@@ -24,6 +25,7 @@ export default function App() {
         <Stack.Screen name="Bookshelf" component={Bookshelf} />
         <Stack.Screen name="Timer" component={Timer} />
         <Stack.Screen name="ReadingLog" component={ReadingLog} />
+        <Stack.Screen name="AddReadingLog" component={AddReadingLog} />
       </Stack.Navigator>
     </NavigationContainer>
   );
