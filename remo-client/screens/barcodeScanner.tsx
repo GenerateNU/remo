@@ -19,7 +19,6 @@ export default function BarcodeScanner() {
   const [book, setBook] = useState<JSON | null>();
   const [title, setTitle] = useState("");
   const [author, setAuthor] = useState<string[]>([]);
-  const [subtitle, setSubtitle] = useState("");
   const [published, setPublished] = useState("");
   const [pageCount, setPageCount] = useState("");
   const [bookCover, setBookCover] = useState("");
@@ -29,7 +28,6 @@ export default function BarcodeScanner() {
     ...data,
     title: title,
     author: author,
-    subtitle: subtitle,
     published: published,
     pageCount: pageCount,
     bookCover: bookCover,
@@ -119,11 +117,9 @@ export default function BarcodeScanner() {
     console.log(obj.title);
     console.log(obj.authors);
     console.log(obj.pageCount);
-    console.log(obj.subtitle);
     console.log(obj.publishedDate);
     setTitle(obj.title);
     setAuthor(obj.authors);
-    setSubtitle(obj.subtitle);
     setSynopsis("unavailable");
     setPageCount(obj.pageCount);
     setPublished(obj.publishedDate);
