@@ -41,12 +41,15 @@ export default function Profile() {
     navigation.navigate("GoogleSSO");
   };
 
-  const ethnicities = [
+  const ethnicities: string[] = [
     "White",
-    "African American",
+    "Black or African American",
     "Asian",
+    "Hispanic or Latino",
+    "Two or more races",
+    "Native Hawaiian or Other Pacific Islander",
+    "American Indian or Alaska Native",
     "Other",
-    "Prefer Not to Say",
   ];
   const genders = [
     "Male",
@@ -137,7 +140,7 @@ export default function Profile() {
         </View>
       </View>
       <View style={styles.bot}>
-        <NavBar />
+        <NavBar navigation={navigation} data={newData} />
       </View>
     </View>
   );

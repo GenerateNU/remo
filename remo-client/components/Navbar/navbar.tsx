@@ -5,16 +5,14 @@ import SearchIcon from "react-native-bootstrap-icons/icons/search";
 import BookmarkPlusIcon from "react-native-bootstrap-icons/icons/bookmark-plus";
 import ArrowLeftSquareIcon from "react-native-bootstrap-icons/icons/arrow-left-square";
 import PersonCircleIcon from "react-native-bootstrap-icons/icons/person-circle";
-import BarcodeScanner from "../screens/barcodeScanner"
+import BarcodeScanner from "../screens/barcodeScanner";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { AntDesign, MaterialCommunityIcons } from "@expo/vector-icons";
 
 import Profile from "../../screens/profile";
 import { useNavigation } from "@react-navigation/native";
 
-export default function NavBar() {
-  const navigation = useNavigation();
-
+export default function NavBar({ navigation, data }) {
   const navigateBarcode = () => {
     navigation.navigate("BarcodeScanner");
   };
@@ -24,8 +22,12 @@ export default function NavBar() {
 
   return (
     <View style={styles.navbar}>
-      <Ionicons style={styles.icon} name="ios-book-outline" size={50} onPress={navigateBookshelf}
-/>
+      <Ionicons
+        style={styles.icon}
+        name="ios-book-outline"
+        size={50}
+        onPress={navigateBookshelf}
+      />
       <AntDesign
         style={styles.icon}
         name="search1"
