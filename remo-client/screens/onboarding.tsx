@@ -125,7 +125,7 @@ export default function Onboarding() {
           pagenine: <Onboarding9 nextPage={nextPage} />,
           pageten: <Onboarding10 nextPage={nextPage} />,
           pageeleven: <Onboarding11 nextPage={nextPage} />,
-          pagetwelve: <Onboarding12 nextPage={onNextClick} />,
+          pagetwelve: <Onboarding12 nextPage={onNextClick} data={newData} />,
         }[page]
       }
     </View>

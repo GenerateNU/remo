@@ -16,31 +16,37 @@ import { StringSet } from "../types";
 import PressableCard from "./pressablecard/pressablecard";
 import { Button } from "@rneui/themed";
 
-export default function Onboarding11({ nextPage }: StringSet) {
+export default function Onboarding12({ nextPage, data }) {
   const [selected, setSelected] = useState(false);
-
-  const onClick = () => {
-    nextPage("pagetwelve");
-  };
-
-  const onPress = () => {
-   /// waiting on brian
-  };
 
   return (
     <View style={styles.container}>
-            <Text style={{fontSize: 25, fontWeight: "bold", alignItems: "center", paddingBottom: 50}}>All Done!</Text>
-            <Image
-            style={{marginBottom: 50}}
-            source={require("../public/lebron.jpeg")} // TODO: inherit from googdata
-          />
-            <Button 
-            title="View Profile"
-            type = "outline"
-            buttonStyle={styles.button}
-            titleStyle={{ color: "black" }}
-            onPress={nextPage}
-          ></Button>
+      <Text
+        style={{
+          fontSize: 25,
+          fontWeight: "bold",
+          alignItems: "center",
+          paddingBottom: 50,
+        }}
+      >
+        All Done!
+      </Text>
+      <Image
+        style={{
+          marginBottom: 50,
+          width: 180,
+          height: 180,
+          borderRadius: "50%",
+        }}
+        source={{ uri: data.image }}
+      />
+      <Button
+        title="View Profile"
+        type="outline"
+        buttonStyle={styles.button}
+        titleStyle={{ color: "black" }}
+        onPress={nextPage}
+      ></Button>
     </View>
   );
 }

@@ -16,6 +16,7 @@ import {
 import { Button } from "@rneui/themed";
 import SelectDropdown from "react-native-select-dropdown";
 import NavBar from "../components/Navbar/navbar";
+import { FontAwesome } from "@expo/vector-icons";
 
 export default function Profile() {
   const route = useRoute();
@@ -93,6 +94,15 @@ export default function Profile() {
           data={ethnicities}
           buttonStyle={styles.dropdown}
           defaultValue={eth}
+          renderDropdownIcon={(isOpened) => {
+            return (
+              <FontAwesome
+                name={isOpened ? "chevron-up" : "chevron-down"}
+                color={"#444"}
+                size={20}
+              />
+            );
+          }}
           onSelect={(selectedItem, index) => {
             console.log(selectedItem, index);
             setEth(selectedItem);
@@ -109,6 +119,15 @@ export default function Profile() {
           data={genders}
           buttonStyle={styles.dropdown}
           defaultValue={gender}
+          renderDropdownIcon={(isOpened) => {
+            return (
+              <FontAwesome
+                name={isOpened ? "chevron-up" : "chevron-down"}
+                color={"#444"}
+                size={20}
+              />
+            );
+          }}
           onSelect={(selectedItem, index) => {
             console.log(selectedItem, index);
             setGender(selectedItem);
