@@ -19,10 +19,10 @@ export default function NavBar({ navigation, data }) {
     });
   };
   const navigateBookshelf = () => {
-    navigation.navigate("Bookshelf");
+    navigation.navigate("Bookshelf", {data:data});
   };
   const navigateReadinglog = () => {
-    navigation.navigate("ReadingLog");
+    navigation.navigate("ReadingLog", {data:data});
   };
   return (
     <View style={styles.navbar}>

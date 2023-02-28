@@ -64,8 +64,13 @@ export default function Onboarding1({ nextPage, data}) {
                   <Text>Name:</Text>
                   <Text> {data.firstName} {data.lastName}</Text>
                 </View>
+
      
               </View>
+              <View style={{flexDirection: "row"}}>
+                  <Text>User ID:</Text>
+                  <Text> {data.id}</Text>
+                </View>
               <View>
                   <Text>Email: {data.email}</Text>
                 </View>

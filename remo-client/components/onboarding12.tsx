@@ -31,6 +31,15 @@ export default function Onboarding12({ nextPage, data }) {
       >
         All Done!
       </Text>
+      <Text
+        style={{
+          fontSize: 20,
+          alignItems: "center",
+          paddingBottom: 20,
+        }}
+      >
+        {data.prefferedName}
+      </Text>
       <Image
         style={{
           marginBottom: 50,

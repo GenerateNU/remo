@@ -46,6 +46,7 @@ export default function Onboarding() {
     firstName: data.firstName,
     lastName: data.lastName,
     image: data.image,
+    id: data.id,
     prns: pronouns, // TODO: implement
     gender: gender, // TODO: implement
     eth: ethnicity, // TODO: implement
