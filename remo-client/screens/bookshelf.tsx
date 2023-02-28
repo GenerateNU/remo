@@ -21,10 +21,14 @@ export default function Bookshelf() {
   }, []);
 
   useEffect(() => {
-    fetch('https://59f3-2601-197-a7f-9c20-85ac-a311-ebf1-fa46.ngrok.io/v1/user_books/{data.id}')
+    // var fetch_string = 'https://59f3-2601-197-a7f-9c20-85ac-a311-ebf1-fa46.ngrok.io/v1/user_books/' + String({data.id});
+    fetch(`https://59f3-2601-197-a7f-9c20-85ac-a311-ebf1-fa46.ngrok.io/v1/user_books/${data.id}`)
+    // fetch(fetch_string)
       .then((response) => response.json())
       .then((data) => setBooks(data));
   }, []);
+  console.log(data.id);
+  console.log(books);
 
   return (
     <ScrollView>

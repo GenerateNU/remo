@@ -6,20 +6,22 @@ import {
   ScrollView,
   TouchableOpacity
 } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation, useRoute } from '@react-navigation/native';
 
 export default function ReadingLog({ navigation }) {
   const [books, setBooks] = useState([]);
   const [selectedBook, setSelectedBook] = useState(null);
-
+  const route = useRoute();
+  const data = route.params?.data;
+  
   useEffect(() => {
-    fetch('https://59f3-2601-197-a7f-9c20-85ac-a311-ebf1-fa46.ngrok.io/v1/user_books/6')
+    fetch(`https://59f3-2601-197-a7f-9c20-85ac-a311-ebf1-fa46.ngrok.io/v1/user_books/${data.id}`)
       .then((response) => response.json())
       .then((data) => setBooks(data.slice(0,4)));
   }, []);
 
   const onBookPress = () => {
-    navigation.navigate('AddReadingLog');
+    navigation.navigate('AddReadingLog', {data:data});
   };
   return (
     <ScrollView>
