@@ -10,15 +10,21 @@ export default function PostReadingLog({navigation}) {
   const [text, setText] = useState("");
   const [startPage, setStartPage] = useState('');
   const [endPage, setEndPage] = useState('');
+  // strings to intetger javascript?
+var x = "32";
+var y: number = +x;
 
   useEffect(() => {
     console.log(data);
   }, []);
   const onSubmitLog = () => {
+    var startpage: number = +startPage;
+    var endpage: number = +endPage;
+    var pagesRead = endpage - startpage;
     const send_data = {
       time:data.time, 
       title: data.title,
-      // pages: (endPage-startPage),
+      pages: pagesRead,
       log: text,
     };
     navigation.navigate('ReadingLogDisplay', {data:send_data});

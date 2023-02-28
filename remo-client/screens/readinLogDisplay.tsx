@@ -34,6 +34,12 @@ export default function ReadingLogDisplay({navigation}) {
       <View style={styles.container}>
         <Text style={styles.count}>{data.log}</Text>
       </View>
+      <View style={styles.header}>
+        <Text style={styles.header_title}>Pages Read:</Text>
+      </View>
+      <View style={styles.container}>
+        <Text style={styles.count}>{data.pages}</Text>
+      </View>
 
     </View>
     </ScrollView>
