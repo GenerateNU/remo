@@ -2,27 +2,17 @@ import { useNavigation, useRoute } from '@react-navigation/native';
 import React, { useState, useEffect, useRef } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, Alert, TextInput, ScrollView} from 'react-native';
 
-export default function PostReadingLog({navigation}) {
+export default function ReadingLogDisplay({navigation}) {
 
   const route = useRoute();
 
   const data = route.params?.data;
-  const [text, setText] = useState("");
-  const [startPage, setStartPage] = useState('');
-  const [endPage, setEndPage] = useState('');
+
 
   useEffect(() => {
     console.log(data);
   }, []);
-  const onSubmitLog = () => {
-    const send_data = {
-      time:data.time, 
-      title: data.title,
-      // pages: (endPage-startPage),
-      response: text,
-    };
-    navigation.navigate('ReadingLogDisplay', {data:send_data});
-  };
+
   return (
     <ScrollView>
     <View style={styles.container}>
@@ -33,7 +23,7 @@ export default function PostReadingLog({navigation}) {
         <Text style={styles.header_data}>{data.title}</Text>
       </View>
       <View style={styles.header}>
-        <Text style={styles.header_title}>Timed Session:</Text>
+        <Text style={styles.header_title}>Your Time Spent:</Text>
       </View>
       <Text style={styles.timer}>
         {data.time}
@@ -42,40 +32,10 @@ export default function PostReadingLog({navigation}) {
         <Text style={styles.note}>Notes:</Text>
       </View>
       <View style={styles.container}>
-        <TextInput
-          style={styles.input}
-          value={text}
-          onChangeText={setText}
-          placeholder="Enter text"
-        />
-        <Text style={styles.header_title}>Your Pages:</Text>
+        <Text style={styles.count}>{data.response}</Text>
+      </View>
 
-      </View>
-      
-      
-      <View style={styles.page_container}>
-
-      <View style={styles.inputContainer}>
-        <Text style={styles.label}>Start Page:</Text>
-        <TextInput
-          style={styles.page_input}
-          value={startPage}
-          onChangeText={setStartPage}
-          keyboardType="numeric"
-        />
-      </View>
-  
-      <View style={styles.inputContainer}>
-        <Text style={styles.label}>End Page:</Text>
-        <TextInput
-          style={styles.page_input}
-          value={endPage}
-          onChangeText={setEndPage}
-          keyboardType="numeric"
-        />
-      </View>
-    </View>
-    <TouchableOpacity style={styles.button} onPress={onSubmitLog}><Text style={styles.buttonText}>SUBMIT LOG</Text></TouchableOpacity>
+    <TouchableOpacity style={styles.button}><Text style={styles.buttonText}>CLOSE LOG</Text></TouchableOpacity> // TODO
     </View>
     </ScrollView>
 
@@ -128,7 +88,7 @@ const styles = StyleSheet.create({
   header_title: {
     fontSize: 20,
     fontWeight: 'bold',
-    paddingRight: 125,
+    paddingRight: 100,
   },  
   header_data: {
     fontSize: 18,
@@ -180,10 +140,8 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
   input_container: {
-    alignItems: 'flex-start',
-    justifyContent: 'flex-start',
-    flex:1,
-    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
     padding: 10,
   },
   input: {

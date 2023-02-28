@@ -134,7 +134,7 @@ const styles = StyleSheet.create({
   header_title: {
     fontSize: 20,
     fontWeight: 'bold',
-    paddingRight: 100,
+    paddingRight: 125,
   },  
   header_data: {
     fontSize: 18,
