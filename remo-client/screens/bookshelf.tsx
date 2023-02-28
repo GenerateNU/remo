@@ -1,9 +1,17 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, StyleSheet, ScrollView } from 'react-native';
+import {
+  View,
+  Text,
+  StyleSheet,
+  ScrollView,
+  TouchableHighlight,
+  Modal
+} from 'react-native';
 
 export default function Bookshelf() {
   const [books, setBooks] = useState([]);
-
+  const [selectedBook, setSelectedBook] = useState(null);
+  const [showPopup, setShowPopup] = useState(false);
   useEffect(() => {
     fetch('https://9390-2601-197-a7f-9c20-3cb2-d248-7f7-28c6.ngrok.io/v1/user_books/6')
       .then((response) => response.json())
@@ -12,20 +20,43 @@ export default function Bookshelf() {
 
   return (
     <ScrollView>
-        <View style={styles.header}>
+      <View style={styles.header}>
         <Text style={styles.header_title}>Bookshelf</Text>
         <Text style={styles.count}>{books.length} Books</Text>
       </View>
       <View style={styles.container}>
         {books.map((book) => (
-          <View style={styles.book} key={book.id}>
-            <Text style={styles.title}>{book.title}</Text>
-            <Text style={styles.author}>{book.author}</Text>
-            <Text style={styles.isbn}>ISBN-13: {book.isbn_13}</Text>
-            <Text style={styles.synopsis}>{book.synopsis}</Text>
-          </View>
+          <TouchableHighlight
+            key={book.id}
+            style={[
+              styles.book,
+              selectedBook && selectedBook.id === book.id && styles.selected,
+            ]}
+            underlayColor="#ccc"
+            onPress={() => {
+              setSelectedBook(book)
+              setShowPopup(true)
+            }}>
+            <>
+              <Text style={styles.title}>{book.title}</Text>
+              <Text style={styles.author}>{book.author}</Text>
+              <Text style={styles.isbn}>ISBN-13: {book.isbn_13}</Text>
+            </>
+          </TouchableHighlight>
         ))}
       </View>
+      {selectedBook && (
+        <View style={styles.selectedBook}>
+          <Text style={styles.selectedTitle}>{selectedBook.title}</Text>
+          <Text style={styles.selectedAuthor}>{selectedBook.author}</Text>
+          <Text style={styles.selectedIsbn}>
+            ISBN-13: {selectedBook.isbn_13}
+          </Text>
+          <Text style={styles.selectedSynopsis}>
+            {selectedBook.synopsis}
+          </Text>
+        </View>
+      )}
     </ScrollView>
   );
 }
@@ -57,6 +88,12 @@ const styles = StyleSheet.create({
   book: {
     width: '48%',
     marginBottom: 20,
+    borderWidth: 1,
+    borderColor: '#ccc',
+    padding: 10,
+  },
+  selected: {
+    borderColor: 'blue',
   },
   title: {
     fontSize: 16,
@@ -70,7 +107,24 @@ const styles = StyleSheet.create({
     fontSize: 14,
     marginBottom: 5,
   },
-  synopsis: {
-    fontSize: 14,
+  selectedBook: {
+    padding: 20,
+    borderBottomWidth: 1,
+    borderBottomColor: '#ccc',
+  },
+  selectedTitle: {
+    fontSize: 24,
+    fontWeight: 'bold',
+  },
+  selectedAuthor: {
+    fontSize: 20,
+  },
+  selectedIsbn: {
+    fontSize: 24,
+    fontWeight: 'bold',
+  },  
+  selectedSynopsis: {
+    fontSize: 24,
+    fontWeight: 'bold',
   },
 });
