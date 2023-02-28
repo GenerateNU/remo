@@ -6,6 +6,8 @@ import GoogleSSO from "./screens/googleSSO";
 import Bookshelf from "./screens/bookshelf";
 import Profile from "./screens/profile";
 import Onboarding from "./screens/onboarding";
+import Timer from "./screens/timer";
+import ReadingLog from "./screens/readinglog";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
 const Stack = createNativeStackNavigator();
@@ -20,7 +22,8 @@ export default function App() {
         <Stack.Screen name="Profile" component={Profile} />
         <Stack.Screen name="Onboarding" component={Onboarding} />
         <Stack.Screen name="Bookshelf" component={Bookshelf} />
-
+        <Stack.Screen name="Timer" component={Timer} />
+        <Stack.Screen name="ReadingLog" component={ReadingLog} />
       </Stack.Navigator>
     </NavigationContainer>
   );

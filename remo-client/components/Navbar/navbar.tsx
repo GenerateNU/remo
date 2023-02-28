@@ -21,7 +21,9 @@ export default function NavBar({ navigation, data }) {
   const navigateBookshelf = () => {
     navigation.navigate("Bookshelf");
   };
-
+  const navigateReadinglog = () => {
+    navigation.navigate("ReadingLog");
+  };
   return (
     <View style={styles.navbar}>
       <Ionicons
@@ -40,6 +42,7 @@ export default function NavBar({ navigation, data }) {
         name="bookmark-plus-outline"
         style={styles.icon}
         size={50}
+        onPress={navigateReadinglog}
       />
       <AntDesign style={styles.icon} name="arrowleft" size={50} />
       <Ionicons style={styles.icon} name="person-circle-outline" size={50} />
