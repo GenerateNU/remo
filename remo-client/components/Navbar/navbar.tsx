@@ -14,7 +14,9 @@ import { useNavigation } from "@react-navigation/native";
 
 export default function NavBar({ navigation, data }) {
   const navigateBarcode = () => {
-    navigation.navigate("BarcodeScanner");
+    navigation.navigate("BarcodeScanner", {
+      data: data,
+    });
   };
   const navigateBookshelf = () => {
     navigation.navigate("Bookshelf");
