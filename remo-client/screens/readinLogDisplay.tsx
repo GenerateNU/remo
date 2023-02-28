@@ -28,14 +28,13 @@ export default function ReadingLogDisplay({navigation}) {
       <Text style={styles.timer}>
         {data.time}
       </Text>
-      <View style={styles.subheader}>
-        <Text style={styles.note}>Notes:</Text>
+      <View style={styles.header}>
+        <Text style={styles.header_title}>Notes:</Text>
       </View>
       <View style={styles.container}>
-        <Text style={styles.count}>{data.response}</Text>
+        <Text style={styles.count}>{data.log}</Text>
       </View>
 
-    <TouchableOpacity style={styles.button}><Text style={styles.buttonText}>CLOSE LOG</Text></TouchableOpacity> // TODO
     </View>
     </ScrollView>
 
@@ -75,6 +74,7 @@ const styles = StyleSheet.create({
     paddingVertical: 7,
     // borderBottomWidth: 1,
     borderBottomColor: '#ccc',
+    paddingRight: 100,
   },
   subheader: {
     flexDirection: 'row',
@@ -88,7 +88,7 @@ const styles = StyleSheet.create({
   header_title: {
     fontSize: 20,
     fontWeight: 'bold',
-    paddingRight: 100,
+    paddingRight: 150,
   },  
   header_data: {
     fontSize: 18,

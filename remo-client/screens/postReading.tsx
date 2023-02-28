@@ -19,7 +19,7 @@ export default function PostReadingLog({navigation}) {
       time:data.time, 
       title: data.title,
       // pages: (endPage-startPage),
-      response: text,
+      log: text,
     };
     navigation.navigate('ReadingLogDisplay', {data:send_data});
   };
