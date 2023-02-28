@@ -7,14 +7,11 @@ import { StringSet } from "../types";
 import SelectDropdown from "react-native-select-dropdown";
 import { FontAwesome } from "@expo/vector-icons";
 
-export default function Onboarding2({ nextPage, setPage }: String) {
+export default function Onboarding2({ nextPage, setters, data }) {
   const onClick = () => {
     nextPage("pagethree");
   };
-  const [preferred_name, onChangeName] = React.useState("");
-  const [pronouns, onChangePronouns] = React.useState("");
-  const [gender, onChangeGender] = React.useState("");
-  const [ethnicity, onChangeEthnicity] = React.useState("");
+  console.log(data);
 
   const genders: string[] = [
     "Male",
@@ -24,14 +21,15 @@ export default function Onboarding2({ nextPage, setPage }: String) {
     "Prefer Not to Say",
   ];
   const ethnicities: string[] = [
-  "White",
-  "Black or African American",
-  "Asian",
-  "Hispanic or Latino",
-  "Two or more races",
-  "Native Hawaiian or Other Pacific Islander",
-  "American Indian or Alaska Native",
-  "Other",];
+    "White",
+    "Black or African American",
+    "Asian",
+    "Hispanic or Latino",
+    "Two or more races",
+    "Native Hawaiian or Other Pacific Islander",
+    "American Indian or Alaska Native",
+    "Other",
+  ];
 
   return (
     <View style={styles.container}>
@@ -60,16 +58,16 @@ export default function Onboarding2({ nextPage, setPage }: String) {
           >
             <Image
               style={styles.profile}
-              source={require("../public/profile-default.jpeg")} // TODO: inherit profile image from googdata
+              source={{ uri: data.image }} // TODO: inherit profile image from googdata
             />
             <View
               style={{
                 width: "100%",
-                height: "55%",
+                height: "65%",
                 padding: 12,
                 marginTop: 12,
                 flexDirection: "column",
-                justifyContent: "space-around",
+                justifyContent: "space-between",
                 borderColor: "black",
                 borderWidth: 1,
                 borderRadius: 10,
@@ -87,10 +85,10 @@ export default function Onboarding2({ nextPage, setPage }: String) {
                 </View>
                 <View style={styles.textInput}>
                   <TextInput
-                    onChangeText={onChangeName}
+                    onChangeText={setters.name}
                     placeholder={"Type Preferred name here..."}
                     style={styles.input}
-                    value={preferred_name}
+                    value={data.prefferedName}
                   />
                 </View>
               </View>
@@ -106,20 +104,17 @@ export default function Onboarding2({ nextPage, setPage }: String) {
                 </View>
                 <View style={styles.textInput}>
                   <TextInput
-                    onChangeText={onChangePronouns}
+                    onChangeText={setters.pronouns}
                     placeholder={"Add Pronouns here..."}
                     style={styles.input}
-                    onChange={setPage}
-                    value={pronouns}
+                    value={data.prns}
                   />
                 </View>
               </View>
-
               <View
                 style={{
                   flexDirection: "row",
-                  justifyContent: "flex-start",
-                  alignItems: "center",
+                  justifyContent: "space-between",
                 }}
               >
                 <View style={styles.columns}>
@@ -141,7 +136,9 @@ export default function Onboarding2({ nextPage, setPage }: String) {
                       );
                     }}
                     onSelect={(selectedItem, index) => {
-                      {onChangeGender}
+                      {
+                        setters.gender(selectedItem);
+                      }
                       console.log(selectedItem, index);
                     }}
                     buttonTextAfterSelection={(selectedItem, index) => {
@@ -152,6 +149,13 @@ export default function Onboarding2({ nextPage, setPage }: String) {
                     }}
                   />
                 </View>
+              </View>
+              <View
+                style={{
+                  flexDirection: "row",
+                  justifyContent: "space-between",
+                }}
+              >
                 <View style={styles.columns}>
                   <Text>Ethnicity:</Text>
                 </View>
@@ -171,7 +175,9 @@ export default function Onboarding2({ nextPage, setPage }: String) {
                       );
                     }}
                     onSelect={(selectedItem, index) => {
-                      {onChangeEthnicity}
+                      {
+                        setters.eth(selectedItem);
+                      }
                       console.log(selectedItem, index);
                     }}
                     buttonTextAfterSelection={(selectedItem, index) => {
@@ -214,8 +220,6 @@ export default function Onboarding2({ nextPage, setPage }: String) {
   );
 }
 
-
-
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -229,6 +233,7 @@ const styles = StyleSheet.create({
     width: 100,
     height: 100,
     borderRadius: "50%",
+    marginBottom: 10,
   },
   columns: {
     flex: 3,
@@ -264,7 +269,7 @@ const styles = StyleSheet.create({
   },
   dropdownStyle: {
     height: 26,
-    width: "150%",
+    width: "100%",
     fontSize: 12,
   },
   button: {

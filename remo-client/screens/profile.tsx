@@ -4,7 +4,6 @@ import {
   NavigationContainer,
   useNavigation,
   useRoute,
-
 } from "@react-navigation/native";
 import {
   StyleSheet,
@@ -23,9 +22,16 @@ export default function Profile() {
   const data = route.params?.data;
   const navigation = useNavigation();
 
-  const [firstName, setFirst] = useState("");
-  const [lastName, setLastName] = useState("");
-  const [pronouns, setPronouns] = useState("");
+  const [prefferedName, setPrefferedName] = useState(data.prefferedName);
+  const [eth, setEth] = useState(data.eth);
+  const [gender, setGender] = useState(data.gender);
+
+  const newData = {
+    ...data,
+    prefferedName: prefferedName,
+    gender: gender,
+    eth: eth,
+  };
   console.log(data);
   useEffect(() => {
     console.log(data);
@@ -49,7 +55,6 @@ export default function Profile() {
     "Other",
     "Prefer Not to Say",
   ];
-  const [text, onChangeText] = React.useState("Preferred Name");
 
   const renderIcon = () => {
     return <i className="bi bi-caret-down-fill"></i>;
@@ -66,29 +71,28 @@ export default function Profile() {
             marginTop: 12,
           }}
         >
-          <Image
-            style={styles.profile}
-            source={{uri: data.image}}
-          />
+          <Image style={styles.profile} source={{ uri: data.image }} />
           <View>
-          <Text style={{ fontWeight: 'bold' }}> {data.firstName} {data.lastName} </Text>
-          <Text> {data.email} </Text>
+            <Text style={{ fontWeight: "bold" }}> {prefferedName} </Text>
+            <Text> {data.email} </Text>
 
-          <Text> {data.pronouns} </Text> 
+            <Text> {data.pronouns} </Text>
           </View>
         </View>
-        <Text>Preferred Name  (WANT THIS TO READ THE INHERITED VALUE)</Text>
+        <Text>Preferred Name</Text>
         <TextInput
-          onChangeText={onChangeText}
-          value={text}
+          onChangeText={setPrefferedName}
+          value={prefferedName}
           style={styles.input}
         />
-        <Text>Ethnicity  (WANT THIS TO READ THE INHERITED VALUE)</Text>
+        <Text>Ethnicity</Text>
         <SelectDropdown
           data={ethnicities}
           buttonStyle={styles.dropdown}
+          defaultValue={eth}
           onSelect={(selectedItem, index) => {
             console.log(selectedItem, index);
+            setEth(selectedItem);
           }}
           buttonTextAfterSelection={(selectedItem, index) => {
             return selectedItem;
@@ -97,12 +101,14 @@ export default function Profile() {
             return item;
           }}
         />
-        <Text>Gender Identity (WANT THIS TO READ THE INHERITED VALUE)</Text>
+        <Text>Gender Identity</Text>
         <SelectDropdown
           data={genders}
           buttonStyle={styles.dropdown}
+          defaultValue={gender}
           onSelect={(selectedItem, index) => {
             console.log(selectedItem, index);
+            setGender(selectedItem);
           }}
           buttonTextAfterSelection={(selectedItem, index) => {
             return selectedItem;

@@ -8,7 +8,7 @@ import {
 import { StyleSheet, Text, View, Image, Button, TextInput } from "react-native";
 import SelectDropdown from "react-native-select-dropdown";
 import Onboarding1 from "../components/onboarding1";
-import Profile from "./profile"
+import Profile from "./profile";
 import Onboarding2 from "../components/onboarding2";
 import Onboarding3 from "../components/onboarding3";
 import Onboarding4 from "../components/onboarding4";
@@ -32,26 +32,38 @@ export default function Onboarding() {
   useEffect(() => {
     console.log(data);
   }, []);
-  
+
   const [page, setPage] = useState<string>("pageone");
   const [pageNum, setPageNum] = useState(0);
-  const [pronouns, setPronouns] = useState(""); // TODO: implement
+  const [pronouns, setPronouns] = useState("");
+  const [name, setPrefferedName] = useState(
+    data.firstName + " " + data.lastName
+  );
   const [gender, setGender] = useState(""); // TODO: implement
   const [ethnicity, setEthnicity] = useState(""); // TODO: implement
+  const newData = {
+    email: data.email,
+    firstName: data.firstName,
+    lastName: data.lastName,
+    image: data.image,
+    prns: pronouns, // TODO: implement
+    gender: gender, // TODO: implement
+    eth: ethnicity, // TODO: implement
+    prefferedName: name,
+  };
 
   const onNextClick = () => {
     navigation.navigate("Profile", {
-      data: { 
-        email: data.email, 
-        firstName: data.firstName, 
-        lastName: data.lastName, 
-        image: data.image, 
-        prns: pronouns, // TODO: implement
-        gender: gender, // TODO: implement
-        eth: ethnicity // TODO: implement
-      } 
-    })
-  }
+      data: newData,
+    });
+  };
+
+  const setters = {
+    pronouns: setPronouns,
+    name: setPrefferedName,
+    gender: setGender,
+    eth: setEthnicity,
+  };
 
   const setPageNumber = (page: string) => {
     if (page === "pageone") {
@@ -100,8 +112,10 @@ export default function Onboarding() {
       </View>
       {
         {
-          pageone: <Onboarding1 nextPage={setPage} data={data} />,
-          pagetwo: <Onboarding2 nextPage={setPage} setPronouns={setPronouns} />,
+          pageone: <Onboarding1 nextPage={setPage} data={newData} />,
+          pagetwo: (
+            <Onboarding2 nextPage={setPage} setters={setters} data={newData} />
+          ),
           pagethree: <Onboarding3 nextPage={nextPage} />,
           pagefour: <Onboarding4 nextPage={nextPage} />,
           pagefive: <Onboarding5 nextPage={nextPage} />,
