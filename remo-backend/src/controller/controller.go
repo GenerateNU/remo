@@ -6,6 +6,7 @@ import (
 	"os"
 	"remo/backend/src/middleware"
 	"remo/backend/src/model"
+	"strconv"
 
 	"github.com/dgrijalva/jwt-go"
 	"github.com/gin-gonic/gin"
@@ -93,6 +94,12 @@ func (ms *MsController) Serve() *gin.Engine {
 		// DELETE THIS WHEN WE HAVE EMAIL CHECKING WORKING ABOVE
 		if email, ok := claims["email"].(string); ok {
 			loginInfo.Email = email
+			check_usr, err := ms.UserByEmail(email)
+			if err != nil {
+				c.JSON(http.StatusInternalServerError, gin.H{"error": "Something went wrong completing your sign in."})
+				return
+			}
+			loginInfo.ID = strconv.Itoa(check_usr.ID)
 		}
 
 		if first, ok := claims["given_name"].(string); ok {

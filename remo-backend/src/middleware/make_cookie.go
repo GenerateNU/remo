@@ -32,6 +32,7 @@ func MakeJWT(loginInfo model.LoginInfo, secret string) (tokenString string, err 
 		"LastName":   loginInfo.LastName,
 		"Credential": loginInfo.Credential,
 		"Picture":    loginInfo.Picture,
+		"ID":         loginInfo.ID,
 
 		// "iss": "issuer",
 		// "exp": time.Now().Add(time.Hour).Unix(),
