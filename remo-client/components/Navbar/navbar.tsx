@@ -26,26 +26,36 @@ export default function NavBar({ navigation, data }) {
   };
   return (
     <View style={styles.navbar}>
-      <Ionicons
-        style={styles.icon}
-        name="ios-book-outline"
-        size={50}
-        onPress={navigateBookshelf}
-      />
-      <AntDesign
-        style={styles.icon}
-        name="search1"
-        size={50}
-        onPress={navigateBarcode}
-      />
-      <MaterialCommunityIcons
-        name="bookmark-plus-outline"
-        style={styles.icon}
-        size={50}
-        onPress={navigateReadinglog}
-      />
-      <AntDesign style={styles.icon} name="arrowleft" size={50} />
-      <Ionicons style={styles.icon} name="person-circle-outline" size={50} />
+      <View>
+        <Ionicons
+          style={styles.icon}
+          name="ios-book-outline"
+          size={40}
+          onPress={navigateBookshelf}
+        />
+      </View>
+      <View>
+        <AntDesign
+          style={styles.icon}
+          name="search1"
+          size={40}
+          onPress={navigateBarcode}
+        />
+      </View>
+      <View>
+        <MaterialCommunityIcons
+          name="bookmark-plus-outline"
+          style={styles.icon}
+          size={40}
+          onPress={navigateReadinglog}
+        />
+      </View>
+      <View>
+        <AntDesign style={styles.icon} name="arrowleft" size={40} />
+      </View>
+      <View>
+        <Ionicons style={styles.icon} name="person-circle-outline" size={40} />
+      </View>
     </View>
   );
 }
@@ -53,18 +63,17 @@ export default function NavBar({ navigation, data }) {
 const styles = StyleSheet.create({
   navbar: {
     paddingBottom: 12,
-    paddingLeft: 16,
+    paddingLeft: "9%",
     paddingRight: 12,
     backgroundColor: "white",
     borderColor: "black",
     borderTopWidth: 2,
     flex: 1,
     flexDirection: "row",
-    alignItems: "center",
-    justifyConter: "center",
+    alignItems: "flex-start",
+    justifyConter: "space-between",
   },
   icon: {
-    marginLeft: 10,
-    marginRight: 10,
+    padding: 12,
   },
 });

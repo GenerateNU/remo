@@ -216,6 +216,7 @@ export default function BarcodeScanner() {
         onBarCodeScanned={scanned ? undefined : handleBarCodeScanned}
         style={styles.barcodeScanner}
       />
+      <Text>Scan a Book barcode to get started.</Text>
       {scanned && (
         <Button title={"Tap to Scan Again"} onPress={() => setScanned(false)} />
       )}
