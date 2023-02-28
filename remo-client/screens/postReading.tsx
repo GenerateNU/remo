@@ -10,9 +10,7 @@ export default function PostReadingLog({navigation}) {
   const [text, setText] = useState("");
   const [startPage, setStartPage] = useState('');
   const [endPage, setEndPage] = useState('');
-  // strings to intetger javascript?
-var x = "32";
-var y: number = +x;
+
 
   useEffect(() => {
     console.log(data);
