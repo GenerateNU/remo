@@ -13,7 +13,7 @@ export default function ReadingLog({ navigation }) {
   const [selectedBook, setSelectedBook] = useState(null);
 
   useEffect(() => {
-    fetch('https://9390-2601-197-a7f-9c20-3cb2-d248-7f7-28c6.ngrok.io/v1/user_books/6')
+    fetch('https://59f3-2601-197-a7f-9c20-85ac-a311-ebf1-fa46.ngrok.io/v1/user_books/6')
       .then((response) => response.json())
       .then((data) => setBooks(data.slice(0,4)));
   }, []);
