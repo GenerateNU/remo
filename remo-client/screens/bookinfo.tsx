@@ -2,22 +2,39 @@ import { useNavigation, useRoute } from "@react-navigation/native";
 import { useState } from "react";
 import { StyleSheet, View, Image, Text, ScrollView } from "react-native";
 import { Button } from "@rneui/themed";
+import Modal from "react-native-modal";
 
 export default function BookInfo() {
+  const navigation = useNavigation();
   const route = useRoute();
   const data = route.params?.data;
   console.log(data);
 
-  const [bookTitle, setBookTitle] = useState("");
-  const [author, setAuthor] = useState("");
-  const [subtitle, setSubtitle] = useState("");
-  const [published, setPublished] = useState("");
-  const [pageCount, setPageCount] = useState("");
-  const [bookCover, setBookCover] = useState("");
-  const [synopsis, setSynopsis] = useState("");
+  const exit = () => {
+    navigation.navigate("BarcodeScanner", { data: data });
+  };
+
+  const [isVisible, setVisible] = useState(false);
+
+  const modalOpen = () => {
+    setVisible(true);
+  };
+
+  const modalClose = () => {
+    setVisible(false);
+  };
 
   return (
     <View style={styles.container}>
+      <Modal isVisible={isVisible} style={styles.modal}>
+        <Text>Click the button below to Check out {data.title}</Text>
+        <Button
+          buttonStyle={styles.button}
+          title="Checkout"
+          type="outline"
+          onPress={modalClose}
+        />
+      </Modal>
       <View
         style={{
           flex: 1,
@@ -118,7 +135,18 @@ export default function BookInfo() {
           width: "100%",
         }}
       >
-        <Button buttonStyle={styles.button} title="Checkout" type="outline" />
+        <Button
+          buttonStyle={styles.button}
+          title="Cancel"
+          type="outline"
+          onPress={exit}
+        />
+        <Button
+          buttonStyle={styles.button}
+          title="Checkout"
+          type="outline"
+          onPress={modalOpen}
+        />
       </View>
     </View>
   );
@@ -162,5 +190,9 @@ const styles = StyleSheet.create({
   },
   infoHeader: {
     fontWeight: "bold",
+  },
+  modal: {
+    justifyContent: "flex-end",
+    margin: 0,
   },
 });
