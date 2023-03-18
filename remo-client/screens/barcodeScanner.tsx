@@ -232,7 +232,7 @@ export default function BarcodeScanner() {
         )}
         <StatusBar style="auto" />
       </View>
-      <View>
+      <View style={styles.navBar}>
         <NavBar navigation={navigation} data={data} />
       </View>
     </View>
@@ -247,22 +247,20 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   barcodeScanner: {
+    flex: 4,
+    height: "100%",
+    width: "100%",
+  },
+  textSection: {
     flex: 3,
     height: "100%",
     width: "100%",
-    position: "relative",
-    top: -90,
-    left: 0,
-  },
-  textSection: {
-    flex: 2,
-    height: "100%",
-    width: "100%",
     justifyContent: "center",
+    alignItems: "center",
   },
   navBar: {
-    flex: 2,
-    justifyContent: "center",
+    flex: 1,
+    justifyContent: "flex-end",
     height: "100%",
     width: "100%",
   },
