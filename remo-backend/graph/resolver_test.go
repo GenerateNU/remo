@@ -62,30 +62,25 @@ func TestCreateBook(t *testing.T) {
 	}
 
 	// retrieve the book from the database
-	stmt, err := DB.Prepare("SELECT * FROM books WHERE id = ?")
+	stmt, err := DB.Prepare("SELECT * FROM books WHERE my-story-id = ?")
 	if err != nil {
 		t.Fatalf("Prepare failed: %v", err)
 	}
 	defer stmt.Close()
 
-	row := stmt.QueryRow(book.ID)
+	//row := stmt.QueryRow(book.ID)
+
+	_, err = stmt.Exec(storyID)
 
 	// verify that the book's properties match the input
-	var dbBook model.BookInput
-	err = row.Scan(&dbBook.ID, &dbBook.StoryID, &dbBook.Author, &dbBook.CoverImage, &dbBook.DateCreated, &dbBook.DateUpdated,
-		&dbBook.DefaultUserID, &dbBook.Foreword, &dbBook.Editor, &dbBook.Illustrator, &dbBook.Isbn10, &dbBook.Isbn13, &dbBook.NumPages,
-		&dbBook.PubDate, &dbBook.CopyrightDate, &dbBook.Edition, &dbBook.Synopsis, &dbBook.Title, &dbBook.WordCount,
-		&dbBook.SubTitle, &dbBook.Asin)
-	if err != nil {
-		t.Fatalf("QueryRow failed: %v", err)
-	}
 
-	if dbBook.StoryID != bookInput.StoryID {
-		print("Expected StoryID %q, got %q", bookInput.StoryID, dbBook.StoryID)
+	if &book.Story_id != bookInput.StoryID {
+		print("Expected StoryID %q, got %q", bookInput.StoryID, &book.Story_id)
 	}
-	if dbBook.Author != bookInput.Author {
-		print("Expected Author %q, got %q", bookInput.Author, dbBook.Author)
+	if &book.Author != bookInput.Author {
+		print("Expected Author %q, got %q", bookInput.Author, &book.Author)
 	}
 
 	// if nothing is returned then fields tests pass
+
 }

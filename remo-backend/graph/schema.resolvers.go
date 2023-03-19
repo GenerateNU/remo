@@ -83,7 +83,7 @@ func (r *mutationResolver) CreateBook(ctx context.Context, input model.BookInput
 	id++
 
 	// Execute the insert statement with the incremented ID
-	_, err = stmt.Exec(id, input.StoryID, input.Author, input.CoverImage, input.DateCreated, input.DateUpdated, input.DefaultUserID,
+	_, err = stmt.Exec(input.StoryID, input.Author, input.CoverImage, input.DateCreated, input.DateUpdated, input.DefaultUserID,
 		input.Foreword, input.Editor, input.Illustrator, input.Isbn10, input.Isbn13, input.NumPages, input.PubDate, input.CopyrightDate,
 		input.Edition, input.Synopsis, input.Title, input.WordCount, input.SubTitle, input.Asin)
 
@@ -91,9 +91,7 @@ func (r *mutationResolver) CreateBook(ctx context.Context, input model.BookInput
 		return nil, err
 	}
 
-	// since we're not doing anything with the model of the book here, just return an empty one
-	var mtBook *model.Book
-	return mtBook, err
+	return &model.Book{}, err
 
 	// KIND OF WORKING IMPLEMENTATION
 	// var new_id int
