@@ -66,13 +66,13 @@ func (r *classroomResolver) ClassroomAvgLength(ctx context.Context, obj *model.C
 func (r *mutationResolver) CreateBook(ctx context.Context, input model.BookInput) (*model.Book, error) {
 
 	// Insert the new Book object into the database
-	stmt, err := DB.Prepare("INSERT INTO books (story_id, author, cover_image, date_created, date_updated, default_user_id, foreword, editor, illustrator, isbn_10, isbn_13, num_pages, pub_date, copyright_date, edition, synopsis, title, word_count, sub_title, asin) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)")
+	stmt, err := DB.Prepare("INSERT INTO books (story_id, author, cover_image, date_created, date_updated, default_user_id, foreword, editor, illustrator, isbn_10, isbn_13, num_pages, pub_date, copyright_date, edition, synopsis, title, word_count, sub_title, asin) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)")
 	if err != nil {
 		return nil, err
 	}
 	defer stmt.Close()
 
-	// Get the ID of the last inserted row
+	// Get the ID of the last inserted rowå
 	var id int64
 	err = DB.QueryRow("SELECT LAST_INSERT_ID()").Scan(&id)
 	if err != nil {
