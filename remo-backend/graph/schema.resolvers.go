@@ -183,13 +183,22 @@ func (r *queryResolver) Teachers(ctx context.Context) ([]*model.Teacher, error) 
 
 // GetUserByID is the resolver for the getUserByID field.
 func (r *queryResolver) GetUserByID(ctx context.Context, id string) (*model.User, error) {
-	//for _, user := range r.users {
-	//	if id == user.ID {
-	//		return user, nil
-	//	}
-	//}
-	//return r.users[id], nil
-	panic(fmt.Errorf("not implemented: GetUserByID - getUserByID"))
+	var user model.User
+
+	row := DB.QueryRow("SELECT * FROM user_books WHERE id = ?", id)
+
+	if err := row.Scan(&user.ID,
+		&user.FirstName,
+		&user.LastName,
+		&user.Email); err != nil {
+		if err == sql.ErrNoRows {
+			var mtUser *model.User
+			return mtUser, fmt.Errorf("GetUserByID %q: no such user", id)
+		}
+
+		return &user, fmt.Errorf("GetUserByID %q: %v", id, err)
+	}
+	return &user, nil
 }
 
 // Date is the resolver for the date field.
