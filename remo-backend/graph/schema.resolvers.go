@@ -66,23 +66,34 @@ func (r *classroomResolver) ClassroomAvgLength(ctx context.Context, obj *model.C
 func (r *mutationResolver) CreateBook(ctx context.Context, input model.BookInput) (*model.Book, error) {
 
 	// Insert the new Book object into the database
-	// stmt, err := DB.Prepare("INSERT INTO books (story_id, author, cover_image, date_created, date_updated, default_user_id, foreword, editor, illustrator, isbn_10, isbn_13, num_pages, pub_date, copyright_date, edition, synopsis, title, word_count, sub_title, asin) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)")
-	// if err != nil {
-	// 	return nil, err
-	// }
-	// res, err := stmt.Exec(input.StoryID, input.Author, input.CoverImage, input.DateCreated, input.DateUpdated, input.DefaultUserID, input.Foreword, input.Editor, input.Illustrator, input.isbn_10, book.ISBN13, book.NumPages, book.PubDate, book.CopyrightDate, book.Edition, book.Synopsis, book.Title, book.WordCount, input.SubTitle, input.Asin)
-	// if err != nil {
-	// 	return nil, err
-	// }
+	stmt, err := DB.Prepare("INSERT INTO books (story_id, author, cover_image, date_created, date_updated, default_user_id, foreword, editor, illustrator, isbn_10, isbn_13, num_pages, pub_date, copyright_date, edition, synopsis, title, word_count, sub_title, asin) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)")
+	if err != nil {
+		return nil, err
+	}
+	defer stmt.Close()
 
-	// // Get the ID of the newly inserted book
-	// id, err := res.LastInsertId()
-	// if err != nil {
-	// 	return nil, err
-	// }
-	// book.ID = strconv.FormatInt(id, 10)
+	// Get the ID of the last inserted row
+	var id int64
+	err = DB.QueryRow("SELECT LAST_INSERT_ID()").Scan(&id)
+	if err != nil {
+		return nil, err
+	}
 
-	// return book, nil
+	// Increment the ID manually
+	id++
+
+	// Execute the insert statement with the incremented ID
+	_, err = stmt.Exec(id, input.StoryID, input.Author, input.CoverImage, input.DateCreated, input.DateUpdated, input.DefaultUserID,
+		input.Foreword, input.Editor, input.Illustrator, input.Isbn10, input.Isbn13, input.NumPages, input.PubDate, input.CopyrightDate,
+		input.Edition, input.Synopsis, input.Title, input.WordCount, input.SubTitle, input.Asin)
+
+	if err != nil {
+		return nil, err
+	}
+
+	// since we're not doing anything with the model of the book here, just return an empty one
+	var mtBook *model.Book
+	return mtBook, err
 
 	// KIND OF WORKING IMPLEMENTATION
 	// var new_id int
@@ -104,11 +115,9 @@ func (r *mutationResolver) CreateBook(ctx context.Context, input model.BookInput
 	// 	new_id = int(count64) + 1
 	// }
 
-	_, err := DB.Exec("INSERT INTO books (id, default_user_id) VALUES (?, ?);",
-		input.ID, 1)
+	// _, err := DB.Exec("INSERT INTO books (id, default_user_id) VALUES (?, ?);",
+	// 	input.ID, 1)
 
-	var mtBook *model.Book
-	return mtBook, err
 }
 
 // UpdateBook is the resolver for the updateBook field.
