@@ -300,6 +300,8 @@ type StudentResolver interface {
 }
 type TeacherResolver interface {
 	TestField(ctx context.Context, obj *model.Teacher) (string, error)
+
+	Active(ctx context.Context, obj *model.Teacher) (int, error)
 }
 type UserBookResolver interface {
 	QtyLabel(ctx context.Context, obj *model.UserBook) (*int, error)
@@ -8603,7 +8605,7 @@ func (ec *executionContext) _Teacher_Active(ctx context.Context, field graphql.C
 	}()
 	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
 		ctx = rctx // use context from middleware stack in children
-		return obj.Active, nil
+		return ec.resolvers.Teacher().Active(rctx, obj)
 	})
 	if err != nil {
 		ec.Error(ctx, err)
@@ -8615,19 +8617,19 @@ func (ec *executionContext) _Teacher_Active(ctx context.Context, field graphql.C
 		}
 		return graphql.Null
 	}
-	res := resTmp.(bool)
+	res := resTmp.(int)
 	fc.Result = res
-	return ec.marshalNBoolean2bool(ctx, field.Selections, res)
+	return ec.marshalNInt2int(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) fieldContext_Teacher_Active(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
 	fc = &graphql.FieldContext{
 		Object:     "Teacher",
 		Field:      field,
-		IsMethod:   false,
-		IsResolver: false,
+		IsMethod:   true,
+		IsResolver: true,
 		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
-			return nil, errors.New("field of type Boolean does not have child fields")
+			return nil, errors.New("field of type Int does not have child fields")
 		},
 	}
 	return fc, nil
@@ -12342,7 +12344,7 @@ func (ec *executionContext) unmarshalInputNewTeacher(ctx context.Context, obj in
 		asMap[k] = v
 	}
 
-	fieldsInOrder := [...]string{"id", "classroom_co_teacher_id", "classroom_status_id", "Teacher_first_name", "Teacher_last_name", "Active", "Teacher_date_created", "Teacher_date_updated"}
+	fieldsInOrder := [...]string{"id", "Teacher_first_name", "Teacher_last_name", "Active", "Teacher_date_created", "Teacher_date_updated"}
 	for _, k := range fieldsInOrder {
 		v, ok := asMap[k]
 		if !ok {
@@ -12354,22 +12356,6 @@ func (ec *executionContext) unmarshalInputNewTeacher(ctx context.Context, obj in
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("id"))
 			it.ID, err = ec.unmarshalNID2string(ctx, v)
-			if err != nil {
-				return it, err
-			}
-		case "classroom_co_teacher_id":
-			var err error
-
-			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("classroom_co_teacher_id"))
-			it.ClassroomCoTeacherID, err = ec.unmarshalNID2string(ctx, v)
-			if err != nil {
-				return it, err
-			}
-		case "classroom_status_id":
-			var err error
-
-			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("classroom_status_id"))
-			it.ClassroomStatusID, err = ec.unmarshalNID2string(ctx, v)
 			if err != nil {
 				return it, err
 			}
@@ -13478,12 +13464,25 @@ func (ec *executionContext) _Teacher(ctx context.Context, sel ast.SelectionSet, 
 			out.Values[i] = ec._Teacher_Teacher_texts_enabled(ctx, field, obj)
 
 		case "Active":
+			field := field
 
-			out.Values[i] = ec._Teacher_Active(ctx, field, obj)
-
-			if out.Values[i] == graphql.Null {
-				atomic.AddUint32(&invalids, 1)
+			innerFunc := func(ctx context.Context) (res graphql.Marshaler) {
+				defer func() {
+					if r := recover(); r != nil {
+						ec.Error(ctx, ec.Recover(ctx, r))
+					}
+				}()
+				res = ec._Teacher_Active(ctx, field, obj)
+				if res == graphql.Null {
+					atomic.AddUint32(&invalids, 1)
+				}
+				return res
 			}
+
+			out.Concurrently(i, func() graphql.Marshaler {
+				return innerFunc(ctx)
+
+			})
 		case "Teacher_date_created":
 
 			out.Values[i] = ec._Teacher_Teacher_date_created(ctx, field, obj)

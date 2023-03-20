@@ -59,7 +59,7 @@ type Teacher {
     Teacher_school: String
     Teacher_cell_phone: String
     Teacher_texts_enabled: Int
-    Active: Boolean!
+    Active: Int!
     Teacher_date_created: Time!
     Teacher_date_updated: Time
 }

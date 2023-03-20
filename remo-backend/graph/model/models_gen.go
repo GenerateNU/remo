@@ -46,14 +46,12 @@ type NewStudent struct {
 }
 
 type NewTeacher struct {
-	ID                   string    `json:"id"`
-	ClassroomCoTeacherID string    `json:"classroom_co_teacher_id"`
-	ClassroomStatusID    string    `json:"classroom_status_id"`
-	TeacherFirstName     string    `json:"Teacher_first_name"`
-	TeacherLastName      string    `json:"Teacher_last_name"`
-	Active               int       `json:"Active"`
-	TeacherDateCreated   time.Time `json:"Teacher_date_created"`
-	TeacherDateUpdated   time.Time `json:"Teacher_date_updated"`
+	ID                 string    `json:"id"`
+	TeacherFirstName   string    `json:"Teacher_first_name"`
+	TeacherLastName    string    `json:"Teacher_last_name"`
+	Active             int       `json:"Active"`
+	TeacherDateCreated time.Time `json:"Teacher_date_created"`
+	TeacherDateUpdated time.Time `json:"Teacher_date_updated"`
 }
 
 type User struct {

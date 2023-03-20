@@ -57,16 +57,6 @@ func (r *mutationResolver) CreateBook(ctx context.Context, input model.BookInput
 	}
 	defer stmt.Close()
 
-	// Get the ID of the last inserted rowå
-	var id int64
-	err = DB.QueryRow("SELECT LAST_INSERT_ID()").Scan(&id)
-	if err != nil {
-		return nil, err
-	}
-
-	// Increment the ID manually
-	id++
-
 	// Execute the insert statement with the incremented ID
 	_, err = stmt.Exec(input.StoryID, input.Author, input.CoverImage, input.DateCreated, input.DateUpdated, input.DefaultUserID,
 		input.Foreword, input.Editor, input.Illustrator, input.Isbn10, input.Isbn13, input.NumPages, input.PubDate, input.CopyrightDate,
@@ -77,29 +67,6 @@ func (r *mutationResolver) CreateBook(ctx context.Context, input model.BookInput
 	}
 
 	return &model.Book{}, err
-
-	// KIND OF WORKING IMPLEMENTATION
-	// var new_id int
-	// id, e := DB.Exec("SELECT COUNT(id) FROM books;")
-	// if e != nil {
-	// 	panic(e)
-	// }
-
-	// id, err := generateID()
-	// if err != nil {
-	//     return nil, err
-	// }
-
-	// if result, ok := id.(sql.Result); ok {
-	// 	count64, e2 := result.RowsAffected()
-	// 	if e2 != nil {
-	// 		panic(e2)
-	// 	}
-	// 	new_id = int(count64) + 1
-	// }
-
-	// _, err := DB.Exec("INSERT INTO books (id, default_user_id) VALUES (?, ?);",
-	// 	input.ID, 1)
 }
 
 // UpdateBook is the resolver for the updateBook field.
@@ -112,7 +79,22 @@ func (r *mutationResolver) UpdateBook(ctx context.Context, input *model.BookInpu
 
 // CreateTeacher is the resolver for the createTeacher field.
 func (r *mutationResolver) CreateTeacher(ctx context.Context, input model.NewTeacher) (*model.Teacher, error) {
-	panic(fmt.Errorf("not implemented: CreateTeacher - createTeacher"))
+	// Insert the new Teacher object into the database
+	stmt, err := DB.Prepare("INSERT INTO teacher (active, teacher_date_created, teacher_date_updated, teacher_first_name, teacher_last_name) values (?, ?, ?, ?, ?)")
+	if err != nil {
+		return nil, err
+	}
+	defer stmt.Close()
+
+	// Execute the insert statement with the incremented ID
+	_, err = stmt.Exec(input.Active, input.TeacherDateCreated, input.TeacherDateUpdated,
+		input.TeacherFirstName, input.TeacherLastName)
+
+	if err != nil {
+		return nil, err
+	}
+
+	return &model.Teacher{}, err
 }
 
 // CreateClassroom is the resolver for the createClassroom field.
@@ -225,6 +207,11 @@ func (r *studentResolver) RtiSrvType(ctx context.Context, obj *model.Student) (*
 // TestField is the resolver for the test_field field.
 func (r *teacherResolver) TestField(ctx context.Context, obj *model.Teacher) (string, error) {
 	panic(fmt.Errorf("not implemented: TestField - test_field"))
+}
+
+// Active is the resolver for the Active field.
+func (r *teacherResolver) Active(ctx context.Context, obj *model.Teacher) (int, error) {
+	panic(fmt.Errorf("not implemented: Active - Active"))
 }
 
 // QtyLabel is the resolver for the qty_label field.

@@ -61,17 +61,6 @@ func TestCreateBook(t *testing.T) {
 		t.Fatalf("CreateBook failed: %v", err)
 	}
 
-	// retrieve the book from the database
-	stmt, err := DB.Prepare("SELECT * FROM books WHERE story_id = ?")
-	if err != nil {
-		t.Fatalf("Prepare failed: %v", err)
-	}
-	defer stmt.Close()
-
-	//row := stmt.QueryRow(book.ID)
-
-	_, err = stmt.Exec(storyID)
-
 	// verify that the book's properties match the input
 
 	if &book.Story_id != bookInput.StoryID {
@@ -113,4 +102,32 @@ func TestCreateBook(t *testing.T) {
 
 	// if nothing is returned then fields tests pass
 
+}
+
+func TestCreateTeacher(t *testing.T) {
+	// create a new teacher input
+
+	input := model.NewTeacher{
+		Active:             0,
+		TeacherDateCreated: time.Now(),
+		TeacherDateUpdated: time.Now(),
+		TeacherFirstName:   "John",
+		TeacherLastName:    "Doe",
+	}
+
+	// Execute the function
+	resolver := &mutationResolver{}
+
+	// call the resolver's CreateBook method with the book input
+	teacher, err := resolver.CreateTeacher(context.Background(), input)
+	if err != nil {
+		t.Fatalf("CreateTeacher failed: %v", err)
+	}
+
+	if input.Active != teacher.Active {
+		print("Expected StoryID %q, got %q", input.Active, teacher.Active)
+	}
+	if &input.TeacherDateCreated != &teacher.TeacherDateUpdated {
+		print("Expected Author %q, got %q", input.TeacherDateCreated, &teacher.TeacherDateUpdated)
+	}
 }
