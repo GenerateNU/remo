@@ -6,26 +6,12 @@ package graph
 
 import (
 	"context"
-	//"errors"
 	"crypto/rand"
 	"database/sql"
 	"encoding/hex"
 	"fmt"
 	"remo/backend/graph/model"
 )
-
-// Database connection
-var DB, err = DbInitConnection()
-
-// Generates a randomID
-func generateID() (string, error) {
-	id := make([]byte, 16)
-	_, err := rand.Read(id)
-	if err != nil {
-		return "", err
-	}
-	return hex.EncodeToString(id), nil
-}
 
 // ClassroomSchoolYear is the resolver for the classroom_school_year field.
 func (r *classroomResolver) ClassroomSchoolYear(ctx context.Context, obj *model.Classroom) (*string, error) {
@@ -64,7 +50,6 @@ func (r *classroomResolver) ClassroomAvgLength(ctx context.Context, obj *model.C
 
 // CreateBook is the resolver for the createBook field.
 func (r *mutationResolver) CreateBook(ctx context.Context, input model.BookInput) (*model.Book, error) {
-
 	// Insert the new Book object into the database
 	stmt, err := DB.Prepare("INSERT INTO books (story_id, author, cover_image, date_created, date_updated, default_user_id, foreword, editor, illustrator, isbn_10, isbn_13, num_pages, pub_date, copyright_date, edition, synopsis, title, word_count, sub_title, asin) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)")
 	if err != nil {
@@ -115,11 +100,10 @@ func (r *mutationResolver) CreateBook(ctx context.Context, input model.BookInput
 
 	// _, err := DB.Exec("INSERT INTO books (id, default_user_id) VALUES (?, ?);",
 	// 	input.ID, 1)
-
 }
 
 // UpdateBook is the resolver for the updateBook field.
-func (r *mutationResolver) UpdateBook(ctx context.Context, input model.BookInput) (*model.Book, error) {
+func (r *mutationResolver) UpdateBook(ctx context.Context, input *model.BookInput) (*model.Book, error) {
 	//NEED TO IMPLEMENT: GET BOOK FROM DATABASE
 	//UPDATE QUERY
 	panic(fmt.Errorf("not implemented: UpdateBook - updateBook"))
@@ -278,3 +262,20 @@ type readingRateResultResolver struct{ *Resolver }
 type studentResolver struct{ *Resolver }
 type teacherResolver struct{ *Resolver }
 type userBookResolver struct{ *Resolver }
+
+// !!! WARNING !!!
+// The code below was going to be deleted when updating resolvers. It has been copied here so you have
+// one last chance to move it out of harms way if you want. There are two reasons this happens:
+//   - When renaming or deleting a resolver the old code will be put in here. You can safely delete
+//     it when you're done.
+//   - You have helper methods in this file. Move them out to keep these resolver files clean.
+var DB, err = DbInitConnection()
+
+func generateID() (string, error) {
+	id := make([]byte, 16)
+	_, err := rand.Read(id)
+	if err != nil {
+		return "", err
+	}
+	return hex.EncodeToString(id), nil
+}

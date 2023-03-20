@@ -104,7 +104,7 @@ type ComplexityRoot struct {
 		CreateNewReadingRateResults func(childComplexity int, input model.NewReadingRateResults) int
 		CreateStudent               func(childComplexity int, input model.NewStudent) int
 		CreateTeacher               func(childComplexity int, input model.NewTeacher) int
-		UpdateBook                  func(childComplexity int, input model.BookInput) int
+		UpdateBook                  func(childComplexity int, input *model.BookInput) int
 	}
 
 	Query struct {
@@ -275,7 +275,7 @@ type ClassroomResolver interface {
 }
 type MutationResolver interface {
 	CreateBook(ctx context.Context, input model.BookInput) (*model.Book, error)
-	UpdateBook(ctx context.Context, input model.BookInput) (*model.Book, error)
+	UpdateBook(ctx context.Context, input *model.BookInput) (*model.Book, error)
 	CreateTeacher(ctx context.Context, input model.NewTeacher) (*model.Teacher, error)
 	CreateClassroom(ctx context.Context, input model.NewClassroom) (*model.Classroom, error)
 	CreateStudent(ctx context.Context, input model.NewStudent) (*model.Student, error)
@@ -677,7 +677,7 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 			return 0, false
 		}
 
-		return e.complexity.Mutation.UpdateBook(childComplexity, args["input"].(model.BookInput)), true
+		return e.complexity.Mutation.UpdateBook(childComplexity, args["input"].(*model.BookInput)), true
 
 	case "Query.getBookByID":
 		if e.complexity.Query.GetBookByID == nil {
@@ -1825,10 +1825,10 @@ func (ec *executionContext) field_Mutation_createTeacher_args(ctx context.Contex
 func (ec *executionContext) field_Mutation_updateBook_args(ctx context.Context, rawArgs map[string]interface{}) (map[string]interface{}, error) {
 	var err error
 	args := map[string]interface{}{}
-	var arg0 model.BookInput
+	var arg0 *model.BookInput
 	if tmp, ok := rawArgs["input"]; ok {
 		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("input"))
-		arg0, err = ec.unmarshalNBookInput2remoᚋbackendᚋgraphᚋmodelᚐBookInput(ctx, tmp)
+		arg0, err = ec.unmarshalOBookInput2ᚖremoᚋbackendᚋgraphᚋmodelᚐBookInput(ctx, tmp)
 		if err != nil {
 			return nil, err
 		}
@@ -3722,20 +3722,17 @@ func (ec *executionContext) _Mutation_updateBook(ctx context.Context, field grap
 	}()
 	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
 		ctx = rctx // use context from middleware stack in children
-		return ec.resolvers.Mutation().UpdateBook(rctx, fc.Args["input"].(model.BookInput))
+		return ec.resolvers.Mutation().UpdateBook(rctx, fc.Args["input"].(*model.BookInput))
 	})
 	if err != nil {
 		ec.Error(ctx, err)
 	}
 	if resTmp == nil {
-		if !graphql.HasFieldError(ctx, fc) {
-			ec.Errorf(ctx, "must not be null")
-		}
 		return graphql.Null
 	}
 	res := resTmp.(*model.Book)
 	fc.Result = res
-	return ec.marshalNBook2ᚖremoᚋbackendᚋgraphᚋmodelᚐBook(ctx, field.Selections, res)
+	return ec.marshalOBook2ᚖremoᚋbackendᚋgraphᚋmodelᚐBook(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) fieldContext_Mutation_updateBook(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
@@ -14544,6 +14541,14 @@ func (ec *executionContext) marshalOBook2ᚖremoᚋbackendᚋgraphᚋmodelᚐBoo
 		return graphql.Null
 	}
 	return ec._Book(ctx, sel, v)
+}
+
+func (ec *executionContext) unmarshalOBookInput2ᚖremoᚋbackendᚋgraphᚋmodelᚐBookInput(ctx context.Context, v interface{}) (*model.BookInput, error) {
+	if v == nil {
+		return nil, nil
+	}
+	res, err := ec.unmarshalInputBookInput(ctx, v)
+	return &res, graphql.ErrorOnPath(ctx, err)
 }
 
 func (ec *executionContext) unmarshalOBoolean2bool(ctx context.Context, v interface{}) (bool, error) {

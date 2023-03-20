@@ -6,6 +6,7 @@ require (
 	github.com/99designs/gqlgen v0.17.24
 	github.com/gin-gonic/gin v1.8.2
 	github.com/huandu/go-assert v1.1.5
+	github.com/jinzhu/gorm v1.9.16
 	github.com/vektah/gqlparser/v2 v2.5.1
 )
 
@@ -19,7 +20,6 @@ require (
 	github.com/googleapis/enterprise-certificate-proxy v0.2.3 // indirect
 	github.com/gorilla/websocket v1.5.0 // indirect
 	github.com/hashicorp/golang-lru v0.5.4 // indirect
-	github.com/jinzhu/gorm v1.9.16 // indirect
 	github.com/jinzhu/inflection v1.0.0 // indirect
 	github.com/mitchellh/mapstructure v1.5.0 // indirect
 	github.com/russross/blackfriday/v2 v2.1.0 // indirect
@@ -37,7 +37,6 @@ require (
 
 require (
 	github.com/davecgh/go-spew v1.1.1 // indirect
-	github.com/dgrijalva/jwt-go v3.2.0+incompatible
 	github.com/gin-contrib/sse v0.1.0 // indirect
 	github.com/go-playground/locales v0.14.1 // indirect
 	github.com/go-playground/universal-translator v0.18.0 // indirect
@@ -52,7 +51,7 @@ require (
 	github.com/modern-go/reflect2 v1.0.2 // indirect
 	github.com/pelletier/go-toml/v2 v2.0.6 // indirect
 	github.com/ugorji/go/codec v1.2.8 // indirect
-	golang.org/x/crypto v0.5.0
+	golang.org/x/crypto v0.5.0 // indirect
 	golang.org/x/net v0.6.0 // indirect
 	golang.org/x/sys v0.5.0 // indirect
 	golang.org/x/text v0.7.0 // indirect

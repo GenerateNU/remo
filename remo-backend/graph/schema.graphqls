@@ -266,8 +266,6 @@ input BookInput {
 
 input NewTeacher {
     id: ID!
-    classroom_co_teacher_id: ID!
-    classroom_status_id: ID!
     Teacher_first_name: String!
     Teacher_last_name: String!
     Active: Int!
