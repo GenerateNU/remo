@@ -48,6 +48,11 @@ func (r *classroomResolver) ClassroomAvgLength(ctx context.Context, obj *model.C
 	panic(fmt.Errorf("not implemented: ClassroomAvgLength - classroom_avg_length"))
 }
 
+// ClassroomStatusID is the resolver for the classroom_status_id field.
+func (r *classroomResolver) ClassroomStatusID(ctx context.Context, obj *model.Classroom) (int, error) {
+	panic(fmt.Errorf("not implemented: ClassroomStatusID - classroom_status_id"))
+}
+
 // CreateBook is the resolver for the createBook field.
 func (r *mutationResolver) CreateBook(ctx context.Context, input model.BookInput) (*model.Book, error) {
 	// Insert the new Book object into the database
@@ -99,7 +104,20 @@ func (r *mutationResolver) CreateTeacher(ctx context.Context, input model.NewTea
 
 // CreateClassroom is the resolver for the createClassroom field.
 func (r *mutationResolver) CreateClassroom(ctx context.Context, input model.NewClassroom) (*model.Classroom, error) {
-	panic(fmt.Errorf("not implemented: CreateClassroom - createClassroom"))
+	stmt, err := DB.Prepare("INSERT INTO classroom (classroom_co_teacher_id, classroom_status_id) values (?, ?)")
+	if err != nil {
+		return nil, err
+	}
+	defer stmt.Close()
+
+	// Execute the insert statement with the incremented ID
+	_, err = stmt.Exec(input.ClassroomCoTeacherID, input.ClassroomStatusID)
+
+	if err != nil {
+		return nil, err
+	}
+
+	return &model.Classroom{}, err
 }
 
 // CreateStudent is the resolver for the createStudent field.

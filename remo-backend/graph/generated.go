@@ -83,6 +83,7 @@ type ComplexityRoot struct {
 		ClassroomName                      func(childComplexity int) int
 		ClassroomSchoolYear                func(childComplexity int) int
 		ClassroomStartDate                 func(childComplexity int) int
+		ClassroomStatusID                  func(childComplexity int) int
 		ClassroomSubject                   func(childComplexity int) int
 		Classroom_avg_days                 func(childComplexity int) int
 		Classroom_co_teacher_id            func(childComplexity int) int
@@ -272,6 +273,8 @@ type ClassroomResolver interface {
 	ClassroomSubject(ctx context.Context, obj *model.Classroom) (*string, error)
 	ClassroomDisplayName(ctx context.Context, obj *model.Classroom) (*string, error)
 	ClassroomAvgLength(ctx context.Context, obj *model.Classroom) (*string, error)
+
+	ClassroomStatusID(ctx context.Context, obj *model.Classroom) (int, error)
 }
 type MutationResolver interface {
 	CreateBook(ctx context.Context, input model.BookInput) (*model.Book, error)
@@ -517,6 +520,13 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 		}
 
 		return e.complexity.Classroom.ClassroomStartDate(childComplexity), true
+
+	case "Classroom.classroom_status_id":
+		if e.complexity.Classroom.ClassroomStatusID == nil {
+			break
+		}
+
+		return e.complexity.Classroom.ClassroomStatusID(childComplexity), true
 
 	case "Classroom.classroom_subject":
 		if e.complexity.Classroom.ClassroomSubject == nil {
@@ -3448,6 +3458,50 @@ func (ec *executionContext) fieldContext_Classroom_classroom_num_seats(ctx conte
 	return fc, nil
 }
 
+func (ec *executionContext) _Classroom_classroom_status_id(ctx context.Context, field graphql.CollectedField, obj *model.Classroom) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Classroom_classroom_status_id(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return ec.resolvers.Classroom().ClassroomStatusID(rctx, obj)
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(int)
+	fc.Result = res
+	return ec.marshalNInt2int(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_Classroom_classroom_status_id(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Classroom",
+		Field:      field,
+		IsMethod:   true,
+		IsResolver: true,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type Int does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
 func (ec *executionContext) _Classroom_classroom_conf_frequency_above(ctx context.Context, field graphql.CollectedField, obj *model.Classroom) (ret graphql.Marshaler) {
 	fc, err := ec.fieldContext_Classroom_classroom_conf_frequency_above(ctx, field)
 	if err != nil {
@@ -4001,6 +4055,8 @@ func (ec *executionContext) fieldContext_Mutation_createClassroom(ctx context.Co
 				return ec.fieldContext_Classroom_classroom_num_students(ctx, field)
 			case "classroom_num_seats":
 				return ec.fieldContext_Classroom_classroom_num_seats(ctx, field)
+			case "classroom_status_id":
+				return ec.fieldContext_Classroom_classroom_status_id(ctx, field)
 			case "classroom_conf_frequency_above":
 				return ec.fieldContext_Classroom_classroom_conf_frequency_above(ctx, field)
 			case "classroom_conf_frequency_on":
@@ -12720,6 +12776,26 @@ func (ec *executionContext) _Classroom(ctx context.Context, sel ast.SelectionSet
 
 			out.Values[i] = ec._Classroom_classroom_num_seats(ctx, field, obj)
 
+		case "classroom_status_id":
+			field := field
+
+			innerFunc := func(ctx context.Context) (res graphql.Marshaler) {
+				defer func() {
+					if r := recover(); r != nil {
+						ec.Error(ctx, ec.Recover(ctx, r))
+					}
+				}()
+				res = ec._Classroom_classroom_status_id(ctx, field, obj)
+				if res == graphql.Null {
+					atomic.AddUint32(&invalids, 1)
+				}
+				return res
+			}
+
+			out.Concurrently(i, func() graphql.Marshaler {
+				return innerFunc(ctx)
+
+			})
 		case "classroom_conf_frequency_above":
 
 			out.Values[i] = ec._Classroom_classroom_conf_frequency_above(ctx, field, obj)
