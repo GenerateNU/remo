@@ -184,41 +184,43 @@ type ComplexityRoot struct {
 	}
 
 	Teacher struct {
-		Active                      func(childComplexity int) int
-		Certification_end           func(childComplexity int) int
-		Certification_id            func(childComplexity int) int
-		Certification_start         func(childComplexity int) int
-		Degree_level_id             func(childComplexity int) int
-		Is_certified                func(childComplexity int) int
-		Quarantined_books           func(childComplexity int) int
-		Teacher_avatar              func(childComplexity int) int
-		Teacher_backup_avater       func(childComplexity int) int
-		Teacher_backup_email        func(childComplexity int) int
-		Teacher_cell_phone          func(childComplexity int) int
-		Teacher_code_name           func(childComplexity int) int
-		Teacher_date_created        func(childComplexity int) int
-		Teacher_date_updated        func(childComplexity int) int
-		Teacher_display_name        func(childComplexity int) int
-		Teacher_district            func(childComplexity int) int
-		Teacher_first_name          func(childComplexity int) int
-		Teacher_gender              func(childComplexity int) int
-		Teacher_grade_band          func(childComplexity int) int
-		Teacher_id                  func(childComplexity int) int
-		Teacher_last_name           func(childComplexity int) int
-		Teacher_login_id            func(childComplexity int) int
-		Teacher_middle_name         func(childComplexity int) int
-		Teacher_position            func(childComplexity int) int
-		Teacher_pronoun             func(childComplexity int) int
-		Teacher_provided_services   func(childComplexity int) int
-		Teacher_school              func(childComplexity int) int
-		Teacher_specialized_courses func(childComplexity int) int
-		Teacher_state_id            func(childComplexity int) int
-		Teacher_subjects            func(childComplexity int) int
-		Teacher_subscription_type   func(childComplexity int) int
-		Teacher_suffix              func(childComplexity int) int
-		Teacher_texts_enabled       func(childComplexity int) int
-		Teacher_title               func(childComplexity int) int
-		TestField                   func(childComplexity int) int
+		Active                        func(childComplexity int) int
+		Certification_end             func(childComplexity int) int
+		Certification_id              func(childComplexity int) int
+		Certification_start           func(childComplexity int) int
+		Degree_level_id               func(childComplexity int) int
+		Is_certified                  func(childComplexity int) int
+		Quarantined_books             func(childComplexity int) int
+		Teacher_avatar                func(childComplexity int) int
+		Teacher_backup_avater         func(childComplexity int) int
+		Teacher_backup_email          func(childComplexity int) int
+		Teacher_cell_phone            func(childComplexity int) int
+		Teacher_code_name             func(childComplexity int) int
+		Teacher_date_created          func(childComplexity int) int
+		Teacher_date_of_birth         func(childComplexity int) int
+		Teacher_date_started_teaching func(childComplexity int) int
+		Teacher_date_updated          func(childComplexity int) int
+		Teacher_display_name          func(childComplexity int) int
+		Teacher_district              func(childComplexity int) int
+		Teacher_first_name            func(childComplexity int) int
+		Teacher_gender                func(childComplexity int) int
+		Teacher_grade_band            func(childComplexity int) int
+		Teacher_id                    func(childComplexity int) int
+		Teacher_last_name             func(childComplexity int) int
+		Teacher_login_id              func(childComplexity int) int
+		Teacher_middle_name           func(childComplexity int) int
+		Teacher_position              func(childComplexity int) int
+		Teacher_pronoun               func(childComplexity int) int
+		Teacher_provided_services     func(childComplexity int) int
+		Teacher_school                func(childComplexity int) int
+		Teacher_specialized_courses   func(childComplexity int) int
+		Teacher_state_id              func(childComplexity int) int
+		Teacher_subjects              func(childComplexity int) int
+		Teacher_subscription_type     func(childComplexity int) int
+		Teacher_suffix                func(childComplexity int) int
+		Teacher_texts_enabled         func(childComplexity int) int
+		Teacher_title                 func(childComplexity int) int
+		TestField                     func(childComplexity int) int
 	}
 
 	User struct {
@@ -1253,6 +1255,20 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 		}
 
 		return e.complexity.Teacher.Teacher_date_created(childComplexity), true
+
+	case "Teacher.Teacher_date_of_birth":
+		if e.complexity.Teacher.Teacher_date_of_birth == nil {
+			break
+		}
+
+		return e.complexity.Teacher.Teacher_date_of_birth(childComplexity), true
+
+	case "Teacher.Teacher_date_started_teaching":
+		if e.complexity.Teacher.Teacher_date_started_teaching == nil {
+			break
+		}
+
+		return e.complexity.Teacher.Teacher_date_started_teaching(childComplexity), true
 
 	case "Teacher.Teacher_date_updated":
 		if e.complexity.Teacher.Teacher_date_updated == nil {
@@ -3913,6 +3929,10 @@ func (ec *executionContext) fieldContext_Mutation_createTeacher(ctx context.Cont
 				return ec.fieldContext_Teacher_Teacher_last_name(ctx, field)
 			case "Teacher_suffix":
 				return ec.fieldContext_Teacher_Teacher_suffix(ctx, field)
+			case "Teacher_date_of_birth":
+				return ec.fieldContext_Teacher_Teacher_date_of_birth(ctx, field)
+			case "Teacher_date_started_teaching":
+				return ec.fieldContext_Teacher_Teacher_date_started_teaching(ctx, field)
 			case "Degree_level_id":
 				return ec.fieldContext_Teacher_Degree_level_id(ctx, field)
 			case "Is_certified":
@@ -4470,6 +4490,10 @@ func (ec *executionContext) fieldContext_Query_teachers(ctx context.Context, fie
 				return ec.fieldContext_Teacher_Teacher_last_name(ctx, field)
 			case "Teacher_suffix":
 				return ec.fieldContext_Teacher_Teacher_suffix(ctx, field)
+			case "Teacher_date_of_birth":
+				return ec.fieldContext_Teacher_Teacher_date_of_birth(ctx, field)
+			case "Teacher_date_started_teaching":
+				return ec.fieldContext_Teacher_Teacher_date_started_teaching(ctx, field)
 			case "Degree_level_id":
 				return ec.fieldContext_Teacher_Degree_level_id(ctx, field)
 			case "Is_certified":
@@ -7658,6 +7682,88 @@ func (ec *executionContext) fieldContext_Teacher_Teacher_suffix(ctx context.Cont
 		IsResolver: false,
 		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
 			return nil, errors.New("field of type String does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _Teacher_Teacher_date_of_birth(ctx context.Context, field graphql.CollectedField, obj *model.Teacher) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Teacher_Teacher_date_of_birth(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Teacher_date_of_birth, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(time.Time)
+	fc.Result = res
+	return ec.marshalOTime2timeᚐTime(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_Teacher_Teacher_date_of_birth(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Teacher",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type Time does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
+func (ec *executionContext) _Teacher_Teacher_date_started_teaching(ctx context.Context, field graphql.CollectedField, obj *model.Teacher) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Teacher_Teacher_date_started_teaching(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Teacher_date_started_teaching, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(time.Time)
+	fc.Result = res
+	return ec.marshalOTime2timeᚐTime(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_Teacher_Teacher_date_started_teaching(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Teacher",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type Time does not have child fields")
 		},
 	}
 	return fc, nil
@@ -13450,6 +13556,14 @@ func (ec *executionContext) _Teacher(ctx context.Context, sel ast.SelectionSet, 
 		case "Teacher_suffix":
 
 			out.Values[i] = ec._Teacher_Teacher_suffix(ctx, field, obj)
+
+		case "Teacher_date_of_birth":
+
+			out.Values[i] = ec._Teacher_Teacher_date_of_birth(ctx, field, obj)
+
+		case "Teacher_date_started_teaching":
+
+			out.Values[i] = ec._Teacher_Teacher_date_started_teaching(ctx, field, obj)
 
 		case "Degree_level_id":
 

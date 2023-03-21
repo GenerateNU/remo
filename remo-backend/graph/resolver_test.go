@@ -2,6 +2,8 @@ package graph
 
 import (
 	"context"
+	"fmt"
+	"log"
 	"remo/backend/graph/model"
 	"testing"
 	"time"
@@ -216,4 +218,27 @@ func TestCreateReadingRate(t *testing.T) {
 	if &resadingResult == &resadingResult {
 
 	}
+}
+
+func TestQueryResolver_Teachers(t *testing.T) {
+	log.Println("hello")
+	// Create a new instance of the query resolver and pass in the mock database connection
+	resolver := &queryResolver{}
+
+	// Call the resolver method
+	teachers, err := resolver.Teachers(context.Background())
+	if err != nil {
+		t.Fatalf("Error calling Teachers resolver: %s", err)
+	}
+
+	//fmt.Println("Number of teachers found: %d\n", len(teachers))
+
+	for i, teacher := range teachers {
+		fmt.Printf("Teacher %d: %v\n", i+1, teacher)
+	}
+
+	if len(teachers) == 60 {
+		fmt.Print("Something went good")
+	}
+
 }

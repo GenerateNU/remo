@@ -195,7 +195,35 @@ func (r *queryResolver) GetBookByID(ctx context.Context, id string) (*model.Book
 
 // Teachers is the resolver for the teachers field.
 func (r *queryResolver) Teachers(ctx context.Context) ([]*model.Teacher, error) {
-	panic(fmt.Errorf("not implemented: Teachers - teachers"))
+	var teachers []*model.Teacher
+
+	// Assuming that you have a database connection named `db`
+	rows, err := DB.Query("SELECT * FROM teacher")
+	if err != nil {
+		return nil, err
+	}
+
+	defer rows.Close()
+
+	for rows.Next() {
+		teacher := &model.Teacher{}
+		// err := rows.Scan(&teacher.Teacher_date_of_birth, &teacher.Teacher_date_started_teaching, &teacher.Teacher_id, &teacher.Teacher_login_id, &teacher.Teacher_title,
+		// 	&teacher.Teacher_first_name, &teacher.Teacher_middle_name, &teacher.Teacher_last_name, &teacher.Teacher_suffix,
+		// 	&teacher.Degree_level_id, &teacher.Is_certified, &teacher.Certification_id, &teacher.Certification_start,
+		// 	&teacher.Certification_end, &teacher.Teacher_avatar, &teacher.Teacher_backup_avater, &teacher.Teacher_subscription_type,
+		// 	&teacher.Teacher_code_name, &teacher.Teacher_display_name, &teacher.Quarantined_books, &teacher.Teacher_backup_email,
+		// 	&teacher.Teacher_gender, &teacher.Teacher_pronoun, &teacher.Teacher_position, &teacher.Teacher_grade_band,
+		// 	&teacher.Teacher_subjects, &teacher.Teacher_provided_services, &teacher.Teacher_specialized_courses,
+		// 	&teacher.Teacher_state_id, &teacher.Teacher_district, &teacher.Teacher_school, &teacher.Teacher_cell_phone,
+		// 	&teacher.Teacher_texts_enabled, &teacher.Active, &teacher.Teacher_date_created, &teacher.Teacher_date_updated)
+
+		if err != nil {
+			return nil, err
+		}
+		teachers = append(teachers, teacher)
+	}
+
+	return teachers, nil
 }
 
 // GetUserByID is the resolver for the getUserByID field.

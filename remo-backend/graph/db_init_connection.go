@@ -7,7 +7,7 @@ import (
 // DbInitConnection
 // Initialize a connection to the database.
 func DbInitConnection() (*sql.DB, error) {
-	db, err := sql.Open("mysql", "remo:pwd@tcp(localhost:3333)/remodb")
+	db, err := sql.Open("mysql", "remo:pwd@tcp(localhost:3333)/remodb?parseTime=true")
 	if err != nil {
 		print("Failed to connect to database:", err)
 	}

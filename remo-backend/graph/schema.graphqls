@@ -33,8 +33,8 @@ type Teacher {
     Teacher_middle_name: String
     Teacher_last_name: String!
     Teacher_suffix: String
-    #Teacher_date_of_birth: String
-    #Teacher_date_started_teaching string `json:"teacher_date_started_teaching"`
+    Teacher_date_of_birth: Time
+    Teacher_date_started_teaching: Time
     Degree_level_id: ID
     Is_certified: Boolean
     Certification_id: ID
