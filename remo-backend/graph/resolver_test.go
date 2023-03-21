@@ -9,6 +9,29 @@ import (
 	"time"
 )
 
+// QUERY TESTS
+
+// Function to test resolver for query the database for books
+func TestGetBookByID(t *testing.T) {
+	// the book ID which we want to retrieve
+	expectedBookID := "123456789"
+
+	// the resolver being tested
+	resolver := queryResolver{}
+
+	// call the resolver's GetBookByID method with the requested expectedBookID
+	book, err := resolver.GetBookByID(context.Background(), expectedBookID)
+	if err != nil {
+		t.Fatalf("GetBookByID failed: %v", err)
+	}
+	/////// FIX STRING FORMATTING FOR MULTIPLE VARIBLE OUTPUTS
+	if book.ID != expectedBookID {
+		t.Fatalf("Retrieved book has incorrect ID. Actual: "+"Expected: ", book.ID, expectedBookID)
+	}
+}
+
+// MUTATION TESTS
+
 func TestCreateBook(t *testing.T) {
 	// create a new book input
 	storyID := "50"
