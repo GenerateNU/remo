@@ -27,13 +27,16 @@ export default function BookInfo() {
   return (
     <View style={styles.container}>
       <Modal isVisible={isVisible} style={styles.modal}>
-        <Text>Click the button below to Check out {data.title}</Text>
-        <Button
-          buttonStyle={styles.button}
-          title="Checkout"
-          type="outline"
-          onPress={modalClose}
-        />
+        <View style={styles.modalDisplay}>
+          <Text style={styles.modalText}>
+            Click the button below to Check out {data.title}
+          </Text>
+          <Button
+            buttonStyle={styles.button}
+            title="Checkout"
+            onPress={modalClose}
+          />
+        </View>
       </Modal>
       <View
         style={{
@@ -194,5 +197,19 @@ const styles = StyleSheet.create({
   modal: {
     justifyContent: "flex-end",
     margin: 0,
+    alignItems: "center",
+  },
+  modalDisplay: {
+    justifyContent: "flex-start",
+    alignItems: "center",
+    width: "100%",
+    backgroundColor: "white",
+    paddingTop: 16,
+    borderTopLeftRadius: 20,
+    borderTopRightRadius: 20,
+  },
+  modalText: {
+    width: "70%",
+    textAlign: "center",
   },
 });
