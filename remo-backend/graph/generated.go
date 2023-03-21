@@ -12468,7 +12468,7 @@ func (ec *executionContext) unmarshalInputnewReadingRateResults(ctx context.Cont
 		asMap[k] = v
 	}
 
-	fieldsInOrder := [...]string{"Reading_rate_results_id"}
+	fieldsInOrder := [...]string{"Reading_rate_results_id", "Words_per_page"}
 	for _, k := range fieldsInOrder {
 		v, ok := asMap[k]
 		if !ok {
@@ -12480,6 +12480,14 @@ func (ec *executionContext) unmarshalInputnewReadingRateResults(ctx context.Cont
 
 			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("Reading_rate_results_id"))
 			it.ReadingRateResultsID, err = ec.unmarshalNID2string(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "Words_per_page":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("Words_per_page"))
+			it.WordsPerPage, err = ec.unmarshalNInt2int(ctx, v)
 			if err != nil {
 				return it, err
 			}

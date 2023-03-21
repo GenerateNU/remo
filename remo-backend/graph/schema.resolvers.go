@@ -122,12 +122,38 @@ func (r *mutationResolver) CreateClassroom(ctx context.Context, input model.NewC
 
 // CreateStudent is the resolver for the createStudent field.
 func (r *mutationResolver) CreateStudent(ctx context.Context, input model.NewStudent) (*model.Student, error) {
-	panic(fmt.Errorf("not implemented: CreateStudent - createStudent"))
+	stmt, err := DB.Prepare("INSERT INTO student_info (student_id, student_app_id, first_name, middle_name, last_name) values (?, ?, ?, ?, ?)")
+	if err != nil {
+		return nil, err
+	}
+	defer stmt.Close()
+
+	// Execute the insert statement with the incremented ID
+	_, err = stmt.Exec(input.StudentID, input.StudentAppID, input.FirstName, input.MiddleName, input.LastName)
+
+	if err != nil {
+		return nil, err
+	}
+
+	return &model.Student{}, err
 }
 
 // CreateNewReadingRateResults is the resolver for the createNewReadingRateResults field.
 func (r *mutationResolver) CreateNewReadingRateResults(ctx context.Context, input model.NewReadingRateResults) (*model.ReadingRateResult, error) {
-	panic(fmt.Errorf("not implemented: CreateNewReadingRateResults - createNewReadingRateResults"))
+	stmt, err := DB.Prepare("INSERT INTO reading_rate_results (word_per_page) values (?)")
+	if err != nil {
+		return nil, err
+	}
+	defer stmt.Close()
+
+	// Execute the insert statement with the incremented ID
+	_, err = stmt.Exec(input.WordsPerPage)
+
+	if err != nil {
+		return nil, err
+	}
+
+	return &model.ReadingRateResult{}, err
 }
 
 // GetBookByID is the resolver for the getBookByID field.

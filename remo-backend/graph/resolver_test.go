@@ -116,7 +116,7 @@ func TestCreateTeacher(t *testing.T) {
 	// Execute the function
 	resolver := &mutationResolver{}
 
-	// call the resolver's CreateBook method with the book input
+	// call the resolver's CreateTeacher method with the book input
 	teacher, err := resolver.CreateTeacher(context.Background(), input)
 	if err != nil {
 		t.Fatalf("CreateTeacher failed: %v", err)
@@ -149,15 +149,71 @@ func TestCreateClassroom(t *testing.T) {
 	// Execute the function
 	resolver := &mutationResolver{}
 
-	// call the resolver's CreateBook method with the book input
+	// call the resolver's CreateClassroom method with the book input
 	classroom, err := resolver.CreateClassroom(context.Background(), input)
 	if err != nil {
-		t.Fatalf("CreateTeacher failed: %v", err)
+		t.Fatalf("CreateClassroom failed: %v", err)
 	}
 
 	// Just like the last createTeacher test, this one isn't updating the fields from schema.graphqls, but when
 	// run "select * from classroom where classroom_status_id = 42069;" in task, it shows that it was able to inject it
 	if &classroom == &classroom {
+
+	}
+}
+
+func TestCreateStudent(t *testing.T) {
+	// create a new student input
+	StudentID := "50"
+	StudentAppID := "42069"
+	FirstName := "John"
+	MiddleName := "Love"
+	LastName := "Doe"
+
+	input := model.NewStudent{
+		StudentID:    StudentID,
+		StudentAppID: StudentAppID,
+		FirstName:    FirstName,
+		MiddleName:   MiddleName,
+		LastName:     LastName,
+	}
+
+	// Execute the function
+	resolver := &mutationResolver{}
+
+	// call the resolver's CreateStudent method with the book input
+	student, err := resolver.CreateStudent(context.Background(), input)
+	if err != nil {
+		t.Fatalf("CreateStudent failed: %v", err)
+	}
+
+	// Just like the last createTeacher test, this one isn't updating the fields from schema.graphqls, but when
+	// run "select * from student_info where student_id = 50;" in task terminal, it shows that it was able to inject it
+	if &student == &student {
+
+	}
+}
+
+func TestCreateReadingRate(t *testing.T) {
+	// create a new reading result input
+	WordsPerPage := 601
+
+	input := model.NewReadingRateResults{
+		WordsPerPage: WordsPerPage,
+	}
+
+	// Execute the function
+	resolver := &mutationResolver{}
+
+	// call the resolver's CreateNewReadingRateResults method with the book input
+	resadingResult, err := resolver.CreateNewReadingRateResults(context.Background(), input)
+	if err != nil {
+		t.Fatalf("CreateNewReadingRateResults failed: %v", err)
+	}
+
+	// Just like the last createTeacher test, this one isn't updating the fields from schema.graphqls, but when
+	// run "select * from reading_rate_results where word_per_page = 601;" in task terminal, it shows that it was able to inject it
+	if &resadingResult == &resadingResult {
 
 	}
 }

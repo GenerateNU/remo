@@ -292,6 +292,7 @@ input NewStudent{
 
 input newReadingRateResults{
     Reading_rate_results_id:ID!
+    Words_per_page: Int!
 }
 
 # Brian said to eliminate. Will be handled elsewhere

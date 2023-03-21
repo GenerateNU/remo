@@ -63,4 +63,5 @@ type User struct {
 
 type NewReadingRateResults struct {
 	ReadingRateResultsID string `json:"Reading_rate_results_id"`
+	WordsPerPage         int    `json:"Words_per_page"`
 }
