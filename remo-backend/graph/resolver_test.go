@@ -9,6 +9,11 @@ import (
 	"time"
 )
 
+// SETUP VARIABLES
+
+var qResolver = queryResolver{}
+var mResolver = mutationResolver{}
+
 // QUERY TESTS
 
 // Function to test resolver for query the database for books
@@ -16,17 +21,35 @@ func TestGetBookByID(t *testing.T) {
 	// the book ID which we want to retrieve
 	expectedBookID := "123456789"
 
-	// the resolver being tested
-	resolver := queryResolver{}
-
 	// call the resolver's GetBookByID method with the requested expectedBookID
-	book, err := resolver.GetBookByID(context.Background(), expectedBookID)
+	book, err := qResolver.GetBookByID(context.Background(), expectedBookID)
 	if err != nil {
 		t.Fatalf("GetBookByID failed: %v", err)
 	}
-	/////// FIX STRING FORMATTING FOR MULTIPLE VARIBLE OUTPUTS
+	/////// FIX STRING FORMATTING FOR MULTIPLE VARIABLE OUTPUTS
 	if book.ID != expectedBookID {
-		t.Fatalf("Retrieved book has incorrect ID. Actual: "+"Expected: ", book.ID, expectedBookID)
+		t.Fatalf("Retrieved book has incorrect ID. Actual: %[1]v \n Expected: %[2]v \n", book.ID, expectedBookID)
+	}
+}
+
+// query resolvers for teachers
+func TestQueryResolver_Teachers(t *testing.T) {
+	log.Println("hello")
+
+	// Call the resolver method
+	teachers, err := qResolver.Teachers(context.Background())
+	if err != nil {
+		t.Fatalf("Error calling Teachers resolver: %s", err)
+	}
+
+	//fmt.Println("Number of teachers found: %d\n", len(teachers))
+
+	for i, teacher := range teachers {
+		fmt.Printf("Teacher %d: %v\n", i+1, teacher)
+	}
+
+	if len(teachers) == 60 {
+		fmt.Print("Something went good")
 	}
 }
 
@@ -77,11 +100,8 @@ func TestCreateBook(t *testing.T) {
 		Asin:          &asin,
 	}
 
-	// create a new resolver
-	resolver := &mutationResolver{}
-
 	// call the resolver's CreateBook method with the book input
-	book, err := resolver.CreateBook(context.Background(), bookInput)
+	book, err := mResolver.CreateBook(context.Background(), bookInput)
 	if err != nil {
 		t.Fatalf("CreateBook failed: %v", err)
 	}
@@ -139,10 +159,9 @@ func TestCreateTeacher(t *testing.T) {
 	}
 
 	// Execute the function
-	resolver := &mutationResolver{}
 
 	// call the resolver's CreateTeacher method with the book input
-	teacher, err := resolver.CreateTeacher(context.Background(), input)
+	teacher, err := mResolver.CreateTeacher(context.Background(), input)
 	if err != nil {
 		t.Fatalf("CreateTeacher failed: %v", err)
 	}
@@ -172,10 +191,9 @@ func TestCreateClassroom(t *testing.T) {
 	}
 
 	// Execute the function
-	resolver := &mutationResolver{}
 
 	// call the resolver's CreateClassroom method with the book input
-	classroom, err := resolver.CreateClassroom(context.Background(), input)
+	classroom, err := mResolver.CreateClassroom(context.Background(), input)
 	if err != nil {
 		t.Fatalf("CreateClassroom failed: %v", err)
 	}
@@ -204,10 +222,9 @@ func TestCreateStudent(t *testing.T) {
 	}
 
 	// Execute the function
-	resolver := &mutationResolver{}
 
 	// call the resolver's CreateStudent method with the book input
-	student, err := resolver.CreateStudent(context.Background(), input)
+	student, err := mResolver.CreateStudent(context.Background(), input)
 	if err != nil {
 		t.Fatalf("CreateStudent failed: %v", err)
 	}
@@ -228,40 +245,16 @@ func TestCreateReadingRate(t *testing.T) {
 	}
 
 	// Execute the function
-	resolver := &mutationResolver{}
 
 	// call the resolver's CreateNewReadingRateResults method with the book input
-	resadingResult, err := resolver.CreateNewReadingRateResults(context.Background(), input)
+	readingResult, err := mResolver.CreateNewReadingRateResults(context.Background(), input)
 	if err != nil {
 		t.Fatalf("CreateNewReadingRateResults failed: %v", err)
 	}
 
 	// Just like the last createTeacher test, this one isn't updating the fields from schema.graphqls, but when
 	// run "select * from reading_rate_results where word_per_page = 601;" in task terminal, it shows that it was able to inject it
-	if &resadingResult == &resadingResult {
+	if &readingResult == &readingResult {
 
 	}
-}
-
-func TestQueryResolver_Teachers(t *testing.T) {
-	log.Println("hello")
-	// Create a new instance of the query resolver and pass in the mock database connection
-	resolver := &queryResolver{}
-
-	// Call the resolver method
-	teachers, err := resolver.Teachers(context.Background())
-	if err != nil {
-		t.Fatalf("Error calling Teachers resolver: %s", err)
-	}
-
-	//fmt.Println("Number of teachers found: %d\n", len(teachers))
-
-	for i, teacher := range teachers {
-		fmt.Printf("Teacher %d: %v\n", i+1, teacher)
-	}
-
-	if len(teachers) == 60 {
-		fmt.Print("Something went good")
-	}
-
 }
