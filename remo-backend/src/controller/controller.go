@@ -10,7 +10,6 @@ import (
 
 	"github.com/dgrijalva/jwt-go"
 	"github.com/gin-gonic/gin"
-	// "github.com/golang-jwt/jwt/v4"
 )
 
 type Controller interface {
@@ -21,10 +20,6 @@ type MsController struct {
 	model.Model
 }
 
-var audience string = os.Getenv("audience")
-
-// USERNAME := os.Getenv("remo")
-// Everything above here is going to move to a  folder (controller layer)
 func (ms *MsController) Serve() *gin.Engine {
 	r := gin.Default()
 
@@ -54,10 +49,6 @@ func (ms *MsController) Serve() *gin.Engine {
 
 	r.POST("v1/login", func(c *gin.Context) {
 
-		/* check to see if the user exists in the database
-		if so, continute to create authenticated token & cookie
-		if not, the model will panic with an error TODO: implement better error handling for invalid logins
-		*/
 		var loginInfo model.LoginInfo
 
 		// check for invalid JSON bindings and rasie an error if true
@@ -67,31 +58,15 @@ func (ms *MsController) Serve() *gin.Engine {
 			return
 		}
 
-		fmt.Println("TEST", loginInfo.Credential)
-
 		token, _ := jwt.Parse(loginInfo.Credential, nil)
 
 		// extract the claims
 		claims, ok := token.Claims.(jwt.MapClaims)
 		if !ok {
-			fmt.Print("PRITN")
-			return // nil, fmt.Errorf("invalid JWT claims")
+			fmt.Print("INVALID GMAIL")
+			return
 		}
 
-		// // assign the claims to the fields in myClaims
-		// if email, ok := claims["email"].(string); ok {
-		// 	u := ms.UserByEmail(email)
-		// 	empty_user := model.User{FirstName: "INVALID"}
-
-		// 	if u == empty_user {
-		// 		middleware.NewBadRequestError("Email not in database.")
-		// 		c.JSON(http.StatusInternalServerError, gin.H{"error": "Something went wrong completing your sign in."})
-		// 		return
-		// 	}
-		// 	loginInfo.Email = email
-		// }
-
-		// DELETE THIS WHEN WE HAVE EMAIL CHECKING WORKING ABOVE
 		if email, ok := claims["email"].(string); ok {
 			loginInfo.Email = email
 			check_usr, err := ms.UserByEmail(email)
@@ -124,13 +99,6 @@ func (ms *MsController) Serve() *gin.Engine {
 			return
 		}
 
-		//TODO: we should probably correspond the token to the user in the DB.
-		//We can also get name/email and other stuff from the JWT to connect it to existing users or to make new user profile.
-
-		//sets the token JWT generated above as a cookie in the frontend
-		// c.SetCookie("remo_jwt", tokenString, 86400, "/", "", true, true)
-
-		// c.Status(http.StatusOK)
 		message := tokenString
 		c.JSON(http.StatusOK, message)
 
@@ -157,6 +125,34 @@ func (ms *MsController) Serve() *gin.Engine {
 	r.GET("/v1/user_books/:userID", func(c *gin.Context) {
 		id := c.Param("userID")
 		c.JSON(http.StatusOK, ms.UserBooks(id))
+	})
+
+	r.PUT("v1/checkout_book/:bookId/:userId", func(c *gin.Context) {
+		isbn_13 := c.Param("bookId")
+		user_id := c.Param("userId")
+
+		err := ms.CheckoutBook(user_id, isbn_13)
+
+		if err != nil {
+			c.JSON(http.StatusBadRequest, "Failed to checkout book")
+			panic(err)
+		}
+
+		c.JSON(http.StatusOK, user_id)
+
+	})
+
+	r.PUT("v1/return_book/:bookId", func(c *gin.Context) {
+		isbn_13 := c.Param("bookId")
+
+		err := ms.ReturnBook(isbn_13)
+
+		if err != nil {
+			c.JSON(http.StatusBadRequest, "Failed to return book")
+			panic(err)
+		}
+
+		c.JSON(http.StatusOK, isbn_13)
 	})
 
 	r.POST("/v1/addBook", func(c *gin.Context) {
