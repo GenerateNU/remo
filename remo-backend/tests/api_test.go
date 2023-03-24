@@ -133,3 +133,73 @@ func TestBadUser(t *testing.T) {
 	test_user := model.User{}
 	assert.Equal(t, test_user, user)
 }
+
+func TestCheckout(t *testing.T) {
+	conn, err := sql.Open("mysql", "remo:pwd@tcp(localhost:3333)/remodb")
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "Unable to connect to database: %v\n", err)
+		os.Exit(1)
+	}
+
+	defer conn.Close()
+
+	m := &model.MsModel{
+		Conn: conn,
+	}
+	c := &c.MsController{
+		Model: m,
+	}
+	router := c.Serve()
+
+	w := httptest.NewRecorder()
+
+	req, _ := http.NewRequest("PUT", "/v1/checkout_book/1249898899889/1", nil)
+
+	router.ServeHTTP(w, req)
+
+	assert.Equal(t, 200, w.Code)
+
+	var isbn_13 string
+
+	if e := json.Unmarshal(w.Body.Bytes(), &isbn_13); e != nil {
+		panic(err)
+	}
+
+	test_isbn := "1249898899889"
+	assert.Equal(t, test_isbn, isbn_13)
+}
+
+func TestReturn(t *testing.T) {
+	conn, err := sql.Open("mysql", "remo:pwd@tcp(localhost:3333)/remodb")
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "Unable to connect to database: %v\n", err)
+		os.Exit(1)
+	}
+
+	defer conn.Close()
+
+	m := &model.MsModel{
+		Conn: conn,
+	}
+	c := &c.MsController{
+		Model: m,
+	}
+	router := c.Serve()
+
+	w := httptest.NewRecorder()
+
+	req, _ := http.NewRequest("PUT", "/v1/return_book/1249898899889", nil)
+
+	router.ServeHTTP(w, req)
+
+	assert.Equal(t, 200, w.Code)
+
+	var isbn_13 string
+
+	if e := json.Unmarshal(w.Body.Bytes(), &isbn_13); e != nil {
+		panic(err)
+	}
+
+	test_isbn := "1249898899889"
+	assert.Equal(t, test_isbn, isbn_13)
+}

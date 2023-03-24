@@ -138,7 +138,7 @@ func (ms *MsController) Serve() *gin.Engine {
 			panic(err)
 		}
 
-		c.JSON(http.StatusOK, user_id)
+		c.JSON(http.StatusOK, isbn_13)
 
 	})
 
