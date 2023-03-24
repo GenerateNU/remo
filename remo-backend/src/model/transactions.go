@@ -149,3 +149,15 @@ func InsertOnboardingQuestions(pool *sql.DB, user_id string, questions Onboardin
 	_, err := pool.Exec(fmt.Sprintf("INSERT INTO onboarding_questions (user_id, q1, q2, q3, q4, q5, q6, q7, q8, submitted) VALUES ('%s','%s','%s', '%s', '%s','%s','%s', '%s', '%s', '1');", user_id, questions.Q1, questions.Q2, questions.Q3, questions.Q4, questions.Q5, questions.Q6, questions.Q7, questions.Q8))
 	return err
 }
+
+func GetOnboarded(pool *sql.DB, user_id string) (string, error) {
+	questions := OnboardingQuestions{}
+
+	err := pool.QueryRow(fmt.Sprintf("SELECT submitted FROM onboarding_questions where user_id = '%s';", user_id)).Scan(&questions.Onboarded)
+
+	if err != nil {
+		return "not onboarded", err
+	}
+
+	return "onboarded", nil
+}

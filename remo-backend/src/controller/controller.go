@@ -192,6 +192,19 @@ func (ms *MsController) Serve() *gin.Engine {
 		c.JSON(http.StatusOK, "success")
 	})
 
+	r.GET("/v1/check_onboarded/:user_Id", func(c *gin.Context) {
+		user_id := c.Param("user_Id")
+
+		check, err := ms.CheckOnboarded(user_id)
+
+		if check != "onboarded" {
+			c.JSON(http.StatusBadRequest, "Failed to check onboarded user")
+			panic(err)
+		}
+
+		c.JSON(http.StatusOK, "onboarded")
+	})
+
 	//protected endpoint group (uses middelware below)
 	protected := r.Group("/protected")
 	//sets up middleware for this protected endpoint

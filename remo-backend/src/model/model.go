@@ -21,6 +21,7 @@ type Model interface {
 	AddBooks(Book) (Book, error)
 	AddUser(User) (User, error)
 	AddOnboardingQuestions(string, OnboardingQuestions) error
+	CheckOnboarded(string) (string, error)
 }
 
 func (m *MsModel) Book(id string) Book {
@@ -118,4 +119,13 @@ func (m *MsModel) AddOnboardingQuestions(user_id string, questions OnboardingQue
 	}
 
 	return nil
+}
+
+func (m *MsModel) CheckOnboarded(id string) (string, error) {
+	check, err := GetOnboarded(m.Conn, id)
+	if err != nil {
+		return check, err
+	}
+
+	return check, err
 }
