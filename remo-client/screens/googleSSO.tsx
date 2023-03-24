@@ -1,11 +1,12 @@
 import { StatusBar } from "expo-status-bar";
 import React, { useState, useEffect } from "react";
-import { StyleSheet, Text, View, Image, Button } from "react-native";
+import { StyleSheet, Text, View, Image, Button} from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import * as Google from "expo-auth-session/providers/google";
 import AfterSSO from "./afterSSO";
 import { FontAwesome5 } from '@expo/vector-icons'
 import jwt_decode from 'jwt-decode'
+import PressableCard from "../components/pressablecard/pressablecard";
 
 
 // import * as WebBrowser from 'expo-web-browser';
@@ -14,11 +15,15 @@ import jwt_decode from 'jwt-decode'
 
 export default function GoogleSSO() {
 
-  const navigation = useNavigation();
+  const navigation = useNavigation();  
   const pressHandler = () => {
     navigation.goBack();
   };
+  const handleRegister = () => {
 
+    navigation.navigate("Register");
+
+  };
 	const [request, response, promptAsync] = Google.useAuthRequest({
 		// redirectUri: "localhost:8080",
 		scopes: [
@@ -87,7 +92,7 @@ export default function GoogleSSO() {
 				}
 
 				// NAVIGATE TO NEXT PAGE
-				navigation.navigate("Onboarding", {
+				navigation.navigate("Profile", {
 					data: googdata
 				})
 				} catch (error) {
@@ -113,18 +118,9 @@ export default function GoogleSSO() {
       >
         <Text style={styles.googleText}>Log In With Google</Text>
       </FontAwesome5.Button>
-
-
-{/* <GoogleButton
-  disabled // can also be written as disabled={true} for clarity
-  onClick={() => { console.log('this will not run on click since it is disabled') }}
-/> */}
-
-
-			{/* <FontAwesome.Button name="google" backgroundColor="#4285F4" style={{fontFamily: "Roboto"}} onPress={loginWithFacebook}>
-        Login with Google
-      </FontAwesome.Button> */}
-		</View>
+	  <Text></Text>
+      <Button title="new to ReMo? register here" onPress={handleRegister} />
+	</View>
 	);
 }
 
@@ -146,5 +142,26 @@ const styles = StyleSheet.create({
 	googleButton: {
 		width: 180,
 		backgroundColor: "#F15a23",
-	}
+	},
+	baseText: {	
+		font_family: "Inter",
+		font_style: "normal",
+		font_weight: 500,
+		font_size: "4px",
+		color: "#000000",
+	  },
+	button: {
+	backgroundColor: 'black',
+	height: 10,
+	justifyContent: 'center',
+	alignItems: 'center',
+	marginHorizontal: 20,
+	marginVertical: 20,
+	borderRadius: 10,
+	},
+	buttonText: {
+	color: 'black',
+	fontSize: 12,
+	fontWeight: 'bold',
+	},
 });
