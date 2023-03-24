@@ -144,3 +144,8 @@ func ReturnBook(pool *sql.DB, isbn_13 string) error {
 	}
 	return nil
 }
+
+func InsertOnboardingQuestions(pool *sql.DB, user_id string, questions OnboardingQuestions) error {
+	_, err := pool.Exec(fmt.Sprintf("INSERT INTO onboarding_questions (user_id, q1, q2, q3, q4, q5, q6, q7, q8, submitted) VALUES ('%s','%s','%s', '%s', '%s','%s','%s', '%s', '%s', '1');", user_id, questions.Q1, questions.Q2, questions.Q3, questions.Q4, questions.Q5, questions.Q6, questions.Q7, questions.Q8))
+	return err
+}

@@ -20,6 +20,7 @@ type Model interface {
 	UserByID(string) User
 	AddBooks(Book) (Book, error)
 	AddUser(User) (User, error)
+	AddOnboardingQuestions(string, OnboardingQuestions) error
 }
 
 func (m *MsModel) Book(id string) Book {
@@ -106,5 +107,15 @@ func (m *MsModel) ReturnBook(isbn_13 string) error {
 	if err != nil {
 		return err
 	}
+	return nil
+}
+
+func (m *MsModel) AddOnboardingQuestions(user_id string, questions OnboardingQuestions) error {
+	err := InsertOnboardingQuestions(m.Conn, user_id, questions)
+
+	if err != nil {
+		return err
+	}
+
 	return nil
 }
