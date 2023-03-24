@@ -150,6 +150,10 @@ func (ms *MsController) Serve() *gin.Engine {
 		c.JSON(http.StatusOK, ms.Book(id))
 	})
 
+	r.GET("/v1/all_books", func(c *gin.Context) {
+		c.JSON(http.StatusOK, ms.AllBooks())
+	})
+
 	r.GET("/v1/user_books/:userID", func(c *gin.Context) {
 		id := c.Param("userID")
 		c.JSON(http.StatusOK, ms.UserBooks(id))

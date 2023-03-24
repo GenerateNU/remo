@@ -12,6 +12,7 @@ type MsModel struct {
 
 type Model interface {
 	Book(string) Book
+	AllBooks() []Book
 	UserBooks(string) []Book
 	UserByEmail(string) (User, error)
 	UserByID(string) User
@@ -30,6 +31,16 @@ func (m *MsModel) Book(id string) Book {
 }
 func (m *MsModel) UserBooks(id string) []Book {
 	books, err := GetUserBooksFromDB(m.Conn, id)
+
+	if err != nil {
+		panic(err)
+	}
+
+	return books
+}
+
+func (m *MsModel) AllBooks() []Book {
+	books, err := GetAllBooksFromDB(m.Conn)
 
 	if err != nil {
 		panic(err)
