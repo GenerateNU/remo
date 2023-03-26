@@ -57,17 +57,14 @@ export default function GoogleSSO() {
 
       try {
         // console.log("hello")
-        var res = await fetch(
-          "https://e8ac-2601-197-701-1030-e8be-e202-d14c-b4c4.ngrok.io/v1/login",
-          {
-            method: "POST",
-            credentials: "include",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify({ credential: authentication?.idToken }),
-          }
-        );
+        var res = await fetch("https://a0a0-155-33-135-17.ngrok.io/v1/login", {
+          method: "POST",
+          credentials: "include",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ credential: authentication?.idToken }),
+        });
 
         var text = await res.text();
         console.log("RESPONSE", text);

@@ -18,9 +18,7 @@ export default function AddReadingLog({ navigation }) {
   const data = route.params?.data;
 
   useEffect(() => {
-    fetch(
-      `https://e8ac-2601-197-701-1030-e8be-e202-d14c-b4c4.ngrok.io/v1/user_books/${data.id}`
-    )
+    fetch(`https://a0a0-155-33-135-17.ngrok.io/v1/user_books/${data.id}`)
       .then((response) => response.json())
       .then((data) => setBooks(data.slice(0, 4)));
   }, []);
