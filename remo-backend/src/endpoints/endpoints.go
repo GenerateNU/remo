@@ -1,7 +1,9 @@
 package endpoints
 
 import (
+	"log"
 	"net/http"
+	a "remo/backend/graph"
 	"remo/backend/src/model"
 	"remo/backend/src/utils"
 
@@ -96,9 +98,15 @@ func (ms *MsController) Serve() *gin.Engine {
 		})
 	})
 
+	// Getting book byID using resolver
 	r.GET("/v1/books/:bookId", func(c *gin.Context) {
 		id := c.Param("bookId")
-		c.JSON(http.StatusOK, ms.Book(id))
+		resolver := &a.QueryResolver{} // instantiate a new queryResolver object
+		book, err := resolver.GetBookByID(c.Request.Context(), id)
+		if err != nil {
+			log.Printf("GetBookByID failed: %v", err)
+		}
+		c.JSON(http.StatusOK, book)
 	})
 
 	r.POST("/v1/addBook", func(c *gin.Context) {
