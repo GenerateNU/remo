@@ -65,6 +65,32 @@ func GetUserBooksFromDB(pool *sql.DB, user_id string) ([]Book, error) {
 
 	return books, nil
 }
+
+func GetAllBooksFromDB(pool *sql.DB) ([]Book, error) {
+	rows, err := pool.Query("SELECT id, title, author, isbn_10, isbn_13, num_pages, synopsis FROM books;")
+
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+
+	var books []Book
+
+	for rows.Next() {
+		book := Book{}
+		err := rows.Scan(&book.BookId, &book.Title, &book.Author, &book.ISBN_10, &book.ISBN_13, &book.PageCount, &book.Synopsis)
+		if err != nil {
+			return nil, err
+		}
+		books = append(books, book)
+	}
+
+	if err = rows.Err(); err != nil {
+		return []Book{}, nil
+	}
+
+	return books, nil
+}
 func InsertUser(pool *sql.DB, usr User) error {
 	_, err := pool.Exec(fmt.Sprintf("INSERT INTO logins (id, first, last, email) VALUES ('%s','%s','%s', '%s');", strconv.Itoa(usr.ID), usr.FirstName, usr.LastName, usr.Email))
 
@@ -100,9 +126,21 @@ func GetUserByID(pool *sql.DB, user_ID string) (User, error) {
 	return user, nil
 }
 
-// func (user *User) Validate() {
-// 	user.Email = strings.TrimSpace(user.Email)
-// 	if user.Email == "" {
-// 		panic(middleware.NewBadRequestError("invalid email address"))
-// 	}
-// }
+func CheckoutBook(pool *sql.DB, user_ID string, isbn_13 string) error {
+
+	_, err := pool.Exec(fmt.Sprintf("UPDATE books SET default_user_id = '%s' WHERE isbn_13 = '%s'", user_ID, isbn_13))
+
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
+func ReturnBook(pool *sql.DB, isbn_13 string) error {
+	_, err := pool.Exec(fmt.Sprintf("UPDATE books SET default_user_id = '-1' WHERE isbn_13 = '%s'", isbn_13))
+
+	if err != nil {
+		return err
+	}
+	return nil
+}

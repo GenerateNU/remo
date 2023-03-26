@@ -22,9 +22,7 @@ export default function Bookshelf() {
 
   useEffect(() => {
     // var fetch_string = 'https://e8ac-2601-197-701-1030-e8be-e202-d14c-b4c4.ngrok.io/v1/user_books/' + String({data.id});
-    fetch(`https://a0a0-155-33-135-17.ngrok.io/v1/user_books/${data.id}`)
-      // fetch(fetch_string)
-      .then((response) => response.json())
+    fetch(`https://a0a0-155-33-135-17.ngrok.io/v1/user_books/${data.id}`).then((response) => response.json())
       .then((data) => setBooks(data));
   }, []);
   console.log(data.id);

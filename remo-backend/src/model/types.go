@@ -10,6 +10,7 @@ type Book struct {
 	PublishDate string `json:"publish_date" db:"pub_date"`
 	PageCount   string `json:"page_count" db:"num_pages"`
 	Synopsis    string `json:"synopsis" db:"synopsis"`
+	UserID      string `json:"user_id" db:"default_user_id"`
 }
 
 type User struct {

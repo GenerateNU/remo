@@ -83,18 +83,21 @@ const styles = StyleSheet.create({
     alignSelf: "stretch",
     width: "120%",
   },
+
   option: {
     flex: 1,
     margin: 8,
     backgroundColor: "white",
     flexDirection: "row",
   },
+
   text: {
     margin: 15,
     fontSize: 15,
     textAlign: "center",
     fontWeight: "bold",
   },
+
   button: {
     backgroundColor: "white",
     borderRadius: 10,
@@ -103,3 +106,4 @@ const styles = StyleSheet.create({
     margin: 20,
   },
 });
+
