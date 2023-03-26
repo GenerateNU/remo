@@ -5,16 +5,21 @@ import PressableSearch from "../components/pressablecard/pressableSearch";
 import SearchBar from "../components/Search/searchBar";
 import Data from "../components/Search/mock-data.json";
 import { Button } from "@rneui/themed";
+import { useNavigation, useRoute } from "@react-navigation/native";
 
 const SearchScreen = () => {
   const [searchText, setSearchText] = useState("");
   const [data, setData] = useState([]);
 
-  // useEffect(() => {
-  //   fetch("https://c3d7-155-33-134-66.ngrok.io/v1/all_books")
-  //     .then((response) => response.json())
-  //     .then((data) => setData(data));
-  // }, []);
+  const navigation = useNavigation();
+  const route = useRoute();
+  const paramData = route.params?.data;
+
+   useEffect(() => {
+     fetch("https://c3d7-155-33-134-66.ngrok.io/v1/all_books")
+       .then((response) => response.json())
+       .then((data) => setData(data));
+   }, []);
 
   const filterData = () => {
     const filteredItems = Data.filter((item) =>
@@ -37,7 +42,7 @@ const SearchScreen = () => {
 
   return (
     <View style={styles.container}>
-      <SearchBar searchText={searchText} setSearchText={setSearchText} />
+      <SearchBar searchText={searchText} setSearchText={setSearchText} navigation={navigation} data={paramData} />
       <View style={styles.option}>
         <FlatList
           data={filterData()}
