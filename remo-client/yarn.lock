@@ -1555,7 +1555,7 @@
   resolved "https://registry.npmjs.org/@jridgewell/sourcemap-codec/-/sourcemap-codec-1.4.14.tgz"
   integrity sha512-XPSJHWmi394fuUuzDnGz1wiKqWfo1yXecHQMRf2l6hztTO+nPru658AyDngaBe7isIxEkRsPR3FZh+s7iVa4Uw==
 
-"@jridgewell/trace-mapping@^0.3.14", "@jridgewell/trace-mapping@^0.3.9":
+"@jridgewell/trace-mapping@^0.3.17", "@jridgewell/trace-mapping@^0.3.9":
   version "0.3.17"
   resolved "https://registry.npmjs.org/@jridgewell/trace-mapping/-/trace-mapping-0.3.17.tgz"
   integrity sha512-MCNzAp77qzKca9+W/+I0+sEpaUnZoeasnghNeVc41VZCEKaCH73Vq3BZZ/SzWIgrqE4H4ceI+p+b6C0mHf9T4g==
@@ -2005,9 +2005,9 @@
     "@types/estree" "*"
 
 "@types/eslint@*":
-  version "8.21.1"
-  resolved "https://registry.npmjs.org/@types/eslint/-/eslint-8.21.1.tgz"
-  integrity sha512-rc9K8ZpVjNcLs8Fp0dkozd5Pt2Apk1glO4Vgz8ix1u6yFByxfqo5Yavpy65o+93TAe24jr7v+eSBtFLvOQtCRQ==
+  version "8.21.2"
+  resolved "https://registry.npmjs.org/@types/eslint/-/eslint-8.21.2.tgz"
+  integrity sha512-EMpxUyystd3uZVByZap1DACsMXvb82ypQnGn89e1Y0a+LYu3JJscUd/gqhRsVFDkaD2MIiWo0MT8EfXr3DGRKw==
   dependencies:
     "@types/estree" "*"
     "@types/json-schema" "*"
@@ -6964,6 +6964,13 @@ react-lifecycles-compat@^3.0.4:
   resolved "https://registry.npmjs.org/react-lifecycles-compat/-/react-lifecycles-compat-3.0.4.tgz"
   integrity sha512-fBASbA6LnOU9dOU2eW7aQ8xmYBSXUIWr+UmF9b1efZBazGNO+rcXT/icdKnYm2pTwcRylVUYwW7H1PHfLekVzA==
 
+react-native-animatable@1.3.3:
+  version "1.3.3"
+  resolved "https://registry.npmjs.org/react-native-animatable/-/react-native-animatable-1.3.3.tgz"
+  integrity sha512-2ckIxZQAsvWn25Ho+DK3d1mXIgj7tITkrS4pYDvx96WyOttSvzzFeQnM2od0+FUMzILbdHDsDEqZvnz1DYNQ1w==
+  dependencies:
+    prop-types "^15.7.2"
+
 react-native-bootstrap-icons@^1.5.0:
   version "1.5.0"
   resolved "https://registry.npmjs.org/react-native-bootstrap-icons/-/react-native-bootstrap-icons-1.5.0.tgz"
@@ -7026,6 +7033,14 @@ react-native-iphone-x-helper@^1.3.0:
   version "1.3.1"
   resolved "https://registry.npmjs.org/react-native-iphone-x-helper/-/react-native-iphone-x-helper-1.3.1.tgz"
   integrity sha512-HOf0jzRnq2/aFUcdCJ9w9JGzN3gdEg0zFE4FyYlp4jtidqU03D5X7ZegGKfT1EWteR0gPBGp9ye5T5FvSWi9Yg==
+
+react-native-modal@^13.0.1:
+  version "13.0.1"
+  resolved "https://registry.npmjs.org/react-native-modal/-/react-native-modal-13.0.1.tgz"
+  integrity sha512-UB+mjmUtf+miaG/sDhOikRfBOv0gJdBU2ZE1HtFWp6UixW9jCk/bhGdHUgmZljbPpp0RaO/6YiMmQSSK3kkMaw==
+  dependencies:
+    prop-types "^15.6.2"
+    react-native-animatable "1.3.3"
 
 react-native-progress-bar@^0.1.2:
   version "0.1.2"
@@ -7140,7 +7155,7 @@ react-native-web@~0.18.9:
     postcss-value-parser "^4.2.0"
     styleq "^0.1.2"
 
-react-native@*, "react-native@^0.0.0-0 || 0.60 - 0.71 || 1000.0.0", react-native@>=0.42.0, react-native@>=0.45.0, react-native@>=0.57, react-native@0.70.5:
+react-native@*, "react-native@^0.0.0-0 || 0.60 - 0.71 || 1000.0.0", react-native@>=0.42.0, react-native@>=0.45.0, react-native@>=0.57, react-native@>=0.65.0, react-native@0.70.5:
   version "0.70.5"
   resolved "https://registry.npmjs.org/react-native/-/react-native-0.70.5.tgz"
   integrity sha512-5NZM80LC3L+TIgQX/09yiyy48S73wMgpIgN5cCv3XTMR394+KpDI3rBZGH4aIgWWuwijz31YYVF5504+9n2Zfw==
@@ -7619,7 +7634,7 @@ serialize-error@6.0.0:
   dependencies:
     type-fest "^0.12.0"
 
-serialize-javascript@^6.0.0:
+serialize-javascript@^6.0.1:
   version "6.0.1"
   resolved "https://registry.npmjs.org/serialize-javascript/-/serialize-javascript-6.0.1.tgz"
   integrity sha512-owoXEFjWRllis8/M1Q+Cw5k8ZH40e3zhp/ovX+Xr/vi1qj6QesbyXXViFbpNvWvPNAD62SutwEXavefrLJWj7w==
@@ -8126,20 +8141,20 @@ terminal-link@^2.1.1:
     supports-hyperlinks "^2.0.0"
 
 terser-webpack-plugin@^5.1.3:
-  version "5.3.6"
-  resolved "https://registry.npmjs.org/terser-webpack-plugin/-/terser-webpack-plugin-5.3.6.tgz"
-  integrity sha512-kfLFk+PoLUQIbLmB1+PZDMRSZS99Mp+/MHqDNmMA6tOItzRt+Npe3E+fsMs5mfcM0wCtrrdU387UnV+vnSffXQ==
+  version "5.3.7"
+  resolved "https://registry.npmjs.org/terser-webpack-plugin/-/terser-webpack-plugin-5.3.7.tgz"
+  integrity sha512-AfKwIktyP7Cu50xNjXF/6Qb5lBNzYaWpU6YfoX3uZicTx0zTy0stDDCsvjDapKsSDvOeWo5MEq4TmdBy2cNoHw==
   dependencies:
-    "@jridgewell/trace-mapping" "^0.3.14"
+    "@jridgewell/trace-mapping" "^0.3.17"
     jest-worker "^27.4.5"
     schema-utils "^3.1.1"
-    serialize-javascript "^6.0.0"
-    terser "^5.14.1"
+    serialize-javascript "^6.0.1"
+    terser "^5.16.5"
 
-terser@^5.14.1:
-  version "5.16.5"
-  resolved "https://registry.npmjs.org/terser/-/terser-5.16.5.tgz"
-  integrity sha512-qcwfg4+RZa3YvlFh0qjifnzBHjKGNbtDo9yivMqMFDy9Q6FSaQWSB/j1xKhsoUFJIqDOM3TsN6D5xbrMrFcHbg==
+terser@^5.16.5:
+  version "5.16.6"
+  resolved "https://registry.npmjs.org/terser/-/terser-5.16.6.tgz"
+  integrity sha512-IBZ+ZQIA9sMaXmRZCUMDjNH0D5AQQfdn4WUjHL0+1lF4TP1IHRJbrhb6fNaXWikrYQTSkb7SLxkeXAiy1p7mbg==
   dependencies:
     "@jridgewell/source-map" "^0.3.2"
     acorn "^8.5.0"
@@ -8585,9 +8600,9 @@ webpack-sources@^3.2.3:
   integrity sha512-/DyMEOrDgLKKIG0fmvtz+4dUX/3Ghozwgm6iPp8KRhvn+eQf9+Q7GWxVNMk3+uCPWfdXYC4ExGBckIXdFEfH1w==
 
 webpack@^5.0.0, webpack@^5.1.0:
-  version "5.75.0"
-  resolved "https://registry.npmjs.org/webpack/-/webpack-5.75.0.tgz"
-  integrity sha512-piaIaoVJlqMsPtX/+3KTTO6jfvrSYgauFVdt8cr9LTHKmcq/AMd4mhzsiP7ZF/PGRNPGA8336jldh9l2Kt2ogQ==
+  version "5.76.2"
+  resolved "https://registry.npmjs.org/webpack/-/webpack-5.76.2.tgz"
+  integrity sha512-Th05ggRm23rVzEOlX8y67NkYCHa9nTNcwHPBhdg+lKG+mtiW7XgggjAeeLnADAe7mLjJ6LUNfgHAuRRh+Z6J7w==
   dependencies:
     "@types/eslint-scope" "^3.7.3"
     "@types/estree" "^0.0.51"

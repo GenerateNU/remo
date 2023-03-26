@@ -1,13 +1,13 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from "react";
 import {
   View,
   Text,
   StyleSheet,
   ScrollView,
   TouchableOpacity,
-  Alert
-} from 'react-native';
-import { useNavigation, useRoute } from '@react-navigation/native';
+  Alert,
+} from "react-native";
+import { useNavigation, useRoute } from "@react-navigation/native";
 
 export default function ReadingLog({ navigation }) {
   const [books, setBooks] = useState([]);
@@ -16,15 +16,15 @@ export default function ReadingLog({ navigation }) {
 
   const route = useRoute();
   const data = route.params?.data;
-  
+
   useEffect(() => {
-    fetch("https://00a6-155-33-134-66.ngrok.io/v1/user_books/${data.id}")
+    fetch(`https://a0a0-155-33-135-17.ngrok.io/v1/user_books/${data.id}`)
       .then((response) => response.json())
-      .then((data) => setBooks(data.slice(0,4)));
+      .then((data) => setBooks(data.slice(0, 4)));
   }, []);
 
   const onBookPress = () => {
-    navigation.navigate('AddReadingLog', {data:data});
+    navigation.navigate("AddReadingLog", { data: data });
   };
   return (
     <ScrollView>
@@ -41,10 +41,10 @@ export default function ReadingLog({ navigation }) {
                 selectedBook && selectedBook.id === book.id && styles.selected,
               ]}
               onPress={() => {
-                setSelectedBook(book)
-                setShowPopup(true)
+                setSelectedBook(book);
+                setShowPopup(true);
               }}
-              >
+            >
               <>
                 <Text style={styles.title}>{book.title}</Text>
                 <Text style={styles.author}>{book.author}</Text>
@@ -52,12 +52,11 @@ export default function ReadingLog({ navigation }) {
               </>
             </TouchableOpacity>
           ))}
-        {selectedBook && (
-        Alert.alert(
-          selectedBook.title,
-          `Author: ${selectedBook.author}\nISBN-13: ${selectedBook.isbn_13}\nSynopsis: ${selectedBook.synopsis}`
-        )
-      )}
+          {selectedBook &&
+            Alert.alert(
+              selectedBook.title,
+              `Author: ${selectedBook.author}\nISBN-13: ${selectedBook.isbn_13}\nSynopsis: ${selectedBook.synopsis}`
+            )}
         </View>
       </ScrollView>
       <View style={styles.header}>
@@ -72,11 +71,11 @@ export default function ReadingLog({ navigation }) {
                 styles.book,
                 selectedBook && selectedBook.id === book.id && styles.selected,
               ]}
-              >
+            >
               <>
-                <Text style={styles.title}>Book         </Text>
-                <Text style={styles.author}>Author          </Text>
-                <Text style={styles.isbn}>Date          </Text>
+                <Text style={styles.title}>Book </Text>
+                <Text style={styles.author}>Author </Text>
+                <Text style={styles.isbn}>Date </Text>
               </>
             </TouchableOpacity>
           ))}
@@ -84,7 +83,7 @@ export default function ReadingLog({ navigation }) {
       </ScrollView>
       <TouchableOpacity style={styles.button} onPress={() => onBookPress()}>
         <Text style={styles.buttonText}>Add Reading Log</Text>
-    </TouchableOpacity>
+      </TouchableOpacity>
     </ScrollView>
   );
 }
@@ -92,40 +91,40 @@ export default function ReadingLog({ navigation }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    justifyContent: 'space-between',
+    flexDirection: "row",
+    flexWrap: "wrap",
+    justifyContent: "space-between",
     padding: 20,
   },
   header: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
     paddingHorizontal: 20,
     paddingVertical: 10,
     borderBottomWidth: 1,
-    borderBottomColor: '#ccc',
+    borderBottomColor: "#ccc",
   },
   header_title: {
     fontSize: 24,
-    fontWeight: 'bold',
+    fontWeight: "bold",
   },
   count: {
     fontSize: 18,
   },
   book: {
-    width: '22%',
+    width: "22%",
     marginBottom: 5,
     borderWidth: 1,
-    borderColor: '#ccc',
+    borderColor: "#ccc",
     padding: 1,
   },
   selected: {
-    borderColor: 'blue',
+    borderColor: "blue",
   },
   title: {
     fontSize: 16,
-    fontWeight: 'bold',
+    fontWeight: "bold",
   },
   author: {
     fontSize: 14,
@@ -136,17 +135,17 @@ const styles = StyleSheet.create({
     marginBottom: 5,
   },
   button: {
-    backgroundColor: 'black',
+    backgroundColor: "black",
     height: 50,
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: "center",
+    alignItems: "center",
     marginHorizontal: 20,
     marginVertical: 10,
     borderRadius: 10,
   },
   buttonText: {
-    color: 'white',
+    color: "white",
     fontSize: 18,
-    fontWeight: 'bold',
+    fontWeight: "bold",
   },
 });

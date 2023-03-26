@@ -13,16 +13,16 @@ import Profile from "../../screens/profile";
 import { useNavigation } from "@react-navigation/native";
 
 export default function NavBar({ navigation, data }) {
-  const navigateBarcode = () => {
-    navigation.navigate("BarcodeScanner", {
+  const navigateSearch = () => {
+    navigation.navigate("Search", {
       data: data,
     });
   };
   const navigateBookshelf = () => {
-    navigation.navigate("Bookshelf", {data:data});
+    navigation.navigate("Bookshelf", { data: data });
   };
   const navigateReadinglog = () => {
-    navigation.navigate("ReadingLog", {data:data});
+    navigation.navigate("ReadingLog", { data: data });
   };
   return (
     <View style={styles.navbar}>
@@ -39,7 +39,7 @@ export default function NavBar({ navigation, data }) {
           style={styles.icon}
           name="search1"
           size={40}
-          onPress={navigateBarcode}
+          onPress={navigateSearch}
         />
       </View>
       <View>
