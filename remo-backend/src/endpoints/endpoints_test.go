@@ -14,4 +14,7 @@ func TestBooks(t *testing.T) {
 	// 		Author: "test-author",
 	// 	},
 	// }, b)
+
+	var controller = MsController{}
+	controller.Serve()
 }

@@ -159,6 +159,7 @@ func (r *mutationResolver) CreateNewReadingRateResults(ctx context.Context, inpu
 // GetBookByID is the resolver for the getBookByID field.
 func (r *queryResolver) GetBookByID(ctx context.Context, id string) (*model.Book, error) {
 	var book model.Book
+	// PUT FILLER VALUES ^
 
 	row := DB.QueryRow("SELECT * FROM books WHERE id = ?", id)
 
