@@ -4,24 +4,26 @@ import {
   View,
   StyleSheet,
   Text,
-  TextInput,
-  Pressable,
-  SafeAreaView,
-  ActivityIndicator,
   FlatList,
 } from "react-native";
 import PressableSearch from "../components/pressablecard/pressableSearch";
 import SearchBar from "../components/searchBar";
-import Data from "../components/mock-data.json"
+//import Data from "../components/mock-data.json"
 import { Button } from "@rneui/themed";
 
 const SearchScreen = () => {
  
   const [searchText, setSearchText] = useState("");
+  const [data, setData] = useState([]);
+
+  useEffect(() => {
+    fetch("https://00a6-155-33-134-66.ngrok.io/v1/all_books")
+      .then(response => response.json())
+      .then(data => setData(data))
+  }, []);
 
   const filterData = () => {
-
-    const filteredItems = Data.filter((item) =>
+    const filteredItems = data.filter((item) =>
     item.title.toLowerCase().includes(searchText.toLowerCase())
   );
   if (filteredItems.length === 0) {
@@ -50,7 +52,7 @@ const SearchScreen = () => {
         renderItem={renderItem}
         ListEmptyComponent={
         <View>
-         <Text style={styles.none}> Don't See What You're Looking For? </Text>
+         <Text style={styles.text}> Don't See What You're Looking For? </Text>
          <Button titleStyle={{color: "black", fontSize: 17}} title="Search for More Books Here"  buttonStyle={styles.button}  />
         </View>}
       />
@@ -80,7 +82,7 @@ const styles = StyleSheet.create({
     backgroundColor: "white",
    flexDirection: "row",
   }, 
-  none: {
+  text: {
     margin: 15,
     fontSize: 15,
     textAlign: "center",

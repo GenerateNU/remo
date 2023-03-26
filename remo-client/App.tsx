@@ -33,7 +33,7 @@ export default function App() {
         <Stack.Screen name="AddReadingLog" component={AddReadingLog} />
         <Stack.Screen name="PostReadingLog" component={PostReadingLog} />
         <Stack.Screen name="ReadingLogDisplay" component={ReadingLogDisplay} />
-        <Stack.Screen name=" " component={Searchbar} />
+        <Stack.Screen name="Search" component={Searchbar} />
       </Stack.Navigator>
     </NavigationContainer>
   );
