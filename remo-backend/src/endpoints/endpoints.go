@@ -21,6 +21,12 @@ type MsController struct {
 
 const audience string = "146112178699-kj35h882rr6711tflocnoodhquqtcv0f.apps.googleusercontent.com"
 
+// SETUP VARIABLES
+
+var resolver = graph.Resolver{}
+var qResolver = resolver.Query()
+var mResolver = resolver.Mutation()
+
 // Everything above here is going to move to a  folder (controller layer)
 func (ms *MsController) Serve() *gin.Engine {
 	r := gin.Default()
@@ -101,8 +107,7 @@ func (ms *MsController) Serve() *gin.Engine {
 	// Getting book byID using resolver
 	r.GET("/v1/books/:bookId", func(c *gin.Context) {
 		id := c.Param("bookId")
-		var resolver = graph.QueryResolver.GetBookByID(c.Request.Context(), id) // instantiate a new queryResolver object
-		book, err := resolver.GetBookByID(c.Request.Context(), id)
+		book, err := qResolver.GetBookByID(c.Request.Context(), id)
 		if err != nil {
 			log.Printf("GetBookByID failed: %v", err)
 		}
