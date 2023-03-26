@@ -132,7 +132,7 @@ export default function BookInfo() {
       <View
         style={{
           flex: 3,
-          flexDirection: "row",
+          flexDirection: "column",
           justifyContent: "center",
           alignItems: "flex-end",
           width: "100%",
@@ -165,7 +165,7 @@ const styles = StyleSheet.create({
     paddingRight: 25,
   },
   button: {
-    width: 150,
+    width: "100%",
     color: "black",
     borderRadius: "20%",
     borderWidth: 1,
