@@ -3,7 +3,6 @@ import React, { useState, useEffect } from "react";
 import { View, StyleSheet, Text, FlatList } from "react-native";
 import PressableSearch from "../components/pressablecard/pressableSearch";
 import SearchBar from "../components/Search/searchBar";
-import Data from "../components/Search/mock-data.json";
 import { Button } from "@rneui/themed";
 import { useNavigation, useRoute } from "@react-navigation/native";
 
@@ -16,13 +15,13 @@ const SearchScreen = () => {
   const paramData = route.params?.data;
 
    useEffect(() => {
-     fetch("https://c3d7-155-33-134-66.ngrok.io/v1/all_books")
+     fetch("https://fb40-155-33-134-66.ngrok.io/v1/all_books")
        .then((response) => response.json())
        .then((data) => setData(data));
    }, []);
 
   const filterData = () => {
-    const filteredItems = Data.filter((item) =>
+    const filteredItems = data.filter((item) =>
       item.title.toLowerCase().includes(searchText.toLowerCase())
     );
     if (filteredItems.length === 0) {
