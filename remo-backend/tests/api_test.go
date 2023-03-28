@@ -142,4 +142,9 @@ func TestGetBookByID2(t *testing.T) {
 		t.Errorf("expected body %s but got %s", expected, w.Body.String())
 	}
 
+	// // Check the response status code
+	// if w.Code != http.StatusNotFound {
+	// 	t.Errorf("expected status code %d but got %d", http.StatusNotFound, w.Code)
+	// }
+
 }
