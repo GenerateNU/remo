@@ -94,3 +94,44 @@ func TestGetUserByID(t *testing.T) {
 	}
 	assert.Equal(t, test_user, user)
 }
+
+func TestGetBookByID(t *testing.T) {
+	conn, err := sql.Open("mysql", "remo:pwd@tcp(localhost:3333)/remodb")
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "Unable to connect to database: %v\n", err)
+		os.Exit(1)
+	}
+
+	defer conn.Close()
+
+	m := &model.MsModel{
+		Conn: conn,
+	}
+	c := &e.MsController{
+		Model: m,
+	}
+	router := c.Serve()
+
+	w := httptest.NewRecorder()
+
+	req, _ := http.NewRequest("GET", "/v1/books/5000", nil)
+
+	router.ServeHTTP(w, req)
+
+	assert.Equal(t, 200, w.Code)
+
+	var book model.Book
+
+	if e := json.Unmarshal(w.Body.Bytes(), &book); e != nil {
+		panic(err)
+	}
+
+	test_book := model.Book{
+		BookId:  "5000",
+		Title:   "Into the Unknown",
+		Author:  "Stewart Ross",
+		ISBN_13: "9780763669928",
+		ISBN_10: "076366992X",
+	}
+	assert.Equal(t, test_book, book)
+}
