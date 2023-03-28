@@ -238,12 +238,73 @@ func (r *queryResolver) Teachers(ctx context.Context) ([]*model.Teacher, error) 
 func (r *queryResolver) GetUserByID(ctx context.Context, id string) (*model.User, error) {
 	var user model.User
 
-	row := DB.QueryRow("SELECT * FROM user_books WHERE id = ?", id)
+	row := DB.QueryRow(`SELECT 
+	COALESCE(id,'0'),
+	COALESCE(student_id,'0'),
+	COALESCE(student_app_id,'0'),
+	COALESCE(student_calpads_ssid,'0'),
+	COALESCE(student_login_id,'0'),
+	COALESCE(first_name,''),
+	COALESCE(middle_name,''),
+	COALESCE(last_name,''),
+	COALESCE(date_created,0),
+	COALESCE(date_updated,0),
+	COALESCE(preferred_name,''),
+	COALESCE(gender,0),
+	COALESCE(pronoun,0),
+	COALESCE(birth_date,''),
+	COALESCE(grade_level,0),
+	COALESCE(grade_movement,0),
+	COALESCE(guided_reading_level,'0'),
+	COALESCE(rti_srv_type,0),
+	COALESCE(student_services,''),
+	COALESCE(rti_services,''),
+	COALESCE(specialized_courses,''),
+	COALESCE(grade_level_status,0),
+	COALESCE(lexile_level_min,0),
+	COALESCE(lexile_level_max,0),
+	COALESCE(type,0),
+	COALESCE(weakness,0),
+	COALESCE(reader_type,0),
+	COALESCE(reading_stage,0),
+	COALESCE(ethnicity,0),
+	COALESCE(avatar,''),
+	COALESCE(backup_avatar,'')	FROM student_info WHERE id = ?`, id)
+
+	//COALESCE(self_assessment,0), COALESCE(reader_non_reader,0), COALESCE(read_goal,0),
+	// COALESCE(type_of_reading,0),	COALESCE(book_finish,0), COALESCE(read_speed,0)
 
 	if err := row.Scan(&user.ID,
+		&user.StudentID,
+		&user.StudentAppID,
+		&user.StudentCalpadsSsid,
+		&user.StudentLoginID,
 		&user.FirstName,
+		&user.MiddleName,
 		&user.LastName,
-		&user.Email); err != nil {
+		&user.DateCreated,
+		&user.DateUpdated,
+		&user.PreferredName,
+		&user.Gender,
+		&user.Pronoun,
+		&user.BirthDate,
+		&user.GradeLevel,
+		&user.GradeMovement,
+		&user.GuidedReadingLevel,
+		&user.RtiSrvType,
+		&user.StudentServices,
+		&user.RtiServices,
+		&user.SpecializedCourses,
+		&user.GradeLevelStatus,
+		&user.LexileLevelMin,
+		&user.LexileLevelMax,
+		&user.Type,
+		&user.Weakness,
+		&user.ReaderType,
+		&user.ReadingStage,
+		&user.Ethnicity,
+		&user.Avatar,
+		&user.BackupAvatar); err != nil {
 		if err == sql.ErrNoRows {
 			var mtUser *model.User
 			return mtUser, fmt.Errorf("GetUserByID %q: no such user", id)

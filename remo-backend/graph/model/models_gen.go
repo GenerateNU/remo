@@ -55,10 +55,43 @@ type NewTeacher struct {
 }
 
 type User struct {
-	ID        string `json:"id"`
-	FirstName string `json:"first_name"`
-	LastName  string `json:"last_name"`
-	Email     string `json:"email"`
+	ID                 string  `json:"id"`
+	StudentID          string  `json:"student_id"`
+	StudentAppID       string  `json:"student_app_id"`
+	StudentCalpadsSsid *string `json:"student_calpads_ssid"`
+	StudentLoginID     *int    `json:"student_login_id"`
+	FirstName          string  `json:"first_name"`
+	MiddleName         string  `json:"middle_name"`
+	LastName           string  `json:"last_name"`
+	DateCreated        *int    `json:"date_created"`
+	DateUpdated        *int    `json:"date_updated"`
+	PreferredName      *string `json:"preferred_name"`
+	Gender             *int    `json:"gender"`
+	Pronoun            *int    `json:"pronoun"`
+	BirthDate          *string `json:"birth_date"`
+	GradeLevel         *int    `json:"grade_level"`
+	GradeMovement      *int    `json:"grade_movement"`
+	GuidedReadingLevel *string `json:"guided_reading_level"`
+	RtiSrvType         *int    `json:"rti_srv_type"`
+	StudentServices    *string `json:"student_services"`
+	RtiServices        *string `json:"rti_services"`
+	SpecializedCourses *string `json:"specialized_courses"`
+	GradeLevelStatus   *int    `json:"grade_level_status"`
+	LexileLevelMin     *int    `json:"lexile_level_min"`
+	LexileLevelMax     *int    `json:"lexile_level_max"`
+	Type               *int    `json:"type"`
+	Weakness           *int    `json:"weakness"`
+	ReaderType         *int    `json:"reader_type"`
+	ReadingStage       *int    `json:"reading_stage"`
+	Ethnicity          *int    `json:"ethnicity"`
+	Avatar             *string `json:"avatar"`
+	BackupAvatar       *string `json:"backup_avatar"`
+	SelfAssessment     *int    `json:"self_assessment"`
+	ReaderNonReader    *int    `json:"reader_non_reader"`
+	ReadGoal           *int    `json:"read_goal"`
+	TypeOfReading      *int    `json:"type_of_reading"`
+	BookFinish         *int    `json:"book_finish"`
+	ReadSpeed          *int    `json:"read_speed"`
 }
 
 type NewReadingRateResults struct {

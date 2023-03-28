@@ -101,9 +101,44 @@ type Classroom {
 
 type User {
     id: ID!
+    student_id: ID!
+    student_app_id: ID!
+    student_calpads_ssid: String
+    student_login_id: Int
     first_name: String!
+    middle_name: String!
     last_name: String!
-    email: String!
+    date_created: Int
+    date_updated: Int
+    preferred_name: String
+    gender: Int
+    pronoun: Int
+    birth_date: String
+    grade_level: Int
+    grade_movement: Int
+    guided_reading_level: String
+    rti_srv_type: Int
+    student_services: String
+    rti_services: String
+    specialized_courses: String
+    grade_level_status: Int
+    lexile_level_min: Int
+    lexile_level_max: Int
+    type: Int
+    weakness: Int
+    reader_type: Int
+    reading_stage: Int
+    ethnicity: Int
+    avatar: String
+    backup_avatar: String
+    self_assessment: Int
+    reader_non_reader: Int
+    read_goal: Int
+    type_of_reading: Int
+    book_finish: Int
+    read_speed: Int
+
+
 }
 
 type ReadingRateResult {
