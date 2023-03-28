@@ -28,12 +28,77 @@ export default function Bookshelf() {
   console.log(data.id);
   console.log(books);
 
+  // TO DO: get proper data representation for 
+  // checked out books and recently read books 
+  const checkedOutBooks; 
+  const recentlyReadBooks; 
+
   return (
     <ScrollView>
       <View style={styles.header}>
         <Text style={styles.header_title}>Bookshelf</Text>
         <Text style={styles.count}>{books.length} Books</Text>
       </View>
+
+      {/* Representing the block to handle checkedOutBooks */}
+      {//checkedOutBooks.length 
+      (
+        <View style={styles.section}>
+          <Text style={styles.sectionTitle}>Checked Out Books</Text>
+          <View style={styles.container}>
+            {checkedOutBooks.map((book) => (
+              <TouchableHighlight
+                key={book.id}
+                style={[
+                  styles.book,
+                  selectedBook && selectedBook.id === book.id && styles.selected,
+                ]}
+                underlayColor="#ccc"
+                onPress={() => {
+                  setSelectedBook(book)
+                  setShowPopup(true)
+                }}>
+                <>
+                  <Text style={styles.title}>{book.title}</Text>
+                  <Text style={styles.author}>{book.author}</Text>
+                  <Text style={styles.isbn}>ISBN-13: {book.isbn_13}</Text>
+                </>
+              </TouchableHighlight>
+            ))}
+          </View>
+        </View>
+      )}
+
+
+       {/* Representing the block to handle recentlyReadBooks */}
+       {//recentlyReadBooks.length 
+       (
+        <View style={styles.section}>
+          <Text style={styles.sectionTitle}>Recently Read Books</Text>
+          <View style={styles.container}>
+            {recentlyReadBooks.map((book) => (
+              <TouchableHighlight
+                key={book.id}
+                style={[
+                  styles.book,
+                  selectedBook && selectedBook.id === book.id && styles.selected,
+                ]}
+                underlayColor="#ccc"
+                onPress={() => {
+                  setSelectedBook(book)
+                  setShowPopup(true)
+                }}>
+                <>
+                  <Text style={styles.title}>{book.title}</Text>
+                  <Text style={styles.author}>{book.author}</Text>
+                  <Text style={styles.isbn}>ISBN-13: {book.isbn_13}</Text>
+                </>
+              </TouchableHighlight>
+            ))}
+          </View>
+        </View>
+      )}
+      
       <View style={styles.container}>
         {books.map((book) => (
           <TouchableHighlight
