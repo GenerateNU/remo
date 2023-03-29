@@ -30,6 +30,7 @@ export default function Bookshelf() {
   }, []);
   console.log(data.id);
   console.log(books);
+  console.log("The length is; ", books.length);
 
   return (
     <ScrollView>

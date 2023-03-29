@@ -3,7 +3,7 @@ import { useState } from "react";
 import { StyleSheet, View, Image, Text, ScrollView } from "react-native";
 import { Button } from "@rneui/themed";
 import Modal from "react-native-modal";
-import { checkoutBook } from "../services/book-services";
+import { checkoutBook, findUserBooks } from "../services/book-services";
 
 export default function BookInfo() {
   const navigation = useNavigation();
@@ -11,12 +11,20 @@ export default function BookInfo() {
   const data = route.params?.data;
   console.log(data);
 
+  const [books, setBooks] = useState([]);
+
+  const findBooks = async () => {
+    const userBooks = await findUserBooks(data.id);
+    setBooks(userBooks);
+  };
+
   const checkout = async () => {
     console.log("got here");
     const response = await checkoutBook({
       barcode: data.barcode,
       user: data.id,
     });
+    console.log(response.data);
   };
 
   const exit = () => {

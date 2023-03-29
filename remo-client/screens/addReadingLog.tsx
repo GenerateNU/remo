@@ -9,6 +9,7 @@ import {
   Alert,
   TouchableOpacity,
 } from "react-native";
+import { findUserBooks } from "../services/book-services";
 
 export default function AddReadingLog({ navigation }) {
   const [books, setBooks] = useState([]);
@@ -18,10 +19,13 @@ export default function AddReadingLog({ navigation }) {
   const data = route.params?.data;
 
   useEffect(() => {
-    fetch(`https://bbf3-155-33-132-9.ngrok.io/v1/user_books/${data.id}`)
-      .then((response) => response.json())
-      .then((data) => setBooks(data.slice(0, 4)));
+    getReadingLogBooks();
   }, []);
+  const getReadingLogBooks = async () => {
+    let readingLogBooks = await findUserBooks(data.id);
+    readingLogBooks = readingLogBooks.slice(0, 4);
+    setBooks(readingLogBooks);
+  };
 
   const onLogPress = () => {
     navigation.navigate("Timer", { data: selectedBook });
