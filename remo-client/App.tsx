@@ -6,7 +6,7 @@ import GoogleSSO from "./screens/googleSSO";
 import Bookshelf from "./screens/bookshelf";
 import Profile from "./screens/profile";
 import Onboarding from "./screens/onboarding";
-import Notification from "./screens/notification";
+import Notification from "./screens/notify";
 import Timer from "./screens/timer";
 import ReadingLog from "./screens/readinglog";
 import AddReadingLog from "./screens/addReadingLog";
@@ -21,8 +21,8 @@ export default function App() {
   return (
     <NavigationContainer>
       <Stack.Navigator>
-        <Stack.Screen name="GoogleSSO" component={GoogleSSO} />
         <Stack.Screen name="Notification" component={Notification} />
+        <Stack.Screen name="GoogleSSO" component={GoogleSSO} />
         <Stack.Screen name="Home" component={Home} />
         <Stack.Screen name="BarcodeScanner" component={BarcodeScanner} />
         <Stack.Screen name="Profile" component={Profile} />
