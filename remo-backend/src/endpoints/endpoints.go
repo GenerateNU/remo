@@ -107,7 +107,7 @@ func (ms *MsController) Serve() *gin.Engine {
 	// Getting book byID using resolver
 	r.GET("/v1/books/:bookId", func(c *gin.Context) {
 		id := c.Param("bookId")
-		book, err := qResolver.GetBookByID(c.Request.Context(), id)
+		book, err := qResolver.GetBookByID(c, id)
 		if err != nil {
 			log.Printf("GetBookByID failed: %v", err)
 		}
