@@ -11,7 +11,7 @@ export default function BookInfo() {
   console.log(data);
 
   const exit = () => {
-    navigation.navigate("BarcodeScanner", { data: data });
+    navigation.navigate(data.pageVisited, { data: data });
   };
 
   const [isVisible, setVisible] = useState(false);
