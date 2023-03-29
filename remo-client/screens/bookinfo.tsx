@@ -3,12 +3,21 @@ import { useState } from "react";
 import { StyleSheet, View, Image, Text, ScrollView } from "react-native";
 import { Button } from "@rneui/themed";
 import Modal from "react-native-modal";
+import { checkoutBook } from "../services/book-services";
 
 export default function BookInfo() {
   const navigation = useNavigation();
   const route = useRoute();
   const data = route.params?.data;
   console.log(data);
+
+  const checkout = async () => {
+    console.log("got here");
+    const response = await checkoutBook({
+      barcode: data.barcode,
+      user: data.id,
+    });
+  };
 
   const exit = () => {
     navigation.navigate(data.pageVisited, { data: data });
@@ -21,6 +30,7 @@ export default function BookInfo() {
   };
 
   const modalClose = () => {
+    checkout();
     setVisible(false);
   };
 

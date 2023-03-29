@@ -14,3 +14,8 @@ export const checkoutBook = async ({ barcode, user }: BookUser) => {
   );
   return response.data;
 };
+
+export const findUserBooks = async (id: string) => {
+  const response = await axios.get(`${API_URL}/v1/user_books/${id}`);
+  return response.data;
+};
