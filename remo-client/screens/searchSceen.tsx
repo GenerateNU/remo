@@ -1,6 +1,6 @@
 // Home.js
 import React, { useState, useEffect } from "react";
-import { View, StyleSheet, Text, FlatList } from "react-native";
+import { View, StyleSheet, Text, FlatList, TouchableOpacity } from "react-native";
 import PressableSearch from "../components/pressablecard/pressableSearch";
 import SearchBar from "../components/Search/searchBar";
 import Data from "../components/mock-data.json";
@@ -8,6 +8,7 @@ import { Button } from "@rneui/themed";
 import { useNavigation, useRoute } from "@react-navigation/native";
 import { findAllBooks } from "../services/book-services";
 
+// TODO: optimize loading and searching
 const SearchScreen = () => {
 
   const [searchText, setSearchText] = useState("");
@@ -51,7 +52,12 @@ const SearchScreen = () => {
     };
     return (
       <View style={styles.option}>
-        <Button onPress={() => navigation.navigate("BookInfo", {data: newData,})}>{item.title}</Button>
+        {/* <TouchableOpacity style={styles.button} onPress={onPress}>
+      <Text style={styles.text}>{title}</Text>
+    </TouchableOpacity> */}
+        <TouchableOpacity style={styles.bookbutton} onPress={() => navigation.navigate("BookInfo", {data: newData,})}>
+          <Text style={styles.booktext}>{item.title}</Text>
+        </TouchableOpacity>
       </View>
     );
   };
@@ -125,5 +131,17 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: "black",
     margin: 20,
+  },
+  bookbutton: {
+    backgroundColor: '#e0e0e0',
+    borderRadius: 8,
+    width: 110,
+    height: 50,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  booktext: {
+    fontSize: 10,
+    fontWeight: 'bold',
   },
 });
