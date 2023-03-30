@@ -13,6 +13,7 @@ import PostReadingLog from "./screens/postReading";
 import ReadingLogDisplay from "./screens/readinLogDisplay";
 import SearchScreen from "./screens/searchSceen";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import Register from "./screens/register";
 import BookInfo from "./screens/bookinfo";
 
 const Stack = createNativeStackNavigator();
@@ -21,8 +22,9 @@ export default function App() {
   return (
     <NavigationContainer>
       <Stack.Navigator>
-        <Stack.Screen name="GoogleSSO" component={GoogleSSO} />
         <Stack.Screen name="Home" component={Home} />
+        <Stack.Screen name="GoogleSSO" component={GoogleSSO} />
+        <Stack.Screen name="Register" component={Register} />
         <Stack.Screen name="BarcodeScanner" component={BarcodeScanner} />
         <Stack.Screen name="Profile" component={Profile} />
         <Stack.Screen name="Onboarding" component={Onboarding} />

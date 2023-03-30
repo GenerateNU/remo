@@ -173,6 +173,38 @@ func (ms *MsController) Serve() *gin.Engine {
 		c.JSON(http.StatusOK, book.BookId)
 	})
 
+	r.POST("/v1/onboarding_questions/:user_Id", func(c *gin.Context) {
+		var questions model.OnboardingQuestions
+		user_id := c.Param("user_Id")
+
+		if err := c.BindJSON(&questions); err != nil {
+			c.JSON(http.StatusBadRequest, "Failed to unmarshal questions")
+			return
+		}
+
+		err := ms.AddOnboardingQuestions(user_id, questions)
+
+		if err != nil {
+			c.JSON(http.StatusBadRequest, "Failed to register questions")
+			panic(err)
+		}
+
+		c.JSON(http.StatusOK, "success")
+	})
+
+	r.GET("/v1/check_onboarded/:user_Id", func(c *gin.Context) {
+		user_id := c.Param("user_Id")
+
+		check, err := ms.CheckOnboarded(user_id)
+
+		if check != "onboarded" {
+			c.JSON(http.StatusBadRequest, "Failed to check onboarded user")
+			panic(err)
+		}
+
+		c.JSON(http.StatusOK, "onboarded")
+	})
+
 	//protected endpoint group (uses middelware below)
 	protected := r.Group("/protected")
 	//sets up middleware for this protected endpoint
