@@ -9,12 +9,14 @@ import { useNavigation, useRoute } from "@react-navigation/native";
 import { findAllBooks } from "../services/book-services";
 
 const SearchScreen = () => {
+
   const [searchText, setSearchText] = useState("");
-  const [data, setData] = useState([]);
+  const [books, setData] = useState([]);
 
   const navigation = useNavigation();
   const route = useRoute();
   const paramData = route.params?.data;
+
 
   useEffect(() => {
     allBooks();
@@ -26,7 +28,7 @@ const SearchScreen = () => {
   };
 
   const filterData = () => {
-    const filteredItems = Data.filter((item) =>
+    const filteredItems = books.filter((item) =>
       item.title.toLowerCase().includes(searchText.toLowerCase())
     );
     if (filteredItems.length === 0) {
@@ -37,9 +39,19 @@ const SearchScreen = () => {
   };
 
   const renderItem = ({ item }) => {
+    const newData = {
+      ...paramData,
+      title: item.title,
+      author: item.author,
+      barcode: item.isbn_13,
+      published: item.publish_date,
+      pageCount: item.page_count,
+      synopsis: item.synopsis,
+      pageVisited: "Search",
+    };
     return (
       <View style={styles.option}>
-        <PressableSearch content={item.title} />
+        <Button onPress={() => navigation.navigate("BookInfo", {data: newData,})}>{item.title}</Button>
       </View>
     );
   };

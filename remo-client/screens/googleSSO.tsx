@@ -63,7 +63,6 @@ export default function GoogleSSO() {
 			console.log("woohoo");
 		
 		try {
-			// console.log("hello")
 			var res = await fetch(
 				"https://3187-2601-197-a7f-9c20-19d6-e2aa-ee16-f70e.ngrok.io/v1/login", {
 					method: "POST",
@@ -89,6 +88,7 @@ export default function GoogleSSO() {
 				}
 
 				// NAVIGATE TO NEXT PAGE
+        // TODO: add logic to check if onboarding questions have been submitted
 				navigation.navigate("Profile", {
 					data: googdata
 				})
