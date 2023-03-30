@@ -6,6 +6,7 @@ import SearchBar from "../components/Search/searchBar";
 import Data from "../components/mock-data.json";
 import { Button } from "@rneui/themed";
 import { useNavigation, useRoute } from "@react-navigation/native";
+import { findAllBooks } from "../services/book-services";
 
 const SearchScreen = () => {
   const [searchText, setSearchText] = useState("");
@@ -15,11 +16,14 @@ const SearchScreen = () => {
   const route = useRoute();
   const paramData = route.params?.data;
 
-   useEffect(() => {
-     fetch("https://bbf3-155-33-132-9.ngrok.io/v1/all_books")
-       .then((response) => response.json())
-       .then((data) => setData(data));
-   }, []);
+  useEffect(() => {
+    allBooks();
+  }, []);
+
+  const allBooks = async () => {
+    const books = await findAllBooks();
+    setData(books);
+  };
 
   const filterData = () => {
     const filteredItems = Data.filter((item) =>
@@ -42,7 +46,12 @@ const SearchScreen = () => {
 
   return (
     <View style={styles.container}>
-      <SearchBar searchText={searchText} setSearchText={setSearchText} navigation={navigation} data={paramData} />
+      <SearchBar
+        searchText={searchText}
+        setSearchText={setSearchText}
+        navigation={navigation}
+        data={paramData}
+      />
       <View style={styles.option}>
         <FlatList
           data={filterData()}
@@ -106,4 +115,3 @@ const styles = StyleSheet.create({
     margin: 20,
   },
 });
-

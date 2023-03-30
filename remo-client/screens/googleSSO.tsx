@@ -20,7 +20,6 @@ export default function GoogleSSO() {
   const handleRegister = () => {
 
     navigation.navigate("Register");
-
   };
 	const [request, response, promptAsync] = Google.useAuthRequest({
 		// redirectUri: "localhost:8080",

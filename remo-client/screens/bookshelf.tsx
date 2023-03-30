@@ -8,6 +8,7 @@ import {
   TouchableHighlight,
   Alert,
 } from "react-native";
+import { findUserBooks } from "../services/book-services";
 
 export default function Bookshelf() {
   const [books, setBooks] = useState([]);
@@ -20,13 +21,16 @@ export default function Bookshelf() {
     console.log(data);
   }, []);
 
+  const findBooks = async () => {
+    const userBooks = await findUserBooks(data.id);
+    setBooks(userBooks);
+  };
   useEffect(() => {
-    // var fetch_string = 'https://e8ac-2601-197-701-1030-e8be-e202-d14c-b4c4.ngrok.io/v1/user_books/' + String({data.id});
-    fetch(`https://bbf3-155-33-132-9.ngrok.io/v1/user_books/${data.id}`).then((response) => response.json())
-      .then((data) => setBooks(data));
+    findBooks();
   }, []);
   console.log(data.id);
   console.log(books);
+  console.log("The length is; ", books.length);
 
   return (
     <ScrollView>
