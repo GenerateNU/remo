@@ -23,7 +23,10 @@ export default function Profile() {
   const data = route.params?.data;
   const navigation = useNavigation();
 
-  const [prefferedName, setPrefferedName] = useState(data.prefferedName);
+  // TODO: CHANGE THIS BACK LATER
+  const name = data.firstName + " " + data.lastName;
+
+  const [prefferedName, setPrefferedName] = useState(name);
   const [eth, setEth] = useState(data.eth);
   const [gender, setGender] = useState(data.gender);
 
@@ -86,6 +89,7 @@ export default function Profile() {
         <Text>Preferred Name</Text>
         <TextInput
           onChangeText={setPrefferedName}
+          defaultValue={name}
           value={prefferedName}
           style={styles.input}
         />

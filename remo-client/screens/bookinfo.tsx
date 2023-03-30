@@ -25,6 +25,8 @@ export default function BookInfo() {
       user: data.id,
     });
     console.log(response.data);
+    navigation.navigate("Bookshelf", { data: data });
+    ;
   };
 
   const exit = () => {
