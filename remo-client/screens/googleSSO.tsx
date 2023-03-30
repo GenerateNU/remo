@@ -1,96 +1,106 @@
 import { StatusBar } from "expo-status-bar";
 import React, { useState, useEffect } from "react";
-import { StyleSheet, Text, View, Image, Button } from "react-native";
+import { StyleSheet, Text, View, Image, Button} from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import * as Google from "expo-auth-session/providers/google";
 import AfterSSO from "./afterSSO";
-import { FontAwesome5 } from "@expo/vector-icons";
-import jwt_decode from "jwt-decode";
+import { FontAwesome5 } from '@expo/vector-icons'
+import jwt_decode from 'jwt-decode'
+import PressableCard from "../components/pressablecard/pressablecard";
 
 // import * as WebBrowser from 'expo-web-browser';
 // import { GoogleRectangularButton } from "../../../common/GoogleButton";
 
 export default function GoogleSSO() {
-  const navigation = useNavigation();
+  const navigation = useNavigation();  
+
   const pressHandler = () => {
     navigation.goBack();
   };
+  const handleRegister = () => {
 
-  const [request, response, promptAsync] = Google.useAuthRequest({
-    // redirectUri: "localhost:8080",
-    scopes: [
-      "email",
-      "profile",
-      "openid",
-      "https://www.googleapis.com/auth/userinfo.profile",
-      "https://www.googleapis.com/auth/userinfo.email",
-    ],
-    expoClientId:
-      "146112178699-kj35h882rr6711tflocnoodhquqtcv0f.apps.googleusercontent.com", //get this from google console
-    // iosClientId: 'can obtain once we have bundle id for ios app',
-    // androidClientId: 'can obtain once register android app',
-    webClientId:
-      "146112178699-kj35h882rr6711tflocnoodhquqtcv0f.apps.googleusercontent.com",
-    clientSecret: "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",
-  });
+    navigation.navigate("Register");
 
-  useEffect(() => {
-    sendToBackend();
-  });
-
-  interface GoogleData {
-    first: string;
-    last: string;
-    pic_url: string;
-  }
-
-  var doneWithAuth = false;
-
-  const sendToBackend = async () => {
-    if (response?.type === "success" && doneWithAuth === false) {
-      doneWithAuth = true;
-      const { authentication } = response;
-      // an access token and id token will be returned in the authentication object
-      console.log(authentication?.idToken);
-
-      console.log("woohoo");
-
-      try {
-        // console.log("hello")
-        var res = await fetch("https://bbf3-155-33-132-9.ngrok.io/v1/login", {
-          method: "POST",
-          credentials: "include",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ credential: authentication?.idToken }),
-        });
-
-        var text = await res.text();
-        console.log("RESPONSE", text);
-
-        const decodedHeader = jwt_decode(text);
-        console.log(decodedHeader);
-        const googdata = {
-          // Credential: decodedHeader.Credential,
-          email: decodedHeader.Email,
-          firstName: decodedHeader.FirstName,
-          lastName: decodedHeader.LastName,
-          image: decodedHeader.Picture,
-          id: decodedHeader.ID,
-        };
-
-        // NAVIGATE TO NEXT PAGE
-        navigation.navigate("Onboarding", {
-          data: googdata,
-        });
-      } catch (error) {
-        console.error(error);
-      }
-    }
   };
+	const [request, response, promptAsync] = Google.useAuthRequest({
+		// redirectUri: "localhost:8080",
+		scopes: [
+			"email",
+			"profile",
+			"openid",
+			"https://www.googleapis.com/auth/userinfo.profile",
+			"https://www.googleapis.com/auth/userinfo.email",
+		],
+		expoClientId:
+			"146112178699-kj35h882rr6711tflocnoodhquqtcv0f.apps.googleusercontent.com", //get this from google console
+		// iosClientId: 'can obtain once we have bundle id for ios app',
+		// androidClientId: 'can obtain once register android app',
+		webClientId:
+			"146112178699-kj35h882rr6711tflocnoodhquqtcv0f.apps.googleusercontent.com",
+		clientSecret: "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",
+	});
 
-  return (
+
+	useEffect(() => {
+		sendToBackend();
+	});
+	 
+	interface GoogleData {
+		first: string;
+		last: string;
+		pic_url: string;
+	  }
+
+	var doneWithAuth = false;
+
+	const sendToBackend = async () => {
+		if (response?.type === "success" && doneWithAuth === false) {
+			doneWithAuth = true;
+			const { authentication } = response;
+			// an access token and id token will be returned in the authentication object
+			console.log(authentication?.idToken);
+			
+	
+			console.log("woohoo");
+		
+		try {
+			// console.log("hello")
+			var res = await fetch(
+				"https://7beb-155-33-132-46.ngrok.io/v1/login", {
+					method: "POST",
+					credentials: "include",
+					headers: {
+						'Content-Type': 'application/json',
+					  },
+					body: JSON.stringify({credential: authentication?.idToken}),
+				  })
+
+				var text = await res.text();
+				console.log("RESPONSE", text)
+
+				const decodedHeader = jwt_decode(text);
+				console.log(decodedHeader)
+				const googdata = {
+					// Credential: decodedHeader.Credential,
+					email: decodedHeader.Email,
+					firstName: decodedHeader.FirstName,
+					lastName: decodedHeader.LastName,
+					image: decodedHeader.Picture,
+					id: decodedHeader.ID,
+				}
+
+				// NAVIGATE TO NEXT PAGE
+				navigation.navigate("Profile", {
+					data: googdata
+				})
+				} catch (error) {
+					console.error(error);
+				}
+			}
+		};
+
+ 	return (
+
     <View style={styles.container}>
       <Image
         style={{ width: 180, resizeMode: "contain" }}
@@ -105,36 +115,51 @@ export default function GoogleSSO() {
       >
         <Text style={styles.googleText}>Log In With Google</Text>
       </FontAwesome5.Button>
-
-      {/* <GoogleButton
-  disabled // can also be written as disabled={true} for clarity
-  onClick={() => { console.log('this will not run on click since it is disabled') }}
-/> */}
-
-      {/* <FontAwesome.Button name="google" backgroundColor="#4285F4" style={{fontFamily: "Roboto"}} onPress={loginWithFacebook}>
-        Login with Google
-      </FontAwesome.Button> */}
-    </View>
-  );
+	  <Text></Text>
+      <Button title="new to ReMo? register here" onPress={handleRegister} />
+	</View>
+	);
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#fff",
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  display: {
-    position: "relative",
-    top: 0,
-    left: 0,
-  },
-  googleText: {
-    color: "white",
-  },
-  googleButton: {
-    width: 180,
-    backgroundColor: "#F15a23",
-  },
+	container: {
+		flex: 1,
+		backgroundColor: "#fff",
+		alignItems: "center",
+		justifyContent: "center",
+	},
+	display: {
+		position: "relative",
+		top: 0,
+		left: 0,
+	},
+	googleText: {
+		color: "white",
+	},
+	googleButton: {
+		width: 180,
+		backgroundColor: "#F15a23",
+	},
+	baseText: {	
+		font_family: "Inter",
+		font_style: "normal",
+		font_weight: 500,
+		font_size: "4px",
+		color: "#000000",
+	  },
+	button: {
+	backgroundColor: 'black',
+	height: 10,
+	justifyContent: 'center',
+	alignItems: 'center',
+	marginHorizontal: 20,
+	marginVertical: 20,
+	borderRadius: 10,
+	},
+	buttonText: {
+	color: 'black',
+	fontSize: 12,
+	fontWeight: 'bold',
+	},
+
 });
