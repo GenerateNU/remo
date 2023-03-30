@@ -1,5 +1,5 @@
-import { useRoute } from '@react-navigation/native';
-import React, { useState, useEffect } from 'react';
+import { useRoute } from "@react-navigation/native";
+import React, { useState, useEffect } from "react";
 import {
   View,
   Text,
@@ -7,29 +7,31 @@ import {
   ScrollView,
   TouchableHighlight,
   Alert,
-  TouchableOpacity
-} from 'react-native';
+  TouchableOpacity,
+} from "react-native";
 
-export default function AddReadingLog({navigation}) {
+export default function AddReadingLog({ navigation }) {
   const [books, setBooks] = useState([]);
   const [selectedBook, setSelectedBook] = useState(null);
   const [showPopup, setShowPopup] = useState(false);
   const route = useRoute();
   const data = route.params?.data;
-  
+
   useEffect(() => {
-    fetch(`https://7beb-155-33-132-46.ngrok.io/v1/user_books/${data.id}`)
+    fetch(`https://bbf3-155-33-132-9.ngrok.io/v1/user_books/${data.id}`)
       .then((response) => response.json())
-      .then((data) => setBooks(data.slice(0,4)));
+      .then((data) => setBooks(data.slice(0, 4)));
   }, []);
 
   const onLogPress = () => {
-    navigation.navigate('Timer', {data:selectedBook});
+    navigation.navigate("Timer", { data: selectedBook });
   };
   return (
     <ScrollView>
       <View style={styles.header}>
-        <Text style={styles.header_title}>Select a book you're currently reading or checkout a new book.</Text>
+        <Text style={styles.header_title}>
+          Select a book you're currently reading or checkout a new book.
+        </Text>
       </View>
       <View style={styles.container}>
         {books.map((book) => (
@@ -41,9 +43,10 @@ export default function AddReadingLog({navigation}) {
             ]}
             underlayColor="#ccc"
             onPress={() => {
-              setSelectedBook(book)
+              setSelectedBook(book);
               console.log(selectedBook);
-            }}>
+            }}
+          >
             <>
               <Text style={styles.title}>{book.title}</Text>
               <Text style={styles.author}>{book.author}</Text>
@@ -62,42 +65,42 @@ export default function AddReadingLog({navigation}) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    justifyContent: 'space-between',
+    flexDirection: "row",
+    flexWrap: "wrap",
+    justifyContent: "space-between",
     padding: 20,
   },
   header: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
     paddingHorizontal: 20,
     paddingVertical: 10,
     borderBottomWidth: 0,
-    borderBottomColor: '#ccc',
-    marginBottom:5
+    borderBottomColor: "#ccc",
+    marginBottom: 5,
   },
   header_title: {
     fontSize: 20,
-    fontWeight: 'bold',
-    marginBottom: 7
+    fontWeight: "bold",
+    marginBottom: 7,
   },
   count: {
     fontSize: 18,
   },
   book: {
-    width: '48%',
+    width: "48%",
     marginBottom: 20,
     borderWidth: 1,
-    borderColor: '#ccc',
+    borderColor: "#ccc",
     padding: 10,
   },
   selected: {
-    borderColor: 'blue',
+    borderColor: "blue",
   },
   title: {
     fontSize: 16,
-    fontWeight: 'bold',
+    fontWeight: "bold",
   },
   author: {
     fontSize: 14,
@@ -110,35 +113,35 @@ const styles = StyleSheet.create({
   selectedBook: {
     padding: 20,
     borderBottomWidth: 1,
-    borderBottomColor: '#ccc',
+    borderBottomColor: "#ccc",
   },
   selectedTitle: {
     fontSize: 24,
-    fontWeight: 'bold',
+    fontWeight: "bold",
   },
   selectedAuthor: {
     fontSize: 20,
   },
   selectedIsbn: {
     fontSize: 24,
-    fontWeight: 'bold',
-  },  
+    fontWeight: "bold",
+  },
   selectedSynopsis: {
     fontSize: 24,
-    fontWeight: 'bold',
+    fontWeight: "bold",
   },
   button: {
-    backgroundColor: 'black',
+    backgroundColor: "black",
     height: 50,
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: "center",
+    alignItems: "center",
     marginHorizontal: 20,
     marginVertical: 10,
     borderRadius: 10,
   },
   buttonText: {
-    color: 'white',
+    color: "white",
     fontSize: 18,
-    fontWeight: 'bold',
+    fontWeight: "bold",
   },
 });

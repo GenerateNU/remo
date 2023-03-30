@@ -11,7 +11,7 @@ import ReadingLog from "./screens/readinglog";
 import AddReadingLog from "./screens/addReadingLog";
 import PostReadingLog from "./screens/postReading";
 import ReadingLogDisplay from "./screens/readinLogDisplay";
-import Searchbar from "./screens/searchSceen";
+import SearchScreen from "./screens/searchSceen";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import Register from "./screens/register";
 import BookInfo from "./screens/bookinfo";
@@ -32,10 +32,10 @@ export default function App() {
         <Stack.Screen name="Timer" component={Timer} />
         <Stack.Screen name="ReadingLog" component={ReadingLog} />
         <Stack.Screen name="BookInfo" component={BookInfo} />
+        <Stack.Screen name="Search" component={SearchScreen} />
         <Stack.Screen name="AddReadingLog" component={AddReadingLog} />
         <Stack.Screen name="PostReadingLog" component={PostReadingLog} />
         <Stack.Screen name="ReadingLogDisplay" component={ReadingLogDisplay} />
-        <Stack.Screen name=" " component={Searchbar} />
       </Stack.Navigator>
     </NavigationContainer>
   );

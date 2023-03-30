@@ -8,14 +8,12 @@ import { FontAwesome5 } from '@expo/vector-icons'
 import jwt_decode from 'jwt-decode'
 import PressableCard from "../components/pressablecard/pressablecard";
 
-
 // import * as WebBrowser from 'expo-web-browser';
 // import { GoogleRectangularButton } from "../../../common/GoogleButton";
 
-
 export default function GoogleSSO() {
-
   const navigation = useNavigation();  
+
   const pressHandler = () => {
     navigation.goBack();
   };
@@ -101,9 +99,8 @@ export default function GoogleSSO() {
 			}
 		};
 
-
-
  	return (
+
     <View style={styles.container}>
       <Image
         style={{ width: 180, resizeMode: "contain" }}
@@ -164,4 +161,5 @@ const styles = StyleSheet.create({
 	fontSize: 12,
 	fontWeight: 'bold',
 	},
+
 });
