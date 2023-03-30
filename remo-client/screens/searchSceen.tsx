@@ -52,9 +52,6 @@ const SearchScreen = () => {
     };
     return (
       <View style={styles.option}>
-        {/* <TouchableOpacity style={styles.button} onPress={onPress}>
-      <Text style={styles.text}>{title}</Text>
-    </TouchableOpacity> */}
         <TouchableOpacity style={styles.bookbutton} onPress={() => navigation.navigate("BookInfo", {data: newData,})}>
           <Text style={styles.booktext}>{item.title}</Text>
         </TouchableOpacity>

@@ -137,7 +137,7 @@ func CheckoutBook(pool *sql.DB, user_ID string, isbn_13 string) error {
 }
 
 func ReturnBook(pool *sql.DB, isbn_13 string) error {
-	_, err := pool.Exec(fmt.Sprintf("UPDATE books SET default_user_id = '-1' WHERE isbn_13 = '%s'", isbn_13))
+	_, err := pool.Exec(fmt.Sprintf("UPDATE books SET default_user_id = '47' WHERE isbn_13 = '%s'", isbn_13))
 
 	if err != nil {
 		return err

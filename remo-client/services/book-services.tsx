@@ -18,6 +18,17 @@ export const checkoutBook = async ({ barcode, user }: BookUser) => {
   return response.data;
 };
 
+export const returnBook = async (barcode: String) => {
+  const bcode = barcode["barcode"];
+
+  const response = await axios.put(
+    `${API_URL}/v1/return/${bcode}`
+  );
+  console.log("barcode; ", barcode);
+  console.log("the response is ------");
+  console.log(response);
+  return response.data;
+};
 export const findUserBooks = async (id: string) => {
   const response = await axios.get(`${API_URL}/v1/user_books/${id}`);
   return response.data;

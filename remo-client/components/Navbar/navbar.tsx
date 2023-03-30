@@ -24,6 +24,9 @@ export default function NavBar({ navigation, data }) {
   const navigateReadinglog = () => {
     navigation.navigate("ReadingLog", { data: data });
   };
+  const navigateReturn = () => {
+    navigation.navigate("Returns", { data: data });
+  };
   return (
     <View style={styles.navbar}>
       <View>
@@ -51,7 +54,7 @@ export default function NavBar({ navigation, data }) {
         />
       </View>
       <View>
-        <AntDesign style={styles.icon} name="arrowleft" size={40} />
+        <AntDesign style={styles.icon} name="arrowleft" size={40} onPress={navigateReturn} />
       </View>
       <View>
         <Ionicons style={styles.icon} name="person-circle-outline" size={40} />

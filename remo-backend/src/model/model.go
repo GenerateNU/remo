@@ -15,7 +15,7 @@ type Model interface {
 	AllBooks() []Book
 	UserBooks(string) []Book
 	CheckoutBook(string, string) error
-	ReturnBook(string) error
+	ReturnBookByID(string) error
 	UserByEmail(string) (User, error)
 	UserByID(string) User
 	AddBooks(Book) (Book, error)
@@ -102,7 +102,7 @@ func (m *MsModel) CheckoutBook(usr string, isbn_13 string) error {
 	return nil
 }
 
-func (m *MsModel) ReturnBook(isbn_13 string) error {
+func (m *MsModel) ReturnBookByID(isbn_13 string) error {
 	err := ReturnBook(m.Conn, isbn_13)
 
 	if err != nil {

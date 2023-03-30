@@ -142,10 +142,11 @@ func (ms *MsController) Serve() *gin.Engine {
 
 	})
 
-	r.PUT("v1/return_book/:bookId", func(c *gin.Context) {
+	r.PUT("v1/return/:bookId", func(c *gin.Context) {
 		isbn_13 := c.Param("bookId")
+		fmt.Println(isbn_13)
 
-		err := ms.ReturnBook(isbn_13)
+		err := ms.ReturnBookByID(isbn_13)
 
 		if err != nil {
 			c.JSON(http.StatusBadRequest, "Failed to return book")

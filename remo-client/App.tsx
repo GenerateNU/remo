@@ -15,6 +15,8 @@ import SearchScreen from "./screens/searchSceen";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import Register from "./screens/register";
 import BookInfo from "./screens/bookinfo";
+import Returns from "./screens/returnShelf";
+import BookReturn from "./screens/bookReturn";
 
 const Stack = createNativeStackNavigator();
 
@@ -36,6 +38,9 @@ export default function App() {
         <Stack.Screen name="AddReadingLog" component={AddReadingLog} />
         <Stack.Screen name="PostReadingLog" component={PostReadingLog} />
         <Stack.Screen name="ReadingLogDisplay" component={ReadingLogDisplay} />
+        <Stack.Screen name="Returns" component={Returns} />
+        <Stack.Screen name="BookReturn" component={BookReturn} />
+
       </Stack.Navigator>
     </NavigationContainer>
   );
