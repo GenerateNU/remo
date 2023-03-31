@@ -17,6 +17,8 @@ import Register from "./screens/register";
 import BookInfo from "./screens/bookinfo";
 import Returns from "./screens/returnShelf";
 import BookReturn from "./screens/bookReturn";
+import Notifications from "./screens/notifications";
+
 
 const Stack = createNativeStackNavigator();
 
@@ -40,7 +42,8 @@ export default function App() {
         <Stack.Screen name="ReadingLogDisplay" component={ReadingLogDisplay} />
         <Stack.Screen name="Returns" component={Returns} />
         <Stack.Screen name="BookReturn" component={BookReturn} />
-
+        <Stack.Screen name="Notifications" component={Notifications} />
+    
       </Stack.Navigator>
     </NavigationContainer>
   );

@@ -8,7 +8,6 @@ import {
 import {
   StyleSheet,
   Text,
-  TouchableOpacity,
   View,
   Image,
   TextInput,
@@ -44,6 +43,10 @@ export default function Profile() {
   const navigateLogin = () => {
     navigation.navigate("GoogleSSO");
   };
+
+  const navigateNotifs = () => {
+    navigation.navigate("Notifications", {data: newData});
+  }
 
   const ethnicities: string[] = [
     "White",
@@ -143,6 +146,8 @@ export default function Profile() {
             return item;
           }}
         />
+        <Text>Reminder Notifications</Text>
+        <Button style={styles.dropdown} onPress={navigateNotifs}> Toggle On/Off </Button>
         <View
           style={{
             justifyContent: "flex-start",
