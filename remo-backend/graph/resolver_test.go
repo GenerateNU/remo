@@ -24,11 +24,27 @@ func TestGetBookByID(t *testing.T) {
 	// call the resolver's GetBookByID method with the requested expectedBookID
 	book, err := qResolver.GetBookByID(context.Background(), expectedBookID)
 	if err != nil {
-		t.Fatalf("GetBookByID failed: %v", err)
+		t.Errorf("GetBookByID failed: %v", err)
 	}
-	/////// FIX STRING FORMATTING FOR MULTIPLE VARIABLE OUTPUTS
+	// trigger fail when retrieved book has incorrect ID
 	if book.ID != expectedBookID {
-		t.Fatalf("Retrieved book has incorrect ID. Actual: %[1]v \n Expected: %[2]v \n", book.ID, expectedBookID)
+		t.Errorf("Retrieved book has incorrect ID. Actual: %[1]v \n Expected: %[2]v \n", book.ID, expectedBookID)
+	}
+}
+
+// Function to test the query resolver for users
+func TestGetUserByID(t *testing.T) {
+	// the user ID which we want to retrieve
+	expectedUserID := "1"
+
+	// call the query resolver's GetUserByID method
+	user, err := qResolver.GetUserByID(context.Background(), expectedUserID)
+	if err != {
+		t.Errorf("GetUserByID failed: %v", err)
+	}
+	// trigger fail when retrieved book has incorrect ID
+	if book.ID != expectedBookID {
+		t.Errorf("Retrieved user has incorrect ID. Actual: %[1]v \n Expected: %[2]v \n", user.ID, expectedUserID)
 	}
 }
 
