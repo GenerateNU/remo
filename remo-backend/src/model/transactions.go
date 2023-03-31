@@ -127,6 +127,15 @@ func GetUserByID(pool *sql.DB, user_ID string) (User, error) {
 }
 
 func CheckoutBook(pool *sql.DB, user_ID string, isbn_13 string) error {
+	// book := Book{}
+	// // logic for checking if a book is already checked out
+	// check_err := pool.QueryRow(fmt.Sprintf("SELECT default_user_id FROM books where isbn_13 = '%s';", isbn_13)).Scan(&book.UserID)
+	// if check_err != nil {
+	// 	return check_err
+	// }
+	// if book.UserID != "1" {
+	// 	return check_err
+	// }
 
 	_, err := pool.Exec(fmt.Sprintf("UPDATE books SET default_user_id = '%s' WHERE isbn_13 = '%s'", user_ID, isbn_13))
 
@@ -137,7 +146,7 @@ func CheckoutBook(pool *sql.DB, user_ID string, isbn_13 string) error {
 }
 
 func ReturnBook(pool *sql.DB, isbn_13 string) error {
-	_, err := pool.Exec(fmt.Sprintf("UPDATE books SET default_user_id = '47' WHERE isbn_13 = '%s'", isbn_13))
+	_, err := pool.Exec(fmt.Sprintf("UPDATE books SET default_user_id = '-1' WHERE isbn_13 = '%s'", isbn_13))
 
 	if err != nil {
 		return err
