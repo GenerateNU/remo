@@ -36,10 +36,10 @@ func TestGetBookByISBN(t *testing.T) {
 
 	// same as above, just with incorrect isbn_10 number to check searching for isbn_10
 	unexpectedISBN_13 := 1525303899
-	book2, err := qResolver.GetBookByIsbn(context.Background(), unexpectedISBN_13)
+	book2, err2 := qResolver.GetBookByIsbn(context.Background(), unexpectedISBN_13)
 	// Error when getBookByISBN fails
-	if err != nil {
-		t.Errorf("GetBookByISBN failed: %v", err)
+	if err2 != nil {
+		t.Errorf("GetBookByISBN failed: %v", err2)
 	}
 	// trigger fail when retrieved book has incorrect ISBN_10
 	// should be triggered after checking for isbn_13
