@@ -2,6 +2,7 @@ package controller
 
 import (
 	"fmt"
+	"log"
 	"net/http"
 	"os"
 	"remo/backend/graph"
@@ -120,12 +121,12 @@ func (ms *MsController) Serve() *gin.Engine {
 	// attempting to integrate the resolvers
 	r.GET("/v1/books/:bookId", func(c *gin.Context) {
 		id := c.Param("bookId")
-		// book, err := qResolver.GetBookByID(c, id)
-		// if err != nil {
-		// 	log.Printf("GetBookByID failed: %v", err)
-		// }
-		// c.JSON(http.StatusOK, book)
-		c.JSON(http.StatusOK, ms.Book(id))
+		book, err := qResolver.GetBookByID(c, id)
+		if err != nil {
+			log.Printf("GetBookByID failed: %v", err)
+		}
+		c.JSON(http.StatusOK, book)
+		//c.JSON(http.StatusOK, ms.Book(id))
 	})
 
 	r.GET("/v1/all_books", func(c *gin.Context) {
