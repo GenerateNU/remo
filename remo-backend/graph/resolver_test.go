@@ -18,23 +18,33 @@ var mResolver = mutationResolver{}
 
 // Function to test resolver for query the database for books
 func TestGetBookByISBN(t *testing.T) {
-	// the book ID which we want to retrieve
-	expectedBookID := "1"
-
+	// isbn_13 of the book we want to retrieve
 	expectedISBN_13 := 9781525303890
 
+	// should be found once an incorrect ISBN_13 is supplied
+	expectedISBN_10 := "1525303899"
+
 	// call the resolver's GetBookByID method with the requested expectedBookID
-	book, err := qResolver.GetBookByID(context.Background(), expectedBookID)
+	book, err := qResolver.GetBookByIsbn(context.Background(), expectedISBN_13)
 	if err != nil {
-		t.Errorf("GetBookByID failed: %v", err)
-	}
-	// trigger fail when retrieved book has incorrect ID
-	if book.ID != expectedBookID {
-		t.Errorf("Retrieved book has incorrect ID. Actual: %[1]v \n Expected: %[2]v \n", book.ID, expectedBookID)
+		t.Errorf("GetBookByISBN failed: %v", err)
 	}
 	// trigger fail when retrieved book has incorrect ISBN_13
 	if book.Isbn_13 != expectedISBN_13 {
-		t.Errorf("Retrieved book has incorrect isbn_13. Actual: %[1]v \n Expected: %[2]v \n", book.ID, expectedBookID)
+		t.Errorf("Retrieved book has incorrect isbn_13. Actual: %[1]v \n Expected: %[2]v \n", book.ID, expectedISBN_13)
+	}
+
+	// same as above, just with incorrect isbn_10 number to check searching for isbn_10
+	unexpectedISBN_13 := 1525303899
+	book2, err := qResolver.GetBookByIsbn(context.Background(), unexpectedISBN_13)
+	// Error when getBookByISBN fails
+	if err != nil {
+		t.Errorf("GetBookByISBN failed: %v", err)
+	}
+	// trigger fail when retrieved book has incorrect ISBN_10
+	// should be triggered after checking for isbn_13
+	if book2.Isbn_10 != expectedISBN_10 {
+		t.Errorf("Retrieved book has incorrect isbn_10. Actual: %[1]v \n Expected: %[2]v \n", book.ID, expectedISBN_10)
 	}
 }
 
