@@ -3,9 +3,11 @@ import { View, TextInput, StyleSheet, Text, Switch, Platform} from 'react-native
 import { useNavigation } from "@react-navigation/native";
 import * as Device from 'expo-device'
 import * as Notification from 'expo-notifications';
+import { DayPicker } from 'react-native-picker-weekday';
 import {
     useRoute
   } from "@react-navigation/native";
+import { Button } from '@rneui/base';
 
 Notification.setNotificationHandler({
   handleNotification: async () => ({
@@ -23,10 +25,18 @@ const Notifications = () => {
     const [isEnabled, setIsEnabled] = useState(false);
     const [notifMessage, setNotifMessage] = useState("Time to Read!");
     const [expoPushToken, setExpoPushToken] = useState('');
-    const [notifTime, setNotifTime] = useState({hour: 12, minute: 0})
-    const [notifDays, setNotifDays] = useState(new Set())
+    const [notifTime, setNotifTime] = useState({hour: 17, minute: 21});
+    const [weekdays, setWeekdays] = React.useState([]);
+    // days of the week is the binary of selected days of the week, 
+    // ei. 127 = all days of the week, 0 = no days of the week
+
+    // const [notifDays, setNotifDays] = useState([false, false, false, false, false, false, false])
+    // const [mon, setMon] = useState()
     // const notificationListener = useRef();
     // const responseListener = useRef();
+
+  
+
 
 
     // toggle switch changing state
@@ -51,33 +61,36 @@ const Notifications = () => {
     }, []);
     
     async function schedulePushNotification() {
-  
-      // if (type == scheduleType.Weekly) {
-      //   trigger = {
-          // hour: schedule.hour, 
-          // minute: schedule.minute,
-          // repeats: schedule.repeats,
-          // weekday: schedule.weekday
-      //   }
-      // }
-      await Notification.scheduleNotificationAsync({
-        content: {
-          title: "ReMo",
-          body: notifMessage,
-          // data: { data: 'goes here' },
-        },
-        trigger: {
-          hour: notifTime.hour, 
-          minute: schedule.minute,
-          repeats: true,
-          weekday: schedule.weekday
-        }
-      });
+      // get list of days of the week as list of numbers
+      // const days = notifDays.reduce(
+      //   (out, bool, index) => (bool ? out.concat(index + 1) : out), [] as number[])
+      console.log(weekdays)
+      weekdays.forEach((day) => {
+        // console.log(day);
+        Notification.scheduleNotificationAsync({
+          content: {
+            title: "ReMo",
+            body: notifMessage,
+            // data: { data: 'goes here' },
+          },
+          trigger: {
+            hour: notifTime.hour, 
+            minute: notifTime.minute,
+            repeats: true,
+            weekday: day,
+          }
+        });
+      })
     }
-
+    // const onButtonpress = () => {
+    // const addDay = (day: number) => {
+    //   let days = notifDays;
+    //   days[day] = true;
+    //   setNotifDays(days)
+    // }}
   return (
     <View style={styles.container}>
-      <Text style={styles.title}> Reminder Notifications </Text>
+      <Text style={styles.title}> Reminder Notifications</Text>
       <Text></Text>
       <View style={{
       backgroundColor: '#fff',
@@ -114,7 +127,22 @@ const Notifications = () => {
         style={styles.textInput}
       />    
       </View>
-
+      <DayPicker
+      weekdays={weekdays}
+      setWeekdays={setWeekdays}
+      activeColor='violet'
+      textColor='white'
+      inactiveColor='grey'
+      dayTextStyle = {{/*All styles applicable to text component*/}}  //(optional for high styling flexiblity)
+      itemStyles ={{/*All Styles applicable to View component*/}}     //(optional for high styling flexiblity)
+      wrapperStyles ={{/*All Styles applicable to View component*/}}  // (optional for high styling flexiblity)  
+    />
+    <Button 
+    onPress={schedulePushNotification}
+    title="save changes"
+    // activeOpacity = {0}
+    color="#84158488"
+    accessibilityLabel="Learn more about this purple button"/>
     </View>
   );
 };
@@ -152,6 +180,8 @@ async function registerForPushNotificationsAsync()/*: Promise<string | null> */{
 
   return token;
 }
+
+
 
 // async function schedulePushNotification() {
   
@@ -201,15 +231,35 @@ const styles = StyleSheet.create({
         color: "#000000",
         marginBottom: 50
 	},
-    textInput: {
-        borderRadius: 10,
-        borderWidth: .5,
-        backgroundColor: '#f2f2f2',
-        padding: 10,
-        width: 200,
-        textAlign: 'center',
-        marginVertical:7,
-        alignSelf: 'center',
-        marginTop:10,
-      },
+  textInput: {
+      borderRadius: 10,
+      borderWidth: .5,
+      backgroundColor: '#f2f2f2',
+      padding: 10,
+      width: 200,
+      textAlign: 'center',
+      marginVertical:7,
+      alignSelf: 'center',
+      marginTop:10,
+    },
+  // roundButton: {
+  //   width: 100,
+  //   height: 100,
+  //   justifyContent: 'center',
+  //   alignItems: 'center',
+  //   padding: 0,
+  //   borderRadius: 100,
+  //   opacity: 100
+  //   // backgroundColor: 'orange',
+  // },
+  // roundButton2: {
+  //   marginTop: 20,
+  //   width: 150,
+  //   height: 150,
+  //   justifyContent: 'center',
+  //   alignItems: 'center',
+  //   padding: 10,
+  //   borderRadius: 100,
+  //   backgroundColor: '#ccc',
+  // },
 });
