@@ -1,6 +1,7 @@
 package main
 
 import (
+	"bytes"
 	"database/sql"
 	"encoding/json"
 	"fmt"
@@ -202,4 +203,85 @@ func TestReturn(t *testing.T) {
 
 	test_isbn := "1249898899889"
 	assert.Equal(t, test_isbn, isbn_13)
+}
+
+func TestNotOnboarding(t *testing.T) {
+	conn, err := sql.Open("mysql", "remo:pwd@tcp(localhost:3333)/remodb")
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "Unable to connect to database: %v\n", err)
+		os.Exit(1)
+	}
+
+	defer conn.Close()
+
+	m := &model.MsModel{
+		Conn: conn,
+	}
+	c := &c.MsController{
+		Model: m,
+	}
+	router := c.Serve()
+
+	w := httptest.NewRecorder()
+
+	req, _ := http.NewRequest("GET", "/v1/check_onboarded/20", nil)
+
+	router.ServeHTTP(w, req)
+
+	assert.Equal(t, 200, w.Code)
+
+	var obrd string
+
+	if e := json.Unmarshal(w.Body.Bytes(), &obrd); e != nil {
+		panic(err)
+	}
+
+	test_res := "not onboarded"
+	assert.Equal(t, test_res, obrd)
+}
+
+func TestPostOnboarding(t *testing.T) {
+	conn, err := sql.Open("mysql", "remo:pwd@tcp(localhost:3333)/remodb")
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "Unable to connect to database: %v\n", err)
+		os.Exit(1)
+	}
+
+	defer conn.Close()
+
+	m := &model.MsModel{
+		Conn: conn,
+	}
+	c := &c.MsController{
+		Model: m,
+	}
+	router := c.Serve()
+
+	w := httptest.NewRecorder()
+
+	body := []byte(`{
+		"q1": "sample",
+		"q2": "sample",
+		"q3": "sample",
+		"q4": "sample",
+		"q5": "sample",
+		"q6": "sample",
+		"q7": "sample",
+		"q8": "sample"
+	}`)
+
+	req, _ := http.NewRequest("POST", "/v1/onboarding_questions/1", bytes.NewBuffer(body))
+	fmt.Println(req)
+	router.ServeHTTP(w, req)
+
+	assert.Equal(t, 200, w.Code)
+
+	var questions string
+
+	if e := json.Unmarshal(w.Body.Bytes(), &questions); e != nil {
+		panic(err)
+	}
+
+	test_res := "success"
+	assert.Equal(t, questions, test_res)
 }
