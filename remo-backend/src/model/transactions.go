@@ -3,9 +3,7 @@ package model
 import (
 	"database/sql"
 	"fmt"
-	utils "remo/backend/src/utils"
 	"strconv"
-	"strings"
 )
 
 func WriteBooksToDb(pool *sql.DB, book Book) error {
@@ -32,15 +30,67 @@ func GetBooksFromDB(pool *sql.DB, isbn_13 string) (Book, error) {
 		ISBN_13: isbn_13,
 	}
 
-	err := pool.QueryRow(fmt.Sprintf("SELECT id, title, author, isbn_10 FROM books WHERE isbn_13= '%s';", isbn_13)).Scan(&book.BookId, &book.Title, &book.Author, &book.ISBN_10)
+	err := pool.QueryRow(fmt.Sprintf("SELECT id, title, author, isbn_10, pub_date, num_pages, synopsis FROM books WHERE isbn_13= '%s';", isbn_13)).Scan(&book.BookId, &book.Title, &book.Author, &book.ISBN_10, &book.PublishDate, &book.PageCount, &book.Synopsis)
 
 	if err != nil {
 		return Book{}, nil
+		// panic(err)
 	}
 
 	return book, nil
 }
 
+func GetUserBooksFromDB(pool *sql.DB, user_id string) ([]Book, error) {
+	rows, err := pool.Query("SELECT id, title, author, isbn_10, isbn_13, num_pages, synopsis FROM books where default_user_id='" + user_id + "' LIMIT 10;")
+
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+
+	var books []Book
+
+	for rows.Next() {
+		book := Book{}
+		err := rows.Scan(&book.BookId, &book.Title, &book.Author, &book.ISBN_10, &book.ISBN_13, &book.PageCount, &book.Synopsis)
+		if err != nil {
+			return nil, err
+		}
+		books = append(books, book)
+	}
+
+	if err = rows.Err(); err != nil {
+		return []Book{}, nil
+	}
+
+	return books, nil
+}
+
+func GetAllBooksFromDB(pool *sql.DB) ([]Book, error) {
+	rows, err := pool.Query("SELECT id, title, author, isbn_10, isbn_13, num_pages, synopsis FROM books;")
+
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+
+	var books []Book
+
+	for rows.Next() {
+		book := Book{}
+		err := rows.Scan(&book.BookId, &book.Title, &book.Author, &book.ISBN_10, &book.ISBN_13, &book.PageCount, &book.Synopsis)
+		if err != nil {
+			return nil, err
+		}
+		books = append(books, book)
+	}
+
+	if err = rows.Err(); err != nil {
+		return []Book{}, nil
+	}
+
+	return books, nil
+}
 func InsertUser(pool *sql.DB, usr User) error {
 	_, err := pool.Exec(fmt.Sprintf("INSERT INTO logins (id, first, last, email) VALUES ('%s','%s','%s', '%s');", strconv.Itoa(usr.ID), usr.FirstName, usr.LastName, usr.Email))
 
@@ -55,7 +105,7 @@ func GetUserByEmail(pool *sql.DB, user_email string) (User, error) {
 	err := pool.QueryRow(fmt.Sprintf("SELECT id, first, last FROM logins where email = '%s';", user_email)).Scan(&user.ID, &user.FirstName, &user.LastName)
 
 	if err != nil {
-		panic(err)
+		return User{FirstName: "Invalid"}, nil
 	}
 
 	return user, nil
@@ -70,19 +120,53 @@ func GetUserByID(pool *sql.DB, user_ID string) (User, error) {
 	err := pool.QueryRow(fmt.Sprintf("SELECT first, last, email FROM logins where ID = '%s';", user_ID)).Scan(&user.FirstName, &user.LastName, &user.Email)
 
 	if err != nil {
-		panic(err)
+		return User{}, nil
 	}
 
 	return user, nil
 }
 
-func (user *User) Validate() *utils.RestErr {
-	user.FirstName = strings.TrimSpace(user.FirstName)
-	user.LastName = strings.TrimSpace(user.LastName)
-	user.Email = strings.TrimSpace(user.Email)
-	if user.Email == "" {
-		return utils.NewBadRequestError("invalid email address")
+func CheckoutBook(pool *sql.DB, user_ID string, isbn_13 string) error {
+	// book := Book{}
+	// // logic for checking if a book is already checked out
+	// check_err := pool.QueryRow(fmt.Sprintf("SELECT default_user_id FROM books where isbn_13 = '%s';", isbn_13)).Scan(&book.UserID)
+	// if check_err != nil {
+	// 	return check_err
+	// }
+	// if book.UserID != "1" {
+	// 	return check_err
+	// }
+
+	_, err := pool.Exec(fmt.Sprintf("UPDATE books SET default_user_id = '%s' WHERE isbn_13 = '%s'", user_ID, isbn_13))
+
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
+func ReturnBook(pool *sql.DB, isbn_13 string) error {
+	_, err := pool.Exec(fmt.Sprintf("UPDATE books SET default_user_id = '-1' WHERE isbn_13 = '%s'", isbn_13))
+
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
+func InsertOnboardingQuestions(pool *sql.DB, user_id string, questions OnboardingQuestions) error {
+	_, err := pool.Exec(fmt.Sprintf("INSERT INTO onboarding_questions (user_id, q1, q2, q3, q4, q5, q6, q7, q8, submitted) VALUES ('%s','%s','%s', '%s', '%s','%s','%s', '%s', '%s', '1');", user_id, questions.Q1, questions.Q2, questions.Q3, questions.Q4, questions.Q5, questions.Q6, questions.Q7, questions.Q8))
+	return err
+}
+
+func GetOnboarded(pool *sql.DB, user_id string) (string, error) {
+	questions := OnboardingQuestions{}
+
+	err := pool.QueryRow(fmt.Sprintf("SELECT submitted FROM onboarding_questions where user_id = '%s';", user_id)).Scan(&questions.Onboarded)
+
+	if err != nil {
+		return "not onboarded", err
 	}
 
-	return nil
+	return "onboarded", nil
 }
