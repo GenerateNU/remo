@@ -172,7 +172,7 @@ func (r *queryResolver) GetBookByIsbn(ctx context.Context, id int) (*model.Book,
 		COALESCE(num_pages, 0), COALESCE(pub_date, ''), 
 		COALESCE(copyright_date, 0), COALESCE(edition, 0), COALESCE(synopsis, ''), 
 		COALESCE(title, ''), COALESCE(word_count, 0), COALESCE(sub_title, ''), COALESCE(asin, '')
-		FROM books WHERE isbn_13 = ?`, id)
+		FROM books WHERE isbn_13 = ? limit 1`, id)
 
 	if err := row.Scan(&book.ID,
 		&book.Story_id,
@@ -203,7 +203,7 @@ func (r *queryResolver) GetBookByIsbn(ctx context.Context, id int) (*model.Book,
 			COALESCE(num_pages, 0), COALESCE(pub_date, ''), 
 			COALESCE(copyright_date, 0), COALESCE(edition, 0), COALESCE(synopsis, ''), 
 			COALESCE(title, ''), COALESCE(word_count, 0), COALESCE(sub_title, ''), COALESCE(asin, '')
-			FROM books WHERE isbn_10 = ?`, strconv.Itoa(id))
+			FROM books WHERE isbn_10 = ? limit 1`, strconv.Itoa(id))
 			if err2 := isbn10.Scan(&book.ID,
 				&book.Story_id,
 				&book.Author,
