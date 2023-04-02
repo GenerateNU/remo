@@ -161,11 +161,11 @@ func (r *mutationResolver) CreateNewReadingRateResults(ctx context.Context, inpu
 	return &model.ReadingRateResult{}, err
 }
 
-// GetBookByID is the resolver for the getBookByID field.
+// GetBookByIsbn is the resolver for the GetBookByIsbn field.
 func (r *queryResolver) GetBookByIsbn(ctx context.Context, id int) (*model.Book, error) {
 	var book model.Book
 
-	row := DB.QueryRow(`
+	isbn13_query := DB.QueryRow(`
 		SELECT id, story_id, COALESCE(author, ''), COALESCE(cover_image, ''), 
 		date_created, date_updated, default_user_id, COALESCE(foreword, ''), 
 		COALESCE(editor, ''), COALESCE(illustrator, ''), COALESCE(isbn_10, ''), COALESCE(isbn_13, ''), 
@@ -174,7 +174,7 @@ func (r *queryResolver) GetBookByIsbn(ctx context.Context, id int) (*model.Book,
 		COALESCE(title, ''), COALESCE(word_count, 0), COALESCE(sub_title, ''), COALESCE(asin, '')
 		FROM books WHERE isbn_13 = ? limit 1`, id)
 
-	if err := row.Scan(&book.ID,
+	err1 := isbn13_query.Scan(&book.ID,
 		&book.Story_id,
 		&book.Author,
 		&book.Cover_image,
@@ -194,16 +194,17 @@ func (r *queryResolver) GetBookByIsbn(ctx context.Context, id int) (*model.Book,
 		&book.Title,
 		&book.Word_count,
 		&book.Sub_title,
-		&book.Asin); err != nil {
+		&book.Asin)
 
-		isbn10 := DB.QueryRow(`
+	if err1 != nil {
+		isbn10_query := DB.QueryRow(`
 			SELECT id, story_id, COALESCE(author, ''), COALESCE(cover_image, ''), date_created, date_updated, default_user_id, COALESCE(foreword, ''), 
 			COALESCE(editor, ''), COALESCE(illustrator, ''), COALESCE(isbn_10, ''), COALESCE(isbn_13, ''), 
 			COALESCE(num_pages, 0), COALESCE(pub_date, ''), 
 			COALESCE(copyright_date, 0), COALESCE(edition, 0), COALESCE(synopsis, ''), 
 			COALESCE(title, ''), COALESCE(word_count, 0), COALESCE(sub_title, ''), COALESCE(asin, '')
 			FROM books WHERE isbn_10 = ? limit 1`, strconv.Itoa(id))
-		if err2 := isbn10.Scan(&book.ID,
+		err2 := isbn10_query.Scan(&book.ID,
 			&book.Story_id,
 			&book.Author,
 			&book.Cover_image,
@@ -223,15 +224,11 @@ func (r *queryResolver) GetBookByIsbn(ctx context.Context, id int) (*model.Book,
 			&book.Title,
 			&book.Word_count,
 			&book.Sub_title,
-			&book.Asin); err2 != nil {
-			if err2 != nil {
-				var mtBook *model.Book
-				return mtBook, fmt.Errorf("getBookByID %q: no such book", id)
-			}
-
+			&book.Asin)
+		if err2 != nil {
+			var mtBook *model.Book
+			return mtBook, fmt.Errorf("getBookByIsbn %q: no such book", id)
 		}
-
-		return &book, fmt.Errorf("getBookByID %q: %v", id, err)
 	}
 
 	return &book, nil
