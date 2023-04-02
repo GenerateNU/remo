@@ -109,9 +109,9 @@ type ComplexityRoot struct {
 	}
 
 	Query struct {
-		GetBookByID func(childComplexity int, id string) int
-		GetUserByID func(childComplexity int, id string) int
-		Teachers    func(childComplexity int) int
+		GetBookByIsbn func(childComplexity int, isbn int) int
+		GetUserByID   func(childComplexity int, id string) int
+		Teachers      func(childComplexity int) int
 	}
 
 	ReadingRateResult struct {
@@ -320,7 +320,7 @@ type MutationResolver interface {
 	CreateNewReadingRateResults(ctx context.Context, input model.NewReadingRateResults) (*model.ReadingRateResult, error)
 }
 type QueryResolver interface {
-	GetBookByID(ctx context.Context, id string) (*model.Book, error)
+	GetBookByIsbn(ctx context.Context, isbn int) (*model.Book, error)
 	Teachers(ctx context.Context) ([]*model.Teacher, error)
 	GetUserByID(ctx context.Context, id string) (*model.User, error)
 }
@@ -726,17 +726,17 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 
 		return e.complexity.Mutation.UpdateBook(childComplexity, args["input"].(*model.BookInput)), true
 
-	case "Query.getBookByID":
-		if e.complexity.Query.GetBookByID == nil {
+	case "Query.getBookByISBN":
+		if e.complexity.Query.GetBookByIsbn == nil {
 			break
 		}
 
-		args, err := ec.field_Query_getBookByID_args(context.TODO(), rawArgs)
+		args, err := ec.field_Query_getBookByISBN_args(context.TODO(), rawArgs)
 		if err != nil {
 			return 0, false
 		}
 
-		return e.complexity.Query.GetBookByID(childComplexity, args["id"].(string)), true
+		return e.complexity.Query.GetBookByIsbn(childComplexity, args["isbn"].(int)), true
 
 	case "Query.getUserByID":
 		if e.complexity.Query.GetUserByID == nil {
@@ -2144,18 +2144,18 @@ func (ec *executionContext) field_Query___type_args(ctx context.Context, rawArgs
 	return args, nil
 }
 
-func (ec *executionContext) field_Query_getBookByID_args(ctx context.Context, rawArgs map[string]interface{}) (map[string]interface{}, error) {
+func (ec *executionContext) field_Query_getBookByISBN_args(ctx context.Context, rawArgs map[string]interface{}) (map[string]interface{}, error) {
 	var err error
 	args := map[string]interface{}{}
-	var arg0 string
-	if tmp, ok := rawArgs["id"]; ok {
-		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("id"))
-		arg0, err = ec.unmarshalNID2string(ctx, tmp)
+	var arg0 int
+	if tmp, ok := rawArgs["isbn"]; ok {
+		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("isbn"))
+		arg0, err = ec.unmarshalNInt2int(ctx, tmp)
 		if err != nil {
 			return nil, err
 		}
 	}
-	args["id"] = arg0
+	args["isbn"] = arg0
 	return args, nil
 }
 
@@ -4605,8 +4605,8 @@ func (ec *executionContext) fieldContext_Mutation_createNewReadingRateResults(ct
 	return fc, nil
 }
 
-func (ec *executionContext) _Query_getBookByID(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
-	fc, err := ec.fieldContext_Query_getBookByID(ctx, field)
+func (ec *executionContext) _Query_getBookByISBN(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Query_getBookByISBN(ctx, field)
 	if err != nil {
 		return graphql.Null
 	}
@@ -4619,7 +4619,7 @@ func (ec *executionContext) _Query_getBookByID(ctx context.Context, field graphq
 	}()
 	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
 		ctx = rctx // use context from middleware stack in children
-		return ec.resolvers.Query().GetBookByID(rctx, fc.Args["id"].(string))
+		return ec.resolvers.Query().GetBookByIsbn(rctx, fc.Args["isbn"].(int))
 	})
 	if err != nil {
 		ec.Error(ctx, err)
@@ -4632,7 +4632,7 @@ func (ec *executionContext) _Query_getBookByID(ctx context.Context, field graphq
 	return ec.marshalOBook2ᚖremoᚋbackendᚋgraphᚋmodelᚐBook(ctx, field.Selections, res)
 }
 
-func (ec *executionContext) fieldContext_Query_getBookByID(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+func (ec *executionContext) fieldContext_Query_getBookByISBN(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
 	fc = &graphql.FieldContext{
 		Object:     "Query",
 		Field:      field,
@@ -4693,7 +4693,7 @@ func (ec *executionContext) fieldContext_Query_getBookByID(ctx context.Context, 
 		}
 	}()
 	ctx = graphql.WithFieldContext(ctx, fc)
-	if fc.Args, err = ec.field_Query_getBookByID_args(ctx, field.ArgumentMap(ec.Variables)); err != nil {
+	if fc.Args, err = ec.field_Query_getBookByISBN_args(ctx, field.ArgumentMap(ec.Variables)); err != nil {
 		ec.Error(ctx, err)
 		return
 	}
@@ -14706,7 +14706,7 @@ func (ec *executionContext) _Query(ctx context.Context, sel ast.SelectionSet) gr
 		switch field.Name {
 		case "__typename":
 			out.Values[i] = graphql.MarshalString("Query")
-		case "getBookByID":
+		case "getBookByISBN":
 			field := field
 
 			innerFunc := func(ctx context.Context) (res graphql.Marshaler) {
@@ -14715,7 +14715,7 @@ func (ec *executionContext) _Query(ctx context.Context, sel ast.SelectionSet) gr
 						ec.Error(ctx, ec.Recover(ctx, r))
 					}
 				}()
-				res = ec._Query_getBookByID(ctx, field)
+				res = ec._Query_getBookByISBN(ctx, field)
 				return res
 			}
 
