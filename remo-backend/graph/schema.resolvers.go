@@ -163,11 +163,11 @@ func (r *queryResolver) GetBookByID(ctx context.Context, id string) (*model.Book
 	row := DB.QueryRow(`
 		SELECT id, story_id, COALESCE(author, ''), COALESCE(cover_image, ''), 
 		date_created, date_updated, default_user_id, COALESCE(foreword, ''), 
-		COALESCE(editor, ''), COALESCE(illustrator, ''), COALESCE(isbn_10, ''), 
-		COALESCE(isbn_13, ''), COALESCE(num_pages, 0), COALESCE(pub_date, ''), 
+		COALESCE(editor, ''), COALESCE(illustrator, ''), COALESCE(isbn_10, ''), COALESCE(isbn_13, ''), 
+		COALESCE(num_pages, 0), COALESCE(pub_date, ''), 
 		COALESCE(copyright_date, 0), COALESCE(edition, 0), COALESCE(synopsis, ''), 
 		COALESCE(title, ''), COALESCE(word_count, 0), COALESCE(sub_title, ''), COALESCE(asin, '')
-		FROM books WHERE id = ?`, id)
+		FROM books WHERE isbn_13 = ?`, id)
 
 	if err := row.Scan(&book.ID,
 		&book.Story_id,
