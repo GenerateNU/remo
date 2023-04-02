@@ -17,9 +17,11 @@ var mResolver = mutationResolver{}
 // QUERY TESTS
 
 // Function to test resolver for query the database for books
-func TestGetBookByID(t *testing.T) {
+func TestGetBookByISBN(t *testing.T) {
 	// the book ID which we want to retrieve
-	expectedBookID := "123456789"
+	expectedBookID := "1"
+
+	expectedISBN_13 := 9781525303890
 
 	// call the resolver's GetBookByID method with the requested expectedBookID
 	book, err := qResolver.GetBookByID(context.Background(), expectedBookID)
@@ -29,6 +31,10 @@ func TestGetBookByID(t *testing.T) {
 	// trigger fail when retrieved book has incorrect ID
 	if book.ID != expectedBookID {
 		t.Errorf("Retrieved book has incorrect ID. Actual: %[1]v \n Expected: %[2]v \n", book.ID, expectedBookID)
+	}
+	// trigger fail when retrieved book has incorrect ISBN_13
+	if book.Isbn_13 != expectedISBN_13 {
+		t.Errorf("Retrieved book has incorrect isbn_13. Actual: %[1]v \n Expected: %[2]v \n", book.ID, expectedBookID)
 	}
 }
 

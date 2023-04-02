@@ -12,7 +12,7 @@ scalar Map
 type Query {
     # Book queries
     #books: [Book!]!
-    getBookByID(id: ID!): Book
+    getBookByISBN(isbn: Int!): Book
     #getBookByTitle(title: String!): Book
 
     teachers: [Teacher!]!
