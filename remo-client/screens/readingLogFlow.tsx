@@ -10,59 +10,52 @@ import {
   TouchableOpacity,
 } from "react-native";
 import { findUserBooks } from "../services/book-services";
+import TimerPage from "../components/readingLog/screens/timerPage";
+import PostReadingLogPage from "../components/readingLog/screens/postRLogPage";
+import ReadingLogDisplayPage from "../components/readingLog/screens/rLogDisplayPage";
 
-export default function AddReadingLog({ navigation }) {
-  const [books, setBooks] = useState([]);
-  const [selectedBook, setSelectedBook] = useState(null);
-  const [showPopup, setShowPopup] = useState(false);
+export default function ReadingLogFlow({ navigation }) {
   const route = useRoute();
   const data = route.params?.data;
+  const bookTitle = data.title;
 
-  useEffect(() => {
-    getReadingLogBooks();
-  }, []);
-  const getReadingLogBooks = async () => {
-    let readingLogBooks = await findUserBooks(data.id);
-    readingLogBooks = readingLogBooks.slice(0, 4);
-    setBooks(readingLogBooks);
+  const [page, setPage] = useState("timerPage");
+  const [time, setTime] = useState(0);
+  const [text, setText] = useState("");
+  const [startPage, setStartPage] = useState("");
+  const [endPage, setEndPage] = useState("");
+
+  const setters = {
+    time: setTime,
+    page: setPage,
+    text: setText,
+    startPage: setStartPage,
+    endPage: setEndPage,
   };
 
-  const onLogPress = () => {
-    navigation.navigate("ReadingLogFlow", { data: selectedBook });
+  const states = {
+    time: time,
+    page: page,
+    text: text,
+    startPage: startPage,
+    endPage: endPage,
   };
+
+  const newData = {
+    ...data,
+    time: time,
+  };
+
   return (
-    <ScrollView>
-      <View style={styles.header}>
-        <Text style={styles.header_title}>
-          Select a book you're currently reading or checkout a new book.
-        </Text>
-      </View>
-      <View style={styles.container}>
-        {books.map((book) => (
-          <TouchableHighlight
-            key={book.id}
-            style={[
-              styles.book,
-              selectedBook && selectedBook.id === book.id && styles.selected,
-            ]}
-            underlayColor="#ccc"
-            onPress={() => {
-              setSelectedBook(book);
-              console.log(selectedBook);
-            }}
-          >
-            <>
-              <Text style={styles.title}>{book.title}</Text>
-              <Text style={styles.author}>{book.author}</Text>
-              <Text style={styles.isbn}>ISBN-13: {book.isbn_13}</Text>
-            </>
-          </TouchableHighlight>
-        ))}
-      </View>
-      <TouchableOpacity style={styles.button} onPress={() => onLogPress()}>
-        <Text style={styles.buttonText}>Add Reading Log</Text>
-      </TouchableOpacity>
-    </ScrollView>
+    <View>
+      {
+        {
+          timerPage: <TimerPage setters={setters} />,
+          postTimer: <PostReadingLogPage setters={setters} states={states} />,
+          displayPage: <ReadingLogDisplayPage states={states} />,
+        }[page]
+      }
+    </View>
   );
 }
 
