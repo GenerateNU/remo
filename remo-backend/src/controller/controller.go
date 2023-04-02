@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"net/http"
 	"os"
+	"remo/backend/graph"
 	"remo/backend/src/middleware"
 	"remo/backend/src/model"
 	"strconv"
@@ -19,6 +20,10 @@ type Controller interface {
 type MsController struct {
 	model.Model
 }
+
+var resolver = graph.Resolver{}
+var qResolver = resolver.Query()
+var mResolver = resolver.Mutation()
 
 func (ms *MsController) Serve() *gin.Engine {
 	r := gin.Default()
@@ -112,9 +117,14 @@ func (ms *MsController) Serve() *gin.Engine {
 			"message": "success",
 		})
 	})
-
+	// attempting to integrate the resolvers
 	r.GET("/v1/books/:bookId", func(c *gin.Context) {
 		id := c.Param("bookId")
+		// book, err := qResolver.GetBookByID(c, id)
+		// if err != nil {
+		// 	log.Printf("GetBookByID failed: %v", err)
+		// }
+		// c.JSON(http.StatusOK, book)
 		c.JSON(http.StatusOK, ms.Book(id))
 	})
 
