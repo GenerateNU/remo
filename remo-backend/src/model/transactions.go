@@ -2,6 +2,7 @@ package model
 
 import (
 	"database/sql"
+	"errors"
 	"fmt"
 	"strconv"
 )
@@ -127,15 +128,16 @@ func GetUserByID(pool *sql.DB, user_ID string) (User, error) {
 }
 
 func CheckoutBook(pool *sql.DB, user_ID string, isbn_13 string) error {
-	// book := Book{}
-	// // logic for checking if a book is already checked out
-	// check_err := pool.QueryRow(fmt.Sprintf("SELECT default_user_id FROM books where isbn_13 = '%s';", isbn_13)).Scan(&book.UserID)
-	// if check_err != nil {
-	// 	return check_err
-	// }
-	// if book.UserID != "1" {
-	// 	return check_err
-	// }
+	book := Book{}
+	// logic for checking if a book is already checked out
+	check_err := pool.QueryRow(fmt.Sprintf("SELECT default_user_id FROM books where isbn_13 = '%s';", isbn_13)).Scan(&book.UserID)
+	if check_err != nil {
+		return check_err
+	}
+	fmt.Println(book)
+	if book.UserID != "1" {
+		return errors.New("Book already checked out")
+	}
 
 	_, err := pool.Exec(fmt.Sprintf("UPDATE books SET default_user_id = '%s' WHERE isbn_13 = '%s'", user_ID, isbn_13))
 
