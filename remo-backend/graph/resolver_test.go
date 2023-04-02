@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"log"
 	"remo/backend/graph/model"
+	"strconv"
 	"testing"
 	"time"
 )
@@ -20,9 +21,6 @@ var mResolver = mutationResolver{}
 func TestGetBookByISBN(t *testing.T) {
 	// isbn_13 of the book we want to retrieve
 	expectedISBN_13 := 9781525303890
-
-	// should be found once an incorrect ISBN_13 is supplied
-	expectedISBN_10 := "1525303899"
 
 	// call the resolver's GetBookByID method with the requested expectedBookID
 	book, err := qResolver.GetBookByIsbn(context.Background(), expectedISBN_13)
@@ -43,8 +41,9 @@ func TestGetBookByISBN(t *testing.T) {
 	}
 	// trigger fail when retrieved book has incorrect ISBN_10
 	// should be triggered after checking for isbn_13
-	if book2.Isbn_10 != expectedISBN_10 {
-		t.Errorf("Retrieved book has incorrect isbn_10. Actual: %[1]v \n Expected: %[2]v \n", book.ID, expectedISBN_10)
+	var isbn10_test = strconv.Itoa(unexpectedISBN_13)
+	if book2.Isbn_10 != isbn10_test {
+		t.Errorf("Retrieved book has incorrect isbn_10. Actual: %[1]v \n Expected: %[2]v \n", book.ID, isbn10_test)
 	}
 }
 
