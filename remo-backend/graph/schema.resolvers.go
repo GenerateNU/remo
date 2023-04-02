@@ -195,41 +195,40 @@ func (r *queryResolver) GetBookByIsbn(ctx context.Context, id int) (*model.Book,
 		&book.Word_count,
 		&book.Sub_title,
 		&book.Asin); err != nil {
-		if err == sql.ErrNoRows {
-			isbn10 := DB.QueryRow(`
-			SELECT id, story_id, COALESCE(author, ''), COALESCE(cover_image, ''), 
-			date_created, date_updated, default_user_id, COALESCE(foreword, ''), 
+
+		isbn10 := DB.QueryRow(`
+			SELECT id, story_id, COALESCE(author, ''), COALESCE(cover_image, ''), date_created, date_updated, default_user_id, COALESCE(foreword, ''), 
 			COALESCE(editor, ''), COALESCE(illustrator, ''), COALESCE(isbn_10, ''), COALESCE(isbn_13, ''), 
 			COALESCE(num_pages, 0), COALESCE(pub_date, ''), 
 			COALESCE(copyright_date, 0), COALESCE(edition, 0), COALESCE(synopsis, ''), 
 			COALESCE(title, ''), COALESCE(word_count, 0), COALESCE(sub_title, ''), COALESCE(asin, '')
 			FROM books WHERE isbn_10 = ? limit 1`, strconv.Itoa(id))
-			if err2 := isbn10.Scan(&book.ID,
-				&book.Story_id,
-				&book.Author,
-				&book.Cover_image,
-				&book.Date_created,
-				&book.Date_updated,
-				&book.Default_user_id,
-				&book.Foreword,
-				&book.Editor,
-				&book.Illustrator,
-				&book.Isbn_10,
-				&book.Isbn_13,
-				&book.Num_pages,
-				&book.Pub_date,
-				&book.Copyright_date,
-				&book.Edition,
-				&book.Synopsis,
-				&book.Title,
-				&book.Word_count,
-				&book.Sub_title,
-				&book.Asin); err2 != nil {
-				if err2 == sql.ErrNoRows {
-					var mtBook *model.Book
-					return mtBook, fmt.Errorf("getBookByID %q: no such book", id)
-				}
+		if err2 := isbn10.Scan(&book.ID,
+			&book.Story_id,
+			&book.Author,
+			&book.Cover_image,
+			&book.Date_created,
+			&book.Date_updated,
+			&book.Default_user_id,
+			&book.Foreword,
+			&book.Editor,
+			&book.Illustrator,
+			&book.Isbn_10,
+			&book.Isbn_13,
+			&book.Num_pages,
+			&book.Pub_date,
+			&book.Copyright_date,
+			&book.Edition,
+			&book.Synopsis,
+			&book.Title,
+			&book.Word_count,
+			&book.Sub_title,
+			&book.Asin); err2 != nil {
+			if err2 != nil {
+				var mtBook *model.Book
+				return mtBook, fmt.Errorf("getBookByID %q: no such book", id)
 			}
+
 		}
 
 		return &book, fmt.Errorf("getBookByID %q: %v", id, err)
