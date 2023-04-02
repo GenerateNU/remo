@@ -4,16 +4,12 @@ import (
 	"database/sql"
 	"encoding/json"
 	"fmt"
-	"log"
 	"net/http"
 	"net/http/httptest"
 	"os"
-	"remo/backend/graph"
-	e "remo/backend/src/endpoints"
+	c "remo/backend/src/controller"
 	"remo/backend/src/model"
 	"testing"
-
-	"github.com/gin-gonic/gin"
 
 	"github.com/huandu/go-assert"
 )
@@ -30,7 +26,7 @@ func TestGetBooks(t *testing.T) {
 	m := &model.MsModel{
 		Conn: conn,
 	}
-	c := &e.MsController{
+	c := &c.MsController{
 		Model: m,
 	}
 	router := c.Serve()
@@ -50,16 +46,130 @@ func TestGetBooks(t *testing.T) {
 	}
 
 	test_book := model.Book{
-		BookId:  "3757",
-		Title:   "Percy Jackson and the Olympians",
-		Author:  "Rick Riordan",
-		ISBN_13: "9780786838653",
-		ISBN_10: "0786838655",
+		BookId:      "3757",
+		Title:       "Percy Jackson and the Olympians",
+		Author:      "Rick Riordan",
+		ISBN_13:     "9780786838653",
+		ISBN_10:     "0786838655",
+		Subtitle:    "",
+		PublishDate: "2006",
+		PageCount:   "375",
+		Synopsis:    "Percy Jackson is a good kid, but he can't seem to focus on his schoolwork or control his temper. And lately, being away at boarding school is only getting worse-Percy could have sworn his pre-algebra teacher turned into a monster and tried to kill him. When Percy's mom finds out, she knows it's time that he knew the truth about where he came from, and that he go to the one place he'll be safe. She sends Percy to Camp Half Blood, a summer camp for demigods (on Long Island), where he learns that the father he never knew is Poseidon, God of the Sea. Soon a mystery unfolds and together with his friends -- one a satyr and the other the demigod daughter of Athena -- Percy sets out on a quest across the United States to reach the gates of the Underworld (located in a recording studio in Hollywood) and prevent a catastrophic war between the gods.",
 	}
 	assert.Equal(t, test_book, books)
 }
 
-// func TestGetBookByID(t *testing.T) {
+func TestGetUserByID(t *testing.T) {
+	conn, err := sql.Open("mysql", "remo:pwd@tcp(localhost:3333)/remodb")
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "Unable to connect to database: %v\n", err)
+		os.Exit(1)
+	}
+
+	defer conn.Close()
+
+	m := &model.MsModel{
+		Conn: conn,
+	}
+	c := &c.MsController{
+		Model: m,
+	}
+	router := c.Serve()
+
+	w := httptest.NewRecorder()
+
+	req, _ := http.NewRequest("GET", "/v1/user/2", nil)
+
+	router.ServeHTTP(w, req)
+
+	assert.Equal(t, 200, w.Code)
+
+	var user model.User
+
+	if e := json.Unmarshal(w.Body.Bytes(), &user); e != nil {
+		panic(err)
+	}
+
+	test_user := model.User{
+		ID:        2,
+		FirstName: "Danny",
+		LastName:  "Rollo",
+		Email:     "dannyrollo4@gmail.com",
+	}
+	assert.Equal(t, test_user, user)
+}
+
+func TestBadUser(t *testing.T) {
+	conn, err := sql.Open("mysql", "remo:pwd@tcp(localhost:3333)/remodb")
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "Unable to connect to database: %v\n", err)
+		os.Exit(1)
+	}
+
+	defer conn.Close()
+
+	m := &model.MsModel{
+		Conn: conn,
+	}
+	c := &c.MsController{
+		Model: m,
+	}
+	router := c.Serve()
+
+	w := httptest.NewRecorder()
+
+	req, _ := http.NewRequest("GET", "/v1/user/17", nil)
+
+	router.ServeHTTP(w, req)
+
+	assert.Equal(t, 200, w.Code)
+
+	var user model.User
+
+	if e := json.Unmarshal(w.Body.Bytes(), &user); e != nil {
+		panic(err)
+	}
+
+	test_user := model.User{}
+	assert.Equal(t, test_user, user)
+}
+
+func TestCheckout(t *testing.T) {
+	conn, err := sql.Open("mysql", "remo:pwd@tcp(localhost:3333)/remodb")
+	if err != nil {
+		fmt.Fprintf(os.Stderr, "Unable to connect to database: %v\n", err)
+		os.Exit(1)
+	}
+
+	defer conn.Close()
+
+	m := &model.MsModel{
+		Conn: conn,
+	}
+	c := &c.MsController{
+		Model: m,
+	}
+	router := c.Serve()
+
+	w := httptest.NewRecorder()
+
+	req, _ := http.NewRequest("PUT", "/v1/checkout_book/1249898899889/1", nil)
+
+	router.ServeHTTP(w, req)
+
+	assert.Equal(t, 200, w.Code)
+
+	var isbn_13 string
+
+	if e := json.Unmarshal(w.Body.Bytes(), &isbn_13); e != nil {
+		panic(err)
+	}
+
+	test_isbn := "1249898899889"
+	assert.Equal(t, test_isbn, isbn_13)
+}
+
+// func TestReturn(t *testing.T) {
 // 	conn, err := sql.Open("mysql", "remo:pwd@tcp(localhost:3333)/remodb")
 // 	if err != nil {
 // 		fmt.Fprintf(os.Stderr, "Unable to connect to database: %v\n", err)
@@ -71,80 +181,25 @@ func TestGetBooks(t *testing.T) {
 // 	m := &model.MsModel{
 // 		Conn: conn,
 // 	}
-// 	c := &e.MsController{
+// 	c := &c.MsController{
 // 		Model: m,
 // 	}
 // 	router := c.Serve()
 
 // 	w := httptest.NewRecorder()
 
-// 	req, _ := http.NewRequest("GET", "/v1/books/5000", nil)
+// 	req, _ := http.NewRequest("PUT", "/v1/return_book/1249898899889", nil)
 
 // 	router.ServeHTTP(w, req)
 
 // 	assert.Equal(t, 200, w.Code)
 
-// 	var book model.Book
+// 	var isbn_13 string
 
-// 	if e := json.Unmarshal(w.Body.Bytes(), &book); e != nil {
+// 	if e := json.Unmarshal(w.Body.Bytes(), &isbn_13); e != nil {
 // 		panic(err)
 // 	}
 
-// 	test_book := model.Book{
-// 		BookId: "5000",
-// 	}
-
-// 	fmt.Println(test_book)
-// 	fmt.Println(book)
-
-// 	assert.Equal(t, test_book, book)
+// 	test_isbn := "1249898899889"
+// 	assert.Equal(t, test_isbn, isbn_13)
 // }
-
-type Controller interface {
-	Serve() *gin.Engine
-}
-
-type MsController struct {
-	model.Model
-}
-
-var resolver = graph.Resolver{}
-var qResolver = resolver.Query()
-var mResolver = resolver.Mutation()
-
-func TestGetBookByID2(t *testing.T) {
-	// Create a test router
-	r := gin.Default()
-	r.GET("/v1/books/:bookId", func(c *gin.Context) {
-		id := c.Param("bookId")
-		book, err := qResolver.GetBookByID(c.Request.Context(), id)
-		if err != nil {
-			log.Printf("GetBookByID failed: %v", err)
-			c.AbortWithStatus(http.StatusNotFound)
-			return
-		}
-		c.JSON(http.StatusOK, book)
-	})
-
-	// Make a GET request with a valid book ID
-	w := httptest.NewRecorder()
-	req, _ := http.NewRequest("GET", "/v1/books/5000", nil)
-	r.ServeHTTP(w, req)
-
-	// Check the response status code
-	if w.Code != http.StatusOK {
-		t.Errorf("expected status code %d but got %d", http.StatusOK, w.Code)
-	}
-
-	// Check the response body
-	expected := `{"id":"5000","story_id":"5000","author":"Stewart Ross","cover_image":"","date_created":"2021-01-19T01:15:00Z","date_updated":"2021-01-19T01:15:00Z","default_user_id":"68","foreword":"","editor":"","illustrator":"","isbn_10":"076366992X","isbn_13":9780763669928,"num_pages":85,"pub_date":2014,"copyright_date":2014,"edition":0,"synopsis":"Examines eleven of the greatest explorers and expeditions in history and explains the impact they had on people's perception of the world, in a book with unfolding cross sections.","title":"Into the Unknown","word_count":0,"sub_title":"","asin":""}`
-	if w.Body.String() != expected {
-		t.Errorf("expected body %s but got %s", expected, w.Body.String())
-	}
-
-	// // Check the response status code
-	// if w.Code != http.StatusNotFound {
-	// 	t.Errorf("expected status code %d but got %d", http.StatusNotFound, w.Code)
-	// }
-
-}
