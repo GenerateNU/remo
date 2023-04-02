@@ -45,11 +45,11 @@ func TestGetUserByID(t *testing.T) {
 
 	// call the query resolver's GetUserByID method
 	user, err := qResolver.GetUserByID(context.Background(), expectedUserID)
-	if err != {
+	if err != nil {
 		t.Errorf("GetUserByID failed: %v", err)
 	}
 	// trigger fail when retrieved book has incorrect ID
-	if book.ID != expectedBookID {
+	if user.ID != expectedUserID {
 		t.Errorf("Retrieved user has incorrect ID. Actual: %[1]v \n Expected: %[2]v \n", user.ID, expectedUserID)
 	}
 }
