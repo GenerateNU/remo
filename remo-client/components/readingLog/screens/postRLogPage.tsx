@@ -23,57 +23,54 @@ export default function PostReadingLogPage({ setters, states }) {
     setters.page("displayPage");
   };
 
+  const formatTime = (timeInMs: number) => {
+    const minutes = Math.floor(timeInMs / 60000);
+    const seconds = Math.floor((timeInMs % 60000) / 1000);
+
+    const paddedMinutes = minutes.toString().padStart(2, "0");
+    const paddedSeconds = seconds.toString().padStart(2, "0");
+
+    return `${paddedMinutes}:${paddedSeconds}a`;
+  };
+
   return (
     <ScrollView>
       <View style={styles.container}>
-        <View style={styles.header}>
-          <Text style={styles.header_title}>Book Title:</Text>
-        </View>
-        <View style={styles.subheader}>
-          <Text style={styles.header_data}>{data.title}</Text>
-        </View>
-        <View style={styles.header}>
-          <Text style={styles.header_title}>Timed Session:</Text>
-        </View>
-        <Text style={styles.timer}>{data.time}</Text>
-        <View style={styles.subheader}>
-          <Text style={styles.note}>Notes:</Text>
-        </View>
-        <View style={styles.container}>
-          <TextInput
-            style={styles.input}
-            value={states.text}
-            onChangeText={setters.text}
-            placeholder="Enter text"
-          />
-        </View>
-
         <View style={styles.page_container}>
           <View style={styles.pageContainer}>
             <Text style={styles.header_title}>Your Pages:</Text>
           </View>
         </View>
 
-        <View style={styles.page_container}>
-          <View style={styles.inputContainer}>
-            <Text style={styles.label}>Start Page:</Text>
+        <View style={styles.pageCont}>
+          <View style={styles.input_container}>
             <TextInput
               style={styles.page_input}
               value={states.startPage}
               onChangeText={setters.startPage}
               keyboardType="numeric"
             />
+            <Text style={styles.label}>Start Page:</Text>
           </View>
-          <View style={styles.inputContainer}>
-            <Text style={styles.label}>End Page:</Text>
+          <View style={styles.input_container}>
             <TextInput
               style={styles.page_input}
               value={states.endPage}
               onChangeText={setters.endPage}
               keyboardType="numeric"
             />
+            <Text style={styles.label}>End Page:</Text>
           </View>
         </View>
+        <View>
+          <View>
+            <Text style={styles.timer}>{states.time}</Text>
+          </View>
+        </View>
+        <View style={styles.header}>
+          <Text style={styles.header_title}>Timed Session:</Text>
+        </View>
+
         <TouchableOpacity style={styles.button} onPress={onSubmitLog}>
           <Text style={styles.buttonText}>SUBMIT LOG</Text>
         </TouchableOpacity>
@@ -90,10 +87,8 @@ const styles = StyleSheet.create({
   },
   container: {
     flex: 1,
-    flexDirection: "row",
-    flexWrap: "wrap",
-    justifyContent: "space-between",
-    padding: 20,
+    flexDirection: "column",
+    alignItems: "flex-start",
   },
   timer: {
     paddingVertical: 10,
@@ -112,7 +107,6 @@ const styles = StyleSheet.create({
     marginTop: 5,
     marginBottom: 3,
     alignItems: "center",
-    paddingHorizontal: 20,
     paddingVertical: 15,
     // marginTop: 20,
   },
@@ -191,9 +185,8 @@ const styles = StyleSheet.create({
   input_container: {
     alignItems: "flex-start",
     justifyContent: "flex-start",
-    flex: 1,
-    flexDirection: "row",
-    padding: 10,
+    marginBottom: 10,
+    flexDirection: "column",
   },
   input: {
     width: 300,
@@ -207,26 +200,30 @@ const styles = StyleSheet.create({
   },
   page_container: {
     flexDirection: "row",
-    justifyContent: "space-between",
+    justifyContent: "center",
     alignItems: "center",
-    paddingHorizontal: 20,
     paddingVertical: 10,
+  },
+  pageCont: {
+    flexDirection: "row",
+    justifyContent: "space-around",
+    alignItems: "center",
+    width: "100%",
   },
   inputContainer: {
     flexDirection: "row",
     alignItems: "center",
   },
   label: {
-    marginRight: 10,
     fontSize: 16,
-    paddingStart: 10,
   },
   page_input: {
     borderWidth: 1,
     borderRadius: 5,
     borderColor: "#ccc",
     padding: 5,
-    width: 50,
+    width: 110,
+    height: 50,
     fontSize: 16,
   },
 });

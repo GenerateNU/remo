@@ -22,6 +22,8 @@ import BookReturn from "./screens/bookReturn";
 const Stack = createNativeStackNavigator();
 
 export default function App() {
+  window.addEventListener = (x) => x;
+  window.removeEventListener = (x) => x;
   return (
     <NavigationContainer>
       <Stack.Navigator>

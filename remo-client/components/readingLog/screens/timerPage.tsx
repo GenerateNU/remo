@@ -1,24 +1,30 @@
 import { useNavigation, useRoute } from "@react-navigation/native";
+import { Button } from "@rneui/themed";
 import React, { useState, useEffect, useRef } from "react";
-import { View, Text, StyleSheet, TouchableOpacity, Alert } from "react-native";
+import {
+  View,
+  Text,
+  StyleSheet,
+  TouchableOpacity,
+  Alert,
+  TextInput,
+  TouchableWithoutFeedback,
+  Keyboard,
+} from "react-native";
 
-export default function TimerPage({ setters, bookTitle }) {
-  const [elapsedTime, setElapsedTime] = useState(0);
+export default function TimerPage({ setters, states }) {
   const [isRunning, setIsRunning] = useState(false);
   const intervalRef = useRef<null | Timer>(null);
 
   const route = useRoute();
   const data = route.params?.data;
   const title = data.title;
-  console.log(title);
 
   const onStopPress = () => {
-    setters.time(formatTime(elapsedTime));
+    setters.time(formatTime(states.time));
     setters.page("postTimer");
   };
-  useEffect(() => {
-    console.log(data);
-  }, []);
+  useEffect(() => {}, []);
 
   useEffect(() => {
     return () => clearInterval(intervalRef.current);
@@ -39,7 +45,7 @@ export default function TimerPage({ setters, bookTitle }) {
   const handleStart = () => {
     setIsRunning(true);
     intervalRef.current = setInterval(() => {
-      setElapsedTime((prevElapsedTime) => prevElapsedTime + 10);
+      setters.time((prevElapsedTime: number) => prevElapsedTime + 10);
     }, 10);
   };
 
@@ -55,7 +61,7 @@ export default function TimerPage({ setters, bookTitle }) {
             setIsRunning(false);
             clearInterval(intervalRef.current);
             onStopPress();
-            setElapsedTime(0);
+            setters.time(0);
           },
         },
       ],
@@ -63,31 +69,75 @@ export default function TimerPage({ setters, bookTitle }) {
     );
   };
 
+  const DismissKeyboard = ({ children }) => (
+    <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
+      {children}
+    </TouchableWithoutFeedback>
+  );
+
   const handlePause = () => {
     setIsRunning(false);
     clearInterval(intervalRef.current);
   };
 
+  const [shiftHeld, setShiftHeld] = useState(false);
+  function downHandler({ key }) {
+    if (key === "Shift") {
+      setShiftHeld(true);
+    }
+  }
+  function upHandler({ key }) {
+    if (key === "Shift") {
+      setShiftHeld(false);
+    }
+  }
+
+  useEffect(() => {
+    window.addEventListener("keydown", downHandler);
+    window.addEventListener("keyup", upHandler);
+    return () => {
+      window.removeEventListener("keydown", downHandler);
+      window.removeEventListener("keyup", upHandler);
+    };
+  }, []);
+
+  const keyHandles = ({ nativeEvent }) => {
+    console.log(nativeEvent);
+    console.log(nativeEvent.key);
+    if (nativeEvent.key === "Enter") {
+      Keyboard.dismiss();
+    }
+  };
+
   return (
     <View style={styles.container}>
-      <View style={styles.header}>
-        <Text style={styles.header_title}>Book Title:</Text>
-      </View>
       <View style={styles.subheader}>
-        <Text style={styles.header_data}>{title}</Text>
+        <Text style={styles.note}>Notes:</Text>
+        <Text style={styles.timer}>{formatTime(states.time)}</Text>
       </View>
-      {!isRunning && (
-        <TouchableOpacity style={styles.button} onPress={handleStart}>
-          <Text style={styles.buttonText}>START READING</Text>
-        </TouchableOpacity>
-      )}
-
-      <Text style={styles.timer}>{formatTime(elapsedTime)}</Text>
-      {isRunning && (
-        <TouchableOpacity style={styles.button} onPress={handleStop}>
-          <Text style={styles.buttonText}>STOP READING</Text>
-        </TouchableOpacity>
-      )}
+      <View style={styles.textBox}>
+        <TextInput
+          style={styles.input}
+          value={states.text}
+          maxLength={200}
+          multiline={true}
+          onChangeText={setters.text}
+          placeholder="Enter text"
+          onKeyPress={keyHandles}
+        />
+      </View>
+      <View style={styles.buttonContainer}>
+        {!isRunning && (
+          <TouchableOpacity style={styles.button} onPress={handleStart}>
+            <Text style={styles.buttonText}>START READING</Text>
+          </TouchableOpacity>
+        )}
+        {isRunning && (
+          <Button buttonStyle={styles.button} onPress={handleStop}>
+            STOP READING
+          </Button>
+        )}
+      </View>
     </View>
   );
 }
@@ -100,39 +150,32 @@ const styles = StyleSheet.create({
   },
   container: {
     flex: 1,
-    flexDirection: "row",
-    flexWrap: "wrap",
-    justifyContent: "space-between",
-    padding: 20,
+    flexDirection: "column",
+    justifyContent: "flex-start",
   },
   timer: {
-    paddingVertical: 10,
-    fontSize: 50,
+    fontSize: 30,
     fontWeight: "bold",
-    paddingLeft: 50,
     textAlign: "center",
   },
-  buttonContainer: {
-    flexDirection: "row",
-    marginTop: 20,
+  textBox: {
+    flex: 4,
+    flexDirection: "column",
+    height: 300,
+    justifyContent: "flex-start",
   },
-  header: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
-    paddingHorizontal: 20,
-    paddingVertical: 7,
-    // borderBottomWidth: 1,
-    borderBottomColor: "#ccc",
+  buttonContainer: {
+    marginTop: 8,
+    flex: 3,
   },
   subheader: {
     flexDirection: "row",
+    width: "100%",
+    flex: 1,
+    height: "100%",
     justifyContent: "space-between",
     alignItems: "center",
-    paddingHorizontal: 20,
     paddingVertical: 7,
-    paddingBottom: 75,
-    borderBottomColor: "#ccc",
   },
   header_title: {
     fontSize: 20,
@@ -160,20 +203,11 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: "bold",
   },
-  author: {
-    fontSize: 14,
-    marginBottom: 5,
-  },
-  isbn: {
-    fontSize: 14,
-    marginBottom: 5,
-  },
   button: {
     backgroundColor: "black",
     height: 50,
     justifyContent: "center",
     alignItems: "center",
-    marginHorizontal: 5,
     marginVertical: 10,
     borderRadius: 10,
     width: "100%",
@@ -182,5 +216,23 @@ const styles = StyleSheet.create({
     color: "white",
     fontSize: 18,
     fontWeight: "bold",
+  },
+  input_container: {
+    alignItems: "center",
+    justifyContent: "center",
+    padding: 10,
+  },
+  input: {
+    height: 300,
+    borderWidth: 1,
+    borderColor: "black",
+    textAlignVertical: "top",
+    padding: 20,
+    paddingTop: 10,
+    borderRadius: 20,
+  },
+  note: {
+    fontSize: 18,
+    // fontWeight: 'bold',
   },
 });

@@ -23,12 +23,6 @@ export default function ReadingLogDisplayPage({ states }) {
     <ScrollView>
       <View style={styles.container}>
         <View style={styles.header}>
-          <Text style={styles.header_title}>Book Title:</Text>
-        </View>
-        <View style={styles.subheader}>
-          <Text style={styles.header_data}>{data.title}</Text>
-        </View>
-        <View style={styles.header}>
           <Text style={styles.header_title}>Your Time Spent:</Text>
         </View>
         <Text style={styles.timer}>{states.time}</Text>
@@ -100,11 +94,6 @@ const styles = StyleSheet.create({
   },
   header_data: {
     fontSize: 18,
-    // fontWeight: 'bold',
-  },
-  note: {
-    fontSize: 18,
-    paddingRight: 250,
     // fontWeight: 'bold',
   },
   count: {
