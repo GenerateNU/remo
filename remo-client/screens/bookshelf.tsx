@@ -74,7 +74,6 @@ export default function Bookshelf() {
               </View>
             </ScrollView>);    
           }
-
 }
 
 const styles = StyleSheet.create({

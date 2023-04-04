@@ -36,7 +36,7 @@ export default function Returns() {
         <ScrollView>
           <View style={styles.header}>
             <Text style={styles.header_title}>Select a Book to Return</Text>
-            {/* <Text style={styles.count}>{books.length} Books</Text> */}
+            <Text style={styles.count}>{books.length} Books</Text>
           </View>
           <View style={styles.container}>
             {books.map((book) => (
@@ -77,12 +77,12 @@ export default function Returns() {
       return(
         <ScrollView>
           <View style={styles.header}>
-            <Text style={styles.header_title}>Bookshelf</Text>
+            <Text style={styles.header_title}>Select a Book to Return </Text>
             <Text style={styles.count}> 0 Books to Display</Text>
           </View>
         </ScrollView>);    
       }
-    }
+    
 }
 
 const styles = StyleSheet.create({
