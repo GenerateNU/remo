@@ -9,29 +9,40 @@ import {
   TextInput,
   ScrollView,
 } from "react-native";
+import BottomButtons from "../botButtons/bottomButtons";
 
 export default function PostReadingLogPage({ setters, states }) {
   const route = useRoute();
 
   const data = route.params?.data;
 
-  useEffect(() => {
-    console.log(data);
-  }, []);
-
   const onSubmitLog = () => {
     setters.page("displayPage");
   };
 
-  const formatTime = (timeInMs: number) => {
+  const formatMinutes = (timeInMs: number) => {
     const minutes = Math.floor(timeInMs / 60000);
+
+    return `${minutes}`;
+  };
+
+  const formatSeconds = (timeInMs: number) => {
     const seconds = Math.floor((timeInMs % 60000) / 1000);
 
-    const paddedMinutes = minutes.toString().padStart(2, "0");
-    const paddedSeconds = seconds.toString().padStart(2, "0");
-
-    return `${paddedMinutes}:${paddedSeconds}a`;
+    return `${seconds}`;
   };
+
+  const minutes = Math.floor(states.time / 60000);
+  const seconds = Math.floor((states.time % 60000) / 1000) / 60.0;
+  let mins: number = minutes + seconds;
+  mins = Number(mins.toPrecision(3));
+
+  useEffect(() => {
+    console.log(data);
+    console.log(states.endPage - states.startPage);
+    console.log(mins);
+    console.log((states.endPage - states.startPage) / mins);
+  }, []);
 
   return (
     <ScrollView>
@@ -50,7 +61,7 @@ export default function PostReadingLogPage({ setters, states }) {
               onChangeText={setters.startPage}
               keyboardType="numeric"
             />
-            <Text style={styles.label}>Start Page:</Text>
+            <Text style={styles.label}>Start Page</Text>
           </View>
           <View style={styles.input_container}>
             <TextInput
@@ -59,21 +70,44 @@ export default function PostReadingLogPage({ setters, states }) {
               onChangeText={setters.endPage}
               keyboardType="numeric"
             />
-            <Text style={styles.label}>End Page:</Text>
+            <Text style={styles.label}>End Page</Text>
+          </View>
+        </View>
+        <View style={styles.outer}>
+          <View style={styles.row}>
+            <View>
+              <Text style={[styles.timer, styles.bold]}>
+                {states.endPage - states.startPage}
+              </Text>
+            </View>
+            <View>
+              <Text style={styles.timer}>pages</Text>
+            </View>
+            <View>
+              <Text style={styles.timer}>in</Text>
+            </View>
+            <View>
+              <Text style={[styles.timer, styles.bold]}>{mins}</Text>
+            </View>
+            <View>
+              <Text style={styles.timer}>minutes</Text>
+            </View>
+          </View>
+          <View>
+            <Text>
+              {Number((states.endPage - states.startPage) / mins).toPrecision(
+                3
+              )}{" "}
+              ppm
+            </Text>
           </View>
         </View>
         <View>
-          <View>
-            <Text style={styles.timer}>{states.time}</Text>
-          </View>
+          <BottomButtons
+            pageSetter={setters.page}
+            pageToGo={"selectResponse"}
+          />
         </View>
-        <View style={styles.header}>
-          <Text style={styles.header_title}>Timed Session:</Text>
-        </View>
-
-        <TouchableOpacity style={styles.button} onPress={onSubmitLog}>
-          <Text style={styles.buttonText}>SUBMIT LOG</Text>
-        </TouchableOpacity>
       </View>
     </ScrollView>
   );
@@ -85,18 +119,38 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
   },
+  column: {
+    flexDirection: "column",
+  },
+  row: {
+    flexDirection: "row",
+    justifyContent: "center",
+    width: "100%",
+    alignItems: "center",
+    marginBottom: 12,
+  },
+  outer: {
+    width: "100%",
+    borderWidth: 1,
+    flexDirection: "column",
+    justifyContent: "center",
+    alignItems: "center",
+    borderRadius: 20,
+    paddingVertical: 10,
+    marginBottom: 12,
+  },
   container: {
     flex: 1,
     flexDirection: "column",
     alignItems: "flex-start",
   },
   timer: {
-    paddingVertical: 10,
-    fontSize: 50,
+    fontSize: 20,
+    fontWeight: "400",
+    marginHorizontal: 2,
+  },
+  bold: {
     fontWeight: "bold",
-    paddingLeft: 50,
-    textAlign: "center",
-    paddingBottom: 30,
   },
   buttonContainer: {
     flexDirection: "row",
@@ -222,6 +276,7 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     borderColor: "#ccc",
     padding: 5,
+    marginBottom: 6,
     width: 110,
     height: 50,
     fontSize: 16,

@@ -6,6 +6,7 @@ import TimerPage from "../components/readingLog/screens/timerPage";
 import PostReadingLogPage from "../components/readingLog/screens/postRLogPage";
 import ReadingLogDisplayPage from "../components/readingLog/screens/rLogDisplayPage";
 import BookTop from "../components/readingLog/bookTop/bookTop";
+import SelectResponse from "../components/readingLog/screens/selectResponseType";
 
 export default function ReadingLogFlow({ navigation }) {
   const route = useRoute();
@@ -15,8 +16,8 @@ export default function ReadingLogFlow({ navigation }) {
   const [page, setPage] = useState("timerPage");
   const [time, setTime] = useState(0);
   const [text, setText] = useState("");
-  const [startPage, setStartPage] = useState("");
-  const [endPage, setEndPage] = useState("");
+  const [startPage, setStartPage] = useState(0);
+  const [endPage, setEndPage] = useState(0);
 
   const setters = {
     time: setTime,
@@ -49,6 +50,9 @@ export default function ReadingLogFlow({ navigation }) {
           {
             timerPage: <TimerPage setters={setters} states={states} />,
             postTimer: <PostReadingLogPage setters={setters} states={states} />,
+            selectResponse: (
+              <SelectResponse setters={setters} states={states} />
+            ),
             displayPage: <ReadingLogDisplayPage states={states} />,
           }[page]
         }

@@ -21,7 +21,7 @@ export default function TimerPage({ setters, states }) {
   const title = data.title;
 
   const onStopPress = () => {
-    setters.time(formatTime(states.time));
+    setters.time(states.time);
     setters.page("postTimer");
   };
   useEffect(() => {}, []);
@@ -61,7 +61,6 @@ export default function TimerPage({ setters, states }) {
             setIsRunning(false);
             clearInterval(intervalRef.current);
             onStopPress();
-            setters.time(0);
           },
         },
       ],
@@ -102,8 +101,6 @@ export default function TimerPage({ setters, states }) {
   }, []);
 
   const keyHandles = ({ nativeEvent }) => {
-    console.log(nativeEvent);
-    console.log(nativeEvent.key);
     if (nativeEvent.key === "Enter") {
       Keyboard.dismiss();
     }
@@ -154,8 +151,8 @@ const styles = StyleSheet.create({
     justifyContent: "flex-start",
   },
   timer: {
-    fontSize: 30,
-    fontWeight: "bold",
+    fontSize: 20,
+    fontWeight: "400",
     textAlign: "center",
   },
   textBox: {

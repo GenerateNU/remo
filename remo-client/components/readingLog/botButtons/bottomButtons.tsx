@@ -18,31 +18,48 @@ export default function BottomButtons({ pageSetter, pageToGo }) {
 
   return (
     <View style={styles.flow}>
-      <Button
-        buttonStyle={styles.leftButton}
-        type={"outline"}
-        onPress={exit}
-        title={"Exit"}
-      ></Button>
-      <Button
-        buttonStyle={styles.rightButton}
-        onPress={nextPage}
-        title={"Next"}
-      ></Button>
+      <View style={styles.leftButton}>
+        <Button
+          buttonStyle={styles.button}
+          type={"outline"}
+          onPress={exit}
+          title={"Exit"}
+        ></Button>
+      </View>
+      <View style={styles.rightButton}>
+        <Button
+          buttonStyle={styles.button}
+          onPress={nextPage}
+          title={"Next"}
+        ></Button>
+      </View>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
   leftButton: {
-    width: "20%",
+    flex: 2,
+    width: "100%",
+    paddingRight: 5,
   },
   rightButton: {
-    width: "60%",
+    flex: 4,
+    width: "100%",
+    paddingLeft: 5,
+  },
+  button: {
+    width: "100%",
+    borderRadius: 10,
+    height: 50,
+    justifyContent: "center",
+    alignItems: "center",
   },
   flow: {
     flex: 1,
+    width: "100%",
     flexDirection: "row",
-    justifyContent: "space-between",
+    alignItems: "flex-end",
+    justifyContent: "center",
   },
 });
