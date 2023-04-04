@@ -30,15 +30,13 @@ export default function Returns() {
   useEffect(() => {
     findBooks();
   }, []);
-  console.log(data.id);
-  console.log(books);
-  console.log("The length is; ", books.length);
+
 
   return (
     <ScrollView>
       <View style={styles.header}>
         <Text style={styles.header_title}>Select a Book to Return</Text>
-        <Text style={styles.count}>{books.length} Books</Text>
+        {/* <Text style={styles.count}>{books.length} Books</Text> */}
       </View>
       <View style={styles.container}>
         {books.map((book) => (
