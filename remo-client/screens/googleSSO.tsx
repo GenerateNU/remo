@@ -64,7 +64,7 @@ export default function GoogleSSO() {
 		
 		try {
 			var res = await fetch(
-				"https://f9a8-155-33-133-12.ngrok.io/v1/login", {
+				"https://d3f5-155-33-133-25.ngrok.io/v1/login", {
 					method: "POST",
 					credentials: "include",
 					headers: {
@@ -89,7 +89,7 @@ export default function GoogleSSO() {
 
 				// NAVIGATE TO NEXT PAGE
         // TODO: add logic to check if onboarding questions have been submitted
-				navigation.navigate("Profile", {
+				navigation.navigate("Onboarding", {
 					data: googdata
 				})
 				} catch (error) {
