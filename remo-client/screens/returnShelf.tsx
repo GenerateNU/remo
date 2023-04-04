@@ -31,47 +31,58 @@ export default function Returns() {
     findBooks();
   }, []);
 
-
-  return (
-    <ScrollView>
-      <View style={styles.header}>
-        <Text style={styles.header_title}>Select a Book to Return</Text>
-        {/* <Text style={styles.count}>{books.length} Books</Text> */}
-      </View>
-      <View style={styles.container}>
-        {books.map((book) => (
-          <TouchableHighlight
-            key={book.id}
-            style={[
-              styles.book,
-              selectedBook && selectedBook.id === book.id && styles.selected,
-            ]}
-            underlayColor="#ccc"
-            onPress={() => {navigation.navigate("BookReturn", {data: {...data, 
-                                                            title: book.title, 
-                                                            author: book.author, 
-                                                            barcode: book.isbn_13, 
-                                                            synopsis: book.synopsis, 
-                                                            published: book.publish_date, 
-                                                            pageCount: book.page_count,
-                                                            pageVisited: "Returns"},})
-            }}
-          >
-            <>
-              <Text style={styles.title}>{book.title}</Text>
-              <Text style={styles.author}>{book.author}</Text>
-              <Text style={styles.isbn}>ISBN-13: {book.isbn_13}</Text>
-            </>
-          </TouchableHighlight>
-        ))}
-      </View>
-      {selectedBook &&
-        Alert.alert(
-          selectedBook.title,
-          `Author: ${selectedBook.author}\nISBN-13: ${selectedBook.isbn_13}\nSynopsis: ${selectedBook.synopsis}`
-        )}
-    </ScrollView>
-  );
+  try{
+      return (
+        <ScrollView>
+          <View style={styles.header}>
+            <Text style={styles.header_title}>Select a Book to Return</Text>
+            {/* <Text style={styles.count}>{books.length} Books</Text> */}
+          </View>
+          <View style={styles.container}>
+            {books.map((book) => (
+              <TouchableHighlight
+                key={book.id}
+                style={[
+                  styles.book,
+                  selectedBook && selectedBook.id === book.id && styles.selected,
+                ]}
+                underlayColor="#ccc"
+                onPress={() => {navigation.navigate("BookReturn", {data: {...data, 
+                                                                title: book.title, 
+                                                                author: book.author, 
+                                                                barcode: book.isbn_13, 
+                                                                synopsis: book.synopsis, 
+                                                                published: book.publish_date, 
+                                                                pageCount: book.page_count,
+                                                                pageVisited: "Returns"},})
+                }}
+              >
+                <>
+                  <Text style={styles.title}>{book.title}</Text>
+                  <Text style={styles.author}>{book.author}</Text>
+                  <Text style={styles.isbn}>ISBN-13: {book.isbn_13}</Text>
+                </>
+              </TouchableHighlight>
+            ))}
+          </View>
+          {selectedBook &&
+            Alert.alert(
+              selectedBook.title,
+              `Author: ${selectedBook.author}\nISBN-13: ${selectedBook.isbn_13}\nSynopsis: ${selectedBook.synopsis}`
+            )}
+        </ScrollView>
+      );
+    }
+    catch(e){
+      return(
+        <ScrollView>
+          <View style={styles.header}>
+            <Text style={styles.header_title}>Bookshelf</Text>
+            <Text style={styles.count}> 0 Books to Display</Text>
+          </View>
+        </ScrollView>);    
+      }
+    }
 }
 
 const styles = StyleSheet.create({
