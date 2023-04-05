@@ -28,12 +28,12 @@ export default function SelectResponse({ setters, states }) {
       <View style={styles.top}>
         <PressableList
           list={listResponse}
-          setters={setters}
-          pageTo={"displayPage"}
+          setter={setters.responseType}
+          state={states.responseType}
         />
       </View>
       <View style={styles.bot}>
-        <BottomButtons pageSetter={setters.page} pageToGo={"displayPage"} />
+        <BottomButtons pageSetter={setters.page} pageToGo={"addSummary"} />
       </View>
     </View>
   );
@@ -51,7 +51,6 @@ const styles = StyleSheet.create({
   },
   bot: {
     flex: 1,
-    justifyContent: "flex-start",
-    paddingBottom: 60,
+    justifyContent: "center",
   },
 });

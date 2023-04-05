@@ -10,6 +10,7 @@ import {
   TextInput,
   TouchableWithoutFeedback,
   Keyboard,
+  ScrollView,
 } from "react-native";
 
 export default function TimerPage({ setters, states }) {
@@ -112,17 +113,19 @@ export default function TimerPage({ setters, states }) {
         <Text style={styles.note}>Notes:</Text>
         <Text style={styles.timer}>{formatTime(states.time)}</Text>
       </View>
-      <View style={styles.textBox}>
-        <TextInput
-          style={styles.input}
-          value={states.text}
-          maxLength={200}
-          multiline={true}
-          onChangeText={setters.text}
-          placeholder="Enter text"
-          onKeyPress={keyHandles}
-        />
-      </View>
+      <ScrollView>
+        <View style={styles.textBox}>
+          <TextInput
+            style={styles.input}
+            value={states.text}
+            maxLength={200}
+            multiline={true}
+            onChangeText={setters.text}
+            placeholder="Enter text"
+            onKeyPress={keyHandles}
+          />
+        </View>
+      </ScrollView>
       <View style={styles.buttonContainer}>
         {!isRunning && (
           <TouchableOpacity style={styles.button} onPress={handleStart}>

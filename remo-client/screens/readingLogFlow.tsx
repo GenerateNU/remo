@@ -7,6 +7,7 @@ import PostReadingLogPage from "../components/readingLog/screens/postRLogPage";
 import ReadingLogDisplayPage from "../components/readingLog/screens/rLogDisplayPage";
 import BookTop from "../components/readingLog/bookTop/bookTop";
 import SelectResponse from "../components/readingLog/screens/selectResponseType";
+import AddSummary from "../components/readingLog/screens/addSummary";
 
 export default function ReadingLogFlow({ navigation }) {
   const route = useRoute();
@@ -18,6 +19,9 @@ export default function ReadingLogFlow({ navigation }) {
   const [text, setText] = useState("");
   const [startPage, setStartPage] = useState(0);
   const [endPage, setEndPage] = useState(0);
+  const [responseType, setResponseType] = useState("");
+  const [going, setGoing] = useState("");
+  const [summary, setSummary] = useState("");
 
   const setters = {
     time: setTime,
@@ -25,6 +29,9 @@ export default function ReadingLogFlow({ navigation }) {
     text: setText,
     startPage: setStartPage,
     endPage: setEndPage,
+    responseType: setResponseType,
+    going: setGoing,
+    summary: setSummary,
   };
 
   const states = {
@@ -33,6 +40,9 @@ export default function ReadingLogFlow({ navigation }) {
     text: text,
     startPage: startPage,
     endPage: endPage,
+    responseType: responseType,
+    going: going,
+    summary: summary,
   };
 
   const newData = {
@@ -53,6 +63,7 @@ export default function ReadingLogFlow({ navigation }) {
             selectResponse: (
               <SelectResponse setters={setters} states={states} />
             ),
+            addSummary: <AddSummary setters={setters} states={states} />,
             displayPage: <ReadingLogDisplayPage states={states} />,
           }[page]
         }

@@ -1,7 +1,7 @@
 import { useNavigation, useRoute } from "@react-navigation/native";
 import { Button } from "@rneui/themed";
 import React from "react";
-import { StyleSheet, View } from "react-native";
+import { StyleSheet, View, Text } from "react-native";
 
 export default function BottomButtons({ pageSetter, pageToGo }) {
   const navigation = useNavigation();
@@ -19,16 +19,14 @@ export default function BottomButtons({ pageSetter, pageToGo }) {
   return (
     <View style={styles.flow}>
       <View style={styles.leftButton}>
-        <Button
-          buttonStyle={styles.button}
-          type={"outline"}
-          onPress={exit}
-          title={"Exit"}
-        ></Button>
+        <Button buttonStyle={[styles.button]} type={"outline"} onPress={exit}>
+          <Text style={styles.color}>Exit</Text>
+        </Button>
       </View>
       <View style={styles.rightButton}>
         <Button
           buttonStyle={styles.button}
+          color={"#954A98"}
           onPress={nextPage}
           title={"Next"}
         ></Button>
@@ -56,10 +54,13 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   flow: {
-    flex: 1,
     width: "100%",
     flexDirection: "row",
     alignItems: "flex-end",
     justifyContent: "center",
+  },
+  color: {
+    color: "#954A98",
+    fontSize: 18,
   },
 });

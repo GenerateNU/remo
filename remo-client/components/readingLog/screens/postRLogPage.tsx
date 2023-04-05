@@ -45,71 +45,70 @@ export default function PostReadingLogPage({ setters, states }) {
   }, []);
 
   return (
-    <ScrollView>
-      <View style={styles.container}>
-        <View style={styles.page_container}>
-          <View style={styles.pageContainer}>
-            <Text style={styles.header_title}>Your Pages:</Text>
+    <View style={styles.container}>
+      <View style={styles.top}>
+        <ScrollView>
+          <View style={styles.page_container}>
+            <View style={styles.pageContainer}>
+              <Text style={styles.header_title}>Your Pages:</Text>
+            </View>
           </View>
-        </View>
 
-        <View style={styles.pageCont}>
-          <View style={styles.input_container}>
-            <TextInput
-              style={styles.page_input}
-              value={states.startPage}
-              onChangeText={setters.startPage}
-              keyboardType="numeric"
-            />
-            <Text style={styles.label}>Start Page</Text>
+          <View style={styles.pageCont}>
+            <View style={styles.input_container}>
+              <TextInput
+                style={styles.page_input}
+                value={states.startPage}
+                onChangeText={setters.startPage}
+                keyboardType="numeric"
+              />
+              <Text style={styles.label}>Start Page</Text>
+            </View>
+            <View style={styles.input_container}>
+              <TextInput
+                style={styles.page_input}
+                value={states.endPage}
+                onChangeText={setters.endPage}
+                keyboardType="numeric"
+              />
+              <Text style={styles.label}>End Page</Text>
+            </View>
           </View>
-          <View style={styles.input_container}>
-            <TextInput
-              style={styles.page_input}
-              value={states.endPage}
-              onChangeText={setters.endPage}
-              keyboardType="numeric"
-            />
-            <Text style={styles.label}>End Page</Text>
-          </View>
-        </View>
-        <View style={styles.outer}>
-          <View style={styles.row}>
+          <View style={styles.outer}>
+            <View style={styles.row}>
+              <View>
+                <Text style={[styles.timer, styles.bold]}>
+                  {states.endPage - states.startPage}
+                </Text>
+              </View>
+              <View>
+                <Text style={styles.timer}>pages</Text>
+              </View>
+              <View>
+                <Text style={styles.timer}>in</Text>
+              </View>
+              <View>
+                <Text style={[styles.timer, styles.bold]}>{mins}</Text>
+              </View>
+              <View>
+                <Text style={styles.timer}>minutes</Text>
+              </View>
+            </View>
             <View>
-              <Text style={[styles.timer, styles.bold]}>
-                {states.endPage - states.startPage}
+              <Text>
+                {Number((states.endPage - states.startPage) / mins).toPrecision(
+                  3
+                )}{" "}
+                ppm
               </Text>
             </View>
-            <View>
-              <Text style={styles.timer}>pages</Text>
-            </View>
-            <View>
-              <Text style={styles.timer}>in</Text>
-            </View>
-            <View>
-              <Text style={[styles.timer, styles.bold]}>{mins}</Text>
-            </View>
-            <View>
-              <Text style={styles.timer}>minutes</Text>
-            </View>
           </View>
-          <View>
-            <Text>
-              {Number((states.endPage - states.startPage) / mins).toPrecision(
-                3
-              )}{" "}
-              ppm
-            </Text>
-          </View>
-        </View>
-        <View>
-          <BottomButtons
-            pageSetter={setters.page}
-            pageToGo={"selectResponse"}
-          />
-        </View>
+        </ScrollView>
       </View>
-    </ScrollView>
+      <View style={styles.bot}>
+        <BottomButtons pageSetter={setters.page} pageToGo={"selectResponse"} />
+      </View>
+    </View>
   );
 }
 
@@ -118,6 +117,14 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
+  },
+  top: {
+    flex: 5,
+    width: "100%",
+  },
+  bot: {
+    flex: 1,
+    justifyContent: "center",
   },
   column: {
     flexDirection: "column",
@@ -132,6 +139,7 @@ const styles = StyleSheet.create({
   outer: {
     width: "100%",
     borderWidth: 1,
+    marginTop: 20,
     flexDirection: "column",
     justifyContent: "center",
     alignItems: "center",
@@ -141,6 +149,7 @@ const styles = StyleSheet.create({
   },
   container: {
     flex: 1,
+    height: "100%",
     flexDirection: "column",
     alignItems: "flex-start",
   },

@@ -2,11 +2,11 @@ import React from "react";
 import { View, Text, StyleSheet } from "react-native";
 import PressableNavItem from "./pressableNavItem";
 
-export default function PressableList({ list, setters, pageTo }) {
+export default function PressableList({ list, setter, state }) {
   return (
     <View style={styles.list_container}>
       {list.map((item: string) => (
-        <PressableNavItem item={item} setters={setters} pageTo={pageTo} />
+        <PressableNavItem item={item} setter={setter} state={state} />
       ))}
     </View>
   );
