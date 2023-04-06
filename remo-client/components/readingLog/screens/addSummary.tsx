@@ -6,6 +6,7 @@ import {
   TextInput,
   ScrollView,
   Keyboard,
+  Pressable,
 } from "react-native";
 import BottomButtons from "../botButtons/bottomButtons";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
@@ -20,11 +21,100 @@ export default function AddSummary({ setters, states }) {
   };
 
   const [helpVisible, setHelpVisible] = useState(false);
+  const [notesVisible, setNotesVisible] = useState(false);
 
   return (
     <View style={styles.container}>
       <Modal isVisible={helpVisible} style={styles.helpModal}>
-        <View style={styles.helpModalDisplay}></View>
+        <View style={styles.helpModalDisplay}>
+          <View style={styles.modalTop}>
+            <MaterialCommunityIcons
+              name="comment-question-outline"
+              size={24}
+              style={styles.color}
+            />
+            <Text style={styles.modalText}>Help</Text>
+            <Pressable onPress={() => setHelpVisible(false)}>
+              <View style={styles.xBox}>
+                <Text>x</Text>
+              </View>
+            </Pressable>
+          </View>
+          <View style={styles.modalRow}>
+            <Text style={[styles.modalTextSmall, { fontWeight: "bold" }]}>
+              Strategy:{" "}
+            </Text>
+            <Text style={styles.modalTextSmall}>SWBSTF </Text>
+          </View>
+          <View style={styles.simpleCol}>
+            <View style={styles.modalRow}>
+              <Text style={[styles.modalTextSmall, { fontWeight: "bold" }]}>
+                Somebody:{" "}
+              </Text>
+              <Text style={styles.modalTextSmall}>identify the character </Text>
+            </View>
+            <View style={styles.modalRow}>
+              <Text style={[styles.modalTextSmall, { fontWeight: "bold" }]}>
+                Wanted:{" "}
+              </Text>
+              <Text style={styles.modalTextSmall}>
+                identify the character's goal{" "}
+              </Text>
+            </View>
+            <View style={styles.modalRow}>
+              <Text style={[styles.modalTextSmall, { fontWeight: "bold" }]}>
+                But:{" "}
+              </Text>
+              <Text style={styles.modalTextSmall}>identify the character </Text>
+            </View>
+            <View style={styles.modalRow}>
+              <Text style={[styles.modalTextSmall, { fontWeight: "bold" }]}>
+                So:{" "}
+              </Text>
+              <Text style={styles.modalTextSmall}>
+                identify what the character does{" "}
+              </Text>
+            </View>
+            <View style={styles.modalRow}>
+              <Text style={[styles.modalTextSmall, { fontWeight: "bold" }]}>
+                Then:{" "}
+              </Text>
+              <Text style={styles.modalTextSmall}>
+                identify the consequences of the char-{"\n"}acter's actions{" "}
+              </Text>
+            </View>
+            <View style={styles.modalRow}>
+              <Text style={[styles.modalTextSmall, { fontWeight: "bold" }]}>
+                Finally:{" "}
+              </Text>
+              <Text style={styles.modalTextSmall}>
+                identify the resolution to the problem{" "}
+              </Text>
+            </View>
+          </View>
+        </View>
+      </Modal>
+
+      <Modal isVisible={notesVisible} style={styles.helpModal}>
+        <View style={styles.notesModalDisplay}>
+          <View style={[styles.modalTop, styles.spaceRow]}>
+            <MaterialCommunityIcons
+              name="comment-question-outline"
+              size={24}
+              style={styles.color}
+            />
+            <Text style={styles.modalText}>Notes</Text>
+            <Pressable onPress={() => setNotesVisible(false)}>
+              <View style={styles.xBox}>
+                <Text>x</Text>
+              </View>
+            </Pressable>
+          </View>
+          <Text style={[styles.spaceRow, styles.bold, { fontSize: 20 }]}>
+            Refer to or copy any notes to pase
+          </Text>
+          <Text style={{ fontSize: 20 }}>{states.text}</Text>
+        </View>
       </Modal>
       <View style={styles.top}>
         <ScrollView>
@@ -47,7 +137,11 @@ export default function AddSummary({ setters, states }) {
             />
           </View>
           <View style={styles.buttons}>
-            <Button buttonStyle={styles.button} type={"outline"}>
+            <Button
+              buttonStyle={styles.button}
+              type={"outline"}
+              onPress={() => setNotesVisible(true)}
+            >
               <Text style={[styles.color, styles.buttonText]}>VIEW NOTES</Text>
             </Button>
             <Button
@@ -78,19 +172,59 @@ const styles = StyleSheet.create({
     flexDirection: "column",
     alignItems: "flex-start",
   },
+  modalTop: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    width: "100%",
+  },
+  simpleCol: {
+    flexDirection: "column",
+  },
+  modalRow: {
+    flexDirection: "row",
+  },
+  xBox: {
+    paddingHorizontal: 8,
+    paddingVertical: 3,
+    borderWidth: 1,
+    borderRadius: 7,
+  },
+  modalText: {
+    fontSize: 20,
+  },
+  modalTextSmall: {
+    fontSize: 16,
+  },
   helpModal: {
     justifyContent: "flex-end",
     margin: 0,
     alignItems: "center",
   },
   helpModalDisplay: {
-    justifyContent: "flex-start",
-    alignItems: "center",
+    justifyContent: "space-between",
+    alignItems: "flex-start",
     width: "100%",
+    height: 300,
     backgroundColor: "white",
-    paddingTop: 16,
+    paddingVertical: 32,
+    paddingHorizontal: 25,
     borderTopLeftRadius: 20,
     borderTopRightRadius: 20,
+  },
+  notesModalDisplay: {
+    justifyContent: "flex-start",
+    alignItems: "flex-start",
+    width: "100%",
+    height: 650,
+    backgroundColor: "white",
+    paddingVertical: 32,
+    paddingHorizontal: 25,
+    borderTopLeftRadius: 20,
+    borderTopRightRadius: 20,
+  },
+  spaceRow: {
+    marginBottom: 20,
   },
   top: {
     flex: 7,

@@ -61,7 +61,7 @@ export default function GoogleSSO() {
 
       try {
         var res = await fetch(
-          "https://2120-2601-197-701-1030-3048-28b5-2e6d-a242.ngrok.io/v1/login",
+          "https://e846-2601-197-701-1030-1079-c39e-1b5-3cab.ngrok.io/v1/login",
           {
             method: "POST",
             credentials: "include",
