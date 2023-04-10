@@ -160,7 +160,7 @@ export default function AddSummary({ setters, states }) {
         </ScrollView>
       </View>
       <View style={styles.bot}>
-        <BottomButtons pageSetter={setters.page} pageToGo={"displayPage"} />
+        <BottomButtons pageSetter={setters.page} pageToGo={"howGoes"} />
       </View>
     </View>
   );

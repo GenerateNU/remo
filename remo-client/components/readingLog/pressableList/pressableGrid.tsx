@@ -2,8 +2,7 @@ import React from "react";
 import { View, Text, StyleSheet } from "react-native";
 import PressableNavItem from "./pressableNavItem";
 
-export default function PressableList({ list, setter, state }) {
-  // TODO; create the new type of pressable card
+export default function PressableGrid({ list, setter, state }) {
   return (
     <View style={styles.list_container}>
       {list.map((item: string) => (

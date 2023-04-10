@@ -1,4 +1,3 @@
-import { useNavigation, useRoute } from "@react-navigation/native";
 import React, { useState, useEffect, useRef } from "react";
 import {
   View,
@@ -10,30 +9,30 @@ import {
   ScrollView,
 } from "react-native";
 import BottomButtons from "../botButtons/bottomButtons";
-import PressableGrid from "../pressableList/pressableGrid";
+import PressableList from "../pressableList/pressableGrid";
 
-export default function SelectResponse({ setters, states }) {
+export default function SelectReadingHow({ setters, states }) {
   const listResponse: string[] = [
-    "THOUGHTS & FEELINGS",
-    "SUMMARY",
-    "LIFT-A-LINE",
-    "N&N SIGNPOSTS",
-    "STRATEGIES",
-    "AUTHOR'S CRAFT",
-    "NO RESPONSE",
+    "Things are going well with my book.",
+    "I don’t like this book, and want to abandon it",
+    "I will be finished with my book soon.",
+    "I want to talk to you about my book.",
+    "I am finished with my book.",
+    "I’m confused and I need help.",
   ];
 
   return (
     <View style={styles.container}>
+      <Text>How’s it going with your book?</Text>
       <View style={styles.top}>
-        <PressableGrid
+        <PressableList
           list={listResponse}
-          setter={setters.responseType}
-          state={states.responseType}
+          setter={setters.going}
+          state={states.goint}
         />
       </View>
       <View style={styles.bot}>
-        <BottomButtons pageSetter={setters.page} pageToGo={"addSummary"} />
+        <BottomButtons pageSetter={setters.page} pageToGo={"displayPage"} />
       </View>
     </View>
   );

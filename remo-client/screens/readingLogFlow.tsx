@@ -8,6 +8,7 @@ import ReadingLogDisplayPage from "../components/readingLog/screens/rLogDisplayP
 import BookTop from "../components/readingLog/bookTop/bookTop";
 import SelectResponse from "../components/readingLog/screens/selectResponseType";
 import AddSummary from "../components/readingLog/screens/addSummary";
+import SelectReadingHow from "../components/readingLog/screens/readingHowGoes";
 
 export default function ReadingLogFlow({ navigation }) {
   const route = useRoute();
@@ -64,6 +65,7 @@ export default function ReadingLogFlow({ navigation }) {
               <SelectResponse setters={setters} states={states} />
             ),
             addSummary: <AddSummary setters={setters} states={states} />,
+            howGoes: <SelectReadingHow setters={setters} states={states} />,
             displayPage: <ReadingLogDisplayPage states={states} />,
           }[page]
         }
