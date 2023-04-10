@@ -63,6 +63,9 @@ const Notifications = () => {
 	// toggle switch changing state
 	const toggleSwitch = () => {
 		setIsEnabled((previousState) => !previousState);
+		if (!isEnabled) {
+			Notification.cancelAllScheduledNotificationsAsync();
+		}
 	};
 
 	useEffect(() => {
