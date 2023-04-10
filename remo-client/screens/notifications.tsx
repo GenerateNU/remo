@@ -1,22 +1,22 @@
 import React, { useEffect, useState, useRef } from "react";
 import {
 	View,
+	Button,
 	TextInput,
 	StyleSheet,
 	Text,
 	Switch,
 	Platform,
 } from "react-native";
-import { useNavigation } from "@react-navigation/native";
+import { useNavigation, useRoute } from "@react-navigation/native";
 import * as Device from "expo-device";
 import * as Notification from "expo-notifications";
 import { DayPicker } from "react-native-picker-weekday";
-import { useRoute } from "@react-navigation/native";
-import { Button } from "@rneui/base";
-// import {DateTimePickerAndroid} from '@react-native-community/datetimepicker';
-import DateTimePicker from '@react-native-community/datetimepicker';
-// import DateTimePicker from '@react-native-community/datetimepicker';
+import DateTimePicker from "@react-native-community/datetimepicker";
 
+// import { Button } from "@rneui/base";
+// import {DateTimePickerAndroid} from '@react-native-community/datetimepicker';
+// import DateTimePicker from '@react-native-community/datetimepicker';
 
 Notification.setNotificationHandler({
 	handleNotification: async () => ({
@@ -30,179 +30,239 @@ const Notifications = () => {
 	const route = useRoute();
 	const data = route.params?.data;
 	const navigation = useNavigation();
-	const [isEnabled, setIsEnabled] = useState(false);
-	const [notifMessage, setNotifMessage] = useState("Read for 30 minutes");
 	const [expoPushToken, setExpoPushToken] = useState("");
-	const [notifTime, setNotifTime] = useState({ hour: 17, minute: 21 });
-  const [weekdays, setWeekdays] = React.useState([-1])
-  const [time, setTime] = useState(new Date(1598051730000));
-  // const [notification, setNotification] = useState();
-  const pickerType = 'time';
-  const [notification, setNotification] = useState(false);
-  const notificationListener = useRef();
-  const responseListener = useRef();
 
-	// days of the week is the binary of selected days of the week,
-	// ei. 127 = all days of the week, 0 = no days of the week
+	const notificationListener = useRef();
+	const responseListener = useRef();
 
-	// const [notifDays, setNotifDays] = useState([false, false, false, false, false, false, false])
-	// const [mon, setMon] = useState()
+	const [notifSettings, setNotifSettings] = useState("No Saved Settings");
+	const [notifMessage, setNotifMessage] = useState("Read for 30 minutes");
+	const [weekdays, setWeekdays] = React.useState([]);
+	const [time, setTime] = useState(new Date(1598051730000));
+	const [isEnabled, setIsEnabled] = useState(false);
+	const [isEditing, setIsEditing] = useState(true);
+
+	let daysOfTheWeek = new Map<number, string>([
+		[1, "Sun"],
+		[2, "Mon"],
+		[3, "Tue"],
+		[4, "Wed"],
+		[5, "Thu"],
+		[6, "Fri"],
+		[7, "Sat"],
+	]);
+
+	// const [notifTime, setNotifTime] = useState({ hour: 17, minute: 21 });
+	// const [notification, setNotification] = useState();
+	// const [date, setDate] = useState(new Date());
+	// const [mode, setMode] = useState("date");
+	// const [show, setShow] = useState(false);
 	// const notificationListener = useRef();
 	// const responseListener = useRef();
 
 	// toggle switch changing state
-	const toggleSwitch = () => {setIsEnabled((previousState) => !previousState);
-    };
+	const toggleSwitch = () => {
+		setIsEnabled((previousState) => !previousState);
+	};
 
 	useEffect(() => {
 		registerForPushNotificationsAsync().then((token) =>
 			setExpoPushToken(token!)
 		);
 
-		notificationListener.current = Notification.addNotificationReceivedListener(notification => {
-		  console.log(notification);
-		});
+		notificationListener.current = Notification.addNotificationReceivedListener(
+			(notification) => {
+				console.log(notification);
+			}
+		);
 
-		responseListener.current = Notification.addNotificationResponseReceivedListener(response => {
-		  console.log(response);
-		});
+		responseListener.current =
+			Notification.addNotificationResponseReceivedListener((response) => {
+				console.log(response);
+			});
 
 		return () => {
-		  Notification.removeNotificationSubscription(notificationListener.current);
-		  Notification.removeNotificationSubscription(responseListener.current);
+			Notification.removeNotificationSubscription(notificationListener.current);
+			Notification.removeNotificationSubscription(responseListener.current);
 		};
 	}, []);
 
-	async function schedulePushNotification() {
-    await Notification.cancelAllScheduledNotificationsAsync();
-		// get list of days of the week as list of numbers
-		// const days = notifDays.reduce(
-		//   (out, bool, index) => (bool ? out.concat(index + 1) : out), [] as number[])
-		console.log(weekdays.filter(v => v > 0));
-    // weekda
-    // delete weekdays[0]
-		weekdays.filter(v => v > 0).forEach((day) => {
-			// console.log(day);
-			Notification.scheduleNotificationAsync({
-				content: {
-					title: "ReMo",
-					body: notifMessage,
-					// data: { data: 'goes here' },
-				},
-				trigger: {
-					hour: time.getHours(),
-					minute: time.getMinutes(),//notifTime.minute,
-					repeats: true,
-					weekday: day,
-				},
-			});
-		});
+	function displayNotifSettings() {
+		const ampm: string = time.getHours() < 12 ? "am" : "pm";
+		const hours: string = (time.getHours() % 12) < 1 ? "12" : String(time.getHours() % 12);
+		const minutes: string = (time.getMinutes() < 10 ? "0" : "") + time.getMinutes();
+		var daysAsString: string = "";
+		if (weekdays.length == 7) {
+			daysAsString = "Every Day";
+		} else if (weekdays.length == 0) {
+			toggleSwitch;
+			setNotifSettings("No Saved Settings");
+			return;
+		} else {
+			daysAsString = weekdays
+				.map((day) => {
+					return String(daysOfTheWeek.get(day));
+				})
+				.join(", ");
+		}
+		const stuff: string = `${notifMessage}\nNotify at ${hours}:${minutes} ${ampm}\n${daysAsString}`;
+		console.log(stuff)
+		setNotifSettings(stuff);
 	}
 
-  // const onChange = (event: DateTimePickerEvent, selectedDate?: Date | undefined) => {
-  //     setTime(selectedDate);
-  // };
+	const saveChanges = () => {
+		setWeekdays(weekdays.sort((n1,n2) => n1 - n2));
+		console.log(notifMessage)
+		// If you just saved changes, set notifications
+		if (isEditing) {
+			schedulePushNotification();
+			displayNotifSettings();
+		}
 
-  const [date, setDate] = useState(new Date());
-  const [mode, setMode] = useState('date');
-  const [show, setShow] = useState(false);
+		// change editing on button press
+		setIsEditing((previousState) => !previousState);
 
-  const onChange = (event: Date, date?: Date | undefined) => {
-    if (date) {
-      console.log("Hours: " + date.getHours + " Minute: " + date.getMinutes )
-      const currentDate = date;
-      setShow(false);
-      setDate(currentDate);
-    }
-  };
+		
+	};
 
-  // const showMode = (currentMode) => {
-  //   if (Platform.OS === 'android') {
-  //     setShow(false);
-  //     // for iOS, add a button that closes the picker
-  //   }
-  //   setMode(currentMode);
-  // };
+	async function schedulePushNotification() {
+		// cancels all previous notifications
+		await Notification.cancelAllScheduledNotificationsAsync();
 
-  // const showDatepicker = () => {
-  //   showMode('date');
-  // };
+		// setWeekdays(weekdays.filter((day) => (day > 0 && day < 8)).sort((n1,n2) => n1 - n2));
+		// console.log(weekdays.filter((v) => v > 0));
+		// schedules notification for each weekday selected
+		weekdays
+			// .filter((v) => v > 0)
+			.forEach((day) => {
+				Notification.scheduleNotificationAsync({
+					content: {
+						title: "ReMo",
+						body: notifMessage,
+						// data: { data: 'goes here' },
+					},
+					trigger: {
+						// WeeklyTriggerInput
+						hour: time.getHours(),
+						minute: time.getMinutes(),
+						repeats: true,
+						weekday: day,
+					},
+				});
+			});
+	}
 
-  // const showTimepicker = () => {
-  //   showMode('time');
-  // };
+	// const onChange = (event: DateTimePickerEvent, selectedDate?: Date | undefined) => {
+	//     setTime(selectedDate);
+	// };
+
+	// const onChange = (event: Date, date?: Date | undefined) => {
+	// 	if (date) {
+	// 		console.log("Hours: " + date.getHours + " Minute: " + date.getMinutes);
+	// 		const currentDate = date;
+	// 		setShow(false);
+	// 		setDate(currentDate);
+	// 	}
+	// };
+
+	// const showMode = (currentMode) => {
+	//   if (Platform.OS === 'android') {
+	//     setShow(false);
+	//     // for iOS, add a button that closes the picker
+	//   }
+	//   setMode(currentMode);
+	// };
+
+	// const showDatepicker = () => {
+	//   showMode('date');
+	// };
+
+	// const showTimepicker = () => {
+	//   showMode('time');
+	// };
 
 	return (
 		<View style={styles.container}>
 			<Text style={styles.title}> Reminder Notifications</Text>
 			<Text></Text>
 			<View style={styles.reminderBox}>
-				
-        <Text style={{ marginTop: 20, marginLeft: 10 }}>Toggle On/Off</Text>
-				
-        <Switch style={{ marginTop: -20, marginBottom: 5, marginLeft: 275 }}
+				<Text style={{ marginTop: 20, marginLeft: 10 }}>Toggle On/Off</Text>
+
+				<Switch
+					style={{ marginTop: -20, marginBottom: 5, marginLeft: 275 }}
 					trackColor={{ false: "#CECECE", true: "#65298B" }}
 					thumbColor={isEnabled ? "#E9E9E9" : "#f4f3f4"}
 					ios_backgroundColor="#CECECE"
 					onValueChange={toggleSwitch}
 					value={isEnabled}
-        />
-        {isEnabled && 
-          (<View>
-          <TextInput style={styles.textInput}
-            onChangeText={setNotifMessage}
-            keyboardType="default"
-            autoCapitalize="none"
-            placeholder="Read for 30 minutes"
-            autoCorrect={false}
-            
-          />
-        
-          <DayPicker
-            weekdays={weekdays}
-            setWeekdays={setWeekdays}
-            activeColor="violet"
-            textColor="white"
-            inactiveColor="grey"
-            dayTextStyle={{/*All styles applicable to text component*/}} //(optional for high styling flexiblity)
-            itemStyles={{/*All Styles applicable to View component*/}} //(optional for high styling flexiblity)
-            wrapperStyles={{/*All Styles applicable to View component*/}} // (optional for high styling flexiblity)
-          />
-{/* x         <Text>selected: {time.toLocaleString()}</Text> */}
-          
-          <DateTimePicker 
-            testID="dateTimePicker"
-            value={time}
-            mode= 'time'
-            is24Hour={true}
-            onChange={(stuff, date) => {setTime(date!); console.log("Hour: " + date!.getHours(), "Minute:" + time.getMinutes())}}
-            // display="inline"
-          />
-        
+				/>
+				{isEnabled &&
+					(
+						(isEditing && 
+							(<View>
+								<TextInput
+									style={styles.textInput}
+									onChangeText={setNotifMessage}
+									keyboardType="default"
+									autoCapitalize="none"
+									placeholder= {notifMessage.length > 0 ? notifMessage : "Read for 30 minutes"}
+									autoCorrect={false}
+									defaultValue={notifMessage == "Read for 30 minutes" ? undefined : (notifMessage.length > 0 ? notifMessage : undefined)}
+								/>
 
-          {/* <DateTimePicker
-            testID="dateTimePicker"
-            value={time}
-            mode={'time'}
-            is24Hour={true}
-            onChange={ onChange
-            //   (event, selectedDate) => {
-            //   const currentDate = selectedDate;
-            //   // setShow(false);
-            //   setTime(currentDate);
-            // }
-          } */}
-        {/* /> */}
+								<DayPicker
+									weekdays={weekdays}
+									setWeekdays={setWeekdays}
+									activeColor="violet"
+									textColor="white"
+									inactiveColor="grey"
+									dayTextStyle={
+										{
+											/*All styles applicable to text component*/
+										}
+									} //(optional for high styling flexiblity)
+									itemStyles={
+										{
+											/*All Styles applicable to View component*/
+										}
+									} //(optional for high styling flexiblity)
+									wrapperStyles={
+										{
+											/*All Styles applicable to View component*/
+										}
+									} // (optional for high styling flexiblity)
+								/>
+								{/* x         <Text>selected: {time.toLocaleString()}</Text> */}
 
-          <Button //style={undefined}
-            onPress={schedulePushNotification}
-            title="save changes"
-            // activeOpacity = {0}
-            color="#84158488"
-            accessibilityLabel="Learn more about this purple button"
-          />
-        </View>)}
-      </View>
+								<DateTimePicker
+									testID="dateTimePicker"
+									value={time}
+									mode="time"
+									is24Hour={true}
+									onChange={(stuff, date) => {
+										setTime(date!);
+										console.log(
+											"Hour: " + date!.getHours(),
+											"Minute:" + time.getMinutes()
+										);
+									}} // display="inline"
+								/>
+							</View>)
+						) ||
+						(!isEditing && 
+							(
+							<Text style={styles.text}>{notifSettings}</Text>
+							)
+						))}
+				{isEnabled && 
+				(<Button //style={undefined}
+					onPress={saveChanges}
+					title={isEditing ? "save changes" : "edit notifications"} //"save changes"
+					// activeOpacity = {0}
+					color="#84158488"
+					accessibilityLabel="Save Notification Changes"
+				/>)}
+			</View>
 		</View>
 	);
 };
@@ -294,20 +354,29 @@ const styles = StyleSheet.create({
 		alignSelf: "center",
 		marginTop: 10,
 	},
-  reminderBox: {
-    backgroundColor: "#fff",
-    borderRadius: 20,
-    padding: 5,
-    shadowColor: "#000",
-    marginTop: 50,
-    marginStart: 10,
-    marginEnd: 10,
-    shadowOffset: {width: 0,height: 2,},
-    shadowOpacity: 0.25,
-    shadowRadius: 3.84,
-    elevation: 5,
-  }
-  
+	text: {
+		// backgroundColor: "#f2f2f2",
+		padding: 5,
+		width: 250,
+		textAlign: "center",
+		marginVertical: 7,
+		alignSelf: "center",
+		marginTop: 10,
+	},
+	reminderBox: {
+		backgroundColor: "#fff",
+		borderRadius: 20,
+		padding: 5,
+		shadowColor: "#000",
+		marginTop: 50,
+		marginStart: 10,
+		marginEnd: 10,
+		shadowOffset: { width: 0, height: 2 },
+		shadowOpacity: 0.25,
+		shadowRadius: 3.84,
+		elevation: 5,
+	},
+
 	// roundButton: {
 	//   width: 100,
 	//   height: 100,
