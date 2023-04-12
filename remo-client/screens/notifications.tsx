@@ -26,6 +26,7 @@ Notification.setNotificationHandler({
 	}),
 });
 
+
 const Notifications = () => {
 	const route = useRoute();
 	const data = route.params?.data;
@@ -37,7 +38,7 @@ const Notifications = () => {
 
 	const [notifSettings, setNotifSettings] = useState("No Saved Settings");
 	const [notifMessage, setNotifMessage] = useState("Read for 30 minutes");
-	const [weekdays, setWeekdays] = React.useState([0, 1, 3, 5]);
+	const [weekdays, setWeekdays] = React.useState([]);
 	const [time, setTime] = useState(new Date(1598025600000));
 	const [isEnabled, setIsEnabled] = useState(false);
 	const [isEditingSettings, setIsEditingSettings] = useState(true);
@@ -119,6 +120,10 @@ const Notifications = () => {
 		if (isEditingSettings) {
 			schedulePushNotification();
 			displayNotifSettings();
+		// 	const newData = {
+		// 		...data,
+
+		// 	}
 		}
 
 		// change editing on button press
