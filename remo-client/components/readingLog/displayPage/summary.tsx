@@ -15,11 +15,17 @@ export default function Summery({ title, note }) {
   return (
     <View style={styles.container}>
       <View style={styles.left}>
-        <Text style={styles.bold}>{title}</Text>
-        <Text>{note}</Text>
+        <Text style={[styles.bold, styles.width]}>{title}</Text>
+        <Text style={styles.width}>{note}</Text>
       </View>
       <View>
-        <Button buttonStyle={styles.button}>Edit</Button>
+        <Button
+          type={"outline"}
+          titleStyle={{ color: "#954A98" }}
+          buttonStyle={styles.button}
+        >
+          Edit
+        </Button>
       </View>
     </View>
   );
@@ -31,6 +37,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     paddingTop: 12,
+    marginBottom: 20,
   },
   left: {
     flex: 3,
@@ -40,13 +47,18 @@ const styles = StyleSheet.create({
   },
   bold: {
     fontWeight: "bold",
+    fontSize: 20,
   },
   button: {
     width: 100,
     borderRadius: 8,
+    color: "#954A98",
     shadowColor: "#D9D9D9",
     shadowRadius: 8,
     shadowOffset: { width: 4, height: 20 },
     shadowOpacity: 0.6,
+  },
+  width: {
+    width: "70%",
   },
 });
