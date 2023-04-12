@@ -23,6 +23,7 @@ func returnBook(barcode string) (model.Book, error) {
 	// query remoDB
 
 	var mtBook *model.Book
+	return *mtBook, err
 
 	// assign values from resolver query to
 }
