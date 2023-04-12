@@ -7,7 +7,7 @@ const RegisterScreen = () => {
   const navigation = useNavigation();
 
   const handleRegister = () => {
-    fetch("https://87e3-155-33-135-22.ngrok.io/v1/register", {
+    fetch("https://a58e-155-33-132-63.ngrok.io/v1/register", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

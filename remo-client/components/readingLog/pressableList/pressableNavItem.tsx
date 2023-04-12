@@ -6,6 +6,8 @@ export default function PressableNavItem({ item, setter, state }) {
   const pressed = state === item;
   const selectItem = () => {
     setter(item);
+    console.log(item);
+    console.log(state);
   };
   return (
     <Pressable onPress={selectItem}>

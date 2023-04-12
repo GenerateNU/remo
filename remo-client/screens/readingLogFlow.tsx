@@ -53,9 +53,11 @@ export default function ReadingLogFlow({ navigation }) {
 
   return (
     <View style={styles.container}>
-      <View style={styles.topSection}>
-        <BookTop bookTitle={data.title} />
-      </View>
+      {page != "displayPage" && (
+        <View style={styles.topSection}>
+          <BookTop bookTitle={data.title} />
+        </View>
+      )}
       <View style={styles.bottomSection}>
         {
           {
@@ -66,7 +68,9 @@ export default function ReadingLogFlow({ navigation }) {
             ),
             addSummary: <AddSummary setters={setters} states={states} />,
             howGoes: <SelectReadingHow setters={setters} states={states} />,
-            displayPage: <ReadingLogDisplayPage states={states} />,
+            displayPage: (
+              <ReadingLogDisplayPage states={states} title={data.title} />
+            ),
           }[page]
         }
       </View>

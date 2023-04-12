@@ -23,12 +23,12 @@ export default function SelectReadingHow({ setters, states }) {
 
   return (
     <View style={styles.container}>
-      <Text>How’s it going with your book?</Text>
+      <Text style={styles.text}>How’s it going with your book?</Text>
       <View style={styles.top}>
         <PressableList
           list={listResponse}
           setter={setters.going}
-          state={states.goint}
+          state={states.going}
         />
       </View>
       <View style={styles.bot}>
@@ -47,6 +47,9 @@ const styles = StyleSheet.create({
   top: {
     flex: 3,
     width: "100%",
+  },
+  text: {
+    marginBottom: 12,
   },
   bot: {
     flex: 1,
