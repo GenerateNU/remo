@@ -11,22 +11,12 @@ import {
 } from "react-native";
 import BottomButtons from "../botButtons/bottomButtons";
 
-export default function PostReadingLogPage({ setters, states }) {
+export default function NoTimerEntry({ setters, states }) {
   const route = useRoute();
 
   const data = route.params?.data;
 
-  const formatMinutes = (timeInMs: number) => {
-    const minutes = Math.floor(timeInMs / 60000);
-
-    return `${minutes}`;
-  };
-
-  const formatSeconds = (timeInMs: number) => {
-    const seconds = Math.floor((timeInMs % 60000) / 1000);
-
-    return `${seconds}`;
-  };
+  const [timeSpent, isTimeSpent] = useState("totalTime"); // totalTime, startEnd
 
   const minutes = Math.floor(states.time / 60000);
   const seconds = Math.floor((states.time % 60000) / 1000) / 60.0;
@@ -44,6 +34,7 @@ export default function PostReadingLogPage({ setters, states }) {
     <View style={styles.container}>
       <View style={styles.top}>
         <ScrollView>
+          {timeSpent == "totalTime" && <Text>Choose Time Spent</Text>}
           <View style={styles.page_container}>
             <View style={styles.pageContainer}>
               <Text style={styles.header_title}>Your Pages:</Text>

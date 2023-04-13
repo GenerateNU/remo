@@ -9,6 +9,7 @@ export default function BottomButtons({ pageSetter, pageToGo }) {
   const data = route.params?.data;
 
   const exit = () => {
+    pageSetter("firstPage");
     navigation.navigate("ReadingLog", { data: data });
   };
 

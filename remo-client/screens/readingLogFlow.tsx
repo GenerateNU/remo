@@ -10,6 +10,7 @@ import SelectResponse from "../components/readingLog/screens/selectResponseType"
 import AddSummary from "../components/readingLog/screens/addSummary";
 import SelectReadingHow from "../components/readingLog/screens/readingHowGoes";
 import FirstPageChoice from "../components/readingLog/screens/firstPageChoice";
+import NoTimerEntry from "../components/readingLog/screens/prevReadingPageTime";
 
 export default function ReadingLogFlow({ navigation }) {
   const route = useRoute();
@@ -30,6 +31,10 @@ export default function ReadingLogFlow({ navigation }) {
   useEffect(() => {
     return () => clearInterval(intervalRef.current);
   }, []);
+
+  useEffect(() => {
+    console.log(page);
+  }, [page]);
 
   const onStopPress = () => {
     setters.time(states.time);
@@ -103,6 +108,7 @@ export default function ReadingLogFlow({ navigation }) {
                 stopTimer={handleStop}
               />
             ),
+            noTimer: <NoTimerEntry setters={setters} states={states} />,
             postTimer: <PostReadingLogPage setters={setters} states={states} />,
             selectResponse: (
               <SelectResponse setters={setters} states={states} />

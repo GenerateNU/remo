@@ -41,7 +41,10 @@ export default function FirstPageChoice({ setters, states }) {
           Start Reading
         </Button>
       </View>
-      <Button buttonStyle={styles.button}>
+      <Button
+        buttonStyle={styles.button}
+        onPress={() => setters.page("noTimer")}
+      >
         I've Already Read for This Log
       </Button>
     </View>
