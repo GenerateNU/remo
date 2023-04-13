@@ -1,6 +1,6 @@
 import { useRoute } from "@react-navigation/native";
-import React, { useState, useEffect } from "react";
-import { View, Text, StyleSheet } from "react-native";
+import React, { useState, useEffect, useRef } from "react";
+import { View, Text, StyleSheet, Alert } from "react-native";
 import { findUserBooks } from "../services/book-services";
 import TimerPage from "../components/readingLog/screens/timerPage";
 import PostReadingLogPage from "../components/readingLog/screens/postRLogPage";
@@ -9,13 +9,14 @@ import BookTop from "../components/readingLog/bookTop/bookTop";
 import SelectResponse from "../components/readingLog/screens/selectResponseType";
 import AddSummary from "../components/readingLog/screens/addSummary";
 import SelectReadingHow from "../components/readingLog/screens/readingHowGoes";
+import FirstPageChoice from "../components/readingLog/screens/firstPageChoice";
 
 export default function ReadingLogFlow({ navigation }) {
   const route = useRoute();
   const data = route.params?.data;
   const bookTitle = data.title;
 
-  const [page, setPage] = useState("timerPage");
+  const [page, setPage] = useState("firstPage");
   const [time, setTime] = useState(0);
   const [text, setText] = useState("");
   const [startPage, setStartPage] = useState(0);
@@ -23,6 +24,36 @@ export default function ReadingLogFlow({ navigation }) {
   const [responseType, setResponseType] = useState("");
   const [going, setGoing] = useState("");
   const [summary, setSummary] = useState("");
+  const intervalRef = useRef<null | Timer>(null);
+  const [isRunning, setIsRunning] = useState(false);
+
+  useEffect(() => {
+    return () => clearInterval(intervalRef.current);
+  }, []);
+
+  const onStopPress = () => {
+    setters.time(states.time);
+    setters.page("postTimer");
+  };
+
+  const handleStop = () => {
+    Alert.alert(
+      "Stop Timer",
+      "Are you sure you want to stop reading?",
+      [
+        { text: "Cancel", style: "cancel" },
+        {
+          text: "Yes",
+          onPress: () => {
+            setIsRunning(false);
+            clearInterval(intervalRef.current);
+            onStopPress();
+          },
+        },
+      ],
+      { cancelable: false }
+    );
+  };
 
   const setters = {
     time: setTime,
@@ -33,6 +64,7 @@ export default function ReadingLogFlow({ navigation }) {
     responseType: setResponseType,
     going: setGoing,
     summary: setSummary,
+    isRunning: setIsRunning,
   };
 
   const states = {
@@ -44,6 +76,8 @@ export default function ReadingLogFlow({ navigation }) {
     responseType: responseType,
     going: going,
     summary: summary,
+    timerRef: intervalRef,
+    isRunning: isRunning,
   };
 
   const newData = {
@@ -61,7 +95,14 @@ export default function ReadingLogFlow({ navigation }) {
       <View style={styles.bottomSection}>
         {
           {
-            timerPage: <TimerPage setters={setters} states={states} />,
+            firstPage: <FirstPageChoice setters={setters} states={states} />,
+            timerPage: (
+              <TimerPage
+                setters={setters}
+                states={states}
+                stopTimer={handleStop}
+              />
+            ),
             postTimer: <PostReadingLogPage setters={setters} states={states} />,
             selectResponse: (
               <SelectResponse setters={setters} states={states} />

@@ -74,6 +74,11 @@ export default function PostReadingLogPage({ setters, states }) {
               <Text style={styles.label}>End Page</Text>
             </View>
           </View>
+          {states.startPage > states.endPage && (
+            <Text style={styles.warningText}>
+              Please make sure the end page is greater than the start page
+            </Text>
+          )}
           <View style={styles.outer}>
             <View style={styles.row}>
               <View>
@@ -136,6 +141,11 @@ const styles = StyleSheet.create({
     alignItems: "center",
     marginBottom: 12,
   },
+  warningText: {
+    paddingHorizontal: 20,
+    color: "red",
+    textAlign: "center",
+  },
   outer: {
     width: "100%",
     borderWidth: 1,
@@ -169,7 +179,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     marginTop: 5,
     marginBottom: 3,
-    alignItems: "center",
+    alignItems: "flex-start",
     paddingVertical: 15,
     // marginTop: 20,
   },
@@ -194,7 +204,6 @@ const styles = StyleSheet.create({
   header_title: {
     fontSize: 20,
     fontWeight: "bold",
-    paddingRight: 125,
   },
   header_data: {
     fontSize: 18,
@@ -263,7 +272,7 @@ const styles = StyleSheet.create({
   },
   page_container: {
     flexDirection: "row",
-    justifyContent: "center",
+    justifyContent: "flex-start",
     alignItems: "center",
     paddingVertical: 10,
   },

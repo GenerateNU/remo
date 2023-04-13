@@ -13,10 +13,7 @@ import {
   ScrollView,
 } from "react-native";
 
-export default function TimerPage({ setters, states }) {
-  const [isRunning, setIsRunning] = useState(false);
-  const intervalRef = useRef<null | Timer>(null);
-
+export default function TimerPage({ setters, states, stopTimer }) {
   const route = useRoute();
   const data = route.params?.data;
   const title = data.title;
@@ -26,10 +23,6 @@ export default function TimerPage({ setters, states }) {
     setters.page("postTimer");
   };
   useEffect(() => {}, []);
-
-  useEffect(() => {
-    return () => clearInterval(intervalRef.current);
-  }, []);
 
   const formatTime = (timeInMs: number) => {
     const minutes = Math.floor(timeInMs / 60000);
@@ -43,13 +36,6 @@ export default function TimerPage({ setters, states }) {
     return `${paddedMinutes}:${paddedSeconds}.${paddedMilliseconds}`;
   };
 
-  const handleStart = () => {
-    setIsRunning(true);
-    intervalRef.current = setInterval(() => {
-      setters.time((prevElapsedTime: number) => prevElapsedTime + 10);
-    }, 10);
-  };
-
   const handleStop = () => {
     Alert.alert(
       "Stop Timer",
@@ -59,8 +45,8 @@ export default function TimerPage({ setters, states }) {
         {
           text: "Yes",
           onPress: () => {
-            setIsRunning(false);
-            clearInterval(intervalRef.current);
+            setters.isRunning(false);
+            clearInterval(states.timerRef.current);
             onStopPress();
           },
         },
@@ -76,30 +62,9 @@ export default function TimerPage({ setters, states }) {
   );
 
   const handlePause = () => {
-    setIsRunning(false);
-    clearInterval(intervalRef.current);
+    states.isRunning(false);
+    clearInterval(states.timerRef.current);
   };
-
-  const [shiftHeld, setShiftHeld] = useState(false);
-  function downHandler({ key }) {
-    if (key === "Shift") {
-      setShiftHeld(true);
-    }
-  }
-  function upHandler({ key }) {
-    if (key === "Shift") {
-      setShiftHeld(false);
-    }
-  }
-
-  useEffect(() => {
-    window.addEventListener("keydown", downHandler);
-    window.addEventListener("keyup", upHandler);
-    return () => {
-      window.removeEventListener("keydown", downHandler);
-      window.removeEventListener("keyup", upHandler);
-    };
-  }, []);
 
   const keyHandles = ({ nativeEvent }) => {
     if (nativeEvent.key === "Enter") {
@@ -127,13 +92,8 @@ export default function TimerPage({ setters, states }) {
         </View>
       </ScrollView>
       <View style={styles.buttonContainer}>
-        {!isRunning && (
-          <TouchableOpacity style={styles.button} onPress={handleStart}>
-            <Text style={styles.buttonText}>START READING</Text>
-          </TouchableOpacity>
-        )}
-        {isRunning && (
-          <Button buttonStyle={styles.button} onPress={handleStop}>
+        {states.isRunning && (
+          <Button buttonStyle={styles.button} onPress={stopTimer}>
             STOP READING
           </Button>
         )}

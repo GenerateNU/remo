@@ -1,4 +1,4 @@
-import { MaterialCommunityIcons } from "@expo/vector-icons";
+import { FontAwesome } from "@expo/vector-icons";
 import { useNavigation, useRoute } from "@react-navigation/native";
 import { Button } from "@rneui/themed";
 import React, { useState, useEffect, useRef } from "react";
@@ -12,8 +12,8 @@ export default function ViewNote({ title, responseType, response }) {
       <Modal isVisible={visible} style={styles.helpModal}>
         <View style={styles.helpModalDisplay}>
           <View style={styles.modalTop}>
-            <MaterialCommunityIcons
-              name="comment-question-outline"
+            <FontAwesome
+              name="pencil-square-o"
               size={24}
               style={styles.color}
             />
