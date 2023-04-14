@@ -1,22 +1,26 @@
 import { useNavigation, useRoute } from "@react-navigation/native";
 import React, { useState, useEffect, useRef } from "react";
-import {
-  View,
-  Text,
-  StyleSheet,
-  TouchableOpacity,
-  Alert,
-  TextInput,
-  ScrollView,
-} from "react-native";
+import { View, Text, StyleSheet, TextInput, ScrollView } from "react-native";
 import BottomButtons from "../botButtons/bottomButtons";
+import { NumberProp } from "react-native-svg";
+import { Button } from "@rneui/themed";
+import DateTimePicker from "@react-native-community/datetimepicker";
+import TimeModal from "../timeModal/timeModal";
 
 export default function NoTimerEntry({ setters, states }) {
   const route = useRoute();
+  const [startTime, setStartTime] = useState(new Date());
+  const [endTime, setEndTime] = useState(new Date());
+
+  useEffect(() => {
+    const startMilli = Number(startTime);
+    const endMilli = Number(endTime);
+    setters.time(endMilli - startMilli);
+  }, [startTime, endTime]);
 
   const data = route.params?.data;
 
-  const [timeSpent, isTimeSpent] = useState("totalTime"); // totalTime, startEnd
+  const [timeSpent, setTimeSpent] = useState("totalTime"); // totalTime, startEnd
 
   const minutes = Math.floor(states.time / 60000);
   const seconds = Math.floor((states.time % 60000) / 1000) / 60.0;
@@ -34,7 +38,43 @@ export default function NoTimerEntry({ setters, states }) {
     <View style={styles.container}>
       <View style={styles.top}>
         <ScrollView>
-          {timeSpent == "totalTime" && <Text>Choose Time Spent</Text>}
+          <Text style={styles.boldText}>Your Time Spent</Text>
+          {timeSpent == "totalTime" && (
+            <View>
+              <ScrollView>
+                <TextInput
+                  style={styles.textInput}
+                  keyboardType="numeric"
+                  onChangeText={(text) => setters.time(text * 60000)}
+                  value={states.time}
+                />
+              </ScrollView>
+              <Text style={styles.partialText}>
+                Input Total Minutes Spent Reading
+              </Text>
+              <Button
+                buttonStyle={styles.button}
+                onPress={() => setTimeSpent("startEnd")}
+              >
+                INPUT TIME FRAME
+              </Button>
+            </View>
+          )}
+          {timeSpent != "totalTime" && (
+            <View>
+              <TimeModal state={startTime} setter={setStartTime} />
+              <Text style={styles.partialText}>Start Time</Text>
+              <TimeModal state={endTime} setter={setEndTime} />
+              <Text style={styles.partialText}>End Time</Text>
+              <Button
+                buttonStyle={styles.button}
+                onPress={() => setTimeSpent("totalTime")}
+              >
+                INPUT TOTAL MINUTES
+              </Button>
+            </View>
+          )}
+          {}
           <View style={styles.page_container}>
             <View style={styles.pageContainer}>
               <Text style={styles.header_title}>Your Pages:</Text>
@@ -113,6 +153,24 @@ const styles = StyleSheet.create({
   top: {
     flex: 5,
     width: "100%",
+  },
+  boldText: {
+    fontWeight: "bold",
+    fontSize: 20,
+  },
+  partialText: {
+    color: "121212",
+    opacity: 0.5,
+    fontSize: 16,
+  },
+  textInput: {
+    width: "100%",
+    borderWidth: 1,
+    borderRadius: 8,
+    height: 40,
+    padding: 10,
+    borderColor: "#954A98",
+    marginVertical: 10,
   },
   bot: {
     flex: 1,
@@ -227,14 +285,13 @@ const styles = StyleSheet.create({
     marginBottom: 5,
   },
   button: {
-    backgroundColor: "black",
-    height: 50,
+    backgroundColor: "#954A98",
+    height: 40,
     justifyContent: "center",
     alignItems: "center",
-    marginHorizontal: 5,
-    marginVertical: 10,
     borderRadius: 10,
     width: "100%",
+    marginTop: 20,
   },
   buttonText: {
     color: "white",

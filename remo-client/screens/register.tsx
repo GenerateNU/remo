@@ -8,7 +8,7 @@ const RegisterScreen = () => {
 
   const handleRegister = () => {
     fetch(
-      "https://e0cd-2601-197-701-1030-3c99-8dfa-d44a-173d.ngrok.io/v1/register",
+      "https://0f97-2601-197-701-1030-a16e-1749-57cc-c60f.ngrok.io/v1/register",
       {
         method: "POST",
         headers: {
