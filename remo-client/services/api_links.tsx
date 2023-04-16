@@ -1,3 +1,2 @@
-export const API_URL =
-  "https://0f97-2601-197-701-1030-a16e-1749-57cc-c60f.ngrok.io";
+export const API_URL = "https://65dc-155-33-135-36.ngrok-free.app";
 export const GBOOKS_API = "https://www.googleapis.com/books/v1/volumes?q=isbn:";

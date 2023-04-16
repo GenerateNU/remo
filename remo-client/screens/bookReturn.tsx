@@ -23,6 +23,7 @@ export default function BookReturn() {
     console.log(data.barcode);
     const response = await returnBook({
       barcode: data.barcode,
+      user: data.id,
     });
     console.log(response.data);
     navigation.navigate("Bookshelf", { data: data });
