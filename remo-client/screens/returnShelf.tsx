@@ -7,6 +7,7 @@ import {
   ScrollView,
   TouchableHighlight,
   Alert,
+  Image,
 } from "react-native";
 import { findUserBooks } from "../services/book-services";
 
@@ -54,13 +55,12 @@ export default function Returns() {
                                                                 synopsis: book.synopsis, 
                                                                 published: book.publish_date, 
                                                                 pageCount: book.page_count,
+                                                                bookCover: book.coverImage,
                                                                 pageVisited: "Returns"},})
                 }}
               >
                 <>
-                  <Text style={styles.title}>{book.title}</Text>
-                  <Text style={styles.author}>{book.author}</Text>
-                  <Text style={styles.isbn}>ISBN-13: {book.isbn_13}</Text>
+                  <Image source={{ uri:  book.coverImage }} resizeMode="contain" style={styles.bookImage}/>
                 </>
               </TouchableHighlight>
             ))}
@@ -92,6 +92,9 @@ const styles = StyleSheet.create({
     flexWrap: "wrap",
     justifyContent: "space-between",
     padding: 20,
+    marginBottom: 16,
+    borderRadius: 10, // Set the border radius to create rounded rectangles
+    overflow: 'hidden',
   },
   header: {
     flexDirection: "row",
@@ -150,5 +153,9 @@ const styles = StyleSheet.create({
   selectedSynopsis: {
     fontSize: 24,
     fontWeight: "bold",
+  },
+  bookImage: {
+    width: '100%',
+    height: 200,
   },
 });
