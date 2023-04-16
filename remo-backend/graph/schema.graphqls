@@ -32,8 +32,8 @@ type Teacher {
     Teacher_middle_name: String
     Teacher_last_name: String!
     Teacher_suffix: String
-    Teacher_date_of_birth: String
-    Teacher_date_started_teaching: String
+    Teacher_date_of_birth:  time.Time
+    Teacher_date_started_teaching: time.Time
     Degree_level_id: ID
     Is_certified: Boolean
     Certification_id: ID
@@ -59,8 +59,8 @@ type Teacher {
     Teacher_cell_phone: String
     Teacher_texts_enabled: Int
     Active: Int!
-    Teacher_date_created: String!
-    Teacher_date_updated: String
+    Teacher_date_created:  time.Time!
+    Teacher_date_updated:  time.Time
 }
 
 type Classroom {
