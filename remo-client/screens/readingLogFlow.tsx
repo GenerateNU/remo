@@ -11,6 +11,7 @@ import AddSummary from "../components/readingLog/screens/addSummary";
 import SelectReadingHow from "../components/readingLog/screens/readingHowGoes";
 import FirstPageChoice from "../components/readingLog/screens/firstPageChoice";
 import NoTimerEntry from "../components/readingLog/screens/prevReadingPageTime";
+import NavBar from "../components/Navbar/navbar";
 
 export default function ReadingLogFlow({ navigation }) {
   const route = useRoute();
@@ -59,7 +60,8 @@ export default function ReadingLogFlow({ navigation }) {
     total_pages: endPage - startPage,
     total_time: "" + mins,
     check_in: checkInMap.get(going),
-    response_type: responseMap.get(summary),
+    response_type: responseMap.get(responseType),
+    response: summary,
   };
 
   useEffect(() => {
@@ -155,6 +157,9 @@ export default function ReadingLogFlow({ navigation }) {
           }[page]
         }
       </View>
+      <View style={styles.navBar}>
+        <NavBar navigation={navigation} data={data} />
+      </View>
     </View>
   );
 }
@@ -164,6 +169,11 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: "row",
     justifyContent: "flex-start",
+  },
+  navBar: {
+    flex: 1,
+    alignItems: "center",
+    flexDirection: "row",
   },
   container: {
     flex: 1,
