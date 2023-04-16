@@ -82,6 +82,7 @@ func TestQueryResolver_Teachers(t *testing.T) {
 	if len(teachers) == 60 {
 		fmt.Print("Something went good")
 	}
+	log.Println(len(teachers))
 }
 
 // MUTATION TESTS

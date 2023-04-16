@@ -25,7 +25,6 @@ type Query {
 }
 
 type Teacher {
-    test_field: String!
     teacher_ID: ID!
     Teacher_login_id: ID #ID from logins table
     Teacher_title: String
