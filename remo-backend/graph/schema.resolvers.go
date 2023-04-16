@@ -14,10 +14,6 @@ import (
 	"strconv"
 )
 
-type MsModel struct {
-	Conn *sql.DB
-}
-
 // ClassroomSchoolYear is the resolver for the classroom_school_year field.
 func (r *classroomResolver) ClassroomSchoolYear(ctx context.Context, obj *model.Classroom) (*string, error) {
 	panic(fmt.Errorf("not implemented: ClassroomSchoolYear - classroom_school_year"))
@@ -162,7 +158,7 @@ func (r *mutationResolver) CreateNewReadingRateResults(ctx context.Context, inpu
 }
 
 // GetBookByIsbn is the resolver for the GetBookByIsbn field.
-func (r *queryResolver) GetBookByIsbn(ctx context.Context, id int) (*model.Book, error) {
+func (r *queryResolver) GetBookByIsbn(ctx context.Context, isbn int) (*model.Book, error) {
 	var book model.Book
 
 	isbn13_query := DB.QueryRow(`
@@ -172,7 +168,7 @@ func (r *queryResolver) GetBookByIsbn(ctx context.Context, id int) (*model.Book,
 		COALESCE(num_pages, 0), COALESCE(pub_date, ''), 
 		COALESCE(copyright_date, 0), COALESCE(edition, 0), COALESCE(synopsis, ''), 
 		COALESCE(title, ''), COALESCE(word_count, 0), COALESCE(sub_title, ''), COALESCE(asin, '')
-		FROM books WHERE isbn_13 = ? limit 1`, id)
+		FROM books WHERE isbn_13 = ? limit 1`, isbn)
 
 	err1 := isbn13_query.Scan(&book.ID,
 		&book.Story_id,
@@ -203,7 +199,7 @@ func (r *queryResolver) GetBookByIsbn(ctx context.Context, id int) (*model.Book,
 			COALESCE(num_pages, 0), COALESCE(pub_date, ''), 
 			COALESCE(copyright_date, 0), COALESCE(edition, 0), COALESCE(synopsis, ''), 
 			COALESCE(title, ''), COALESCE(word_count, 0), COALESCE(sub_title, ''), COALESCE(asin, '')
-			FROM books WHERE isbn_10 = ? limit 1`, strconv.Itoa(id))
+			FROM books WHERE isbn_10 = ? limit 1`, strconv.Itoa(isbn))
 		err2 := isbn10_query.Scan(&book.ID,
 			&book.Story_id,
 			&book.Author,
@@ -227,7 +223,7 @@ func (r *queryResolver) GetBookByIsbn(ctx context.Context, id int) (*model.Book,
 			&book.Asin)
 		if err2 != nil {
 			var mtBook *model.Book
-			return mtBook, fmt.Errorf("getBookByIsbn %q: no such book", id)
+			return mtBook, fmt.Errorf("getBookByIsbn %q: no such book", isbn)
 		}
 	}
 
@@ -239,7 +235,45 @@ func (r *queryResolver) Teachers(ctx context.Context) ([]*model.Teacher, error) 
 	var teachers []*model.Teacher
 
 	// Assuming that you have a database connection named `db`
-	rows, err := DB.Query("SELECT * FROM teacher")
+	rows, err := DB.Query(`
+		SELECT
+			COALESCE(teacher_date_of_birth, '') AS teacher_date_of_birth,
+			COALESCE(teacher_date_started_teaching, '') AS teacher_date_started_teaching,
+			COALESCE(teacher_login_id, '') AS teacher_login_id,
+			COALESCE(teacher_title, '') AS teacher_title,
+			COALESCE(teacher_first_name, '') AS teacher_first_name,
+			COALESCE(teacher_middle_name, '') AS teacher_middle_name,
+			COALESCE(teacher_last_name, '') AS teacher_last_name,
+			COALESCE(teacher_suffix, '') AS teacher_suffix,
+			COALESCE(degree_level_id, '') AS degree_level_id,
+			COALESCE(is_certified, '') AS is_certified,
+			COALESCE(certification_id, '') AS certification_id,
+			COALESCE(certification_start, '') AS certification_start,
+			COALESCE(certification_end, '') AS certification_end,
+			COALESCE(teacher_avatar, '') AS teacher_avatar,
+			COALESCE(teacher_backup_avatar, '') AS teacher_backup_avatar,
+			COALESCE(teacher_subscription_type, '') AS teacher_subscription_type,
+			COALESCE(teacher_code_name, '') AS teacher_code_name,
+			COALESCE(teacher_display_name, '') AS teacher_display_name,
+			COALESCE(quarantined_books, '') AS quarantined_books,
+			COALESCE(teacher_backup_email, '') AS teacher_backup_email,
+			COALESCE(teacher_gender, '') AS teacher_gender,
+			COALESCE(teacher_pronoun, '') AS teacher_pronoun,
+			COALESCE(teacher_position, '') AS teacher_position,
+			COALESCE(teacher_grade_band, '') AS teacher_grade_band,
+			COALESCE(teacher_subjects, '') AS teacher_subjects,
+			COALESCE(teacher_provided_services, '') AS teacher_provided_services,
+			COALESCE(teacher_specialized_courses, '') AS teacher_specialized_courses,
+			COALESCE(teacher_state_id, '') AS teacher_state_id,
+			COALESCE(teacher_district, '') AS teacher_district,
+			COALESCE(teacher_school, '') AS teacher_school,
+			COALESCE(teacher_cell_phone, '') AS teacher_cell_phone,
+			COALESCE(teacher_texts_enabled, '') AS teacher_texts_enabled,
+			active,
+			teacher_date_created,
+			COALESCE(teacher_date_updated, '') AS teacher_date_updated
+		FROM teacher
+	`)
 	if err != nil {
 		return nil, err
 	}
@@ -248,19 +282,21 @@ func (r *queryResolver) Teachers(ctx context.Context) ([]*model.Teacher, error) 
 
 	for rows.Next() {
 		teacher := &model.Teacher{}
-		// err := rows.Scan(&teacher.Teacher_date_of_birth, &teacher.Teacher_date_started_teaching, &teacher.Teacher_id, &teacher.Teacher_login_id, &teacher.Teacher_title,
-		// 	&teacher.Teacher_first_name, &teacher.Teacher_middle_name, &teacher.Teacher_last_name, &teacher.Teacher_suffix,
-		// 	&teacher.Degree_level_id, &teacher.Is_certified, &teacher.Certification_id, &teacher.Certification_start,
-		// 	&teacher.Certification_end, &teacher.Teacher_avatar, &teacher.Teacher_backup_avater, &teacher.Teacher_subscription_type,
-		// 	&teacher.Teacher_code_name, &teacher.Teacher_display_name, &teacher.Quarantined_books, &teacher.Teacher_backup_email,
-		// 	&teacher.Teacher_gender, &teacher.Teacher_pronoun, &teacher.Teacher_position, &teacher.Teacher_grade_band,
-		// 	&teacher.Teacher_subjects, &teacher.Teacher_provided_services, &teacher.Teacher_specialized_courses,
-		// 	&teacher.Teacher_state_id, &teacher.Teacher_district, &teacher.Teacher_school, &teacher.Teacher_cell_phone,
-		// 	&teacher.Teacher_texts_enabled, &teacher.Active, &teacher.Teacher_date_created, &teacher.Teacher_date_updated)
+		err := rows.Scan(&teacher.Teacher_login_id, &teacher.Teacher_title,
+			&teacher.Teacher_first_name, &teacher.Teacher_middle_name, &teacher.Teacher_last_name, &teacher.Teacher_suffix,
+			&teacher.Teacher_date_of_birth, &teacher.Teacher_date_started_teaching, &teacher.Degree_level_id, &teacher.Is_certified,
+			&teacher.Certification_id, &teacher.Certification_start, &teacher.Certification_end, &teacher.Teacher_avatar,
+			&teacher.Teacher_backup_avater, &teacher.Teacher_subscription_type, &teacher.Teacher_code_name,
+			&teacher.Teacher_display_name, &teacher.Quarantined_books, &teacher.Teacher_backup_email, &teacher.Teacher_gender,
+			&teacher.Teacher_pronoun, &teacher.Teacher_position, &teacher.Teacher_grade_band, &teacher.Teacher_subjects,
+			&teacher.Teacher_provided_services, &teacher.Teacher_specialized_courses, &teacher.Teacher_state_id,
+			&teacher.Teacher_district, &teacher.Teacher_school, &teacher.Teacher_cell_phone, &teacher.Teacher_texts_enabled,
+			&teacher.Active, &teacher.Teacher_date_created, &teacher.Teacher_date_updated)
 
 		if err != nil {
 			return nil, err
 		}
+
 		teachers = append(teachers, teacher)
 	}
 
@@ -383,9 +419,29 @@ func (r *teacherResolver) TestField(ctx context.Context, obj *model.Teacher) (st
 	panic(fmt.Errorf("not implemented: TestField - test_field"))
 }
 
+// TeacherDateOfBirth is the resolver for the Teacher_date_of_birth field.
+func (r *teacherResolver) TeacherDateOfBirth(ctx context.Context, obj *model.Teacher) (*string, error) {
+	panic(fmt.Errorf("not implemented: TeacherDateOfBirth - Teacher_date_of_birth"))
+}
+
+// TeacherDateStartedTeaching is the resolver for the Teacher_date_started_teaching field.
+func (r *teacherResolver) TeacherDateStartedTeaching(ctx context.Context, obj *model.Teacher) (*string, error) {
+	panic(fmt.Errorf("not implemented: TeacherDateStartedTeaching - Teacher_date_started_teaching"))
+}
+
 // Active is the resolver for the Active field.
 func (r *teacherResolver) Active(ctx context.Context, obj *model.Teacher) (int, error) {
 	panic(fmt.Errorf("not implemented: Active - Active"))
+}
+
+// TeacherDateCreated is the resolver for the Teacher_date_created field.
+func (r *teacherResolver) TeacherDateCreated(ctx context.Context, obj *model.Teacher) (string, error) {
+	panic(fmt.Errorf("not implemented: TeacherDateCreated - Teacher_date_created"))
+}
+
+// TeacherDateUpdated is the resolver for the Teacher_date_updated field.
+func (r *teacherResolver) TeacherDateUpdated(ctx context.Context, obj *model.Teacher) (*string, error) {
+	panic(fmt.Errorf("not implemented: TeacherDateUpdated - Teacher_date_updated"))
 }
 
 // QtyLabel is the resolver for the qty_label field.
@@ -430,6 +486,10 @@ type userBookResolver struct{ *Resolver }
 //   - When renaming or deleting a resolver the old code will be put in here. You can safely delete
 //     it when you're done.
 //   - You have helper methods in this file. Move them out to keep these resolver files clean.
+type MsModel struct {
+	Conn *sql.DB
+}
+
 func (r *queryResolver) GetBookByID(ctx context.Context, id string) (*model.Book, error) {
 	var book model.Book
 
