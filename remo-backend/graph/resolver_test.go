@@ -70,7 +70,7 @@ func TestQueryResolver_Teachers(t *testing.T) {
 	// Call the resolver method
 	teachers, err := qResolver.Teachers(context.Background())
 	if err != nil {
-		t.Fatalf("Error calling Teachers resolver: %s", err)
+		t.Errorf("Error calling Teachers resolver: %s", err)
 	}
 
 	//fmt.Println("Number of teachers found: %d\n", len(teachers))
