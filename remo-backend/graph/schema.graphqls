@@ -5,6 +5,7 @@
 # Maps a Time GraphQL scalar to a Go time.Time struct. This scalar adheres to the time.RFC3339Nano format.
 # https://gqlgen.com/reference/scalars/
 scalar Time
+scalar date
 
 #Maps an arbitrary GraphQL value to a map[string]interface{} Go type
 scalar Map
@@ -32,8 +33,8 @@ type Teacher {
     Teacher_middle_name: String
     Teacher_last_name: String!
     Teacher_suffix: String
-    Teacher_date_of_birth:  time.Time
-    Teacher_date_started_teaching: time.Time
+    Teacher_date_of_birth:  date
+    Teacher_date_started_teaching: date
     Degree_level_id: ID
     Is_certified: Boolean
     Certification_id: ID
@@ -59,8 +60,8 @@ type Teacher {
     Teacher_cell_phone: String
     Teacher_texts_enabled: Int
     Active: Int!
-    Teacher_date_created:  time.Time!
-    Teacher_date_updated:  time.Time
+    Teacher_date_created:  date!
+    Teacher_date_updated:  date
 }
 
 type Classroom {
