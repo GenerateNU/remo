@@ -13,7 +13,7 @@ type Teacher struct {
 	Teacher_last_name             string    `json:"teacher_last_name"`
 	Teacher_suffix                string    `json:"teacher_suffix"`
 	Teacher_date_of_birth         time.Time `json:"teacher_date_of_birth"`
-	Teacher_date_started_teaching time.Time `json:"teacher_date_started_teaching"`
+	Teacher_date_started_teaching string    `json:"teacher_date_started_teaching"`
 	Degree_level_id               int       `json:"degree_level_id"`
 	Is_certified                  bool      `json:"is_certified"`
 	Certification_id              int       `json:"certification_id"`

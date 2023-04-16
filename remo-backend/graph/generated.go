@@ -184,42 +184,42 @@ type ComplexityRoot struct {
 	}
 
 	Teacher struct {
-		Active                      func(childComplexity int) int
-		Certification_end           func(childComplexity int) int
-		Certification_id            func(childComplexity int) int
-		Certification_start         func(childComplexity int) int
-		Degree_level_id             func(childComplexity int) int
-		Is_certified                func(childComplexity int) int
-		Quarantined_books           func(childComplexity int) int
-		TeacherDateCreated          func(childComplexity int) int
-		TeacherDateOfBirth          func(childComplexity int) int
-		TeacherDateStartedTeaching  func(childComplexity int) int
-		TeacherDateUpdated          func(childComplexity int) int
-		Teacher_avatar              func(childComplexity int) int
-		Teacher_backup_avater       func(childComplexity int) int
-		Teacher_backup_email        func(childComplexity int) int
-		Teacher_cell_phone          func(childComplexity int) int
-		Teacher_code_name           func(childComplexity int) int
-		Teacher_display_name        func(childComplexity int) int
-		Teacher_district            func(childComplexity int) int
-		Teacher_first_name          func(childComplexity int) int
-		Teacher_gender              func(childComplexity int) int
-		Teacher_grade_band          func(childComplexity int) int
-		Teacher_id                  func(childComplexity int) int
-		Teacher_last_name           func(childComplexity int) int
-		Teacher_login_id            func(childComplexity int) int
-		Teacher_middle_name         func(childComplexity int) int
-		Teacher_position            func(childComplexity int) int
-		Teacher_pronoun             func(childComplexity int) int
-		Teacher_provided_services   func(childComplexity int) int
-		Teacher_school              func(childComplexity int) int
-		Teacher_specialized_courses func(childComplexity int) int
-		Teacher_state_id            func(childComplexity int) int
-		Teacher_subjects            func(childComplexity int) int
-		Teacher_subscription_type   func(childComplexity int) int
-		Teacher_suffix              func(childComplexity int) int
-		Teacher_texts_enabled       func(childComplexity int) int
-		Teacher_title               func(childComplexity int) int
+		Active                        func(childComplexity int) int
+		Certification_end             func(childComplexity int) int
+		Certification_id              func(childComplexity int) int
+		Certification_start           func(childComplexity int) int
+		Degree_level_id               func(childComplexity int) int
+		Is_certified                  func(childComplexity int) int
+		Quarantined_books             func(childComplexity int) int
+		TeacherDateCreated            func(childComplexity int) int
+		TeacherDateOfBirth            func(childComplexity int) int
+		TeacherDateUpdated            func(childComplexity int) int
+		Teacher_avatar                func(childComplexity int) int
+		Teacher_backup_avater         func(childComplexity int) int
+		Teacher_backup_email          func(childComplexity int) int
+		Teacher_cell_phone            func(childComplexity int) int
+		Teacher_code_name             func(childComplexity int) int
+		Teacher_date_started_teaching func(childComplexity int) int
+		Teacher_display_name          func(childComplexity int) int
+		Teacher_district              func(childComplexity int) int
+		Teacher_first_name            func(childComplexity int) int
+		Teacher_gender                func(childComplexity int) int
+		Teacher_grade_band            func(childComplexity int) int
+		Teacher_id                    func(childComplexity int) int
+		Teacher_last_name             func(childComplexity int) int
+		Teacher_login_id              func(childComplexity int) int
+		Teacher_middle_name           func(childComplexity int) int
+		Teacher_position              func(childComplexity int) int
+		Teacher_pronoun               func(childComplexity int) int
+		Teacher_provided_services     func(childComplexity int) int
+		Teacher_school                func(childComplexity int) int
+		Teacher_specialized_courses   func(childComplexity int) int
+		Teacher_state_id              func(childComplexity int) int
+		Teacher_subjects              func(childComplexity int) int
+		Teacher_subscription_type     func(childComplexity int) int
+		Teacher_suffix                func(childComplexity int) int
+		Teacher_texts_enabled         func(childComplexity int) int
+		Teacher_title                 func(childComplexity int) int
 	}
 
 	User struct {
@@ -337,7 +337,6 @@ type StudentResolver interface {
 }
 type TeacherResolver interface {
 	TeacherDateOfBirth(ctx context.Context, obj *model.Teacher) (*string, error)
-	TeacherDateStartedTeaching(ctx context.Context, obj *model.Teacher) (*string, error)
 
 	Active(ctx context.Context, obj *model.Teacher) (int, error)
 	TeacherDateCreated(ctx context.Context, obj *model.Teacher) (string, error)
@@ -1263,13 +1262,6 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 
 		return e.complexity.Teacher.TeacherDateOfBirth(childComplexity), true
 
-	case "Teacher.Teacher_date_started_teaching":
-		if e.complexity.Teacher.TeacherDateStartedTeaching == nil {
-			break
-		}
-
-		return e.complexity.Teacher.TeacherDateStartedTeaching(childComplexity), true
-
 	case "Teacher.Teacher_date_updated":
 		if e.complexity.Teacher.TeacherDateUpdated == nil {
 			break
@@ -1311,6 +1303,13 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 		}
 
 		return e.complexity.Teacher.Teacher_code_name(childComplexity), true
+
+	case "Teacher.Teacher_date_started_teaching":
+		if e.complexity.Teacher.Teacher_date_started_teaching == nil {
+			break
+		}
+
+		return e.complexity.Teacher.Teacher_date_started_teaching(childComplexity), true
 
 	case "Teacher.Teacher_display_name":
 		if e.complexity.Teacher.Teacher_display_name == nil {
@@ -8019,7 +8018,7 @@ func (ec *executionContext) _Teacher_Teacher_date_started_teaching(ctx context.C
 	}()
 	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
 		ctx = rctx // use context from middleware stack in children
-		return ec.resolvers.Teacher().TeacherDateStartedTeaching(rctx, obj)
+		return obj.Teacher_date_started_teaching, nil
 	})
 	if err != nil {
 		ec.Error(ctx, err)
@@ -8028,19 +8027,19 @@ func (ec *executionContext) _Teacher_Teacher_date_started_teaching(ctx context.C
 	if resTmp == nil {
 		return graphql.Null
 	}
-	res := resTmp.(*string)
+	res := resTmp.(string)
 	fc.Result = res
-	return ec.marshalOdate2ᚖstring(ctx, field.Selections, res)
+	return ec.marshalOString2string(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) fieldContext_Teacher_Teacher_date_started_teaching(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
 	fc = &graphql.FieldContext{
 		Object:     "Teacher",
 		Field:      field,
-		IsMethod:   true,
-		IsResolver: true,
+		IsMethod:   false,
+		IsResolver: false,
 		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
-			return nil, errors.New("field of type date does not have child fields")
+			return nil, errors.New("field of type String does not have child fields")
 		},
 	}
 	return fc, nil
@@ -15191,22 +15190,9 @@ func (ec *executionContext) _Teacher(ctx context.Context, sel ast.SelectionSet, 
 
 			})
 		case "Teacher_date_started_teaching":
-			field := field
 
-			innerFunc := func(ctx context.Context) (res graphql.Marshaler) {
-				defer func() {
-					if r := recover(); r != nil {
-						ec.Error(ctx, ec.Recover(ctx, r))
-					}
-				}()
-				res = ec._Teacher_Teacher_date_started_teaching(ctx, field, obj)
-				return res
-			}
+			out.Values[i] = ec._Teacher_Teacher_date_started_teaching(ctx, field, obj)
 
-			out.Concurrently(i, func() graphql.Marshaler {
-				return innerFunc(ctx)
-
-			})
 		case "Degree_level_id":
 
 			out.Values[i] = ec._Teacher_Degree_level_id(ctx, field, obj)
