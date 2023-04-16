@@ -32,9 +32,14 @@ func (ms *MsController) Serve() *gin.Engine {
 		}
 
 		_, err := ms.AddUser(user)
+		err2 := ms.MakeLibrary(user)
 
 		if err != nil {
 			c.JSON(http.StatusBadRequest, "Failed to add a user")
+			panic(err)
+		}
+		if err2 != nil {
+			c.JSON(http.StatusBadRequest, "Failed to create a library for the user")
 			panic(err)
 		}
 
@@ -127,7 +132,7 @@ func (ms *MsController) Serve() *gin.Engine {
 		c.JSON(http.StatusOK, ms.UserBooks(id))
 	})
 
-	r.PUT("v1/checkout_book/:bookId/:userId", func(c *gin.Context) {
+	r.POST("v1/checkout_book/:bookId/:userId", func(c *gin.Context) {
 		isbn_13 := c.Param("bookId")
 		user_id := c.Param("userId")
 
@@ -142,11 +147,11 @@ func (ms *MsController) Serve() *gin.Engine {
 
 	})
 
-	r.PUT("v1/return/:bookId", func(c *gin.Context) {
+	r.POST("v1/return/:bookId/:userId", func(c *gin.Context) {
 		isbn_13 := c.Param("bookId")
-		fmt.Println(isbn_13)
+		user_id := c.Param("userId")
 
-		err := ms.ReturnBookByID(isbn_13)
+		err := ms.ReturnBookByID(user_id, isbn_13)
 
 		if err != nil {
 			c.JSON(http.StatusBadRequest, "Failed to return book")

@@ -28,13 +28,13 @@ export default function AddReadingLog({ navigation }) {
   };
 
   const onLogPress = () => {
-    navigation.navigate("Timer", { data: selectedBook });
+    navigation.navigate("ReadingLogFlow", { data: selectedBook });
   };
   return (
     <ScrollView>
       <View style={styles.header}>
         <Text style={styles.header_title}>
-          Select a book you're currently reading or checkout a new book.
+          Select a book you're currently reading or checkout a new book:
         </Text>
       </View>
       <View style={styles.container}>
@@ -74,6 +74,11 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     padding: 20,
   },
+  select: {
+    color: "purple",
+    fontSize: 15,
+    fontWeight: "bold",
+  },
   header: {
     flexDirection: "row",
     justifyContent: "space-between",
@@ -85,9 +90,16 @@ const styles = StyleSheet.create({
     marginBottom: 5,
   },
   header_title: {
-    fontSize: 20,
+    fontSize: 15,
     fontWeight: "bold",
-    marginBottom: 7,
+    margin: 7,
+    borderWidth: 1,
+    borderColor: "#ccc",
+    padding: 15,
+    marginRight: 15,
+    backgroundColor: "white",
+    overflow: 'hidden',
+    borderRadius: 10,
   },
   count: {
     fontSize: 18,
@@ -135,7 +147,7 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
   },
   button: {
-    backgroundColor: "black",
+    backgroundColor: "purple",
     height: 50,
     justifyContent: "center",
     alignItems: "center",

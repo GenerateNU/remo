@@ -40,3 +40,14 @@ type OnboardingQuestions struct {
 	Q8        string `json:"q8"`
 	Onboarded string `json:"onboarded"`
 }
+
+type ReadingLog struct {
+	BookID       string `json:"book_id"`
+	UserID       string `json:"user_id"`
+	TotalPages   int    `json:"total_pages"`
+	TotalTime    string `json:"total_time"`
+	ResponseType int    `json:"response_type"`
+	Response     string `json:"response"`
+	CheckIn      int    `json:"check_in"`
+	Date         string `json:"date"`
+}

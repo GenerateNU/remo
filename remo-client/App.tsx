@@ -10,6 +10,7 @@ import Timer from "./screens/timer";
 import ReadingLog from "./screens/readinglog";
 import AddReadingLog from "./screens/addReadingLog";
 import PostReadingLog from "./screens/postReading";
+import ReadingLogFlow from "./screens/readingLogFlow";
 import ReadingLogDisplay from "./screens/readinLogDisplay";
 import SearchScreen from "./screens/searchSceen";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
@@ -21,6 +22,8 @@ import BookReturn from "./screens/bookReturn";
 const Stack = createNativeStackNavigator();
 
 export default function App() {
+  window.addEventListener = (x) => x;
+  window.removeEventListener = (x) => x;
   return (
     <NavigationContainer>
       <Stack.Navigator>
@@ -32,6 +35,7 @@ export default function App() {
         <Stack.Screen name="Onboarding" component={Onboarding} />
         <Stack.Screen name="Bookshelf" component={Bookshelf} />
         <Stack.Screen name="Timer" component={Timer} />
+        <Stack.Screen name="ReadingLogFlow" component={ReadingLogFlow} />
         <Stack.Screen name="ReadingLog" component={ReadingLog} />
         <Stack.Screen name="BookInfo" component={BookInfo} />
         <Stack.Screen name="Search" component={SearchScreen} />
@@ -40,11 +44,7 @@ export default function App() {
         <Stack.Screen name="ReadingLogDisplay" component={ReadingLogDisplay} />
         <Stack.Screen name="Returns" component={Returns} />
         <Stack.Screen name="BookReturn" component={BookReturn} />
-
       </Stack.Navigator>
     </NavigationContainer>
   );
 }
-
-
-
