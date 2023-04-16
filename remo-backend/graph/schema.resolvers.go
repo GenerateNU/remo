@@ -277,6 +277,7 @@ func (r *queryResolver) Teachers(ctx context.Context) ([]*model.Teacher, error) 
 	if err != nil {
 		return nil, err
 	}
+	var laterAssignment uint8
 	defer rows.Close()
 	for rows.Next() {
 		teacher := &model.Teacher{}
@@ -288,7 +289,8 @@ func (r *queryResolver) Teachers(ctx context.Context) ([]*model.Teacher, error) 
 			&teacher.Teacher_middle_name,
 			&teacher.Teacher_last_name,
 			&teacher.Teacher_suffix,
-			&teacher.Teacher_date_of_birth,
+			laterAssignment,
+			//&teacher.Teacher_date_of_birth,
 			&teacher.Teacher_date_started_teaching,
 			&teacher.Degree_level_id,
 			&teacher.Is_certified,
@@ -321,6 +323,13 @@ func (r *queryResolver) Teachers(ctx context.Context) ([]*model.Teacher, error) 
 		if err != nil {
 			return nil, err
 		}
+
+		fmt.Print(laterAssignment)
+
+		// strconv.FormatUint(laterAssignment, 10)
+		// time.Parse("2006-Jan-02", laterAssignment)
+		// teacher.Teacher_date_of_birth = laterAssignment
+
 		teachers = append(teachers, teacher)
 	}
 
