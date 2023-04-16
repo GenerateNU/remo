@@ -2,7 +2,6 @@ package model
 
 import (
 	"database/sql"
-	"errors"
 	"fmt"
 	"strconv"
 )
