@@ -2,6 +2,7 @@ package model
 
 import (
 	"database/sql"
+	"errors"
 	"fmt"
 	"strconv"
 )
@@ -139,6 +140,7 @@ func GetUserByID(pool *sql.DB, user_ID string) (User, error) {
 func CheckoutBook(pool *sql.DB, user_ID string, isbn_13 string) error {
 	var user_lib string
 	err := pool.QueryRow(fmt.Sprintf("SELECT id FROM libraries where user_id='" + user_ID + "' LIMIT 1;")).Scan(&user_lib)
+
 	if err != nil {
 		return err
 	}
