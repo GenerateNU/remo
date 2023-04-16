@@ -1,14 +1,10 @@
 import { useNavigation } from "@react-navigation/native";
 import React from "react";
-import { View, Text, StyleSheet, Pressable } from "react-native";
-import RadioButton from "./radioButton";
+import { Pressable, View, Text, StyleSheet } from "react-native";
 
-export default function PressableNavItem({ item, setter, state }) {
-  const pressed = state === item;
+export default function PressableLastItem({ item, setter, state }) {
   const selectItem = () => {
     setter(item);
-    console.log(item);
-    console.log(state);
   };
   return (
     <Pressable onPress={selectItem}>
@@ -18,7 +14,6 @@ export default function PressableNavItem({ item, setter, state }) {
           state === item ? styles.pressed : styles.unpressed,
         ]}
       >
-        <RadioButton state={state} item={item} />
         <Text
           style={[
             styles.text,
@@ -35,13 +30,12 @@ export default function PressableNavItem({ item, setter, state }) {
 const styles = StyleSheet.create({
   item: {
     width: "100%",
-    paddingHorizontal: 15,
     height: "100%",
     borderWidth: 1,
-    borderRadius: 12,
     borderColor: "#954A98",
+    borderRadius: 12,
     flexDirection: "row",
-    justifyContent: "flex-start",
+    justifyContent: "center",
     alignItems: "center",
     marginBottom: 12,
   },
@@ -56,6 +50,7 @@ const styles = StyleSheet.create({
   text: {
     fontSize: 16,
     flex: 1,
+    textAlign: "center",
     flexWrap: "wrap",
     fontWeight: "300",
   },

@@ -9,7 +9,7 @@ import {
   ScrollView,
 } from "react-native";
 import BottomButtons from "../botButtons/bottomButtons";
-import PressableList from "../pressableList/pressableGrid";
+import PressableList from "../pressableList/pressableList";
 
 export default function SelectReadingHow({ setters, states }) {
   const listResponse: string[] = [
@@ -23,7 +23,11 @@ export default function SelectReadingHow({ setters, states }) {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.text}>How’s it going with your book?</Text>
+      <View style={styles.questionBlock}>
+        <View>
+          <Text style={styles.text}>How’s it going with your book?</Text>
+        </View>
+      </View>
       <View style={styles.top}>
         <PressableList
           list={listResponse}
@@ -44,12 +48,21 @@ const styles = StyleSheet.create({
     flexDirection: "column",
     alignItems: "flex-start",
   },
+  questionBlock: {
+    backgroundColor: "white",
+    marginBottom: 18,
+    borderRadius: 12,
+    padding: 12,
+    flexDirection: "column",
+    justifyContent: "center",
+    width: "100%",
+  },
   top: {
     flex: 3,
     width: "100%",
   },
   text: {
-    marginBottom: 12,
+    fontSize: 15,
   },
   bot: {
     flex: 1,
