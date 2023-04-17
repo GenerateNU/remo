@@ -191,8 +191,8 @@ func InsertOnboardingQuestions(pool *sql.DB, user_id string, questions Onboardin
 func GetOnboarded(pool *sql.DB, user_id string) (string, error) {
 	var onboarded string
 
-	err := pool.QueryRow(fmt.Sprintf("SELECT onboarded FROM logins where user_id = '%s';", user_id)).Scan(&onboarded)
-
+	err := pool.QueryRow(fmt.Sprintf("SELECT onboarded FROM logins where id = '%s';", user_id)).Scan(&onboarded)
+	fmt.Println(onboarded)
 	if err != nil {
 		return "not onboarded", err
 	}
@@ -202,7 +202,7 @@ func GetOnboarded(pool *sql.DB, user_id string) (string, error) {
 
 func OnboardUser(pool *sql.DB, user_id string) error {
 
-	_, err := pool.Exec(fmt.Sprintf("UPDATE logins SET onboarded='1' WHERE user_id = '%s' ;", user_id))
+	_, err := pool.Exec(fmt.Sprintf("UPDATE logins SET onboarded='1' WHERE id = '%s' ;", user_id))
 
 	if err != nil {
 		return err

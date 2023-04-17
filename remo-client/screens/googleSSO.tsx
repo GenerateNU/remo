@@ -7,6 +7,8 @@ import AfterSSO from "./afterSSO";
 import { FontAwesome5 } from "@expo/vector-icons";
 import jwt_decode from "jwt-decode";
 import PressableCard from "../components/pressablecard/pressablecard";
+import { checkOnboarded } from "../services/book-services";
+
 
 // import * as WebBrowser from 'expo-web-browser';
 // import { GoogleRectangularButton } from "../../../common/GoogleButton";
@@ -62,7 +64,7 @@ const [request, response, promptAsync] = Google.useAuthRequest({
 
       try {
         var res = await fetch(
-          "https://2ad0-2601-197-a7f-9c20-30eb-1860-faf1-2c7c.ngrok-free.app/v1/login",
+          "https://9998-2601-197-a7f-9c20-9b1-e8c8-917c-d331.ngrok-free.app/v1/login",
           {
             method: "POST",
             credentials: "include",
@@ -87,7 +89,11 @@ const [request, response, promptAsync] = Google.useAuthRequest({
           onboarded: decodedHeader.Onboarded,
         };
 
-        if (googdata.onboarded == true){
+        console.log(googdata.id);
+        const onboarded_check = await checkOnboarded(googdata.id);
+        console.log(onboarded_check);
+
+        if (onboarded_check == "1"){
           navigation.navigate("Profile", {
             data: googdata,
           });

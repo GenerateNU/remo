@@ -50,3 +50,20 @@ export const findAllBooks = async () => {
 
   return response.data;
 };
+
+export const onboardUser = async (user_id: string) => {
+  const response = await axios.put(
+    `${API_URL}/v1/onboard/${user_id}`
+  );
+  console.log(response.data);
+  return response.data;
+};
+
+export const checkOnboarded = async (user_id: string) => {
+
+  const response = await axios.get(
+    `${API_URL}/v1/check_onboarded/${user_id}`
+  );
+  console.log(response.data);
+  return response.data;
+};
