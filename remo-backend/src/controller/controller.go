@@ -14,6 +14,19 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+func getUserByIDHandler(r *graph.QueryResolver) gin.HandlerFunc {
+
+	return func(c *gin.Context) {
+		id := c.Param("userID")
+		user, err := (*r).GetUserByID(c, id)
+		if err != nil {
+			c.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+			return
+		}
+		c.JSON(http.StatusOK, user)
+	}
+}
+
 type Controller interface {
 	Serve() *gin.Engine
 }
@@ -21,10 +34,6 @@ type Controller interface {
 type MsController struct {
 	model.Model
 }
-
-var resolver = graph.Resolver{}
-var qResolver = resolver.Query()
-var mResolver = resolver.Mutation()
 
 func (ms *MsController) Serve() *gin.Engine {
 	r := gin.Default()
