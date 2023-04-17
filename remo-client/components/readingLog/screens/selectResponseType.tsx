@@ -51,7 +51,7 @@ const styles = StyleSheet.create({
     alignItems: "flex-start",
   },
   top: {
-    flex: 3,
+    flex: 5,
     width: "100%",
   },
   bot: {
