@@ -162,22 +162,22 @@ export default function AddSummary({ setters, states }) {
                   VIEW NOTES
                 </Text>
               </ButtonTheme>
+              <ButtonTheme
+                buttonStyle={styles.button}
+                type="outline"
+                onPress={() => setHelpVisible(true)}
+              >
+                <MaterialCommunityIcons
+                  name="comment-question-outline"
+                  size={24}
+                  style={styles.color}
+                />
+                <Text style={[styles.color, styles.buttonText]}>HELP</Text>
+              </ButtonTheme>
             </View>
           </ScrollView>
         </View>
       </View>
-      <ButtonTheme
-        buttonStyle={styles.button}
-        type="outline"
-        onPress={() => setHelpVisible(true)}
-      >
-        <MaterialCommunityIcons
-          name="comment-question-outline"
-          size={24}
-          style={styles.color}
-        />
-        <Text style={[styles.color, styles.buttonText]}>HELP</Text>
-      </ButtonTheme>
       <View style={styles.bot}>
         <BottomButtons pageSetter={setters.page} pageToGo={"howGoes"} />
       </View>

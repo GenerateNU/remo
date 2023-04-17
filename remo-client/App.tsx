@@ -18,6 +18,7 @@ import Register from "./screens/register";
 import BookInfo from "./screens/bookinfo";
 import Returns from "./screens/returnShelf";
 import BookReturn from "./screens/bookReturn";
+import { Button } from "react-native";
 
 const Stack = createNativeStackNavigator();
 
@@ -27,7 +28,6 @@ export default function App() {
   return (
     <NavigationContainer>
       <Stack.Navigator>
-
         <Stack.Screen name="Home" component={Home} />
         <Stack.Screen name="GoogleSSO" component={GoogleSSO} />
         <Stack.Screen name="Register" component={Register} />
@@ -36,17 +36,30 @@ export default function App() {
         <Stack.Screen name="Onboarding" component={Onboarding} />
         <Stack.Screen name="Bookshelf" component={Bookshelf} />
         <Stack.Screen name="Timer" component={Timer} />
-        <Stack.Screen name="ReadingLogFlow" component={ReadingLogFlow} />
+        <Stack.Screen
+          name="ReadingLogFlow"
+          component={ReadingLogFlow}
+          options={{
+            title: "Add a Reading Log",
+            headerStyle: {
+              backgroundColor: "#954A98",
+            },
+            headerTintColor: "#fff",
+          }}
+        />
         <Stack.Screen name="ReadingLog" component={ReadingLog} />
         <Stack.Screen name="BookInfo" component={BookInfo} />
-        <Stack.Screen name="Search" component={SearchScreen}
-        options={{
-          title: 'Find a Book',
-          headerStyle: {
-            backgroundColor: '#954A98',
-          },
-          headerTintColor: '#fff',
-        }}/>
+        <Stack.Screen
+          name="Search"
+          component={SearchScreen}
+          options={{
+            title: "Find a Book",
+            headerStyle: {
+              backgroundColor: "#954A98",
+            },
+            headerTintColor: "#fff",
+          }}
+        />
         <Stack.Screen name="AddReadingLog" component={AddReadingLog} />
         <Stack.Screen name="PostReadingLog" component={PostReadingLog} />
         <Stack.Screen name="ReadingLogDisplay" component={ReadingLogDisplay} />

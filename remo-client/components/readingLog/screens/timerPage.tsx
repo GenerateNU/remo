@@ -88,27 +88,32 @@ export default function TimerPage({ setters, states, stopTimer }) {
         <Text style={styles.note}>Notes:</Text>
         <Text style={styles.timer}>{formatTime(states.time)}</Text>
       </View>
-      <ScrollView>
-        <View style={styles.textBox}>
-          <TextInput
-            style={styles.input}
-            value={states.text}
-            maxLength={200}
-            multiline={true}
-            onChangeText={setters.text}
-            placeholder="Enter text"
-            onKeyPress={keyHandles}
-          />
-        </View>
-      </ScrollView>
+      <View style={styles.scroll}>
+        <ScrollView>
+          <View style={styles.textBox}>
+            <TextInput
+              style={styles.input}
+              value={states.text}
+              maxLength={200}
+              multiline={true}
+              onChangeText={setters.text}
+              placeholder="Enter text"
+              onKeyPress={keyHandles}
+            />
+          </View>
+        </ScrollView>
+      </View>
       <View style={styles.buttonContainer}>
-          <Button titleStyle={{ color: "#954A98"}}
-              buttonStyle={styles.pauseButton} onPress={handlePause}>
-             {states.isRunning ? "PAUSE" : "RESUME"}
-          </Button>
-          <Button buttonStyle={styles.button} onPress={stopTimer}>
-            STOP READING
-          </Button>
+        <Button
+          titleStyle={{ color: "#954A98" }}
+          buttonStyle={styles.pauseButton}
+          onPress={handlePause}
+        >
+          {states.isRunning ? "PAUSE" : "RESUME"}
+        </Button>
+        <Button buttonStyle={styles.button} onPress={stopTimer}>
+          STOP READING
+        </Button>
       </View>
     </View>
   );
@@ -124,6 +129,9 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: "column",
     justifyContent: "space-between",
+  },
+  scroll: {
+    flex: 4,
   },
   pauseButton: {
     backgroundColor: "white",
@@ -146,11 +154,11 @@ const styles = StyleSheet.create({
     justifyContent: "flex-start",
     backgroundColor: "white",
     borderRadius: 20,
-    overflow: 'hidden',
+    overflow: "hidden",
   },
   buttonContainer: {
     marginTop: 8,
-    flex: 3,
+    flex: 1,
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-around",

@@ -67,7 +67,7 @@ export default function AddReadingLog({ navigation }) {
             }}
           >
             <>
-            <Image source={{ uri: book.cover }} />
+              <Image source={{ uri: book.cover }} />
               <Text style={styles.title}>{book.title}</Text>
               <Text style={styles.author}>{book.author}</Text>
               <Text style={styles.isbn}>ISBN-13: {book.isbn_13}</Text>
@@ -108,11 +108,10 @@ const styles = StyleSheet.create({
   header_title: {
     fontSize: 15,
     fontWeight: "bold",
-    margin: 7,
+    marginTop: 7,
     borderWidth: 1,
     borderColor: "#ccc",
     padding: 15,
-    marginRight: 15,
     backgroundColor: "white",
     overflow: "hidden",
     borderRadius: 10,
