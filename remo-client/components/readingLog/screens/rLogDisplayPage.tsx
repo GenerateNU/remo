@@ -47,7 +47,11 @@ export default function ReadingLogDisplayPage({ states, title, postInfo }) {
         />
       </View>
       <View style={styles.bot}>
-        <BottomButtonsDone pageToGo={"Submitted"} />
+        <BottomButtonsDone
+          pageToGo={"SubmittedReadingLog"}
+          postInfo={postInfo}
+          data={data}
+        />
       </View>
     </View>
   );

@@ -6,6 +6,7 @@ import {
   ScrollView,
   TouchableOpacity,
   Alert,
+  Image,
 } from "react-native";
 import { useNavigation, useRoute } from "@react-navigation/native";
 import { findUserBooks } from "../services/book-services";
@@ -26,6 +27,7 @@ export default function ReadingLog({ navigation }) {
     let readingLogBooks = await findUserBooks(data.id);
     readingLogBooks = readingLogBooks.slice(0, 4);
     setBooks(readingLogBooks);
+    console.log(readingLogBooks);
   };
 
   const onBookPress = () => {
@@ -36,7 +38,7 @@ export default function ReadingLog({ navigation }) {
       <View style={styles.header}>
         <Text style={styles.header_title}>Currently Reading</Text>
       </View>
-      <ScrollView horizontal={true}>
+      <ScrollView style={{ width: "100%" }}>
         <View style={styles.container}>
           {books.map((book) => (
             <TouchableOpacity
@@ -51,6 +53,7 @@ export default function ReadingLog({ navigation }) {
               }}
             >
               <>
+                <Image source={{ uri: book.bookCover }} />
                 <Text style={styles.title}>{book.title}</Text>
                 <Text style={styles.author}>{book.author}</Text>
                 <Text style={styles.isbn}>ISBN-13: {book.isbn_13}</Text>
@@ -67,7 +70,7 @@ export default function ReadingLog({ navigation }) {
       <View style={styles.header}>
         <Text style={styles.header_title}>My Reading Log Reports</Text>
       </View>
-      <ScrollView horizontal={true}>
+      <ScrollView style={{ width: "100%" }}>
         <View style={styles.container}>
           {books.map((book) => (
             <TouchableOpacity
@@ -97,6 +100,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     flexDirection: "row",
+    width: "100%",
     flexWrap: "wrap",
     justifyContent: "space-between",
     padding: 20,
@@ -118,7 +122,7 @@ const styles = StyleSheet.create({
     fontSize: 18,
   },
   book: {
-    width: "22%",
+    width: "45%",
     marginBottom: 5,
     borderWidth: 1,
     borderColor: "#ccc",
