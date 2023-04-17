@@ -27,4 +27,6 @@ func main() {
 		Model: m,
 	}
 	c.Serve().Run(":8080")
+
+	// literally just add line calling main function of server.go
 }
