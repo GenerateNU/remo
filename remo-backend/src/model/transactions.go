@@ -41,10 +41,16 @@ func GetBooksFromDB(pool *sql.DB, isbn_13 string) (Book, error) {
 }
 
 func GetUserBooksFromDB(pool *sql.DB, user_id string) ([]Book, error) {
-	rows, err := pool.Query("SELECT id, title, author, isbn_10, isbn_13, num_pages, synopsis FROM books where default_user_id='" + user_id + "' LIMIT 10;")
+	var user_lib string
+	err := pool.QueryRow(fmt.Sprintf("SELECT id FROM libraries where user_id='" + user_id + "' LIMIT 1;")).Scan(&user_lib)
 
 	if err != nil {
 		return nil, err
+	}
+	rows, e := pool.Query("SELECT b.id, b.title, b.author, b.isbn_10, b.isbn_13, b.num_pages, b.synopsis FROM libraries2books ul JOIN books b ON b.id = ul.book_id where library_id='" + user_lib + "' LIMIT 20;")
+
+	if e != nil {
+		return nil, e
 	}
 	defer rows.Close()
 
@@ -93,7 +99,11 @@ func GetAllBooksFromDB(pool *sql.DB) ([]Book, error) {
 }
 func InsertUser(pool *sql.DB, usr User) error {
 	_, err := pool.Exec(fmt.Sprintf("INSERT INTO logins (id, first, last, email) VALUES ('%s','%s','%s', '%s');", strconv.Itoa(usr.ID), usr.FirstName, usr.LastName, usr.Email))
+	return err
+}
 
+func CreateLibrary(pool *sql.DB, usr User) error {
+	_, err := pool.Exec(fmt.Sprintf("INSERT INTO libraries (name, user_id) VALUES ('%s','%s');", usr.LastName, strconv.Itoa(usr.ID)))
 	return err
 }
 
@@ -127,29 +137,48 @@ func GetUserByID(pool *sql.DB, user_ID string) (User, error) {
 }
 
 func CheckoutBook(pool *sql.DB, user_ID string, isbn_13 string) error {
-	// book := Book{}
-	// // logic for checking if a book is already checked out
-	// check_err := pool.QueryRow(fmt.Sprintf("SELECT default_user_id FROM books where isbn_13 = '%s';", isbn_13)).Scan(&book.UserID)
-	// if check_err != nil {
-	// 	return check_err
-	// }
-	// if book.UserID != "1" {
-	// 	return check_err
-	// }
-
-	_, err := pool.Exec(fmt.Sprintf("UPDATE books SET default_user_id = '%s' WHERE isbn_13 = '%s'", user_ID, isbn_13))
+	var user_lib string
+	err := pool.QueryRow(fmt.Sprintf("SELECT id FROM libraries where user_id='" + user_ID + "' LIMIT 1;")).Scan(&user_lib)
 
 	if err != nil {
 		return err
 	}
+
+	var book_id string
+	e2 := pool.QueryRow(fmt.Sprintf("SELECT id FROM books where isbn_13='" + isbn_13 + "' LIMIT 1;")).Scan(&book_id)
+	if e2 != nil {
+		e3 := pool.QueryRow(fmt.Sprintf("SELECT id FROM books where isbn_10='" + isbn_13 + "' LIMIT 1;")).Scan(&book_id)
+		if e3 != nil {
+			return e3
+		}
+	}
+	_, e4 := pool.Exec(fmt.Sprintf("INSERT INTO libraries2books (library_id, book_id, user_id) VALUES ('%s','%s','%s');", user_lib, book_id, user_ID))
+
+	if e4 != nil {
+		return e4
+	}
 	return nil
 }
 
-func ReturnBook(pool *sql.DB, isbn_13 string) error {
-	_, err := pool.Exec(fmt.Sprintf("UPDATE books SET default_user_id = '-1' WHERE isbn_13 = '%s'", isbn_13))
-
+func ReturnBook(pool *sql.DB, user_ID string, isbn_13 string) error {
+	var user_lib string
+	err := pool.QueryRow(fmt.Sprintf("SELECT id FROM libraries where user_id='" + user_ID + "' LIMIT 1;")).Scan(&user_lib)
 	if err != nil {
 		return err
+	}
+
+	var book_id string
+	e2 := pool.QueryRow(fmt.Sprintf("SELECT id FROM books where isbn_13='" + isbn_13 + "' LIMIT 1;")).Scan(&book_id)
+	if e2 != nil {
+		e3 := pool.QueryRow(fmt.Sprintf("SELECT id FROM books where isbn_10='" + isbn_13 + "' LIMIT 1;")).Scan(&book_id)
+		if e3 != nil {
+			return e3
+		}
+	}
+	_, e4 := pool.Exec(fmt.Sprintf("DELETE FROM  libraries2books WHERE library_id='" + user_lib + "' AND book_id='" + book_id + "';"))
+
+	if e4 != nil {
+		return e4
 	}
 	return nil
 }
@@ -170,3 +199,8 @@ func GetOnboarded(pool *sql.DB, user_id string) (string, error) {
 
 	return "onboarded", nil
 }
+
+// func AddReadingLog(pool *sql.DB, isbn string, log ReadingLog) error {
+// 	_, err := pool.Exec(fmt.Sprintf("INSERT INTO reading_rate_results (user_id, book_id, last, email) VALUES ('%s','%s','%s', '%s');", strconv.Itoa(usr.ID), usr.FirstName, usr.LastName, usr.Email))
+// 	return err
+// }

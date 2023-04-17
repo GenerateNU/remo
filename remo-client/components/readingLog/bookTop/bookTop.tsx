@@ -30,16 +30,16 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
-    paddingVertical: 7,
     borderBottomColor: "#ccc",
   },
   header_title: {
     fontSize: 20,
+    color: "#65298B",
     fontWeight: "bold",
   },
   header_data: {
     fontSize: 18,
-    fontWeight: "100",
+    fontWeight: "200",
     // fontWeight: 'bold',
   },
 });

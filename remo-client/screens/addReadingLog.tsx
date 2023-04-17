@@ -39,6 +39,12 @@ export default function AddReadingLog({ navigation }) {
   const onLogPress = () => {
     navigation.navigate("ReadingLogFlow", { data: selectedBook });
   };
+
+  const addLog = () => {
+    if (selectedBook !== null) {
+      onLogPress();
+    }
+  };
   return (
     <ScrollView>
       <View style={styles.header}>
@@ -69,7 +75,7 @@ export default function AddReadingLog({ navigation }) {
           </TouchableHighlight>
         ))}
       </View>
-      <TouchableOpacity style={styles.button} onPress={() => onLogPress()}>
+      <TouchableOpacity style={styles.button} onPress={() => addLog()}>
         <Text style={styles.buttonText}>Add Reading Log</Text>
       </TouchableOpacity>
     </ScrollView>
@@ -108,7 +114,7 @@ const styles = StyleSheet.create({
     padding: 15,
     marginRight: 15,
     backgroundColor: "white",
-    overflow: 'hidden',
+    overflow: "hidden",
     borderRadius: 10,
   },
   count: {

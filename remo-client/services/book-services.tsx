@@ -9,7 +9,7 @@ export const findBookBarcode = async (barcode: String) => {
 };
 
 export const checkoutBook = async ({ barcode, user }: BookUser) => {
-  const response = await axios.put(
+  const response = await axios.post(
     `${API_URL}/v1/checkout_book/${barcode}/${user}`
   );
   console.log("barcode; ", barcode, " user; ", user);
@@ -18,11 +18,9 @@ export const checkoutBook = async ({ barcode, user }: BookUser) => {
   return response.data;
 };
 
-export const returnBook = async (barcode: String) => {
-  const bcode = barcode["barcode"];
-
-  const response = await axios.put(
-    `${API_URL}/v1/return/${bcode}`
+export const returnBook = async ({ barcode, user }: BookUser) => {
+  const response = await axios.post(
+    `${API_URL}/v1/return/${barcode}/${user}`
   );
   console.log("barcode; ", barcode);
   console.log("the response is ------");

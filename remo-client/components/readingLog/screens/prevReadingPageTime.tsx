@@ -34,6 +34,11 @@ export default function NoTimerEntry({ setters, states }) {
     console.log((states.endPage - states.startPage) / mins);
   }, []);
 
+  const clearTime = (timeModel: string) => {
+    setters.time(0);
+    setTimeSpent(timeModel);
+  };
+
   return (
     <View style={styles.container}>
       <View style={styles.top}>
@@ -54,7 +59,7 @@ export default function NoTimerEntry({ setters, states }) {
               </Text>
               <Button
                 buttonStyle={styles.button}
-                onPress={() => setTimeSpent("startEnd")}
+                onPress={() => clearTime("startEnd")}
               >
                 INPUT TIME FRAME
               </Button>
@@ -68,7 +73,7 @@ export default function NoTimerEntry({ setters, states }) {
               <Text style={styles.partialText}>End Time</Text>
               <Button
                 buttonStyle={styles.button}
-                onPress={() => setTimeSpent("totalTime")}
+                onPress={() => clearTime("totalTime")}
               >
                 INPUT TOTAL MINUTES
               </Button>
