@@ -62,8 +62,18 @@ export default function TimerPage({ setters, states, stopTimer }) {
   );
 
   const handlePause = () => {
-    states.isRunning(false);
-    clearInterval(states.timerRef.current);
+    if (states.isRunning) {
+      clearInterval(states.timerRef.current);
+      setters.isRunning(false);
+    } else {
+      setters.isRunning(true);
+      const currentTime = new Date().getTime();
+      const remainingTimeInMillisecond = 1 - (currentTime % 1);
+      setters.time((prevTime) => prevTime + remainingTimeInMillisecond);
+      states.timerRef.current = setInterval(() => {
+        setters.time((prevTime) => prevTime + 1);
+      }, 1);
+    }
   };
 
   const keyHandles = ({ nativeEvent }) => {
@@ -92,11 +102,13 @@ export default function TimerPage({ setters, states, stopTimer }) {
         </View>
       </ScrollView>
       <View style={styles.buttonContainer}>
-        {states.isRunning && (
+          <Button titleStyle={{ color: "#954A98"}}
+              buttonStyle={styles.pauseButton} onPress={handlePause}>
+             {states.isRunning ? "PAUSE" : "RESUME"}
+          </Button>
           <Button buttonStyle={styles.button} onPress={stopTimer}>
             STOP READING
           </Button>
-        )}
       </View>
     </View>
   );
@@ -113,6 +125,15 @@ const styles = StyleSheet.create({
     flexDirection: "column",
     justifyContent: "space-between",
   },
+  pauseButton: {
+    backgroundColor: "white",
+    height: 50,
+    justifyContent: "center",
+    alignItems: "center",
+    marginVertical: 10,
+    borderRadius: 10,
+    width: 100,
+  },
   timer: {
     fontSize: 20,
     fontWeight: "400",
@@ -123,10 +144,16 @@ const styles = StyleSheet.create({
     flexDirection: "column",
     height: 300,
     justifyContent: "flex-start",
+    backgroundColor: "white",
+    borderRadius: 20,
+    overflow: 'hidden',
   },
   buttonContainer: {
     marginTop: 8,
     flex: 3,
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-around",
   },
   subheader: {
     flexDirection: "row",
@@ -164,13 +191,13 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
   },
   button: {
-    backgroundColor: "black",
+    backgroundColor: "#954A98",
     height: 50,
     justifyContent: "center",
     alignItems: "center",
     marginVertical: 10,
     borderRadius: 10,
-    width: "100%",
+    width: 210,
   },
   buttonText: {
     color: "white",
