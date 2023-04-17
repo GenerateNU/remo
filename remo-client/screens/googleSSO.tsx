@@ -62,7 +62,7 @@ const [request, response, promptAsync] = Google.useAuthRequest({
 
       try {
         var res = await fetch(
-          "https://a5be-2601-197-a7f-9c20-30eb-1860-faf1-2c7c.ngrok-free.app/v1/login",
+          "https://2ad0-2601-197-a7f-9c20-30eb-1860-faf1-2c7c.ngrok-free.app/v1/login",
           {
             method: "POST",
             credentials: "include",
@@ -79,19 +79,26 @@ const [request, response, promptAsync] = Google.useAuthRequest({
         const decodedHeader = jwt_decode(text);
         console.log(decodedHeader);
         const googdata = {
-          // Credential: decodedHeader.Credential,
           email: decodedHeader.Email,
           firstName: decodedHeader.FirstName,
           lastName: decodedHeader.LastName,
           image: decodedHeader.Picture,
           id: decodedHeader.ID,
+          onboarded: decodedHeader.Onboarded,
         };
 
+        if (googdata.onboarded == true){
+          navigation.navigate("Profile", {
+            data: googdata,
+          });
+        }
         // NAVIGATE TO NEXT PAGE
         // TODO: add logic to check if onboarding questions have been submitted
-        navigation.navigate("Profile", {
-          data: googdata,
-        });
+        else {
+          navigation.navigate("Onboarding", {
+            data: googdata,
+          });
+        }
       } catch (error) {
         console.error(error);
       }

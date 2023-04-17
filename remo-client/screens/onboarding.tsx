@@ -91,6 +91,7 @@ export default function Onboarding() {
       setPageNum(10);
     } else if (page === "pagetwelve") {
       setPageNum(11);
+      // PUT request to make the user "onboarded"
     }
   };
 
