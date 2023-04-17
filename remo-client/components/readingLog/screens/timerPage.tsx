@@ -62,8 +62,18 @@ export default function TimerPage({ setters, states, stopTimer }) {
   );
 
   const handlePause = () => {
-    states.isRunning(false);
-    clearInterval(states.timerRef.current);
+    if (states.isRunning) {
+      clearInterval(states.timerRef.current);
+      setters.isRunning(false);
+    } else {
+      setters.isRunning(true);
+      const currentTime = new Date().getTime();
+      const remainingTimeInMillisecond = 1 - (currentTime % 1);
+      setters.time((prevTime) => prevTime + remainingTimeInMillisecond);
+      states.timerRef.current = setInterval(() => {
+        setters.time((prevTime) => prevTime + 1);
+      }, 1);
+    }
   };
 
   const keyHandles = ({ nativeEvent }) => {
@@ -78,25 +88,32 @@ export default function TimerPage({ setters, states, stopTimer }) {
         <Text style={styles.note}>Notes:</Text>
         <Text style={styles.timer}>{formatTime(states.time)}</Text>
       </View>
-      <ScrollView>
-        <View style={styles.textBox}>
-          <TextInput
-            style={styles.input}
-            value={states.text}
-            maxLength={200}
-            multiline={true}
-            onChangeText={setters.text}
-            placeholder="Enter text"
-            onKeyPress={keyHandles}
-          />
-        </View>
-      </ScrollView>
+      <View style={styles.scroll}>
+        <ScrollView>
+          <View style={styles.textBox}>
+            <TextInput
+              style={styles.input}
+              value={states.text}
+              maxLength={200}
+              multiline={true}
+              onChangeText={setters.text}
+              placeholder="Enter text"
+              onKeyPress={keyHandles}
+            />
+          </View>
+        </ScrollView>
+      </View>
       <View style={styles.buttonContainer}>
-        {states.isRunning && (
-          <Button buttonStyle={styles.button} onPress={stopTimer}>
-            STOP READING
-          </Button>
-        )}
+        <Button
+          titleStyle={{ color: "#954A98" }}
+          buttonStyle={styles.pauseButton}
+          onPress={handlePause}
+        >
+          {states.isRunning ? "PAUSE" : "RESUME"}
+        </Button>
+        <Button buttonStyle={styles.button} onPress={stopTimer}>
+          STOP READING
+        </Button>
       </View>
     </View>
   );
@@ -111,7 +128,19 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     flexDirection: "column",
-    justifyContent: "flex-start",
+    justifyContent: "space-between",
+  },
+  scroll: {
+    flex: 4,
+  },
+  pauseButton: {
+    backgroundColor: "white",
+    height: 50,
+    justifyContent: "center",
+    alignItems: "center",
+    marginVertical: 10,
+    borderRadius: 10,
+    width: 100,
   },
   timer: {
     fontSize: 20,
@@ -123,10 +152,16 @@ const styles = StyleSheet.create({
     flexDirection: "column",
     height: 300,
     justifyContent: "flex-start",
+    backgroundColor: "white",
+    borderRadius: 20,
+    overflow: "hidden",
   },
   buttonContainer: {
     marginTop: 8,
-    flex: 3,
+    flex: 1,
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-around",
   },
   subheader: {
     flexDirection: "row",
@@ -164,13 +199,13 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
   },
   button: {
-    backgroundColor: "black",
+    backgroundColor: "#954A98",
     height: 50,
     justifyContent: "center",
     alignItems: "center",
     marginVertical: 10,
     borderRadius: 10,
-    width: "100%",
+    width: 210,
   },
   buttonText: {
     color: "white",

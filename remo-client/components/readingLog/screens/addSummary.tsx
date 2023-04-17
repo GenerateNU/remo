@@ -6,20 +6,35 @@ import {
   TextInput,
   ScrollView,
   Keyboard,
+  Button,
   Pressable,
 } from "react-native";
 import BottomButtons from "../botButtons/bottomButtons";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
-import { Button } from "@rneui/themed";
+import { Button as ButtonTheme } from "@rneui/themed";
 import Modal from "react-native-modal";
+import { useNavigation } from "@react-navigation/native";
 
 export default function AddSummary({ setters, states }) {
+  const navigation = useNavigation();
   const keyHandles = ({ nativeEvent }) => {
     if (nativeEvent.key === "Enter") {
       Keyboard.dismiss();
     }
   };
 
+  useEffect(() => {
+    navigation.setOptions({
+      headerRight: () => {
+        <Button
+          onPress={() => alert("This is a button!")}
+          title="Info"
+          color="#fff"
+        />;
+      },
+      title: "Demo",
+    });
+  }, []);
   const [helpVisible, setHelpVisible] = useState(false);
   const [notesVisible, setNotesVisible] = useState(false);
 
@@ -117,47 +132,55 @@ export default function AddSummary({ setters, states }) {
         </View>
       </Modal>
       <View style={styles.top}>
-        <ScrollView>
-          <View style={styles.topBox}>
-            <Text>Please provide a summary of this section of the book</Text>
-            <View>
-              <Text style={styles.bold}>Definition</Text>
-              <Text>A summary is a brief overview of the story</Text>
+        <View style={styles.scroll}>
+          <ScrollView>
+            <View style={styles.topBox}>
+              <Text>Please provide a summary of this section of the book</Text>
+              <View>
+                <Text style={styles.bold}>Definition</Text>
+                <Text>A summary is a brief overview of the story</Text>
+              </View>
             </View>
-          </View>
-          <View style={styles.textBox}>
-            <TextInput
-              style={styles.input}
-              value={states.summary}
-              maxLength={200}
-              multiline={true}
-              onChangeText={setters.summary}
-              placeholder="Enter text"
-              onKeyPress={keyHandles}
-            />
-          </View>
-          <View style={styles.buttons}>
-            <Button
-              buttonStyle={styles.button}
-              type={"outline"}
-              onPress={() => setNotesVisible(true)}
-            >
-              <Text style={[styles.color, styles.buttonText]}>VIEW NOTES</Text>
-            </Button>
-            <Button
-              buttonStyle={styles.button}
-              type={"outline"}
-              onPress={() => setHelpVisible(true)}
-            >
-              <MaterialCommunityIcons
-                name="comment-question-outline"
-                size={24}
-                style={styles.color}
+            <View style={styles.textBox}>
+              <TextInput
+                style={styles.input}
+                value={states.summary}
+                maxLength={200}
+                multiline={true}
+                onChangeText={setters.summary}
+                placeholder="Enter text"
+                onKeyPress={keyHandles}
               />
-              <Text style={[styles.color, styles.buttonText]}>HELP</Text>
-            </Button>
-          </View>
-        </ScrollView>
+            </View>
+            <View style={styles.buttons}>
+              <View style={styles.leftButton}>
+                <ButtonTheme
+                  buttonStyle={styles.notesButton}
+                  type={"solid"}
+                  onPress={() => setNotesVisible(true)}
+                >
+                  <Text style={[styles.colorWhite, styles.buttonText]}>
+                    VIEW NOTES
+                  </Text>
+                </ButtonTheme>
+              </View>
+              <View style={styles.rightButton}>
+                <ButtonTheme
+                  buttonStyle={styles.button}
+                  type="outline"
+                  onPress={() => setHelpVisible(true)}
+                >
+                  <MaterialCommunityIcons
+                    name="comment-question-outline"
+                    size={24}
+                    style={styles.color}
+                  />
+                  <Text style={[styles.color, styles.buttonText]}>HELP</Text>
+                </ButtonTheme>
+              </View>
+            </View>
+          </ScrollView>
+        </View>
       </View>
       <View style={styles.bot}>
         <BottomButtons pageSetter={setters.page} pageToGo={"howGoes"} />
@@ -172,6 +195,7 @@ const styles = StyleSheet.create({
     flexDirection: "column",
     alignItems: "flex-start",
   },
+  scroll: {},
   modalTop: {
     flexDirection: "row",
     justifyContent: "space-between",
@@ -183,6 +207,13 @@ const styles = StyleSheet.create({
   },
   modalRow: {
     flexDirection: "row",
+  },
+  helpButton: {
+    backgroundColor: "white",
+    borderRadius: 10,
+    borderWidth: 1,
+    position: "absolute",
+    top: 0,
   },
   xBox: {
     paddingHorizontal: 8,
@@ -233,9 +264,19 @@ const styles = StyleSheet.create({
   buttons: {
     justifyContent: "space-between",
     height: 100,
+    flexDirection: "row",
+  },
+  leftButton: {
+    width: "68%",
+  },
+  rightButton: {
+    width: "28%",
   },
   color: {
     color: "#954A98",
+  },
+  colorWhite: {
+    color: "white",
   },
   button: {
     width: "100%",
@@ -243,6 +284,11 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     borderColor: "#954A98",
     borderWidth: 1,
+  },
+  notesButton: {
+    width: "100%",
+    backgroundColor: "#954A98",
+    borderRadius: 10,
   },
   buttonText: {
     fontSize: 20,
@@ -272,7 +318,9 @@ const styles = StyleSheet.create({
   input: {
     height: 250,
     borderWidth: 1,
-    borderColor: "black",
+    marginTop: 8,
+    borderColor: "#954A98",
+    backgroundColor: "white",
     textAlignVertical: "top",
     padding: 20,
     paddingTop: 10,

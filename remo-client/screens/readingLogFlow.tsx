@@ -12,6 +12,7 @@ import SelectReadingHow from "../components/readingLog/screens/readingHowGoes";
 import FirstPageChoice from "../components/readingLog/screens/firstPageChoice";
 import NoTimerEntry from "../components/readingLog/screens/prevReadingPageTime";
 import NavBar from "../components/Navbar/navbar";
+import { Button } from "@rneui/themed";
 
 export default function ReadingLogFlow({ navigation }) {
   const route = useRoute();
@@ -33,7 +34,7 @@ export default function ReadingLogFlow({ navigation }) {
   const minutes = Math.floor(time / 60000);
   const seconds = Math.floor((time % 60000) / 1000) / 60.0;
   let mins: number = minutes + seconds;
-  mins = Number(mins.toPrecision(3));
+  mins = Math.floor(mins) + Number((mins % 1).toPrecision(1));
 
   const responseMap = new Map([
     ["Thoughts & Feelings", 1],
@@ -128,34 +129,38 @@ export default function ReadingLogFlow({ navigation }) {
 
   return (
     <View style={styles.container}>
-      {page != "displayPage" && (
-        <View style={styles.topSection}>
-          <BookTop bookTitle={data.title} />
-        </View>
-      )}
-      <View style={styles.bottomSection}>
-        {
+      <View style={styles.padding}>
+        {page != "displayPage" && (
+          <View style={styles.topSection}>
+            <BookTop bookTitle={data.title} />
+          </View>
+        )}
+        <View style={styles.bottomSection}>
           {
-            firstPage: <FirstPageChoice setters={setters} states={states} />,
-            timerPage: (
-              <TimerPage
-                setters={setters}
-                states={states}
-                stopTimer={handleStop}
-              />
-            ),
-            noTimer: <NoTimerEntry setters={setters} states={states} />,
-            postTimer: <PostReadingLogPage setters={setters} states={states} />,
-            selectResponse: (
-              <SelectResponse setters={setters} states={states} />
-            ),
-            addSummary: <AddSummary setters={setters} states={states} />,
-            howGoes: <SelectReadingHow setters={setters} states={states} />,
-            displayPage: (
-              <ReadingLogDisplayPage states={states} title={data.title} />
-            ),
-          }[page]
-        }
+            {
+              firstPage: <FirstPageChoice setters={setters} states={states} />,
+              timerPage: (
+                <TimerPage
+                  setters={setters}
+                  states={states}
+                  stopTimer={handleStop}
+                />
+              ),
+              noTimer: <NoTimerEntry setters={setters} states={states} />,
+              postTimer: (
+                <PostReadingLogPage setters={setters} states={states} />
+              ),
+              selectResponse: (
+                <SelectResponse setters={setters} states={states} />
+              ),
+              addSummary: <AddSummary setters={setters} states={states} />,
+              howGoes: <SelectReadingHow setters={setters} states={states} />,
+              displayPage: (
+                <ReadingLogDisplayPage states={states} title={data.title} />
+              ),
+            }[page]
+          }
+        </View>
       </View>
       <View style={styles.navBar}>
         <NavBar navigation={navigation} data={data} />
@@ -177,6 +182,11 @@ const styles = StyleSheet.create({
   },
   container: {
     flex: 1,
+    flexDirection: "column",
+    justifyContent: "flex-start",
+  },
+  padding: {
+    flex: 7,
     paddingHorizontal: 20,
     flexDirection: "column",
     justifyContent: "flex-start",
