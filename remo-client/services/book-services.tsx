@@ -1,7 +1,8 @@
 import axios from "axios";
-import { BookUser } from "../types";
+import { BookUser, Book } from "../types";
 
 import { API_URL } from "./api_links";
+import { findGoogleBook } from "./google-services";
 
 export const findBookBarcode = async (barcode: String) => {
   const response = await axios.get(`${API_URL}/v1/books/${barcode}`);
@@ -27,13 +28,42 @@ export const returnBook = async ({ barcode, user }: BookUser) => {
   console.log(response);
   return response.data;
 };
+
 export const findUserBooks = async (id: string) => {
   const response = await axios.get(`${API_URL}/v1/user_books/${id}`);
-  return response.data;
+
+  const updatedBooks = await Promise.all(response.data.map(async (bookData) => {
+
+    const coverResponse = await findGoogleBook(bookData.isbn_13);
+    const obj = coverResponse.items[0].volumeInfo;
+    const imageLinks = obj.imageLinks;
+    const arr = Object.entries(imageLinks);
+    const coverImage = arr[arr.length - 1][1];
+    return { ...bookData, coverImage };
+  }));
+  console.log(updatedBooks);
+  return updatedBooks;
 };
 
 export const findAllBooks = async () => {
   const response = await axios.get(`${API_URL}/v1/all_books`);
-  // const response = await axios.get(`localhost:8080/v1/all_books`);
+
+  return response.data;
+};
+
+export const onboardUser = async (user_id: string) => {
+  const response = await axios.put(
+    `${API_URL}/v1/onboard/${user_id}`
+  );
+  console.log(response.data);
+  return response.data;
+};
+
+export const checkOnboarded = async (user_id: string) => {
+
+  const response = await axios.get(
+    `${API_URL}/v1/check_onboarded/${user_id}`
+  );
+  console.log(response.data);
   return response.data;
 };

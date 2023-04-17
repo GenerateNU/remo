@@ -203,12 +203,25 @@ func (ms *MsController) Serve() *gin.Engine {
 
 		check, err := ms.CheckOnboarded(user_id)
 
-		if check != "onboarded" {
+		if err != nil {
 			c.JSON(http.StatusBadRequest, "Failed to check onboarded user")
 			panic(err)
 		}
 
-		c.JSON(http.StatusOK, "onboarded")
+		c.JSON(http.StatusOK, check)
+	})
+
+	r.PUT("/v1/onboard/:user_Id", func(c *gin.Context) {
+		user_id := c.Param("user_Id")
+
+		err := ms.Onboard(user_id)
+
+		if err != nil {
+			c.JSON(http.StatusBadRequest, "Failed to onboard user")
+			panic(err)
+		}
+
+		c.JSON(http.StatusOK, "success")
 	})
 
 	//protected endpoint group (uses middelware below)
