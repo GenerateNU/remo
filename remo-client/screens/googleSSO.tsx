@@ -21,7 +21,7 @@ export default function GoogleSSO() {
     navigation.navigate("Register");
   };
 
-const [request, response, promptAsync] = Google.useAuthRequest({
+  const [request, response, promptAsync] = Google.useAuthRequest({
     // redirectUri: "localhost:8080",
     scopes: [
       "email",
@@ -61,17 +61,14 @@ const [request, response, promptAsync] = Google.useAuthRequest({
       console.log("woohoo");
 
       try {
-        var res = await fetch(
-          "https://65dc-155-33-135-36.ngrok-free.app/v1/login",
-          {
-            method: "POST",
-            credentials: "include",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify({ credential: authentication?.idToken }),
-          }
-        );
+        var res = await fetch("https://04da-155-33-132-42.ngrok.io/v1/login", {
+          method: "POST",
+          credentials: "include",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ credential: authentication?.idToken }),
+        });
 
         var text = await res.text();
         console.log("RESPONSE", text);

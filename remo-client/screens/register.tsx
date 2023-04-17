@@ -7,16 +7,13 @@ const RegisterScreen = () => {
   const navigation = useNavigation();
 
   const handleRegister = () => {
-    fetch(
-      "https://65dc-155-33-135-36.ngrok-free.app/v1/register",
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ email: email }),
-      }
-    )
+    fetch("https://04da-155-33-132-42.ngrok.io/v1/register", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ email: email }),
+    })
       .then((response) => {
         if (response.ok) {
           // Registration successful, navigate to success screen
