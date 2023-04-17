@@ -7,6 +7,8 @@ import AfterSSO from "./afterSSO";
 import { FontAwesome5 } from "@expo/vector-icons";
 import jwt_decode from "jwt-decode";
 import PressableCard from "../components/pressablecard/pressablecard";
+import { checkOnboarded } from "../services/book-services";
+
 
 // import * as WebBrowser from 'expo-web-browser';
 // import { GoogleRectangularButton } from "../../../common/GoogleButton";
@@ -61,14 +63,18 @@ export default function GoogleSSO() {
       console.log("woohoo");
 
       try {
-        var res = await fetch("https://433e-155-33-132-42.ngrok.io/v1/login", {
-          method: "POST",
-          credentials: "include",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ credential: authentication?.idToken }),
-        });
+
+        var res = await fetch(
+          "https://9998-2601-197-a7f-9c20-9b1-e8c8-917c-d331.ngrok-free.app/v1/login",
+          {
+            method: "POST",
+            credentials: "include",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ credential: authentication?.idToken }),
+          }
+        );
 
         var text = await res.text();
         console.log("RESPONSE", text);
@@ -76,19 +82,30 @@ export default function GoogleSSO() {
         const decodedHeader = jwt_decode(text);
         console.log(decodedHeader);
         const googdata = {
-          // Credential: decodedHeader.Credential,
           email: decodedHeader.Email,
           firstName: decodedHeader.FirstName,
           lastName: decodedHeader.LastName,
           image: decodedHeader.Picture,
           id: decodedHeader.ID,
+          onboarded: decodedHeader.Onboarded,
         };
 
+        console.log(googdata.id);
+        const onboarded_check = await checkOnboarded(googdata.id);
+        console.log(onboarded_check);
+
+        if (onboarded_check == "1"){
+          navigation.navigate("Profile", {
+            data: googdata,
+          });
+        }
         // NAVIGATE TO NEXT PAGE
         // TODO: add logic to check if onboarding questions have been submitted
-        navigation.navigate("Profile", {
-          data: googdata,
-        });
+        else {
+          navigation.navigate("Onboarding", {
+            data: googdata,
+          });
+        }
       } catch (error) {
         console.error(error);
       }

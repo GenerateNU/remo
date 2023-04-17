@@ -22,6 +22,8 @@ import Onboarding11 from "../components/onboarding11";
 import Onboarding12 from "../components/onboarding12";
 import TopComponent from "../components/topOnboarding/topComponent";
 import ProgressBar from "../components/progressbar/progressbar";
+import { onboardUser } from "../services/book-services";
+
 
 // googleResp; username, first, last, email
 export default function Onboarding() {
@@ -91,6 +93,16 @@ export default function Onboarding() {
       setPageNum(10);
     } else if (page === "pagetwelve") {
       setPageNum(11);
+      // PUT request to make the user "onboarded"
+      console.log("HELLLLLOOOOOO");
+      try{
+        console.log("HELLLLLOOOOOO");
+        console.log(data.id)
+        const _ =  onboardUser(data.id);
+      }catch(e){
+        console.log(e);
+      }
+      
     }
   };
 

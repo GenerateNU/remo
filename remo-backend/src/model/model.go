@@ -22,6 +22,7 @@ type Model interface {
 	AddUser(User) (User, error)
 	AddOnboardingQuestions(string, OnboardingQuestions) error
 	CheckOnboarded(string) (string, error)
+	Onboard(string) error
 	MakeLibrary(User) error
 }
 
@@ -123,12 +124,21 @@ func (m *MsModel) AddOnboardingQuestions(user_id string, questions OnboardingQue
 }
 
 func (m *MsModel) CheckOnboarded(id string) (string, error) {
-	check, err := GetOnboarded(m.Conn, id)
+	onboarded, err := GetOnboarded(m.Conn, id)
 	if err != nil {
-		return check, err
+		return "error", err
 	}
 
-	return check, err
+	return onboarded, err
+}
+
+func (m *MsModel) Onboard(user_id string) error {
+	err := OnboardUser(m.Conn, user_id)
+
+	if err != nil {
+		return err
+	}
+	return nil
 }
 
 func (m *MsModel) MakeLibrary(usr User) error {
