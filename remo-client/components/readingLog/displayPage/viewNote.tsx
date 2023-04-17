@@ -37,7 +37,7 @@ export default function ViewNote({ title, responseType, response }) {
           <Button
             type={"outline"}
             titleStyle={{ color: "#954A98" }}
-            buttonStyle={styles.button}
+            buttonStyle={[styles.button, { backgroundColor: "white" }]}
             onPress={() => setVisible(true)}
           >
             View
@@ -63,6 +63,7 @@ const styles = StyleSheet.create({
   },
   bold: {
     fontWeight: "bold",
+    color: "#65298B",
     fontSize: 20,
   },
   button: {

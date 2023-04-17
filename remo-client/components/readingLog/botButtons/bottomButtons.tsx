@@ -20,7 +20,11 @@ export default function BottomButtons({ pageSetter, pageToGo }) {
   return (
     <View style={styles.flow}>
       <View style={styles.leftButton}>
-        <Button buttonStyle={[styles.button]} type={"outline"} onPress={exit}>
+        <Button
+          buttonStyle={[styles.button, { backgroundColor: "white" }]}
+          type={"outline"}
+          onPress={exit}
+        >
           <Text style={styles.color}>Exit</Text>
         </Button>
       </View>

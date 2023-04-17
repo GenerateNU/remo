@@ -34,7 +34,7 @@ export default function ReadingLogFlow({ navigation }) {
   const minutes = Math.floor(time / 60000);
   const seconds = Math.floor((time % 60000) / 1000) / 60.0;
   let mins: number = minutes + seconds;
-  mins = Number(mins.toPrecision(3));
+  mins = Math.floor(mins) + Number((mins % 1).toPrecision(1));
 
   const responseMap = new Map([
     ["Thoughts & Feelings", 1],

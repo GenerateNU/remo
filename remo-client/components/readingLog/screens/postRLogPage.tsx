@@ -31,7 +31,10 @@ export default function PostReadingLogPage({ setters, states }) {
   const minutes = Math.floor(states.time / 60000);
   const seconds = Math.floor((states.time % 60000) / 1000) / 60.0;
   let mins: number = minutes + seconds;
-  mins = Number(mins.toPrecision(3));
+
+  mins = Math.floor(mins) + Number((mins % 1).toPrecision(1));
+
+  const ppm = Number((states.endPage - states.startPage) / mins).toPrecision(3);
 
   useEffect(() => {
     console.log(data);
@@ -76,32 +79,25 @@ export default function PostReadingLogPage({ setters, states }) {
             </Text>
           )}
           <View style={styles.outer}>
-            <View style={styles.row}>
-              <View>
+            <View style={{ width: "48%" }}>
+              <View style={styles.row}>
                 <Text style={[styles.timer, styles.bold]}>
                   {states.endPage - states.startPage}
                 </Text>
-              </View>
-              <View>
-                <Text style={styles.timer}>pages</Text>
-              </View>
-              <View>
-                <Text style={styles.timer}>in</Text>
-              </View>
-              <View>
-                <Text style={[styles.timer, styles.bold]}>{mins}</Text>
-              </View>
-              <View>
-                <Text style={styles.timer}>minutes</Text>
+                <View>
+                  <Text style={styles.timer}>PAGES</Text>
+                </View>
               </View>
             </View>
-            <View>
-              <Text>
-                {Number((states.endPage - states.startPage) / mins).toPrecision(
-                  3
-                )}{" "}
-                ppm
-              </Text>
+            <View style={{ width: "48%" }}>
+              <View style={styles.row}>
+                <View>
+                  <Text style={[styles.timer, styles.bold]}>{mins}</Text>
+                </View>
+                <View>
+                  <Text style={styles.timer}>MINUTES</Text>
+                </View>
+              </View>
             </View>
           </View>
         </ScrollView>
@@ -131,11 +127,15 @@ const styles = StyleSheet.create({
     flexDirection: "column",
   },
   row: {
-    flexDirection: "row",
+    flexDirection: "column",
     justifyContent: "center",
-    width: "100%",
     alignItems: "center",
-    marginBottom: 12,
+    width: "100%",
+    backgroundColor: "white",
+    borderColor: "#954A98",
+    padding: 18,
+    borderWidth: 1,
+    borderRadius: 10,
   },
   warningText: {
     paddingHorizontal: 20,
@@ -144,12 +144,10 @@ const styles = StyleSheet.create({
   },
   outer: {
     width: "100%",
-    borderWidth: 1,
     marginTop: 20,
-    flexDirection: "column",
-    justifyContent: "center",
+    flexDirection: "row",
+    justifyContent: "space-between",
     alignItems: "center",
-    borderRadius: 20,
     paddingVertical: 10,
     marginBottom: 12,
   },
@@ -160,12 +158,14 @@ const styles = StyleSheet.create({
     alignItems: "flex-start",
   },
   timer: {
-    fontSize: 20,
-    fontWeight: "400",
+    fontSize: 16,
+    fontWeight: "300",
     marginHorizontal: 2,
   },
   bold: {
     fontWeight: "bold",
+    fontSize: 32,
+    color: "#954A98",
   },
   buttonContainer: {
     flexDirection: "row",
@@ -291,7 +291,8 @@ const styles = StyleSheet.create({
     borderColor: "#ccc",
     padding: 5,
     marginBottom: 6,
-    width: 110,
+    width: 140,
+    backgroundColor: "white",
     height: 50,
     fontSize: 16,
   },

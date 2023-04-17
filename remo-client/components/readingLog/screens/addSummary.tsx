@@ -153,27 +153,31 @@ export default function AddSummary({ setters, states }) {
               />
             </View>
             <View style={styles.buttons}>
-              <ButtonTheme
-                buttonStyle={styles.button}
-                type={"outline"}
-                onPress={() => setNotesVisible(true)}
-              >
-                <Text style={[styles.color, styles.buttonText]}>
-                  VIEW NOTES
-                </Text>
-              </ButtonTheme>
-              <ButtonTheme
-                buttonStyle={styles.button}
-                type="outline"
-                onPress={() => setHelpVisible(true)}
-              >
-                <MaterialCommunityIcons
-                  name="comment-question-outline"
-                  size={24}
-                  style={styles.color}
-                />
-                <Text style={[styles.color, styles.buttonText]}>HELP</Text>
-              </ButtonTheme>
+              <View style={styles.leftButton}>
+                <ButtonTheme
+                  buttonStyle={styles.notesButton}
+                  type={"solid"}
+                  onPress={() => setNotesVisible(true)}
+                >
+                  <Text style={[styles.colorWhite, styles.buttonText]}>
+                    VIEW NOTES
+                  </Text>
+                </ButtonTheme>
+              </View>
+              <View style={styles.rightButton}>
+                <ButtonTheme
+                  buttonStyle={styles.button}
+                  type="outline"
+                  onPress={() => setHelpVisible(true)}
+                >
+                  <MaterialCommunityIcons
+                    name="comment-question-outline"
+                    size={24}
+                    style={styles.color}
+                  />
+                  <Text style={[styles.color, styles.buttonText]}>HELP</Text>
+                </ButtonTheme>
+              </View>
             </View>
           </ScrollView>
         </View>
@@ -191,10 +195,7 @@ const styles = StyleSheet.create({
     flexDirection: "column",
     alignItems: "flex-start",
   },
-  scroll: {
-    height: "90%",
-    overflow: "hidden",
-  },
+  scroll: {},
   modalTop: {
     flexDirection: "row",
     justifyContent: "space-between",
@@ -263,9 +264,19 @@ const styles = StyleSheet.create({
   buttons: {
     justifyContent: "space-between",
     height: 100,
+    flexDirection: "row",
+  },
+  leftButton: {
+    width: "68%",
+  },
+  rightButton: {
+    width: "28%",
   },
   color: {
     color: "#954A98",
+  },
+  colorWhite: {
+    color: "white",
   },
   button: {
     width: "100%",
@@ -273,6 +284,11 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     borderColor: "#954A98",
     borderWidth: 1,
+  },
+  notesButton: {
+    width: "100%",
+    backgroundColor: "#954A98",
+    borderRadius: 10,
   },
   buttonText: {
     fontSize: 20,
@@ -302,7 +318,9 @@ const styles = StyleSheet.create({
   input: {
     height: 250,
     borderWidth: 1,
-    borderColor: "black",
+    marginTop: 8,
+    borderColor: "#954A98",
+    backgroundColor: "white",
     textAlignVertical: "top",
     padding: 20,
     paddingTop: 10,

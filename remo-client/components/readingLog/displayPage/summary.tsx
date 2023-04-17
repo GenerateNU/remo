@@ -22,7 +22,7 @@ export default function Summery({ title, note }) {
         <Button
           type={"outline"}
           titleStyle={{ color: "#954A98" }}
-          buttonStyle={styles.button}
+          buttonStyle={[styles.button, { backgroundColor: "white" }]}
         >
           Edit
         </Button>
@@ -47,6 +47,7 @@ const styles = StyleSheet.create({
   },
   bold: {
     fontWeight: "bold",
+    color: "#65298B",
     fontSize: 20,
   },
   button: {
