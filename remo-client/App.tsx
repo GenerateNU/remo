@@ -67,7 +67,14 @@ export default function App() {
           },
           headerTintColor: '#fff',
         }}/>
-        <Stack.Screen name="AddReadingLog" component={AddReadingLog} />
+        <Stack.Screen name="AddReadingLog" component={AddReadingLog}
+        options={{
+          title: 'Add Reading Log',
+          headerStyle: {
+            backgroundColor: '#954A98',
+          },
+          headerTintColor: '#fff',
+        }}/>
         <Stack.Screen name="PostReadingLog" component={PostReadingLog} />
         <Stack.Screen name="ReadingLogDisplay" component={ReadingLogDisplay} />
         <Stack.Screen name="Returns" component={Returns} 
