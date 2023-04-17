@@ -3,23 +3,26 @@ import { Button } from "@rneui/themed";
 import React from "react";
 import { StyleSheet, View, Text } from "react-native";
 
-export default function BottomButtonsDone({ pageToGo }) {
+export default function BottomButtonsDone({ pageToGo, postInfo, data }) {
   const navigation = useNavigation();
-  const route = useRoute();
-  const data = route.params?.data;
 
   const exit = () => {
     navigation.navigate("ReadingLog", { data: data });
   };
 
   const nextPage = () => {
-    console.log("done");
+    console.log(pageToGo);
+    console.log(postInfo);
   };
 
   return (
     <View style={styles.flow}>
       <View style={styles.leftButton}>
-        <Button buttonStyle={[styles.button]} type={"outline"} onPress={exit}>
+        <Button
+          buttonStyle={[styles.button, { backgroundColor: "white" }]}
+          type={"outline"}
+          onPress={exit}
+        >
           <Text style={styles.color}>Exit</Text>
         </Button>
       </View>

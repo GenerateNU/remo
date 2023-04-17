@@ -75,7 +75,7 @@ const styles = StyleSheet.create({
   startButton: {
     backgroundColor: "white",
     borderRadius: 15,
-    width: 330,
+    width: 300,
   },
   color: {
     color: "#954A98",

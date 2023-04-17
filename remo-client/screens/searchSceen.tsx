@@ -80,8 +80,8 @@ const SearchScreen = () => {
                 Don't See What You're Looking For?{" "}
               </Text>
               <Button
-                titleStyle={{ color: "black", fontSize: 17 }}
-                title="Search for More Books Here"
+                titleStyle={{ color: "white", fontSize: 17 }}
+                title="SEARCH FOR MORE BOOKS HERE"
                 buttonStyle={styles.button}
               />
             </View>
@@ -117,16 +117,15 @@ const styles = StyleSheet.create({
 
   text: {
     margin: 15,
-    fontSize: 15,
+    fontSize: 17,
     textAlign: "center",
-    fontWeight: "bold",
   },
 
   button: {
-    backgroundColor: "white",
+    backgroundColor: "#954A98",
     borderRadius: 10,
     borderWidth: 1,
-    borderColor: "black",
+    borderColor: "#954A98",
     margin: 20,
   },
   bookbutton: {

@@ -23,7 +23,7 @@ export default function GoogleSSO() {
     navigation.navigate("Register");
   };
 
-const [request, response, promptAsync] = Google.useAuthRequest({
+  const [request, response, promptAsync] = Google.useAuthRequest({
     // redirectUri: "localhost:8080",
     scopes: [
       "email",
@@ -63,6 +63,7 @@ const [request, response, promptAsync] = Google.useAuthRequest({
       console.log("woohoo");
 
       try {
+
         var res = await fetch(
           "https://9998-2601-197-a7f-9c20-9b1-e8c8-917c-d331.ngrok-free.app/v1/login",
           {

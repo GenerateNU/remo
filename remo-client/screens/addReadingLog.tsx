@@ -3,6 +3,7 @@ import React, { useState, useEffect } from "react";
 import {
   View,
   Text,
+  Image,
   StyleSheet,
   ScrollView,
   TouchableHighlight,
@@ -14,6 +15,7 @@ import { findUserBooks } from "../services/book-services";
 export default function AddReadingLog({ navigation }) {
   const [books, setBooks] = useState([]);
   const [selectedBook, setSelectedBook] = useState(null);
+  const [bookCover, setBookCover] = useState("");
   const [showPopup, setShowPopup] = useState(false);
   const route = useRoute();
   const data = route.params?.data;
@@ -25,6 +27,13 @@ export default function AddReadingLog({ navigation }) {
     let readingLogBooks = await findUserBooks(data.id);
     readingLogBooks = readingLogBooks.slice(0, 4);
     setBooks(readingLogBooks);
+  };
+
+  const fetchGoogle = async () => {
+    if (data.isbn !== null) {
+      const data = await findGoogleBook(data.isbn);
+      await updateCover(data);
+    }
   };
 
   const onLogPress = () => {
@@ -58,6 +67,7 @@ export default function AddReadingLog({ navigation }) {
             }}
           >
             <>
+              <Image source={{ uri: book.cover }} />
               <Text style={styles.title}>{book.title}</Text>
               <Text style={styles.author}>{book.author}</Text>
               <Text style={styles.isbn}>ISBN-13: {book.isbn_13}</Text>
@@ -98,11 +108,10 @@ const styles = StyleSheet.create({
   header_title: {
     fontSize: 15,
     fontWeight: "bold",
-    margin: 7,
+    marginTop: 7,
     borderWidth: 1,
     borderColor: "#ccc",
     padding: 15,
-    marginRight: 15,
     backgroundColor: "white",
     overflow: "hidden",
     borderRadius: 10,
@@ -153,7 +162,7 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
   },
   button: {
-    backgroundColor: "purple",
+    backgroundColor: "#954A98",
     height: 50,
     justifyContent: "center",
     alignItems: "center",

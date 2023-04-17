@@ -13,7 +13,7 @@ import Summery from "../displayPage/summary";
 import ViewNote from "../displayPage/viewNote";
 import BottomButtonsDone from "../botButtons/bottButtonsDone";
 
-export default function ReadingLogDisplayPage({ states, title }) {
+export default function ReadingLogDisplayPage({ states, title, postInfo }) {
   const route = useRoute();
 
   const data = route.params?.data;
