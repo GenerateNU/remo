@@ -28,13 +28,33 @@ export default function App() {
     <NavigationContainer>
       <Stack.Navigator>
 
-        <Stack.Screen name="Home" component={Home} />
-        <Stack.Screen name="GoogleSSO" component={GoogleSSO} />
+        <Stack.Screen name="Home" component={Home} 
+        options={{
+          title: '',
+        }}/>
+        <Stack.Screen name="GoogleSSO" component={GoogleSSO} 
+        options={{
+          title: '',
+        }}/>
         <Stack.Screen name="Register" component={Register} />
         <Stack.Screen name="BarcodeScanner" component={BarcodeScanner} />
-        <Stack.Screen name="Profile" component={Profile} />
+        <Stack.Screen name="Profile" component={Profile} 
+        options={{
+          title: 'Profile',
+          headerStyle: {
+            backgroundColor: '#954A98',
+          },
+          headerTintColor: '#fff',
+        }}/>
         <Stack.Screen name="Onboarding" component={Onboarding} />
-        <Stack.Screen name="Bookshelf" component={Bookshelf} />
+        <Stack.Screen name="Bookshelf" component={Bookshelf}
+        options={{
+          title: 'Bookshelf',
+          headerStyle: {
+            backgroundColor: '#954A98',
+          },
+          headerTintColor: '#fff',
+        }}/>
         <Stack.Screen name="Timer" component={Timer} />
         <Stack.Screen name="ReadingLogFlow" component={ReadingLogFlow} />
         <Stack.Screen name="ReadingLog" component={ReadingLog} />
@@ -50,7 +70,14 @@ export default function App() {
         <Stack.Screen name="AddReadingLog" component={AddReadingLog} />
         <Stack.Screen name="PostReadingLog" component={PostReadingLog} />
         <Stack.Screen name="ReadingLogDisplay" component={ReadingLogDisplay} />
-        <Stack.Screen name="Returns" component={Returns} />
+        <Stack.Screen name="Returns" component={Returns} 
+        options={{
+          title: 'Return a Book',
+          headerStyle: {
+            backgroundColor: '#954A98',
+          },
+          headerTintColor: '#fff',
+        }}/>
         <Stack.Screen name="BookReturn" component={BookReturn} />
       </Stack.Navigator>
     </NavigationContainer>
