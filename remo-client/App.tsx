@@ -79,15 +79,28 @@ export default function App() {
             headerTintColor: "#fff",
           }}
         />
-        <Stack.Screen name="ReadingLog" component={ReadingLog}
-        options={{
-          title: "Add Reading Log",
-          headerStyle: {
-            backgroundColor: "#954A98",
-          },
-          headerTintColor: "#fff",
-        }} />
-        <Stack.Screen name="BookInfo" component={BookInfo} />
+        <Stack.Screen
+          name="ReadingLog"
+          component={ReadingLog}
+          options={{
+            title: "Add Reading Log",
+            headerStyle: {
+              backgroundColor: "#954A98",
+            },
+            headerTintColor: "#fff",
+          }}
+        />
+        <Stack.Screen
+          name="BookInfo"
+          component={BookInfo}
+          options={{
+            title: "Book Info",
+            headerStyle: {
+              backgroundColor: "#954A98",
+            },
+            headerTintColor: "#fff",
+          }}
+        />
         <Stack.Screen
           name="Search"
           component={SearchScreen}
@@ -99,14 +112,17 @@ export default function App() {
             headerTintColor: "#fff",
           }}
         />
-        <Stack.Screen name="AddReadingLog" component={AddReadingLog} 
-         options={{
-          title: "Add Reading Log",
-          headerStyle: {
-            backgroundColor: "#954A98",
-          },
-          headerTintColor: "#fff",
-        }} />
+        <Stack.Screen
+          name="AddReadingLog"
+          component={AddReadingLog}
+          options={{
+            title: "Add Reading Log",
+            headerStyle: {
+              backgroundColor: "#954A98",
+            },
+            headerTintColor: "#fff",
+          }}
+        />
         <Stack.Screen name="PostReadingLog" component={PostReadingLog} />
         <Stack.Screen name="ReadingLogDisplay" component={ReadingLogDisplay} />
         <Stack.Screen
