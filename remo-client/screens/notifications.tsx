@@ -14,10 +14,6 @@ import * as Notification from "expo-notifications";
 import { DayPicker } from "react-native-picker-weekday";
 import DateTimePicker from "@react-native-community/datetimepicker";
 
-// import { Button } from "@rneui/base";
-// import {DateTimePickerAndroid} from '@react-native-community/datetimepicker';
-// import DateTimePicker from '@react-native-community/datetimepicker';
-
 Notification.setNotificationHandler({
 	handleNotification: async () => ({
 		shouldShowAlert: true,
@@ -25,7 +21,6 @@ Notification.setNotificationHandler({
 		shouldSetBadge: false,
 	}),
 });
-
 
 const Notifications = () => {
 	const route = useRoute();
@@ -38,7 +33,7 @@ const Notifications = () => {
 
 	const [notifSettings, setNotifSettings] = useState("No Saved Settings");
 	const [notifMessage, setNotifMessage] = useState("Read for 30 minutes");
-	const [weekdays, setWeekdays] = React.useState([]);
+	const [weekdays, setWeekdays] = useState<number[]>([]);
 	const [time, setTime] = useState(new Date(1598025600000));
 	const [isEnabled, setIsEnabled] = useState(false);
 	const [isEditingSettings, setIsEditingSettings] = useState(true);
@@ -56,33 +51,45 @@ const Notifications = () => {
 	// toggle switch changing state
 	const toggleSwitch = () => {
 		setIsEnabled((previousState) => !previousState);
-		if (!isEnabled) {
-			Notification.cancelAllScheduledNotificationsAsync();
-		}
+		Notification.cancelAllScheduledNotificationsAsync()
+		// if (!isEnabled) {
+		// 	Notification.cancelAllScheduledNotificationsAsync();
+		// }
 	};
 
+	// update display text on settings change/page reload
 	useEffect(() => {
-		registerForPushNotificationsAsync().then((token) =>
-			setExpoPushToken(token!)
-		);
+		displayNotifSettings()
+		setIsEnabled(true)	
+	  }, [weekdays, time]);
 
-		notificationListener.current = Notification.addNotificationReceivedListener(
-			(notification) => {
-				console.log(notification);
-			}
-		);
+	useEffect(() => {
+		registerForPushNotificationsAsync().then((token) => setExpoPushToken(token!));
 
-		responseListener.current =
-			Notification.addNotificationResponseReceivedListener((response) => {
-				console.log(response);
-			});
+		Notification.getAllScheduledNotificationsAsync()
+		.then((schedule) => {
+			updateSchedule(schedule)
+		});
 
-		return () => {
-			Notification.removeNotificationSubscription(notificationListener.current);
-			Notification.removeNotificationSubscription(responseListener.current);
-		};
+		// Listeners in case we want different actions if in app vs background:
+		// notificationListener.current = Notification.addNotificationReceivedListener(
+		// 	(notification) => {
+		// 		console.log(notification);
+		// 	}
+		// );
+
+		// responseListener.current =
+		// 	Notification.addNotificationResponseReceivedListener((response) => {
+		// 		console.log(response);
+		// 	});
+
+		// return () => {
+		// 	Notification.removeNotificationSubscription(notificationListener.current);
+		// 	Notification.removeNotificationSubscription(responseListener.current);
+		// };
 	}, []);
 
+	// computes display text for existing notification settings
 	function displayNotifSettings() {
 		const ampm: string = time.getHours() < 12 ? "am" : "pm";
 		const hours: string =
@@ -94,8 +101,8 @@ const Notifications = () => {
 		if (weekdays.length == 7) {
 			daysAsString = "Every Day";
 		} else if (weekdays.length == 0) {
-			// 	// toggleSwitch();
 			setNotifSettings("No Saved Settings");
+			console.log("no days picked");
 			return;
 		} else {
 			setWeekdays(weekdays.sort((n1, n2) => n1 - n2));
@@ -107,8 +114,12 @@ const Notifications = () => {
 		}
 		const notifyString: string = `${notifMessage}\nNotify at ${hours}:${minutes} ${ampm}\n${daysAsString}`;
 		setNotifSettings(notifyString);
+
+		// const test: Notification.NotificationRequest[] = Notifications.getAllScheduledNotificationsAsync();
+		// console.log(test);
 	}
 
+	// saves notification settings when button pressed
 	const saveNotifChanges = () => {
 		// Don't save changes if no days selected
 		if (isEditingSettings && weekdays.length <= 0) {
@@ -118,31 +129,68 @@ const Notifications = () => {
 
 		// If you just saved changes, set notifications
 		if (isEditingSettings) {
+			console.log("saved settings");
 			schedulePushNotification();
 			displayNotifSettings();
-		// 	const newData = {
-		// 		...data,
-
-		// 	}
+			console.log(notifSettings);
 		}
 
 		// change editing on button press
 		setIsEditingSettings((previousState) => !previousState);
 	};
 
+	// gets existing notifications to update on page reload
+	function updateSchedule(schedule: Notification.NotificationRequest[]) {
+		console.log("update Schedule");
+		var days: number[] = [];
+		var hour: number = 12;
+		var min: number = 0;
+		setIsEnabled(false)
+		setIsEditingSettings(true)
+		// checks if there is a notification
+		if (schedule.length > 0) {
+			var data = schedule[0].content.data;
+			console.log("DATA:", data)
+			var hour: number = data['hour'] as number
+			var minute: number = data['min'] as number
+			const days: number[] = data['weekdays'] as number[]
+			const body: string = schedule[0].content.body as string
+			var date = new Date()
+			date.setHours(hour, minute, 0, 0)
+			setTime(date)
+			setNotifMessage(body)
+			setIsEnabled(true)
+			setIsEditingSettings(false)
+			setWeekdays(days)
+			console.log("UPDATE: weekdays/time", days, hour, minute, weekdays, time)
+		}
+
+		// if (notifSettings == "No Saved Settings") {
+		// 	console.log("no saved settings wah wah");
+		// 	setIsEnabled(false);
+		// 	setIsEditingSettings(true);
+		// } else {
+		// 	setIsEnabled(true);
+		// 	setIsEditingSettings(false);
+		// }
+	
+	}
+
 	async function schedulePushNotification() {
 		// cancels all previous notifications
-		await Notification.cancelAllScheduledNotificationsAsync();
+		Notification.cancelAllScheduledNotificationsAsync();
 
 		// schedules notification for each weekday selected
 		weekdays
-			// .filter((v) => v > 0)
+			.filter((v) => v > 0)
 			.forEach((day) => {
 				Notification.scheduleNotificationAsync({
 					content: {
 						title: "ReMo",
 						body: notifMessage,
-						// data: { data: 'goes here' },
+						data: { 'weekdays': weekdays,
+								'hour': time.getHours(),
+								'min': time.getMinutes()},
 					},
 					trigger: {
 						// WeeklyTriggerInput
@@ -154,12 +202,12 @@ const Notifications = () => {
 				});
 			});
 	}
-
+	
 	return (
 		<View style={styles.container}>
 			<Text style={styles.title}> Reminder Notifications</Text>
 			{/* <Text></Text> */}
-			
+
 			<View style={styles.reminderBox}>
 				<Text style={{ marginTop: 20, marginLeft: 10 }}>Toggle On/Off</Text>
 				<Switch
@@ -237,9 +285,10 @@ const Notifications = () => {
 									);
 								}} // display="inline"
 							/>
-						</View>)) ||
+						</View>
+					)) ||
 						(!isEditingSettings && (
-						<Text style={styles.text}>{notifSettings}</Text>
+							<Text style={styles.text}>{notifSettings}</Text>
 						)))}
 
 				{/* Editing notif settings or after saving notif settings */}
@@ -293,26 +342,6 @@ async function registerForPushNotificationsAsync() /*: Promise<string | null> */
 	return token;
 }
 
-// async function schedulePushNotification() {
-
-//   // if (type == scheduleType.Weekly) {
-//   //   trigger = {
-//   //     hour: schedule.hour,
-//   //     minute: schedule.minute,
-//   //     repeats: schedule.repeats,
-//   //     weekday: schedule.weekday
-//   //   }
-//   // }
-//   await Notification.scheduleNotificationAsync({
-//     content: {
-//       title: "You've got mail! 📬",
-//       body: ,
-//       data: { data: 'goes here' },
-//     },
-//     trigger: trigger
-//   });
-// }
-// export {schedulePushNotification};
 
 const styles = StyleSheet.create({
 	container: {
@@ -366,25 +395,4 @@ const styles = StyleSheet.create({
 		shadowRadius: 3.84,
 		elevation: 5,
 	},
-
-	// roundButton: {
-	//   width: 100,
-	//   height: 100,
-	//   justifyContent: 'center',
-	//   alignItems: 'center',
-	//   padding: 0,
-	//   borderRadius: 100,
-	//   opacity: 100
-	//   // backgroundColor: 'orange',
-	// },
-	// roundButton2: {
-	//   marginTop: 20,
-	//   width: 150,
-	//   height: 150,
-	//   justifyContent: 'center',
-	//   alignItems: 'center',
-	//   padding: 10,
-	//   borderRadius: 100,
-	//   backgroundColor: '#ccc',
-	// },
 });
