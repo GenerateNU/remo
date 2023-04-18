@@ -35,11 +35,13 @@ export default function Returns() {
 
   try{
       return (
-        <ScrollView>
+      <View style={styles.container2}>    
           <View style={styles.header}>
             <Text style={styles.header_title}>Select a Book to Return</Text>
             <Text style={styles.count}>{books.length} Books</Text>
           </View>
+        <ScrollView>
+
           <View style={styles.container}>
             {books.map((book) => (
               <TouchableHighlight
@@ -71,10 +73,12 @@ export default function Returns() {
               selectedBook.title,
               `Author: ${selectedBook.author}\nISBN-13: ${selectedBook.isbn_13}\nSynopsis: ${selectedBook.synopsis}`
             )}
-          <View style={styles.bot}>
+
+        </ScrollView>
+        <View style={styles.bot}>
             <NavBar navigation={navigation} data={data} />
           </View>
-        </ScrollView>
+        </View>
       );
     }
     catch(e){
@@ -103,6 +107,10 @@ const styles = StyleSheet.create({
     borderRadius: 10, // Set the border radius to create rounded rectangles
     overflow: 'hidden',
     bottom:0,
+  },
+  container2: {
+    flex: 1,
+    backgroundColor: "white",
   },
   header: {
     flexDirection: "row",

@@ -36,11 +36,12 @@ export default function Bookshelf() {
 
   try{
         return(
+          <View style={styles.container2}>
+          <View style={styles.header}>
+          <Text style={styles.header_title}>Bookshelf</Text>
+          <Text style={styles.count}> {books.length} Books</Text>
+           </View>
             <ScrollView>
-              <View style={styles.header}>
-                <Text style={styles.header_title}>Bookshelf</Text>
-                <Text style={styles.count}> {books.length} Books</Text>
-              </View>
               <View style={styles.container}>
                 {books.map((book) => (
                   <TouchableHighlight
@@ -68,24 +69,26 @@ export default function Bookshelf() {
                   selectedBook.title,
                   `Author: ${selectedBook.author}\nISBN-13: ${selectedBook.isbn_13}\nSynopsis: ${selectedBook.synopsis}`
                 )}
-              <View style={styles.bot}>
+ 
+            </ScrollView>
+            <View style={styles.bot}>
                 <NavBar navigation={navigation} data={data} />
               </View>
-            </ScrollView>);
+            </View>);
         }
   catch(e){
     return(
+      <View style={styles.container2}>    
+          <View style={styles.header}>
+            <Text style={styles.header_title}>Bookshelf</Text>
+            <Text style={styles.count}> 0 Books to Display</Text>
+          </View>      
             <ScrollView>
-              <View style={styles.header}>
-                <Text style={styles.header_title}>Bookshelf</Text>
-                <Text style={styles.count}> 0 Books to Display</Text>
-              </View>
-              <View style={styles.bot}>
+            </ScrollView>
+            <View style={styles.bot}>
                 <NavBar navigation={navigation} data={data} />
               </View>
-            </ScrollView>
-     
-            );    
+        </View>);
           }
 }
 
@@ -100,6 +103,10 @@ const styles = StyleSheet.create({
     borderRadius: 10, // Set the border radius to create rounded rectangles
     overflow: 'hidden', 
     
+  },
+  container2: {
+    flex: 1,
+    backgroundColor: "white",
   },
   header: {
     flexDirection: "row",
