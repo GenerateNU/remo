@@ -16,6 +16,7 @@ export default function Bookshelf() {
   const [books, setBooks] = useState([]);
   const [selectedBook, setSelectedBook] = useState(null);
   const [showPopup, setShowPopup] = useState(false);
+  const [openScreen, setNewScreen] = useState(false); 
   const navigation = useNavigation();
   const route = useRoute();
   const paramData = route.params?.data;
@@ -81,6 +82,18 @@ export default function Bookshelf() {
                 onPress={() => {
                   setSelectedBook(book)
                   setShowPopup(true)
+                //   <Modal isVisible={isVisible} style={styles.modal}>
+                //   <View style={styles.modalDisplay}>
+                //     <Text style={styles.modalText}>
+                //       Click the button below to Check out {data.title}
+                //     </Text>
+                //     <Button
+                //       buttonStyle={styles.button}
+                //       title="Checkout"
+                //       onPress={modalClose}
+                //     />
+                //   </View>
+                // </Modal>
                 }}>
                 <>
                   <Text style={styles.title}>{book.title}</Text>
@@ -148,7 +161,15 @@ export default function Bookshelf() {
       {selectedBook &&
         Alert.alert(
           selectedBook.title,
-          `Author: ${selectedBook.author}\nISBN-13: ${selectedBook.isbn_13}\nSynopsis: ${selectedBook.synopsis}`
+          `Author: ${selectedBook.author}\nISBN-13: ${selectedBook.isbn_13}\nSynopsis: ${selectedBook.synopsis}`,
+          [
+            {
+              text: ‘OK’,
+              onPress: () => console.log(‘OK Pressed’),
+              style: ‘cancel’,
+            },
+            {text: ‘Return Book’, onPress: () => console.log(‘Return Pressed’)}
+          ]
         )}
     </ScrollView>
   );
