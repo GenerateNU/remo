@@ -60,11 +60,11 @@ func (ms *MsController) Serve() *gin.Engine {
 		c.JSON(http.StatusOK, user.ID)
 	})
 
-	r.GET("/v1/user/:id", func(c *gin.Context) {
-		id := c.Param("id")
-		c.JSON(http.StatusOK, ms.UserByID(id))
+	// r.GET("/v1/user/:id", func(c *gin.Context) {
+	// 	id := c.Param("id")
+	// 	c.JSON(http.StatusOK, ms.UserByID(id))
 
-	})
+	// })
 
 	r.POST("v1/login", func(c *gin.Context) {
 
