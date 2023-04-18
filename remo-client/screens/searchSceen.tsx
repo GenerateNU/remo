@@ -7,6 +7,7 @@ import Data from "../components/mock-data.json";
 import { Button } from "@rneui/themed";
 import { useNavigation, useRoute } from "@react-navigation/native";
 import { findAllBooks } from "../services/book-services";
+import NavBar from "../components/Navbar/navbar";
 
 // TODO: optimize loading and searching
 const SearchScreen = () => {
@@ -88,7 +89,11 @@ const SearchScreen = () => {
           }
         />
       </View>
+      <View style={styles.bot}>
+        <NavBar navigation={navigation} data={paramData} />
+      </View>
     </View>
+    
   );
 };
 
@@ -139,5 +144,10 @@ const styles = StyleSheet.create({
   booktext: {
     fontSize: 10,
     fontWeight: 'bold',
+  },
+  bot: {
+    flex: 1,
+    position:"absolute",
+    bottom:0,
   },
 });
