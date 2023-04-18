@@ -32,7 +32,7 @@ export default function AddSummary({ setters, states }) {
           color="#fff"
         />;
       },
-      title: "Demo",
+      title: "Add Reading Log",
     });
   }, []);
   const [helpVisible, setHelpVisible] = useState(false);

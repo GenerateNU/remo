@@ -72,14 +72,21 @@ export default function App() {
           name="ReadingLogFlow"
           component={ReadingLogFlow}
           options={{
-            title: "Add a Reading Log",
+            title: "Add Reading Log",
             headerStyle: {
               backgroundColor: "#954A98",
             },
             headerTintColor: "#fff",
           }}
         />
-        <Stack.Screen name="ReadingLog" component={ReadingLog} />
+        <Stack.Screen name="ReadingLog" component={ReadingLog}
+        options={{
+          title: "Add Reading Log",
+          headerStyle: {
+            backgroundColor: "#954A98",
+          },
+          headerTintColor: "#fff",
+        }} />
         <Stack.Screen name="BookInfo" component={BookInfo} />
         <Stack.Screen
           name="Search"
@@ -92,7 +99,14 @@ export default function App() {
             headerTintColor: "#fff",
           }}
         />
-        <Stack.Screen name="AddReadingLog" component={AddReadingLog} />
+        <Stack.Screen name="AddReadingLog" component={AddReadingLog} 
+         options={{
+          title: "Add Reading Log",
+          headerStyle: {
+            backgroundColor: "#954A98",
+          },
+          headerTintColor: "#fff",
+        }} />
         <Stack.Screen name="PostReadingLog" component={PostReadingLog} />
         <Stack.Screen name="ReadingLogDisplay" component={ReadingLogDisplay} />
         <Stack.Screen
