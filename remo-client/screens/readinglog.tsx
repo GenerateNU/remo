@@ -100,6 +100,7 @@ const styles = StyleSheet.create({
     flexWrap: "wrap",
     justifyContent: "space-between",
     padding: 20,
+    width: "100%",
   },
   header: {
     flexDirection: "row",
@@ -118,7 +119,7 @@ const styles = StyleSheet.create({
     fontSize: 18,
   },
   book: {
-    width: "22%",
+    //width: "22%",
     marginBottom: 5,
     borderWidth: 1,
     borderColor: "#ccc",
@@ -140,7 +141,7 @@ const styles = StyleSheet.create({
     marginBottom: 5,
   },
   button: {
-    backgroundColor: "black",
+    backgroundColor: "#954A98",
     height: 50,
     justifyContent: "center",
     alignItems: "center",
