@@ -14,6 +14,10 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+// GLOBAL VARIABLES FOR RESOLVER INIT
+var qResolver graph.QueryResolver
+var mResolver graph.MutationResolver
+
 func getUserByIDHandler(r *graph.QueryResolver) gin.HandlerFunc {
 
 	return func(c *gin.Context) {
@@ -128,6 +132,12 @@ func (ms *MsController) Serve() *gin.Engine {
 		})
 	})
 	// attempting to integrate the resolvers
+
+	// BROKEN BECAUSE IT IS CALLED A METHOD THAT DOES NOT EXIST.
+	// Books are found by getBookByISBN instead of ByID.
+
+	// What should the context parameter be?
+
 	r.GET("/v1/books/:bookId", func(c *gin.Context) {
 		id := c.Param("bookId")
 		book, err := qResolver.GetBookByID(c, id)
