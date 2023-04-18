@@ -1,4 +1,6 @@
-package main
+package server
+
+//package main
 
 import (
 	"remo/backend/graph"
@@ -30,7 +32,7 @@ func playgroundHandler() gin.HandlerFunc {
 	}
 }
 
-func main() {
+func InitServer() {
 	// Setting up Gin
 	//Migrate Db
 	db := model.FetchConnection()
@@ -43,8 +45,21 @@ func main() {
 	r.Run()
 }
 
-// Function to run this file's main function from anywhere in the program
-// Sets  up a gin server & migrates the database,
-func InitServer() {
-	main()
-}
+// func main() {
+// 	// Setting up Gin
+// 	//Migrate Db
+// 	db := model.FetchConnection()
+// 	db.AutoMigrate(&model.Book{})
+// 	defer db.Close()
+
+// 	r := gin.Default()
+// 	r.POST("/query", graphqlHandler())
+// 	r.GET("/", playgroundHandler())
+// 	r.Run()
+// }
+
+// // Function to run this file's main function from anywhere in the program
+// // Sets  up a gin server & migrates the database,
+// func InitServer() {
+// 	main()
+// }
