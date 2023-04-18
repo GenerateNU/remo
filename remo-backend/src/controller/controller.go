@@ -142,9 +142,17 @@ func (ms *MsController) Serve() *gin.Engine {
 		c.JSON(http.StatusOK, ms.AllBooks())
 	})
 
-	r.GET("/v1/user_books/:userID", func(c *gin.Context) {
-		id := c.Param("userID")
-		c.JSON(http.StatusOK, ms.UserBooks(id))
+	resolver := &graph.Resolver{}
+	queryResolver := &graph.queryResolver{resolver}
+
+	r.GET("/v1/user/:id", func(c *gin.Context) {
+		id := c.Param("id")
+		user, err := queryResolver.GetUserByID(c, id)
+		if err != nil {
+			c.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+			return
+		}
+		c.JSON(http.StatusOK, user)
 	})
 
 	r.PUT("v1/checkout_book/:bookId/:userId", func(c *gin.Context) {
