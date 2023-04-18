@@ -224,6 +224,32 @@ func (ms *MsController) Serve() *gin.Engine {
 		c.JSON(http.StatusOK, "success")
 	})
 
+	r.GET("/v1/user_reading_logs/:user_Id", func(c *gin.Context) {
+		user_id := c.Param("user_Id")
+		logs, err := ms.UserLogs(user_id)
+		if err != nil {
+			panic(err)
+		}
+		c.JSON(http.StatusOK, logs)
+	})
+
+	r.POST("/v1/add_reading_log", func(c *gin.Context) {
+		var log model.ReadingLog
+
+		if err := c.BindJSON(&log); err != nil {
+			c.JSON(http.StatusBadRequest, "Failed to unmarshal reading log")
+			return
+		}
+		err := ms.AddLog(log)
+
+		if err != nil {
+			c.JSON(http.StatusBadRequest, "Failed to add reading log")
+			panic(err)
+		}
+
+		c.JSON(http.StatusOK, "success")
+	})
+
 	//protected endpoint group (uses middelware below)
 	protected := r.Group("/protected")
 	//sets up middleware for this protected endpoint

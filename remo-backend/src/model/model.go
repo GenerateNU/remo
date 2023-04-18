@@ -24,6 +24,8 @@ type Model interface {
 	CheckOnboarded(string) (string, error)
 	Onboard(string) error
 	MakeLibrary(User) error
+	AddLog(ReadingLog) error
+	UserLogs(string) ([]ReadingLog, error)
 }
 
 func (m *MsModel) Book(id string) Book {
@@ -149,4 +151,22 @@ func (m *MsModel) MakeLibrary(usr User) error {
 	}
 
 	return nil
+}
+
+func (m *MsModel) AddLog(log ReadingLog) error {
+	err := AddReadingLog(m.Conn, log)
+
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
+
+func (m *MsModel) UserLogs(id string) ([]ReadingLog, error) {
+	logs, err := GetUserReadingLogs(m.Conn, id)
+	if err != nil {
+		panic(err)
+	}
+	return logs, err
 }

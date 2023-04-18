@@ -211,7 +211,41 @@ func OnboardUser(pool *sql.DB, user_id string) error {
 	return nil
 }
 
-// func AddReadingLog(pool *sql.DB, isbn string, log ReadingLog) error {
-// 	_, err := pool.Exec(fmt.Sprintf("INSERT INTO reading_rate_results (user_id, book_id, last, email) VALUES ('%s','%s','%s', '%s');", strconv.Itoa(usr.ID), usr.FirstName, usr.LastName, usr.Email))
-// 	return err
-// }
+func AddReadingLog(pool *sql.DB, log ReadingLog) error {
+	e2 := pool.QueryRow(fmt.Sprintf("SELECT id FROM books where isbn_13='" + log.BookID + "' LIMIT 1;")).Scan(&log.BookID)
+	if e2 != nil {
+		e3 := pool.QueryRow(fmt.Sprintf("SELECT id FROM books where isbn_10='" + log.BookID + "' LIMIT 1;")).Scan(&log.BookID)
+		if e3 != nil {
+			return e3
+		}
+	}
+	_, err := pool.Exec(fmt.Sprintf("INSERT INTO reading_rate_results (user_id, book_id, total_pages, total_time, types_of_reading, reader_response, check_in) VALUES ('%s','%s','%s', '%s', '%s','%s', '%s');", log.UserID, log.BookID, strconv.Itoa(log.TotalPages), strconv.Itoa(log.ResponseType), log.Response, strconv.Itoa(log.CheckIn)))
+	return err
+}
+
+func GetUserReadingLogs(pool *sql.DB, user_id string) ([]ReadingLog, error) {
+
+	rows, e := pool.Query("SELECT user_id, book_id, total_pages, total_time, types_of_reading, reader_response, check_in FROM reading_rate_results WHERE user_id='" + user_id + "' LIMIT 5;")
+
+	if e != nil {
+		return nil, e
+	}
+	defer rows.Close()
+
+	var logs []ReadingLog
+
+	for rows.Next() {
+		log := ReadingLog{}
+		err := rows.Scan(&log.UserID, &log.BookID, &log.TotalPages, &log.TotalTime, &log.ResponseType, &log.Response, &log.CheckIn)
+		if err != nil {
+			return nil, err
+		}
+		logs = append(logs, log)
+	}
+
+	if e = rows.Err(); e != nil {
+		return []ReadingLog{}, nil
+	}
+
+	return logs, nil
+}
