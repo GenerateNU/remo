@@ -12,6 +12,7 @@ import {
   View,
   Image,
   TextInput,
+  // Button
 } from "react-native";
 import { Button } from "@rneui/themed";
 import SelectDropdown from "react-native-select-dropdown";
@@ -148,7 +149,7 @@ export default function Profile() {
           
         />
          <Text>Reminder Notifications</Text>
-        <Button style={styles.dropdown} onPress={navigateNotifs}> Toggle On/Off </Button>
+         <Button style={styles.notifs} onPress={navigateNotifs} color="white" title="Toggle On/Off">  <Text >Toggle On/Off</Text></Button>
         <View
           style={{
             justifyContent: "flex-start",
@@ -213,6 +214,15 @@ const styles = StyleSheet.create({
     backgroundColor: "white",
     borderColor: "black",
     borderWidth: 1,
+  },
+  notifs: {
+    width: "100%",
+    // marginBottom: 12,
+    backgroundColor: "white",
+    borderColor: "black",
+    color: "black",
+    borderWidth: 1,
+    borderRadius:2,
   },
   profile: {
     width: 65,
