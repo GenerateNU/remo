@@ -110,6 +110,7 @@ const styles = StyleSheet.create({
     flexWrap: "wrap",
     justifyContent: "space-between",
     padding: 20,
+    width: "100%",
   },
   header: {
     flexDirection: "row",
@@ -155,7 +156,7 @@ const styles = StyleSheet.create({
     marginBottom: 5,
   },
   button: {
-    backgroundColor: "black",
+    backgroundColor: "#954A98",
     height: 50,
     justifyContent: "center",
     alignItems: "center",

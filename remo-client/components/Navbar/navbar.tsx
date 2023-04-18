@@ -5,7 +5,6 @@ import SearchIcon from "react-native-bootstrap-icons/icons/search";
 import BookmarkPlusIcon from "react-native-bootstrap-icons/icons/bookmark-plus";
 import ArrowLeftSquareIcon from "react-native-bootstrap-icons/icons/arrow-left-square";
 import PersonCircleIcon from "react-native-bootstrap-icons/icons/person-circle";
-import BarcodeScanner from "../screens/barcodeScanner";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { AntDesign, MaterialCommunityIcons } from "@expo/vector-icons";
 
@@ -26,6 +25,9 @@ export default function NavBar({ navigation, data }) {
   };
   const navigateReturn = () => {
     navigation.navigate("Returns", { data: data });
+  };
+  const navigateProfile = () => {
+    navigation.navigate("Profile", { data: data });
   };
   return (
     <View style={styles.navbar}>
@@ -57,7 +59,7 @@ export default function NavBar({ navigation, data }) {
         <AntDesign style={styles.icon} name="arrowleft" size={40} onPress={navigateReturn} />
       </View>
       <View>
-        <Ionicons style={styles.icon} name="person-circle-outline" size={40} />
+        <Ionicons style={styles.icon} name="person-circle-outline" size={40} onPress={navigateProfile}/>
       </View>
     </View>
   );

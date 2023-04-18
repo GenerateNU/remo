@@ -31,17 +31,21 @@ export default function ReadingLogDisplayPage({ states, title, postInfo }) {
 
   const pages = states.endPage - states.startPage;
   const pagesDisplay = pages + " pages";
+  const log_data ={ minutes: mins, 
+                    seconds: seconds,
+                    
+  };
 
   return (
     <View style={styles.container}>
       <Text style={styles.header_title}>Log Summary:</Text>
       <View style={styles.top}>
-        <Summery title={"Book Title;"} note={title} />
-        <Summery title={"Minutes Read;"} note={minsDisplay} />
-        <Summery title={"Pages Read;"} note={pagesDisplay} />
+        <Summery title={"Book Title:"} note={title} />
+        <Summery title={"Minutes Read:"} note={minsDisplay} />
+        <Summery title={"Pages Read:"} note={pagesDisplay} />
         <Summery title={"How's it going with your book?"} note={states.going} />
         <ViewNote
-          title={"My Response;"}
+          title={"My Response:"}
           responseType={states.responseType}
           response={states.summary}
         />
