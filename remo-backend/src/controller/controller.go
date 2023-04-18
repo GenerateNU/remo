@@ -140,7 +140,12 @@ func (ms *MsController) Serve() *gin.Engine {
 
 	r.GET("/v1/books/:bookId", func(c *gin.Context) {
 		id := c.Param("bookId")
-		book, err := qResolver.GetBookByID(c, id)
+		i, err := strconv.Atoi(id)
+		if err != nil {
+			// ... handle error
+			panic(err)
+		}
+		book, err := qResolver.GetBookByIsbn(c, i)
 		if err != nil {
 			log.Printf("GetBookByID failed: %v", err)
 		}
@@ -159,7 +164,7 @@ func (ms *MsController) Serve() *gin.Engine {
 
 	r.GET("/v1/user/:id", func(c *gin.Context) {
 		id := c.Param("id")
-		user, err := queryResolver.GetUserByID(c, id)
+		user, err := qResolver.GetUserByID(c, id)
 		if err != nil {
 			c.AbortWithStatusJSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 			return
