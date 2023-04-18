@@ -19,7 +19,7 @@ export default function BookInfo() {
   };
 
   const checkout = async () => {
-    console.log("got here");
+    console.log("heyoooooooooooooooooooo");
     const response = await checkoutBook({
       barcode: data.barcode,
       user: data.id,
