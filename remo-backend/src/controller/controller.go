@@ -152,8 +152,10 @@ func (ms *MsController) Serve() *gin.Engine {
 		c.JSON(http.StatusOK, ms.AllBooks())
 	})
 
-	resolver := &graph.Resolver{}
-	queryResolver := &graph.queryResolver{resolver}
+	// No longer need these thanks to global variables for resolver instances ^
+
+	// resolver := &graph.Resolver{}
+	// queryResolver := &graph.queryResolver{resolver}
 
 	r.GET("/v1/user/:id", func(c *gin.Context) {
 		id := c.Param("id")
