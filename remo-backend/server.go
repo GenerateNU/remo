@@ -42,3 +42,9 @@ func main() {
 	r.GET("/", playgroundHandler())
 	r.Run()
 }
+
+// Function to run this file's main function from anywhere in the program
+// Sets  up a gin server & migrates the database,
+func InitServer() {
+	main()
+}
