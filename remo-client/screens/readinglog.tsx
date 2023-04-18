@@ -10,6 +10,7 @@ import {
 } from "react-native";
 import { useNavigation, useRoute } from "@react-navigation/native";
 import { findUserBooks } from "../services/book-services";
+import NavBar from "../components/Navbar/navbar";
 
 export default function ReadingLog({ navigation }) {
   const [books, setBooks] = useState([]);
@@ -34,71 +35,92 @@ export default function ReadingLog({ navigation }) {
     navigation.navigate("AddReadingLog", { data: data });
   };
   return (
-    <ScrollView>
-      <View style={styles.header}>
-        <Text style={styles.header_title}>Currently Reading</Text>
+    <View style={styles.bound}>
+      <View style={styles.scroll}>
+        <ScrollView style={styles.scroll}>
+          <View style={styles.header}>
+            <Text style={styles.header_title}>Currently Reading</Text>
+          </View>
+          <ScrollView style={{ width: "100%" }}>
+            <View style={styles.container}>
+              {books.map((book) => (
+                <TouchableOpacity
+                  key={book.id}
+                  style={[
+                    styles.book,
+                    selectedBook &&
+                      selectedBook.id === book.id &&
+                      styles.selected,
+                  ]}
+                  onPress={() => {
+                    setSelectedBook(book);
+                    setShowPopup(true);
+                  }}
+                >
+                  <>
+                    <View style={styles.bookContainer}>
+                      <Image
+                        source={{ uri: book.coverImage }}
+                        style={styles.bookPicture}
+                      />
+                    </View>
+                  </>
+                </TouchableOpacity>
+              ))}
+              {selectedBook &&
+                Alert.alert(
+                  selectedBook.title,
+                  `Author: ${selectedBook.author}\nISBN-13: ${selectedBook.isbn_13}\nSynopsis: ${selectedBook.synopsis}`
+                )}
+            </View>
+          </ScrollView>
+          <View style={styles.header}>
+            <Text style={styles.header_title}>My Reading Log Reports</Text>
+          </View>
+          <ScrollView style={{ width: "100%" }}>
+            <View style={styles.container}>
+              {books.map((book) => (
+                <TouchableOpacity
+                  key={book.id}
+                  style={[
+                    styles.book,
+                    selectedBook &&
+                      selectedBook.id === book.id &&
+                      styles.selected,
+                  ]}
+                >
+                  <>
+                    <Text style={styles.title}>Book </Text>
+                    <Text style={styles.author}>Author </Text>
+                    <Text style={styles.isbn}>Date </Text>
+                  </>
+                </TouchableOpacity>
+              ))}
+            </View>
+          </ScrollView>
+          <TouchableOpacity style={styles.button} onPress={() => onBookPress()}>
+            <Text style={styles.buttonText}>Add Reading Log</Text>
+          </TouchableOpacity>
+        </ScrollView>
       </View>
-      <ScrollView style={{ width: "100%" }}>
-        <View style={styles.container}>
-          {books.map((book) => (
-            <TouchableOpacity
-              key={book.id}
-              style={[
-                styles.book,
-                selectedBook && selectedBook.id === book.id && styles.selected,
-              ]}
-              onPress={() => {
-                setSelectedBook(book);
-                setShowPopup(true);
-              }}
-            >
-              <>
-                <View style={styles.bookContainer}>
-                  <Image
-                    source={{ uri: book.coverImage }}
-                    style={styles.bookPicture}
-                  />
-                </View>
-              </>
-            </TouchableOpacity>
-          ))}
-          {selectedBook &&
-            Alert.alert(
-              selectedBook.title,
-              `Author: ${selectedBook.author}\nISBN-13: ${selectedBook.isbn_13}\nSynopsis: ${selectedBook.synopsis}`
-            )}
-        </View>
-      </ScrollView>
-      <View style={styles.header}>
-        <Text style={styles.header_title}>My Reading Log Reports</Text>
+      <View style={styles.bot}>
+        <NavBar navigation={navigation} data={data} />
       </View>
-      <ScrollView style={{ width: "100%" }}>
-        <View style={styles.container}>
-          {books.map((book) => (
-            <TouchableOpacity
-              key={book.id}
-              style={[
-                styles.book,
-                selectedBook && selectedBook.id === book.id && styles.selected,
-              ]}
-            >
-              <>
-                <Text style={styles.title}>Book </Text>
-                <Text style={styles.author}>Author </Text>
-                <Text style={styles.isbn}>Date </Text>
-              </>
-            </TouchableOpacity>
-          ))}
-        </View>
-      </ScrollView>
-      <TouchableOpacity style={styles.button} onPress={() => onBookPress()}>
-        <Text style={styles.buttonText}>Add Reading Log</Text>
-      </TouchableOpacity>
-    </ScrollView>
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
+  bound: {
+    flex: 1,
+    width: "100%",
+  },
+  scroll: {
+    flex: 9,
+  },
+  bot: {
+    flex: 1,
+  },
   bookContainer: {
     width: "100%",
     height: "100%",

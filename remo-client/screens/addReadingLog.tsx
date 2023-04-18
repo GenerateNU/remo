@@ -11,6 +11,7 @@ import {
   TouchableOpacity,
 } from "react-native";
 import { findUserBooks } from "../services/book-services";
+import NavBar from "../components/Navbar/navbar";
 
 export default function AddReadingLog({ navigation }) {
   const [books, setBooks] = useState([]);
@@ -46,39 +47,48 @@ export default function AddReadingLog({ navigation }) {
     }
   };
   return (
-    <ScrollView>
-      <View style={styles.header}>
-        <Text style={styles.header_title}>
-          Select a book you're currently reading or checkout a new book:
-        </Text>
+    <View style={styles.bound}>
+      <View style={styles.top}>
+        <ScrollView>
+          <View style={styles.header}>
+            <Text style={styles.header_title}>
+              Select a book you're currently reading or checkout a new book:
+            </Text>
+          </View>
+          <View style={styles.container}>
+            {books.map((book) => (
+              <TouchableHighlight
+                key={book.id}
+                style={[
+                  styles.book,
+                  selectedBook &&
+                    selectedBook.id === book.id &&
+                    styles.selected,
+                ]}
+                underlayColor="#ccc"
+                onPress={() => {
+                  setSelectedBook(book);
+                  console.log(selectedBook);
+                }}
+              >
+                <>
+                  <Image source={{ uri: book.cover }} />
+                  <Text style={styles.title}>{book.title}</Text>
+                  <Text style={styles.author}>{book.author}</Text>
+                  <Text style={styles.isbn}>ISBN-13: {book.isbn_13}</Text>
+                </>
+              </TouchableHighlight>
+            ))}
+          </View>
+          <TouchableOpacity style={styles.button} onPress={() => addLog()}>
+            <Text style={styles.buttonText}>Add Reading Log</Text>
+          </TouchableOpacity>
+        </ScrollView>
       </View>
-      <View style={styles.container}>
-        {books.map((book) => (
-          <TouchableHighlight
-            key={book.id}
-            style={[
-              styles.book,
-              selectedBook && selectedBook.id === book.id && styles.selected,
-            ]}
-            underlayColor="#ccc"
-            onPress={() => {
-              setSelectedBook(book);
-              console.log(selectedBook);
-            }}
-          >
-            <>
-              <Image source={{ uri: book.cover }} />
-              <Text style={styles.title}>{book.title}</Text>
-              <Text style={styles.author}>{book.author}</Text>
-              <Text style={styles.isbn}>ISBN-13: {book.isbn_13}</Text>
-            </>
-          </TouchableHighlight>
-        ))}
+      <View style={styles.bot}>
+        <NavBar navigation={navigation} data={data} />
       </View>
-      <TouchableOpacity style={styles.button} onPress={() => addLog()}>
-        <Text style={styles.buttonText}>Add Reading Log</Text>
-      </TouchableOpacity>
-    </ScrollView>
+    </View>
   );
 }
 
@@ -89,6 +99,18 @@ const styles = StyleSheet.create({
     flexWrap: "wrap",
     justifyContent: "space-between",
     padding: 20,
+  },
+  bound: {
+    flex: 1,
+    width: "100%",
+  },
+  top: {
+    flex: 7,
+    width: "100%",
+  },
+  bot: {
+    flex: 1,
+    width: "100%",
   },
   select: {
     color: "purple",
