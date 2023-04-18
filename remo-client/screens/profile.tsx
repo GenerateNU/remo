@@ -66,6 +66,9 @@ export default function Profile() {
   const renderIcon = () => {
     return <i className="bi bi-caret-down-fill"></i>;
   };
+  const navigateNotifs = () => {
+    navigation.navigate("Notifications", {data: newData});
+  }
 
   return (
     <View style={styles.container}>
@@ -142,7 +145,10 @@ export default function Profile() {
           rowTextForSelection={(item, index) => {
             return item;
           }}
+          
         />
+         <Text>Reminder Notifications</Text>
+        <Button style={styles.dropdown} onPress={navigateNotifs}> Toggle On/Off </Button>
         <View
           style={{
             justifyContent: "flex-start",

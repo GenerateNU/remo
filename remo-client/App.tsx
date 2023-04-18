@@ -19,6 +19,7 @@ import BookInfo from "./screens/bookinfo";
 import Returns from "./screens/returnShelf";
 import BookReturn from "./screens/bookReturn";
 import { Button } from "react-native";
+import Notifications from "./screens/notifications";
 
 const Stack = createNativeStackNavigator();
 
@@ -137,6 +138,17 @@ export default function App() {
           }}
         />
         <Stack.Screen name="BookReturn" component={BookReturn} />
+        <Stack.Screen
+          name="Notifications"
+          component={Notifications}
+          options={{
+            title: "Add Reading Log",
+            headerStyle: {
+              backgroundColor: "#954A98",
+            },
+            headerTintColor: "#fff",
+          }}
+        />
       </Stack.Navigator>
     </NavigationContainer>
   );
