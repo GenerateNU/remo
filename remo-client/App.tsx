@@ -137,7 +137,17 @@ export default function App() {
             headerTintColor: "#fff",
           }}
         />
-        <Stack.Screen name="BookReturn" component={BookReturn} />
+        <Stack.Screen
+          name="BookReturn"
+          component={BookReturn}
+          options={{
+            title: "Return a Book",
+            headerStyle: {
+              backgroundColor: "#954A98",
+            },
+            headerTintColor: "#fff",
+          }}
+        />
         <Stack.Screen
           name="Notifications"
           component={Notifications}
