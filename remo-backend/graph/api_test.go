@@ -8,8 +8,8 @@ package graph
 //     author
 //   }
 // }
-//   https://a75d-155-33-134-27.ngrok.io -> ngrok http 8080
-// postman URL: https://4d49-155-33-132-61.ngrok.io/query
+//   ngrok http 8080
+// postman URL: https://ea01-155-33-132-61.ngrok.io
 import (
 	"bytes"
 	"encoding/json"
@@ -48,6 +48,7 @@ func TestAPIGetBookByISBN(t *testing.T) {
 		t.Errorf("Unable to marshal request into JSON: %q", err)
 	}
 
+	// "application/json"
 	response, err := http.Post(queryEndpointURL, "application/json", bytes.NewBuffer(requestBody))
 	if err != nil {
 		t.Errorf("Unable to complete POST request properly: %q", err)

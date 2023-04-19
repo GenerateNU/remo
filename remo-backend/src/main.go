@@ -4,7 +4,6 @@ import (
 	"database/sql"
 	"fmt"
 	"os"
-	server "remo/backend"
 	c "remo/backend/src/controller"
 	"remo/backend/src/model"
 
@@ -30,5 +29,5 @@ func main() {
 	c.Serve().Run(":8080")
 
 	// literally just added a line calling main function of server.go
-	server.InitServer()
+	//server.InitServer()
 }

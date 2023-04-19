@@ -4,7 +4,6 @@ package server
 
 import (
 	"remo/backend/graph"
-	"remo/backend/graph/model"
 
 	"github.com/gin-gonic/gin"
 
@@ -13,7 +12,7 @@ import (
 )
 
 // Defining the Graphql handler
-func graphqlHandler() gin.HandlerFunc {
+func GraphqlHandler() gin.HandlerFunc {
 	// NewExecutableSchema and Config are in the generated.go file
 	// Resolver is in the resolver.go file
 	h := handler.NewDefaultServer(graph.NewExecutableSchema(graph.Config{Resolvers: &graph.Resolver{}}))
@@ -24,28 +23,15 @@ func graphqlHandler() gin.HandlerFunc {
 }
 
 // Defining the Playground handler
-func playgroundHandler() gin.HandlerFunc {
-	h := playground.Handler("GraphQL", "/query")
+func PlaygroundHandler() gin.HandlerFunc {
+	h := playground.Handler("GraphQL", "/v1/query")
 
 	return func(c *gin.Context) {
 		h.ServeHTTP(c.Writer, c.Request)
 	}
 }
 
-func InitServer() {
-	// Setting up Gin
-	//Migrate Db
-	db := model.FetchConnection()
-	db.AutoMigrate(&model.Book{})
-	defer db.Close()
-
-	r := gin.Default()
-	r.POST("/query", graphqlHandler())
-	r.GET("/", playgroundHandler())
-	r.Run()
-}
-
-// func main() {
+// func InitServer() {
 // 	// Setting up Gin
 // 	//Migrate Db
 // 	db := model.FetchConnection()
@@ -53,13 +39,7 @@ func InitServer() {
 // 	defer db.Close()
 
 // 	r := gin.Default()
-// 	r.POST("/query", graphqlHandler())
+// 	r.POST("/query", GraphqlHandler())
 // 	r.GET("/", playgroundHandler())
 // 	r.Run()
-// }
-
-// // Function to run this file's main function from anywhere in the program
-// // Sets  up a gin server & migrates the database,
-// func InitServer() {
-// 	main()
 // }

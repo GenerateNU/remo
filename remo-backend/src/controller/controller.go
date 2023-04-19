@@ -2,9 +2,9 @@ package controller
 
 import (
 	"fmt"
-	"log"
 	"net/http"
 	"os"
+	server "remo/backend"
 	"remo/backend/graph"
 	"remo/backend/src/middleware"
 	"remo/backend/src/model"
@@ -131,36 +131,16 @@ func (ms *MsController) Serve() *gin.Engine {
 			"message": "success",
 		})
 	})
-	// attempting to integrate the resolvers
 
-	// BROKEN BECAUSE IT IS CALLED A METHOD THAT DOES NOT EXIST.
-	// Books are found by getBookByISBN instead of ByID.
+	// THE MASTER QUERY ENDPOINT
+	r.POST("/v1/query", server.GraphqlHandler())
 
-	// What should the context parameter be?
-
-	r.GET("/v1/books/:bookId", func(c *gin.Context) {
-		id := c.Param("bookId")
-		i, err := strconv.Atoi(id)
-		if err != nil {
-			// ... handle error
-			panic(err)
-		}
-		book, err := qResolver.GetBookByIsbn(c, i)
-		if err != nil {
-			log.Printf("GetBookByID failed: %v", err)
-		}
-		c.JSON(http.StatusOK, book)
-		//c.JSON(http.StatusOK, ms.Book(id))
-	})
+	// THE HOLY PLAYGROUND
+	r.GET("/", server.PlaygroundHandler())
 
 	r.GET("/v1/all_books", func(c *gin.Context) {
 		c.JSON(http.StatusOK, ms.AllBooks())
 	})
-
-	// No longer need these thanks to global variables for resolver instances ^
-
-	// resolver := &graph.Resolver{}
-	// queryResolver := &graph.queryResolver{resolver}
 
 	r.GET("/v1/user/:id", func(c *gin.Context) {
 		id := c.Param("id")
@@ -201,23 +181,25 @@ func (ms *MsController) Serve() *gin.Engine {
 		c.JSON(http.StatusOK, isbn_13)
 	})
 
-	r.POST("/v1/addBook", func(c *gin.Context) {
-		var book model.Book
+	// DELETE BELOW
 
-		if err := c.BindJSON(&book); err != nil {
-			c.JSON(http.StatusBadRequest, "Failed to unmarshal book")
-			return
-		}
+	// r.POST("/v1/addBook", func(c *gin.Context) {
+	// 	var book model.Book
 
-		_, err := ms.AddBooks(book)
+	// 	if err := c.BindJSON(&book); err != nil {
+	// 		c.JSON(http.StatusBadRequest, "Failed to unmarshal book")
+	// 		return
+	// 	}
 
-		if err != nil {
-			c.JSON(http.StatusBadRequest, "Failed to add a book")
-			panic(err)
-		}
+	// 	_, err := ms.AddBooks(book)
 
-		c.JSON(http.StatusOK, book.BookId)
-	})
+	// 	if err != nil {
+	// 		c.JSON(http.StatusBadRequest, "Failed to add a book")
+	// 		panic(err)
+	// 	}
+
+	// 	c.JSON(http.StatusOK, book.BookId)
+	// })
 
 	r.POST("/v1/onboarding_questions/:user_Id", func(c *gin.Context) {
 		var questions model.OnboardingQuestions
