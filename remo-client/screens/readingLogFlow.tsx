@@ -188,6 +188,7 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: "column",
     justifyContent: "flex-start",
+    backgroundColor: "#FAF8FB",
   },
   padding: {
     flex: 7,

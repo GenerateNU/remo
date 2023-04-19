@@ -89,19 +89,17 @@ export default function TimerPage({ setters, states, stopTimer }) {
         <Text style={styles.timer}>{formatTime(states.time)}</Text>
       </View>
       <View style={styles.scroll}>
-        <ScrollView>
-          <View style={styles.textBox}>
-            <TextInput
-              style={styles.input}
-              value={states.text}
-              maxLength={200}
-              multiline={true}
-              onChangeText={setters.text}
-              placeholder="Enter text"
-              onKeyPress={keyHandles}
-            />
-          </View>
-        </ScrollView>
+        <View style={styles.textBox}>
+          <TextInput
+            style={styles.input}
+            value={states.text}
+            maxLength={200}
+            multiline={true}
+            onChangeText={setters.text}
+            placeholder="Enter text"
+            onKeyPress={keyHandles}
+          />
+        </View>
       </View>
       <View style={styles.buttonContainer}>
         <Button
@@ -129,6 +127,7 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: "column",
     justifyContent: "space-between",
+    backgroundColor: "#FAF8FB",
   },
   scroll: {
     flex: 4,
@@ -152,9 +151,13 @@ const styles = StyleSheet.create({
     flexDirection: "column",
     height: 300,
     justifyContent: "flex-start",
-    backgroundColor: "white",
     borderRadius: 20,
-    overflow: "hidden",
+    backgroundColor: "white",
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 5,
   },
   buttonContainer: {
     marginTop: 8,
@@ -219,8 +222,6 @@ const styles = StyleSheet.create({
   },
   input: {
     height: 300,
-    borderWidth: 1,
-    borderColor: "black",
     textAlignVertical: "top",
     padding: 20,
     paddingTop: 10,

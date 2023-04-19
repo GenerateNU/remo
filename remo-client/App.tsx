@@ -152,7 +152,7 @@ export default function App() {
           name="Notifications"
           component={Notifications}
           options={{
-            title: "Add Reading Log",
+            title: "Notifications",
             headerStyle: {
               backgroundColor: "#954A98",
             },
