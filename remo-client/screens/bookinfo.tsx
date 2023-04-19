@@ -19,13 +19,12 @@ export default function BookInfo() {
   };
 
   const checkout = async () => {
-    console.log("heyoooooooooooooooooooo");
     const response = await checkoutBook({
       barcode: data.barcode,
       user: data.id,
     });
     console.log(response.data);
-    navigation.navigate("Bookshelf", { data: data });
+    navigation.navigate("Profile", { data: data });
     ;
   };
 
