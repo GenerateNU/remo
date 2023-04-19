@@ -49,7 +49,7 @@ func TestAPIGetBookByISBN(t *testing.T) {
 	}
 
 	// "application/json"
-	response, err := http.Post(queryEndpointURL, "application/json", bytes.NewBuffer(requestBody))
+	response, err := http.Post(queryEndpointURL+"/v1/query", "application/json", bytes.NewBuffer(requestBody))
 	if err != nil {
 		t.Errorf("Unable to complete POST request properly: %q", err)
 	}
@@ -76,10 +76,17 @@ func TestAPICreateBook(t *testing.T) {
 	// INCOMPLETE. MUST FINISH QUERY - MAKE SURE BOOK INPUT IS PROPERLY FORMATTED
 	// ASK CHATGPT OR BOOT UP PLAYGROUND
 
-	query := `query {
-		createBook(isbn: ) {
-			
-		}
+	query := `mutation {
+			createBook (input: {
+			     id: 1
+			     default_user_id: 1
+			     story_id: 1
+			   }){
+			     id
+			     default_user_id
+			     story_id
+			   }
+			 }
 	}`
 
 	request := struct {
