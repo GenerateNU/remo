@@ -102,7 +102,7 @@ const Notifications = () => {
 			daysAsString = "Every Day";
 		} else if (weekdays.length == 0) {
 			setNotifSettings("No Saved Settings");
-			console.log("no days picked");
+			console.log("No days picked");
 			return;
 		} else {
 			setWeekdays(weekdays.sort((n1, n2) => n1 - n2));
@@ -129,7 +129,7 @@ const Notifications = () => {
 
 		// If you just saved changes, set notifications
 		if (isEditingSettings) {
-			console.log("saved settings");
+			console.log("Saved settings");
 			schedulePushNotification();
 			displayNotifSettings();
 			console.log(notifSettings);
@@ -295,7 +295,7 @@ const Notifications = () => {
 				{isEnabled && (
 					<Button //style={undefined}
 						onPress={saveNotifChanges}
-						title={isEditingSettings ? "save changes" : "edit notifications"} //"save changes"
+						title={isEditingSettings ? "Save Changes" : "Edit Notifications"} //"save changes"
 						// activeOpacity = {0}
 						color="#84158488"
 						accessibilityLabel="Save Notification Changes"

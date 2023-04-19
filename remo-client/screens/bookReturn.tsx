@@ -26,7 +26,7 @@ export default function BookReturn() {
       user: data.id,
     });
     console.log(response.data);
-    navigation.navigate("Bookshelf", { data: data });
+    navigation.navigate("Profile", { data: data });
     ;
   };
 
