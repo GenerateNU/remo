@@ -9,12 +9,13 @@ import {
   Image,
 } from "react-native";
 import { useNavigation, useRoute } from "@react-navigation/native";
-import { findUserBooks } from "../services/book-services";
+import { findUserBooks, getReadingLogs } from "../services/book-services";
 import NavBar from "../components/Navbar/navbar";
 
 export default function ReadingLog({ navigation }) {
   const [books, setBooks] = useState([]);
   const [selectedBook, setSelectedBook] = useState(null);
+  const [rlogs, setRlogs] = useState([]);
   const [showPopup, setShowPopup] = useState(false);
 
   const route = useRoute();
@@ -22,6 +23,7 @@ export default function ReadingLog({ navigation }) {
 
   useEffect(() => {
     getReadingLogBooks();
+    getReadingLogs();
   }, []);
 
   const getReadingLogBooks = async () => {
@@ -29,6 +31,13 @@ export default function ReadingLog({ navigation }) {
     readingLogBooks = readingLogBooks.slice(0, 4);
     setBooks(readingLogBooks);
     console.log(readingLogBooks);
+  };
+
+  const getReadingLogs = async () => {
+    let readingLogs = await getReadingLogs(data.user_id);
+    readingLogs = readingLogs.slice(0, 5);
+    setRlogs(readingLogs);
+    console.log(readingLogs);
   };
 
   const onBookPress = () => {
@@ -41,7 +50,7 @@ export default function ReadingLog({ navigation }) {
           <View style={styles.header}>
             <Text style={styles.header_title}>Currently Reading</Text>
           </View>
-          <ScrollView style={{ width: "100%" }}>
+          <ScrollView style={[styles.scrollWrap, { width: "100%" }]}>
             <View style={styles.container}>
               {books.map((book) => (
                 <TouchableOpacity
@@ -78,21 +87,11 @@ export default function ReadingLog({ navigation }) {
             <Text style={styles.header_title}>My Reading Log Reports</Text>
           </View>
           <ScrollView style={{ width: "100%" }}>
-            <View style={styles.container}>
-              {books.map((book) => (
-                <TouchableOpacity
-                  key={book.id}
-                  style={[
-                    styles.book,
-                    selectedBook &&
-                      selectedBook.id === book.id &&
-                      styles.selected,
-                  ]}
-                >
+            <View style={styles.rlogContainer}>
+              {rlogs.map((rlogs) => (
+                <TouchableOpacity style={[styles.rlog]}>
                   <>
-                    <Text style={styles.title}>Book </Text>
-                    <Text style={styles.author}>Author </Text>
-                    <Text style={styles.isbn}>Date </Text>
+                    <Text style={styles.title}>{rlogs.response_type}</Text>
                   </>
                 </TouchableOpacity>
               ))}
@@ -118,6 +117,9 @@ const styles = StyleSheet.create({
   scroll: {
     flex: 9,
   },
+  scrollWrap: {
+    flexWrap: "wrap",
+  },
   bot: {
     flex: 1,
   },
@@ -132,7 +134,13 @@ const styles = StyleSheet.create({
     flexWrap: "wrap",
     justifyContent: "space-between",
     padding: 20,
+  },
+  rlogContainer: {
+    flex: 1,
+    flexDirection: "column",
     width: "100%",
+    justifyContent: "flex-start",
+    padding: 20,
   },
   header: {
     flexDirection: "row",
@@ -157,7 +165,15 @@ const styles = StyleSheet.create({
   },
   book: {
     width: "45%",
-    marginBottom: 5,
+    marginBottom: 8,
+    height: 185,
+    borderWidth: 1,
+    borderColor: "#ccc",
+    padding: 1,
+  },
+  rlog: {
+    width: "100%",
+    marginBottom: 8,
     borderWidth: 1,
     borderColor: "#ccc",
     padding: 1,
