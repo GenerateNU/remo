@@ -73,7 +73,7 @@ func GetUserBooksFromDB(pool *sql.DB, user_id string) ([]Book, error) {
 }
 
 func GetAllBooksFromDB(pool *sql.DB) ([]Book, error) {
-	rows, err := pool.Query("SELECT id, title, author, isbn_10, isbn_13, num_pages, synopsis FROM books;")
+	rows, err := pool.Query("SELECT id, title, author, isbn_10, isbn_13, num_pages, synopsis FROM books LIMIT 100;")
 
 	if err != nil {
 		return nil, err

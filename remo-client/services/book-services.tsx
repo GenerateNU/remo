@@ -21,7 +21,7 @@ export const checkoutBook = async ({ barcode, user }: BookUser) => {
 };
 
 export const returnBook = async ({ barcode, user }: BookUser) => {
-  const response = await axios.post(
+  const response = await axios.delete(
     `${API_URL}/v1/return/${barcode}/${user}`
   );
   console.log("barcode; ", barcode);
