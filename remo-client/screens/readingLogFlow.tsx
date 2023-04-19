@@ -156,7 +156,11 @@ export default function ReadingLogFlow({ navigation }) {
               addSummary: <AddSummary setters={setters} states={states} />,
               howGoes: <SelectReadingHow setters={setters} states={states} />,
               displayPage: (
-                <ReadingLogDisplayPage states={states} title={data.title} />
+                <ReadingLogDisplayPage
+                  states={states}
+                  title={data.title}
+                  postInfo={postInfo}
+                />
               ),
             }[page]
           }

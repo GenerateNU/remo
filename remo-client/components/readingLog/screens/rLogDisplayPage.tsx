@@ -31,10 +31,7 @@ export default function ReadingLogDisplayPage({ states, title, postInfo }) {
 
   const pages = states.endPage - states.startPage;
   const pagesDisplay = pages + " pages";
-  const log_data ={ minutes: mins, 
-                    seconds: seconds,
-                    
-  };
+  const log_data = { minutes: mins, seconds: seconds };
 
   return (
     <View style={styles.container}>
@@ -51,7 +48,11 @@ export default function ReadingLogDisplayPage({ states, title, postInfo }) {
         />
       </View>
       <View style={styles.bot}>
-        <BottomButtonsDone pageToGo={"Submitted"} />
+        <BottomButtonsDone
+          pageToGo={"Submitted"}
+          postInfo={postInfo}
+          data={data}
+        />
       </View>
     </View>
   );
