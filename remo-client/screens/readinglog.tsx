@@ -9,7 +9,7 @@ import {
   Image,
 } from "react-native";
 import { useNavigation, useRoute } from "@react-navigation/native";
-import { findUserBooks, getReadingLogs } from "../services/book-services";
+import { findUserBooks, ree } from "../services/book-services";
 import NavBar from "../components/Navbar/navbar";
 
 export default function ReadingLog({ navigation }) {
@@ -34,10 +34,13 @@ export default function ReadingLog({ navigation }) {
   };
 
   const getReadingLogs = async () => {
-    let readingLogs = await getReadingLogs(data.user_id);
+    let readingLogs = await ree(data.id);
     readingLogs = readingLogs.slice(0, 5);
     setRlogs(readingLogs);
+    console.log("--------------------------------")
+
     console.log(readingLogs);
+    console.log("--------------------------------")
   };
 
   const onBookPress = () => {
@@ -91,7 +94,10 @@ export default function ReadingLog({ navigation }) {
               {rlogs.map((rlogs) => (
                 <TouchableOpacity style={[styles.rlog]}>
                   <>
-                    <Text style={styles.title}>{rlogs.response_type}</Text>
+                    <Text style={styles.title}>Reading Log</Text>
+                    <Text style={styles.title}>Total Pages: {rlogs.total_pages}</Text>
+                    <Text style={styles.title}>Response: {rlogs.response}</Text>
+
                   </>
                 </TouchableOpacity>
               ))}

@@ -72,7 +72,7 @@ export const checkOnboarded = async (user_id: string) => {
   return response.data;
 };
 
-export const getReadingLogs = async (user_id: string) => {
-  const response = await axios.get(`${API_URL}/v1/user_readong_log/${user_id}`);
+export const ree = async (user_id: string) => {
+  const response = await axios.get(`${API_URL}/v1/user_reading_logs/${user_id}`);
   return response.data;
 };
