@@ -1,7 +1,8 @@
 import { useNavigation, useRoute } from "@react-navigation/native";
 import { Button } from "@rneui/themed";
 import React from "react";
-import { StyleSheet, View, Text } from "react-native";
+import { StyleSheet, View, Text, Alert } from "react-native";
+import { logReadingLog } from "../../../services/book-services";
 
 export default function BottomButtonsDone({ pageToGo, postInfo, data }) {
   const navigation = useNavigation();
@@ -13,6 +14,19 @@ export default function BottomButtonsDone({ pageToGo, postInfo, data }) {
   const nextPage = () => {
     console.log(pageToGo);
     console.log(postInfo);
+  };
+
+  const postReadingLog = async () => {
+    console.log(postInfo);
+    console.log(postInfo.check_in);
+    const response = await logReadingLog(postInfo);
+    console.log(response);
+    Alert.alert(
+      "Reading Log",
+      "Reading Log response has been posted!",
+      [{ text: "Ok", style: "default" }],
+      { cancelable: false }
+    );
   };
 
   return (
@@ -30,7 +44,7 @@ export default function BottomButtonsDone({ pageToGo, postInfo, data }) {
         <Button
           buttonStyle={styles.button}
           color={"#954A98"}
-          onPress={nextPage}
+          onPress={postReadingLog}
           title={"Done"}
         ></Button>
       </View>

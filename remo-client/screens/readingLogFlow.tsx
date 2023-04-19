@@ -48,7 +48,7 @@ export default function ReadingLogFlow({ navigation }) {
 
   const checkInMap = new Map([
     ["Things are going well with my book.", 1],
-    ["I don’t like this book, and want to abandon it", 2],
+    ["I don’t like this book, and want to abandon it.", 2],
     ["I will be finished with my book soon.", 3],
     ["I want to talk to you about my book.", 4],
     ["I am finished with my book.", 5],
@@ -57,7 +57,7 @@ export default function ReadingLogFlow({ navigation }) {
 
   const postInfo = {
     book_id: data.isbn_13,
-    user_id: data.user_id,
+    user_id: data.id,
     total_pages: endPage - startPage,
     total_time: "" + mins,
     check_in: checkInMap.get(going),

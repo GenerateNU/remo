@@ -73,6 +73,13 @@ export const checkOnboarded = async (user_id: string) => {
 };
 
 export const ree = async (user_id: string) => {
-  const response = await axios.get(`${API_URL}/v1/user_reading_logs/${user_id}`);
+  const response = await axios.get(
+    `${API_URL}/v1/user_reading_logs/${user_id}`
+  );
+  return response.data;
+};
+
+export const logReadingLog = async (postInfo: JSON) => {
+  const response = await axios.post(`${API_URL}/v1/add_reading_log`, postInfo);
   return response.data;
 };

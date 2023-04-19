@@ -37,10 +37,10 @@ export default function ReadingLog({ navigation }) {
     let readingLogs = await ree(data.id);
     readingLogs = readingLogs.slice(0, 5);
     setRlogs(readingLogs);
-    console.log("--------------------------------")
+    console.log("--------------------------------");
 
     console.log(readingLogs);
-    console.log("--------------------------------")
+    console.log("--------------------------------");
   };
 
   const onBookPress = () => {
@@ -49,10 +49,10 @@ export default function ReadingLog({ navigation }) {
   return (
     <View style={styles.bound}>
       <View style={styles.scroll}>
-        <ScrollView style={styles.scroll}>
-          <View style={styles.header}>
-            <Text style={styles.header_title}>Currently Reading</Text>
-          </View>
+        <View style={styles.header}>
+          <Text style={styles.header_title}>Currently Reading</Text>
+        </View>
+        <View style={styles.bookshelf}>
           <ScrollView style={[styles.scrollWrap, { width: "100%" }]}>
             <View style={styles.container}>
               {books.map((book) => (
@@ -86,27 +86,32 @@ export default function ReadingLog({ navigation }) {
                 )}
             </View>
           </ScrollView>
-          <View style={styles.header}>
-            <Text style={styles.header_title}>My Reading Log Reports</Text>
-          </View>
+        </View>
+        <View style={styles.header}>
+          <Text style={styles.header_title}>My Reading Log Reports</Text>
+        </View>
+        <View style={styles.readingLogs}>
           <ScrollView style={{ width: "100%" }}>
             <View style={styles.rlogContainer}>
               {rlogs.map((rlogs) => (
                 <TouchableOpacity style={[styles.rlog]}>
                   <>
                     <Text style={styles.title}>Reading Log</Text>
-                    <Text style={styles.title}>Total Pages: {rlogs.total_pages}</Text>
+                    <Text style={styles.title}>
+                      Total Pages: {rlogs.total_pages}
+                    </Text>
                     <Text style={styles.title}>Response: {rlogs.response}</Text>
-
                   </>
                 </TouchableOpacity>
               ))}
             </View>
           </ScrollView>
+        </View>
+        <View style={styles.bottomButton}>
           <TouchableOpacity style={styles.button} onPress={() => onBookPress()}>
             <Text style={styles.buttonText}>Add Reading Log</Text>
           </TouchableOpacity>
-        </ScrollView>
+        </View>
       </View>
       <View style={styles.bot}>
         <NavBar navigation={navigation} data={data} />
@@ -123,6 +128,18 @@ const styles = StyleSheet.create({
   scroll: {
     flex: 9,
   },
+  bookshelf: {
+    flex: 3,
+    width: "100%",
+  },
+  readingLogs: {
+    flex: 2,
+    width: "100%",
+  },
+  bottomButton: {
+    flex: 1,
+    width: "100%",
+  },
   scrollWrap: {
     flexWrap: "wrap",
   },
@@ -131,6 +148,8 @@ const styles = StyleSheet.create({
   },
   bookContainer: {
     width: "100%",
+    borderRadius: 20,
+    overflow: "hidden",
     height: "100%",
   },
   container: {
@@ -159,7 +178,7 @@ const styles = StyleSheet.create({
   },
   bookPicture: {
     width: "100%",
-    height: 180,
+    height: 160,
     resizeMode: "contain",
   },
   header_title: {
@@ -170,9 +189,11 @@ const styles = StyleSheet.create({
     fontSize: 18,
   },
   book: {
-    width: "45%",
+    width: "30%",
     marginBottom: 8,
-    height: 185,
+    height: 160,
+    borderRadius: 20,
+    overflow: "hidden",
     borderWidth: 1,
     borderColor: "#ccc",
     padding: 1,
