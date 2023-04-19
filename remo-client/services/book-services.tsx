@@ -13,7 +13,6 @@ export const checkoutBook = async ({ barcode, user }: BookUser) => {
   const response = await axios.post(
     `${API_URL}/v1/checkout_book/${barcode}/${user}`
   );
-  console.log("checked out")
   console.log("barcode; ", barcode, " user; ", user);
   console.log("the response is ------");
   console.log(response);
@@ -32,22 +31,15 @@ export const returnBook = async ({ barcode, user }: BookUser) => {
 
 export const findUserBooks = async (id: string) => {
   const response = await axios.get(`${API_URL}/v1/user_books/${id}`);
-  console.log(response.data);
+
   const updatedBooks = await Promise.all(response.data.map(async (bookData) => {
-    console.log(bookData);
 
     const coverResponse = await findGoogleBook(bookData.isbn_13);
-    console.log("2");
-    try{
-      const obj = coverResponse.items[0].volumeInfo;
-      const imageLinks = obj.imageLinks;
-      const arr = Object.entries(imageLinks);
-      const coverImage = arr[arr.length - 1][1];
-      return { ...bookData, coverImage };
-    }
-    catch (err) {
-      return { ...bookData, undefined}
-    }
+    const obj = coverResponse.items[0].volumeInfo;
+    const imageLinks = obj.imageLinks;
+    const arr = Object.entries(imageLinks);
+    const coverImage = arr[arr.length - 1][1];
+    return { ...bookData, coverImage };
   }));
   console.log(updatedBooks);
   return updatedBooks;

@@ -33,7 +33,6 @@ export default function Bookshelf() {
     findBooks();
   }, []);
 
-  console.log()
 
   try{
         return(
