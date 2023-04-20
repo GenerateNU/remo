@@ -207,7 +207,7 @@ const styles = StyleSheet.create({
   rlogsListItem: {
     borderWidth: 1,
     borderColor: "#ccc",
-    borderRadius: 20,
+    borderRadius: 15,
     overflow: "hidden",
   },
   rlogsShadow: {
