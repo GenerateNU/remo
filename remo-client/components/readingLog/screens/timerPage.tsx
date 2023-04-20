@@ -17,7 +17,8 @@ export default function TimerPage({ setters, states, stopTimer }) {
   const route = useRoute();
   const data = route.params?.data;
   const title = data.title;
-
+  console.log("--------------------------------");
+  console.log(data);
   const onStopPress = () => {
     setters.time(states.time);
     setters.page("postTimer");

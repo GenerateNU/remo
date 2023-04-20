@@ -15,7 +15,8 @@ export default function PostReadingLogPage({ setters, states }) {
   const route = useRoute();
 
   const data = route.params?.data;
-
+  console.log("--------------------------------");
+  console.log(data);
   const formatMinutes = (timeInMs: number) => {
     const minutes = Math.floor(timeInMs / 60000);
 

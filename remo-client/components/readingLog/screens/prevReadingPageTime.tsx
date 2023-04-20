@@ -19,7 +19,8 @@ export default function NoTimerEntry({ setters, states }) {
   }, [startTime, endTime]);
 
   const data = route.params?.data;
-
+  console.log("--------------------------------");
+  console.log(data);
   const [timeSpent, setTimeSpent] = useState("totalTime"); // totalTime, startEnd
 
   const minutes = Math.floor(states.time / 60000);

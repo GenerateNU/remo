@@ -20,7 +20,7 @@ export default function SelectReadingHow({ setters, states }) {
     "I am finished with my book.",
     "I’m confused and I need help.",
   ];
-
+  
   return (
     <View style={styles.container}>
       <View style={styles.questionBlock}>
