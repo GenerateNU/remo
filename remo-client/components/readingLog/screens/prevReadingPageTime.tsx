@@ -350,6 +350,7 @@ const styles = StyleSheet.create({
     borderColor: "#ccc",
     padding: 5,
     marginBottom: 6,
+    backgroundColor: "white",
     width: 110,
     height: 50,
     fontSize: 16,
