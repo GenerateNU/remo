@@ -17,14 +17,18 @@ export default function BottomButtonsDone({ pageToGo, postInfo, data }) {
   };
 
   const postReadingLog = async () => {
-    console.log(postInfo);
-    console.log(postInfo.check_in);
     const response = await logReadingLog(postInfo);
     console.log(response);
     Alert.alert(
       "Reading Log",
       "Reading Log response has been posted!",
-      [{ text: "Ok", style: "default" }],
+      [
+        {
+          text: "Ok",
+          style: "default",
+          onPress: () => navigation.navigate("Profile", { data: data }),
+        },
+      ],
       { cancelable: false }
     );
   };
