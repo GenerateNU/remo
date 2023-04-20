@@ -93,38 +93,40 @@ export default function ReadingLog({ navigation }) {
         </View>
         <View style={styles.readingLogs}>
           <ScrollView style={{ width: "100%" }}>
-            <View style={styles.rlogContainer}>
-              <View style={styles.rlogsShadow}>
-                <View style={styles.rlogsListItem}>
-                  {rlogs.map((rlog) => (
-                    <TouchableOpacity style={[styles.rlog]}>
-                      <View style={styles.comRow}>
-                        <MaterialCommunityIcons
-                          name="bookmark-plus"
-                          size={36}
-                          color="orange"
-                        />
+            {rlogs.length > 0 && (
+              <View style={styles.rlogContainer}>
+                <View style={styles.rlogsShadow}>
+                  <View style={styles.rlogsListItem}>
+                    {rlogs.map((rlog) => (
+                      <TouchableOpacity style={[styles.rlog]}>
+                        <View style={styles.comRow}>
+                          <MaterialCommunityIcons
+                            name="bookmark-plus"
+                            size={36}
+                            color="orange"
+                          />
 
-                        <View style={styles.innerContent}>
-                          <Text style={styles.title}>
-                            Book title; {rlog.book_id}
-                          </Text>
-                          <View>
-                            <View style={styles.rlog_row}>
-                              <Text>Date</Text>
-                              <Text>
-                                {rlog.total_pages} pages; {rlog.total_time}{" "}
-                                minutes
-                              </Text>
+                          <View style={styles.innerContent}>
+                            <Text style={styles.title}>
+                              Book title; {rlog.book_id}
+                            </Text>
+                            <View>
+                              <View style={styles.rlog_row}>
+                                <Text>Date</Text>
+                                <Text>
+                                  {rlog.total_pages} pages; {rlog.total_time}{" "}
+                                  minutes
+                                </Text>
+                              </View>
                             </View>
                           </View>
                         </View>
-                      </View>
-                    </TouchableOpacity>
-                  ))}
+                      </TouchableOpacity>
+                    ))}
+                  </View>
                 </View>
               </View>
-            </View>
+            )}
           </ScrollView>
         </View>
         <View style={styles.bottomButton}>
