@@ -55,14 +55,16 @@ export default function ReadingLogFlow({ navigation }) {
     ["I’m confused and I need help.", 6],
   ]);
 
+  // user_id, book_id, total_pages, total_time, types_of_reading, reader_response, check_in)
+
   const postInfo = {
-    book_id: data.isbn_13,
     user_id: data.id,
+    book_id: data.isbn_13,
     total_pages: endPage - startPage,
     total_time: "" + mins,
-    check_in: checkInMap.get(going),
     response_type: responseMap.get(responseType),
     response: summary,
+    check_in: checkInMap.get(going),
   };
 
   useEffect(() => {
