@@ -80,6 +80,7 @@ export const ree = async (user_id: string) => {
 };
 
 export const logReadingLog = async (postInfo: JSON) => {
+  console.log(postInfo);
   const response = await axios.post(`${API_URL}/v1/add_reading_log`, postInfo);
   return response.data;
 };
