@@ -11,6 +11,7 @@ import {
 import { useNavigation, useRoute } from "@react-navigation/native";
 import { findUserBooks, ree } from "../services/book-services";
 import NavBar from "../components/Navbar/navbar";
+import { MaterialCommunityIcons } from "@expo/vector-icons";
 
 export default function ReadingLog({ navigation }) {
   const [books, setBooks] = useState([]);
@@ -93,17 +94,36 @@ export default function ReadingLog({ navigation }) {
         <View style={styles.readingLogs}>
           <ScrollView style={{ width: "100%" }}>
             <View style={styles.rlogContainer}>
-              {rlogs.map((rlogs) => (
-                <TouchableOpacity style={[styles.rlog]}>
-                  <>
-                    <Text style={styles.title}>Reading Log</Text>
-                    <Text style={styles.title}>
-                      Total Pages: {rlogs.total_pages}
-                    </Text>
-                    <Text style={styles.title}>Response: {rlogs.response}</Text>
-                  </>
-                </TouchableOpacity>
-              ))}
+              <View style={styles.rlogsShadow}>
+                <View style={styles.rlogsListItem}>
+                  {rlogs.map((rlog) => (
+                    <TouchableOpacity style={[styles.rlog]}>
+                      <View style={styles.comRow}>
+                        <MaterialCommunityIcons
+                          name="bookmark-plus"
+                          size={36}
+                          color="orange"
+                        />
+
+                        <View style={styles.innerContent}>
+                          <Text style={styles.title}>
+                            Book title; {rlog.book_id}
+                          </Text>
+                          <View>
+                            <View style={styles.rlog_row}>
+                              <Text>Date</Text>
+                              <Text>
+                                {rlog.total_pages} pages; {rlog.total_time}{" "}
+                                minutes
+                              </Text>
+                            </View>
+                          </View>
+                        </View>
+                      </View>
+                    </TouchableOpacity>
+                  ))}
+                </View>
+              </View>
             </View>
           </ScrollView>
         </View>
@@ -124,6 +144,21 @@ const styles = StyleSheet.create({
   bound: {
     flex: 1,
     width: "100%",
+  },
+  innerContent: {
+    marginLeft: 10,
+    marginRight: 12,
+    width: "100%",
+  },
+  rlog_row: {
+    flexDirection: "row",
+    width: "82%",
+    justifyContent: "space-between",
+  },
+  comRow: {
+    flexDirection: "row",
+    width: "100%",
+    alignItems: "center",
   },
   scroll: {
     flex: 9,
@@ -167,6 +202,19 @@ const styles = StyleSheet.create({
     justifyContent: "flex-start",
     padding: 20,
   },
+  rlogsListItem: {
+    borderWidth: 1,
+    borderColor: "#ccc",
+    borderRadius: 20,
+    overflow: "hidden",
+  },
+  rlogsShadow: {
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 5,
+  },
   header: {
     flexDirection: "row",
     justifyContent: "space-between",
@@ -200,10 +248,10 @@ const styles = StyleSheet.create({
   },
   rlog: {
     width: "100%",
-    marginBottom: 8,
+    padding: 10,
+    backgroundColor: "white",
     borderWidth: 1,
     borderColor: "#ccc",
-    padding: 1,
   },
   selected: {
     borderColor: "blue",
