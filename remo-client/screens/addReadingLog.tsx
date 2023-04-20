@@ -15,7 +15,7 @@ import NavBar from "../components/Navbar/navbar";
 
 export default function AddReadingLog({ navigation }) {
   const [books, setBooks] = useState([]);
-  const [selectedBook, setSelectedBook] = useState(null);
+  const [selectedBook, setSelectedBook] = useState<JSON | null>(null);
   const [bookCover, setBookCover] = useState("");
   const [showPopup, setShowPopup] = useState(false);
   const route = useRoute();
@@ -32,13 +32,18 @@ export default function AddReadingLog({ navigation }) {
 
   const fetchGoogle = async () => {
     if (data.isbn !== null) {
-      const data = await findGoogleBook(data.isbn);
-      await updateCover(data);
+      const googleData = await findGoogleBook(data.isbn);
+      await updateCover(googleData);
     }
   };
 
   const onLogPress = () => {
-    navigation.navigate("ReadingLogFlow", { data: selectedBook });
+    const newData = {
+      ...selectedBook,
+      ...data,
+    };
+
+    navigation.navigate("ReadingLogFlow", { data: newData });
   };
 
   const addLog = () => {
