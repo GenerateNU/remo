@@ -19,7 +19,8 @@ export default function NoTimerEntry({ setters, states }) {
   }, [startTime, endTime]);
 
   const data = route.params?.data;
-
+  console.log("--------------------------------");
+  console.log(data);
   const [timeSpent, setTimeSpent] = useState("totalTime"); // totalTime, startEnd
 
   const minutes = Math.floor(states.time / 60000);
@@ -46,7 +47,7 @@ export default function NoTimerEntry({ setters, states }) {
           <Text style={styles.boldText}>Your Time Spent</Text>
           {timeSpent == "totalTime" && (
             <View>
-              <ScrollView>
+              <ScrollView style={{ overflow: "visible" }}>
                 <TextInput
                   style={styles.textInput}
                   keyboardType="numeric"
@@ -169,6 +170,11 @@ const styles = StyleSheet.create({
     padding: 10,
     borderColor: "#954A98",
     marginVertical: 10,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 5,
   },
   bot: {
     flex: 1,
@@ -183,10 +189,13 @@ const styles = StyleSheet.create({
     alignItems: "center",
     width: "100%",
     backgroundColor: "white",
-    borderColor: "#954A98",
     padding: 18,
-    borderWidth: 1,
     borderRadius: 10,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 5,
   },
   warningText: {
     paddingHorizontal: 20,
@@ -196,6 +205,7 @@ const styles = StyleSheet.create({
   outer: {
     width: "100%",
     marginTop: 20,
+    paddingHorizontal: 10,
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
@@ -341,8 +351,14 @@ const styles = StyleSheet.create({
     borderColor: "#ccc",
     padding: 5,
     marginBottom: 6,
+    backgroundColor: "white",
     width: 110,
     height: 50,
     fontSize: 16,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 5,
   },
 });

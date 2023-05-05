@@ -15,7 +15,7 @@ import NavBar from "../components/Navbar/navbar";
 
 export default function AddReadingLog({ navigation }) {
   const [books, setBooks] = useState([]);
-  const [selectedBook, setSelectedBook] = useState(null);
+  const [selectedBook, setSelectedBook] = useState<JSON | null>(null);
   const [bookCover, setBookCover] = useState("");
   const [showPopup, setShowPopup] = useState(false);
   const route = useRoute();
@@ -32,13 +32,18 @@ export default function AddReadingLog({ navigation }) {
 
   const fetchGoogle = async () => {
     if (data.isbn !== null) {
-      const data = await findGoogleBook(data.isbn);
-      await updateCover(data);
+      const googleData = await findGoogleBook(data.isbn);
+      await updateCover(googleData);
     }
   };
 
   const onLogPress = () => {
-    navigation.navigate("ReadingLogFlow", { data: selectedBook });
+    const newData = {
+      ...selectedBook,
+      ...data,
+    };
+
+    navigation.navigate("ReadingLogFlow", { data: newData });
   };
 
   const addLog = () => {
@@ -72,10 +77,12 @@ export default function AddReadingLog({ navigation }) {
                 }}
               >
                 <>
-                  <Image source={{ uri: book.cover }} />
-                  <Text style={styles.title}>{book.title}</Text>
-                  <Text style={styles.author}>{book.author}</Text>
-                  <Text style={styles.isbn}>ISBN-13: {book.isbn_13}</Text>
+                  <View style={styles.bookContainer}>
+                    <Image
+                      source={{ uri: book.coverImage }}
+                      style={styles.bookPicture}
+                    />
+                  </View>
                 </>
               </TouchableHighlight>
             ))}
@@ -99,6 +106,27 @@ const styles = StyleSheet.create({
     flexWrap: "wrap",
     justifyContent: "space-between",
     padding: 20,
+  },
+  bookPicture: {
+    width: "100%",
+    height: 160,
+    resizeMode: "contain",
+  },
+  bookContainer: {
+    width: "100%",
+    borderRadius: 20,
+    overflow: "hidden",
+    height: 160,
+  },
+  book: {
+    width: "30%",
+    marginBottom: 8,
+    height: 160,
+    borderRadius: 20,
+    overflow: "hidden",
+    borderWidth: 1,
+    borderColor: "#ccc",
+    padding: 1,
   },
   bound: {
     flex: 1,
@@ -140,13 +168,6 @@ const styles = StyleSheet.create({
   },
   count: {
     fontSize: 18,
-  },
-  book: {
-    width: "48%",
-    marginBottom: 20,
-    borderWidth: 1,
-    borderColor: "#ccc",
-    padding: 10,
   },
   selected: {
     borderColor: "blue",

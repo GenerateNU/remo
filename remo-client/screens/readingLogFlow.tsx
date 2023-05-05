@@ -48,21 +48,23 @@ export default function ReadingLogFlow({ navigation }) {
 
   const checkInMap = new Map([
     ["Things are going well with my book.", 1],
-    ["I don’t like this book, and want to abandon it", 2],
+    ["I don’t like this book, and want to abandon it.", 2],
     ["I will be finished with my book soon.", 3],
     ["I want to talk to you about my book.", 4],
     ["I am finished with my book.", 5],
     ["I’m confused and I need help.", 6],
   ]);
 
+  // user_id, book_id, total_pages, total_time, types_of_reading, reader_response, check_in)
+
   const postInfo = {
+    user_id: data.id,
     book_id: data.isbn_13,
-    user_id: data.user_id,
     total_pages: endPage - startPage,
     total_time: "" + mins,
-    check_in: checkInMap.get(going),
     response_type: responseMap.get(responseType),
     response: summary,
+    check_in: checkInMap.get(going),
   };
 
   useEffect(() => {
@@ -156,7 +158,11 @@ export default function ReadingLogFlow({ navigation }) {
               addSummary: <AddSummary setters={setters} states={states} />,
               howGoes: <SelectReadingHow setters={setters} states={states} />,
               displayPage: (
-                <ReadingLogDisplayPage states={states} title={data.title} />
+                <ReadingLogDisplayPage
+                  states={states}
+                  title={data.title}
+                  postInfo={postInfo}
+                />
               ),
             }[page]
           }
@@ -184,6 +190,7 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: "column",
     justifyContent: "flex-start",
+    backgroundColor: "#FAF8FB",
   },
   padding: {
     flex: 7,

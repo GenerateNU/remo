@@ -147,7 +147,7 @@ func (ms *MsController) Serve() *gin.Engine {
 
 	})
 
-	r.POST("v1/return/:bookId/:userId", func(c *gin.Context) {
+	r.DELETE("v1/return/:bookId/:userId", func(c *gin.Context) {
 		isbn_13 := c.Param("bookId")
 		user_id := c.Param("userId")
 

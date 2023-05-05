@@ -133,7 +133,7 @@ export default function AddSummary({ setters, states }) {
       </Modal>
       <View style={styles.top}>
         <View style={styles.scroll}>
-          <ScrollView>
+          <ScrollView style={{ overflow: "visible" }}>
             <View style={styles.topBox}>
               <Text>Please provide a summary of this section of the book</Text>
               <View>
@@ -299,8 +299,12 @@ const styles = StyleSheet.create({
     backgroundColor: "white",
     height: 130,
     borderRadius: 15,
-    borderColor: "#954A98",
     marginBottom: 15,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 5,
   },
   bold: {
     fontWeight: "bold",
@@ -314,12 +318,15 @@ const styles = StyleSheet.create({
     flexDirection: "column",
     justifyContent: "flex-start",
     marginBottom: 25,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 5,
   },
   input: {
     height: 250,
-    borderWidth: 1,
     marginTop: 8,
-    borderColor: "#954A98",
     backgroundColor: "white",
     textAlignVertical: "top",
     padding: 20,

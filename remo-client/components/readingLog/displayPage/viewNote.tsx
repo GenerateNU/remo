@@ -80,6 +80,7 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     alignItems: "center",
     width: "100%",
+    marginBottom: 15,
   },
   helpModal: {
     justifyContent: "flex-end",
@@ -87,7 +88,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   helpModalDisplay: {
-    justifyContent: "space-between",
+    justifyContent: "flex-start",
     alignItems: "flex-start",
     width: "100%",
     height: 300,

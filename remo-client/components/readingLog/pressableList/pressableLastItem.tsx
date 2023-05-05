@@ -31,8 +31,6 @@ const styles = StyleSheet.create({
   item: {
     width: "100%",
     height: "100%",
-    borderWidth: 1,
-    borderColor: "#954A98",
     borderRadius: 12,
     flexDirection: "row",
     justifyContent: "center",

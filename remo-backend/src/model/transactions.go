@@ -73,7 +73,7 @@ func GetUserBooksFromDB(pool *sql.DB, user_id string) ([]Book, error) {
 }
 
 func GetAllBooksFromDB(pool *sql.DB) ([]Book, error) {
-	rows, err := pool.Query("SELECT id, title, author, isbn_10, isbn_13, num_pages, synopsis FROM books;")
+	rows, err := pool.Query("SELECT id, title, author, isbn_10, isbn_13, num_pages, synopsis FROM books LIMIT 500;")
 
 	if err != nil {
 		return nil, err
@@ -219,7 +219,7 @@ func AddReadingLog(pool *sql.DB, log ReadingLog) error {
 			return e3
 		}
 	}
-	_, err := pool.Exec(fmt.Sprintf("INSERT INTO reading_rate_results (user_id, book_id, total_pages, total_time, types_of_reading, reader_response, check_in) VALUES ('%s','%s','%s', '%s', '%s','%s', '%s');", log.UserID, log.BookID, strconv.Itoa(log.TotalPages), strconv.Itoa(log.ResponseType), log.Response, strconv.Itoa(log.CheckIn)))
+	_, err := pool.Exec(fmt.Sprintf("INSERT INTO reading_rate_results (user_id, book_id, total_pages, total_time, types_of_reading, reader_response, check_in) VALUES ('%s','%s','%s', '%s', '%s','%s', '%s');", log.UserID, log.BookID, strconv.Itoa(log.TotalPages), log.TotalTime, strconv.Itoa(log.ResponseType), log.Response, strconv.Itoa(log.CheckIn)))
 	return err
 }
 

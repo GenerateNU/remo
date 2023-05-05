@@ -15,7 +15,8 @@ export default function PostReadingLogPage({ setters, states }) {
   const route = useRoute();
 
   const data = route.params?.data;
-
+  console.log("--------------------------------");
+  console.log(data);
   const formatMinutes = (timeInMs: number) => {
     const minutes = Math.floor(timeInMs / 60000);
 
@@ -46,12 +47,11 @@ export default function PostReadingLogPage({ setters, states }) {
   return (
     <View style={styles.container}>
       <View style={styles.top}>
-        <ScrollView>
-          <View style={styles.page_container}>
-            <View style={styles.pageContainer}>
-              <Text style={styles.header_title}>Your Pages:</Text>
-            </View>
-          </View>
+        <View style={styles.pageContainer}>
+          <Text style={styles.header_title}>Your Pages:</Text>
+        </View>
+        <ScrollView style={{ paddingHorizontal: 5 }}>
+          <View style={styles.page_container}></View>
 
           <View style={styles.pageCont}>
             <View style={styles.input_container}>
@@ -132,10 +132,13 @@ const styles = StyleSheet.create({
     alignItems: "center",
     width: "100%",
     backgroundColor: "white",
-    borderColor: "#954A98",
     padding: 18,
-    borderWidth: 1,
     borderRadius: 10,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 5,
   },
   warningText: {
     paddingHorizontal: 20,
@@ -145,6 +148,7 @@ const styles = StyleSheet.create({
   outer: {
     width: "100%",
     marginTop: 20,
+    paddingHorizontal: 10,
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
@@ -255,6 +259,11 @@ const styles = StyleSheet.create({
     justifyContent: "flex-start",
     marginBottom: 10,
     flexDirection: "column",
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 5,
   },
   input: {
     width: 300,

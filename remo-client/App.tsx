@@ -73,7 +73,7 @@ export default function App() {
           name="ReadingLogFlow"
           component={ReadingLogFlow}
           options={{
-            title: "Add Reading Log",
+            title: "Add a Reading Log",
             headerStyle: {
               backgroundColor: "#954A98",
             },
@@ -84,7 +84,7 @@ export default function App() {
           name="ReadingLog"
           component={ReadingLog}
           options={{
-            title: "Add Reading Log",
+            title: "Reading Logs",
             headerStyle: {
               backgroundColor: "#954A98",
             },
@@ -137,12 +137,22 @@ export default function App() {
             headerTintColor: "#fff",
           }}
         />
-        <Stack.Screen name="BookReturn" component={BookReturn} />
+        <Stack.Screen
+          name="BookReturn"
+          component={BookReturn}
+          options={{
+            title: "Return a Book",
+            headerStyle: {
+              backgroundColor: "#954A98",
+            },
+            headerTintColor: "#fff",
+          }}
+        />
         <Stack.Screen
           name="Notifications"
           component={Notifications}
           options={{
-            title: "Add Reading Log",
+            title: "Notifications",
             headerStyle: {
               backgroundColor: "#954A98",
             },
