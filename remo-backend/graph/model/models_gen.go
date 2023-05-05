@@ -2,15 +2,99 @@
 
 package model
 
-type NewBook struct {
-	Title  string `json:"title"`
-	Author string `json:"author"`
-	UserID string `json:"userId"`
+import (
+	"time"
+)
+
+type BookInput struct {
+	ID            string     `json:"id"`
+	StoryID       *string    `json:"story_id"`
+	Author        *string    `json:"author"`
+	CoverImage    *string    `json:"cover_image"`
+	DateCreated   *time.Time `json:"date_created"`
+	DateUpdated   *time.Time `json:"date_updated"`
+	DefaultUserID string     `json:"default_user_id"`
+	Foreword      *string    `json:"foreword"`
+	Editor        *string    `json:"editor"`
+	Illustrator   *string    `json:"illustrator"`
+	Isbn10        *string    `json:"isbn_10"`
+	Isbn13        *int       `json:"isbn_13"`
+	NumPages      *int       `json:"num_pages"`
+	PubDate       *int       `json:"pub_date"`
+	CopyrightDate *int       `json:"copyright_date"`
+	Edition       *int       `json:"edition"`
+	Synopsis      *string    `json:"synopsis"`
+	Title         *string    `json:"title"`
+	WordCount     *int       `json:"word_count"`
+	SubTitle      *string    `json:"sub_title"`
+	Asin          *string    `json:"asin"`
+}
+
+type NewClassroom struct {
+	ClassroomID          string `json:"classroom_id"`
+	ClassroomCoTeacherID string `json:"Classroom_co_teacher_id"`
+	ClassroomStatusID    string `json:"classroom_status_id"`
+}
+
+type NewStudent struct {
+	ID           string `json:"id"`
+	StudentID    string `json:"Student_id"`
+	StudentAppID string `json:"student_app_id"`
+	FirstName    string `json:"First_name"`
+	MiddleName   string `json:"Middle_name"`
+	LastName     string `json:"last_name"`
+}
+
+type NewTeacher struct {
+	ID                 string    `json:"id"`
+	TeacherFirstName   string    `json:"Teacher_first_name"`
+	TeacherLastName    string    `json:"Teacher_last_name"`
+	Active             int       `json:"Active"`
+	TeacherDateCreated time.Time `json:"Teacher_date_created"`
+	TeacherDateUpdated time.Time `json:"Teacher_date_updated"`
 }
 
 type User struct {
-	ID        string `json:"id"`
-	FirstName string `json:"first_name"`
-	LastName  string `json:"last_name"`
-	Email     string `json:"email"`
+	ID                 string  `json:"id"`
+	StudentID          string  `json:"student_id"`
+	StudentAppID       string  `json:"student_app_id"`
+	StudentCalpadsSsid *string `json:"student_calpads_ssid"`
+	StudentLoginID     *int    `json:"student_login_id"`
+	FirstName          string  `json:"first_name"`
+	MiddleName         string  `json:"middle_name"`
+	LastName           string  `json:"last_name"`
+	DateCreated        *int    `json:"date_created"`
+	DateUpdated        *int    `json:"date_updated"`
+	PreferredName      *string `json:"preferred_name"`
+	Gender             *int    `json:"gender"`
+	Pronoun            *int    `json:"pronoun"`
+	BirthDate          *string `json:"birth_date"`
+	GradeLevel         *int    `json:"grade_level"`
+	GradeMovement      *int    `json:"grade_movement"`
+	GuidedReadingLevel *string `json:"guided_reading_level"`
+	RtiSrvType         *int    `json:"rti_srv_type"`
+	StudentServices    *string `json:"student_services"`
+	RtiServices        *string `json:"rti_services"`
+	SpecializedCourses *string `json:"specialized_courses"`
+	GradeLevelStatus   *int    `json:"grade_level_status"`
+	LexileLevelMin     *int    `json:"lexile_level_min"`
+	LexileLevelMax     *int    `json:"lexile_level_max"`
+	Type               *int    `json:"type"`
+	Weakness           *int    `json:"weakness"`
+	ReaderType         *int    `json:"reader_type"`
+	ReadingStage       *int    `json:"reading_stage"`
+	Ethnicity          *int    `json:"ethnicity"`
+	Avatar             *string `json:"avatar"`
+	BackupAvatar       *string `json:"backup_avatar"`
+	SelfAssessment     *int    `json:"self_assessment"`
+	ReaderNonReader    *int    `json:"reader_non_reader"`
+	ReadGoal           *int    `json:"read_goal"`
+	TypeOfReading      *int    `json:"type_of_reading"`
+	BookFinish         *int    `json:"book_finish"`
+	ReadSpeed          *int    `json:"read_speed"`
+}
+
+type NewReadingRateResults struct {
+	ReadingRateResultsID string `json:"Reading_rate_results_id"`
+	WordsPerPage         int    `json:"Words_per_page"`
 }

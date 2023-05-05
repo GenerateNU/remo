@@ -2,30 +2,356 @@
 #
 # https://gqlgen.com/getting-started/
 
-type Book {
-  id: ID!
-  title: String!
-  author: String!
-  user: User!
+# Maps a Time GraphQL scalar to a Go time.Time struct. This scalar adheres to the time.RFC3339Nano format.
+# https://gqlgen.com/reference/scalars/
+scalar Time
+scalar date
+
+#Maps an arbitrary GraphQL value to a map[string]interface{} Go type
+scalar Map
+
+type Query {
+    # Book queries
+    #books: [Book!]!
+    getBookByISBN(isbn: Int!): Book
+    #getBookByTitle(title: String!): Book
+
+    teachers: [Teacher!]!
+
+    # User queries
+    #users: [User!]!
+    getUserByID(id: ID!): User
+    #getUserByLastName(last_name: String!): User
+    #getUserByEmail(email: String!): User
+}
+
+type Teacher {
+    teacher_ID: ID!
+    Teacher_login_id: ID #ID from logins table
+    Teacher_title: String
+    Teacher_first_name: String!
+    Teacher_middle_name: String
+    Teacher_last_name: String!
+    Teacher_suffix: String
+    Teacher_date_of_birth: date
+    Teacher_date_started_teaching: String
+    Degree_level_id: ID
+    Is_certified: Boolean
+    Certification_id: ID
+    Certification_start: String
+    Certification_end: String
+    Teacher_avatar: String
+    Teacher_backup_avater: String
+    Teacher_subscription_type: Int
+    Teacher_code_name: String
+    Teacher_display_name: String
+    Quarantined_books: Boolean
+    Teacher_backup_email: String
+    Teacher_gender: String
+    Teacher_pronoun: String
+    Teacher_position: Int
+    Teacher_grade_band: String
+    Teacher_subjects: String
+    Teacher_provided_services: String
+    Teacher_specialized_courses: String
+    Teacher_state_id: String
+    Teacher_district: String
+    Teacher_school: String
+    Teacher_cell_phone: String
+    Teacher_texts_enabled: Int
+    Active: Int!
+    Teacher_date_created:  date!
+    Teacher_date_updated:  date
+}
+
+type Classroom {
+    classroomId: Int!
+    classroom_school_id: Int
+    # DOUBLE-CHECK THE TYPE ON THIS
+    classroom_school_year: String
+    classroom_start_date: String
+    classroom_end_date: String
+    classroom_name: String
+    classroom_subject: String
+    classroom_display_name: String
+    classroom_avg_length: String
+    # HOW TO DEAL WITH THIS? WHICH TYPES CAN BE ENCODED INTO A JSON?
+    #classroom_avg_frequency int DEFAULT NULL COMMENT '1 = weekly 2 = bi-weekly 3 = monthly 4 = yearly',
+    classroom_avg_days: Int
+    classroom_grade_level_type: Int
+    classroom_grade_level: String
+    classroom_co_teacher_id: Int
+    classroom_teacher_idV1: Int
+    classroom_num_students: Int
+    classroom_num_seats: Int
+    # HOW TO DEAL WITH THIS? WHICH TYPES CAN BE ENCODED INTO A JSON?
+    #//classroom_student_sign_in_mode int DEFAULT NULL COMMENT '1 - Shared (QR or Google code), 2 - Single-user (email/pass).',
+    #//classroom_can_share_books int DEFAULT NULL COMMENT '1 = yes, anything else is no.',
+    #//classroom_can_view_prompt_replies int DEFAULT NULL COMMENT '1 = yes, anything else is no.',
+    #//classroom_can_view_survey_results int DEFAULT NULL COMMENT '1 = yes, anything else is no.',
+    #//classroom_can_view_teacher_bookshelves int DEFAULT NULL COMMENT '1 = yes, anything else is no.',
+    #//classroom_enable_family_access int DEFAULT NULL COMMENT '1 = yes, anything else is no.',
+    #//classroom_status_id int NOT NULL DEFAULT '0' COMMENT '0 = inactive, 1= active, 2 =archived',
+    classroom_status_id: Int!
+    classroom_conf_frequency_above: Int
+    classroom_conf_frequency_on: Int
+    classroom_conf_frequency_below: Int
+    classroom_conf_frequency_far_below: Int
 }
 
 type User {
-  id: ID!
-  first_name: String!
-  last_name: String!
-  email: String!
+    id: ID!
+    student_id: ID!
+    student_app_id: ID!
+    student_calpads_ssid: String
+    student_login_id: Int
+    first_name: String!
+    middle_name: String!
+    last_name: String!
+    date_created: Int
+    date_updated: Int
+    preferred_name: String
+    gender: Int
+    pronoun: Int
+    birth_date: String
+    grade_level: Int
+    grade_movement: Int
+    guided_reading_level: String
+    rti_srv_type: Int
+    student_services: String
+    rti_services: String
+    specialized_courses: String
+    grade_level_status: Int
+    lexile_level_min: Int
+    lexile_level_max: Int
+    type: Int
+    weakness: Int
+    reader_type: Int
+    reading_stage: Int
+    ethnicity: Int
+    avatar: String
+    backup_avatar: String
+    self_assessment: Int
+    reader_non_reader: Int
+    read_goal: Int
+    type_of_reading: Int
+    book_finish: Int
+    read_speed: Int
+
+
 }
 
-type Query {
-  books: [Book!]!
+type ReadingRateResult {
+    reading_rate_results_id: Int!
+    user_id: Int
+    book_id: Int
+    user_book_id: Int
+    date: String
+    reading_location: Int
+    type_of_reading: Int
+    reading_setting: Int
+    reading_type_details: Int
+    start_time: String
+    end_time: String
+    total_time: Int
+    start_page: Int
+    end_page: Int
+    total_pages: Int
+    word_per_page: Int
+    types_of_reading: String
+    section_rating: Int
+    check_in: Int
+    reader_request: Int
+    reader_request_almost_finished: Int
+    reader_continuum: Int
+    words_per_page: Int
+    observational_notes: String
+    share_feedback: Int
+    reader_response: String
+    reading_response_pages: String
+    reading_response_type: Int
+    reading_response_subtype: Int
+    grade_level: Int
+    grade_level_status: Int
+    teacher_id: Int
 }
 
-input NewBook {
-  title: String!
-  author: String!
-  userId: String!
+type Student {
+    id: ID!
+    studentId: ID!
+    studentAppId: ID!
+    studentCalpadsSsid: ID
+    studentLoginId: ID
+    firstName: String!
+    middleName: String!
+    lastName: String!
+    dateCreated: String
+    dateUpdated: String
+    preferredName: String
+    gender: Int
+    pronoun: Int
+    birthDate: String
+    gradeLevel: Int
+    gradeMovement: Int
+    guidedReadingLevel: String
+    rtiSrvType: Int
+    studentServices: String
+    rtiServices: String
+    specializedCourses: String
+    gradeLevelStatus: Int
+    lexileLevelMin: Int
+    lexileLevelMax: Int
+    type: Int
+    weakness: Int
+    readerType: Int
+    readingStage: Int
+    ethnicity: Int
+    avatar: String
+    backupAvatar: String
 }
+
+type Book {
+    id: ID! #NOT NULL AUTO_INCREMENT
+    story_id: ID
+    author: String
+    cover_image: String
+    date_created: Time #NULL DEFAULT NULL
+    date_updated: Time #NULL DEFAULT NULL
+    default_user_id: ID! #NOT NULL DEFAULT '3'
+    foreword: String
+    editor: String
+    illustrator: String
+    isbn_10: String
+    isbn_13: Int
+    num_pages: Int
+    # these were ints but they seem wrong - should be times imo
+    pub_date: Int
+    copyright_date: Int
+    #
+    edition: Int
+    synopsis: String
+    title: String
+    word_count: Int
+    sub_title: String
+    asin: String
+    #PRIMARY KEY (`id`)
+}
+
+#type BookType implements Book{}
+
+# why are these separate? We may never know
+type UserBook {
+    id: ID!
+    book_id: ID!
+    book_type: Int #COMMENT '1=fiction,2=non-ficiton,3=blended',
+    checkout_status: Int! #NOT NULL DEFAULT '4' COMMENT 'id from ''checkout_status_fields'' table.',
+    condition: Int
+    cover_image: String
+    date_created: Time
+    date_updated: Time
+    format: Int #COMMENT '1=hardcover,2=PaperBack,3=ebook,4=audio,5=other',
+    guided_reading_level: String
+    lexile_level: Int
+    location: Int
+    mentor_text: Int
+    multiple_pov: Int
+    price: Float
+    qty_label: Int
+    series: Int
+    series_name: String
+    series_pos: Int
+    tags: String
+    teacher_notes: String
+    teacher_read: Int
+    text_complexity: Int
+    unpaged: Int!
+    unreliable_narrative: Int
+    user_id: Int
+    entered_user_id: ID # the id of the user that entered the book into remo
+    want_for_classroom: Int
+    own_this_copy: Int! #NOT NULL DEFAULT '0' COMMENT '0=unspecified 1=user 2=school 3=School Library',
+    want_to_discard: Int
+    word_count: Int
+    words_per_page: Int
+    current_user_id: Int
+}
+
+input BookInput {
+    id: ID!
+    story_id: ID
+    author: String
+    cover_image: String
+    date_created: Time #NULL DEFAULT NULL
+    date_updated: Time #NULL DEFAULT NULL
+    default_user_id: ID! #NOT NULL DEFAULT '3'
+    foreword: String
+    editor: String
+    illustrator: String
+    isbn_10: String
+    isbn_13: Int
+    num_pages: Int
+    pub_date: Int
+    copyright_date: Int
+    edition: Int
+    synopsis: String
+    title: String
+    word_count: Int
+    sub_title: String
+    asin: String
+}
+
+input NewTeacher {
+    id: ID!
+    Teacher_first_name: String!
+    Teacher_last_name: String!
+    Active: Int!
+    Teacher_date_created: Time!
+    Teacher_date_updated: Time!
+}
+
+input NewClassroom {
+    classroom_id: ID!
+    Classroom_co_teacher_id: ID!
+    classroom_status_id: ID!
+
+}
+
+input NewStudent{
+    id: ID!
+    Student_id: ID!
+    student_app_id: ID!
+    First_name: String!
+    Middle_name: String!
+    last_name: String!
+}
+
+input newReadingRateResults{
+    Reading_rate_results_id:ID!
+    Words_per_page: Int!
+}
+
+# Brian said to eliminate. Will be handled elsewhere
+#input NewUser {
+#    id: ID!
+#    first_name: String!
+#    last_name: String!
+#    email: String!
+#}
 
 type Mutation {
-  createBook(input: NewBook!): Book!
+    # Book mutations
+    createBook(input: BookInput!): Book!
+    updateBook(input: BookInput): Book
+
+    #Teacher mutations
+    createTeacher(input: NewTeacher!): Teacher!
+
+    #Classroom mutations
+    createClassroom(input:NewClassroom!): Classroom!
+
+    #Student mutations
+    createStudent(input:NewStudent!): Student!
+
+    #ReadingRatesResults mutations
+    createNewReadingRateResults(input:newReadingRateResults!): ReadingRateResult!
 }
