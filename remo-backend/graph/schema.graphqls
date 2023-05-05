@@ -330,13 +330,6 @@ input newReadingRateResults{
     Words_per_page: Int!
 }
 
-# Brian said to eliminate. Will be handled elsewhere
-#input NewUser {
-#    id: ID!
-#    first_name: String!
-#    last_name: String!
-#    email: String!
-#}
 
 type Mutation {
     # Book mutations

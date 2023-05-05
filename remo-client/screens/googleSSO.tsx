@@ -60,8 +60,6 @@ export default function GoogleSSO() {
       // an access token and id token will be returned in the authentication object
       console.log(authentication?.idToken);
 
-      console.log("woohoo");
-
       try {
 
         var res = await fetch(

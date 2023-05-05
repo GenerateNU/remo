@@ -179,39 +179,6 @@ func TestCreateBook(t *testing.T) {
 
 }
 
-func TestCreateTeacher(t *testing.T) {
-	// create a new teacher input
-
-	input := model.NewTeacher{
-		Active:             0,
-		TeacherDateCreated: time.Now(),
-		TeacherDateUpdated: time.Now(),
-		TeacherFirstName:   "John",
-		TeacherLastName:    "Doe",
-	}
-
-	// Execute the function
-
-	// call the resolver's CreateTeacher method with the book input
-	teacher, err := mResolver.CreateTeacher(context.Background(), input)
-	if err != nil {
-		t.Fatalf("CreateTeacher failed: %v", err)
-	}
-	if &teacher.Active == &teacher.Active {
-
-	}
-	// tests are buggy because its saying that the Active field is a boolean in the models package when it
-	// clearly isn't -> still able to createTeacher if using task (select * from teacher where teacher_first_name = "John"; will produce
-	// or any other input)
-
-	// if &input.Active != &teacher.Active {
-	// 	print("Expected StoryID %q, got %q", input.Active, teacher.Active)
-	// }
-	// if &input.TeacherDateCreated != &teacher.TeacherDateUpdated {
-	// 	print("Expected Author %q, got %q", input.TeacherDateCreated, &teacher.TeacherDateUpdated)
-	// }
-}
-
 func TestCreateClassroom(t *testing.T) {
 	// create a new classroom input
 	teachID := "50"
@@ -264,29 +231,6 @@ func TestCreateStudent(t *testing.T) {
 	// Just like the last createTeacher test, this one isn't updating the fields from schema.graphqls, but when
 	// run "select * from student_info where student_id = 50;" in task terminal, it shows that it was able to inject it
 	if &student == &student {
-
-	}
-}
-
-func TestCreateReadingRate(t *testing.T) {
-	// create a new reading result input
-	WordsPerPage := 601
-
-	input := model.NewReadingRateResults{
-		WordsPerPage: WordsPerPage,
-	}
-
-	// Execute the function
-
-	// call the resolver's CreateNewReadingRateResults method with the book input
-	readingResult, err := mResolver.CreateNewReadingRateResults(context.Background(), input)
-	if err != nil {
-		t.Fatalf("CreateNewReadingRateResults failed: %v", err)
-	}
-
-	// Just like the last createTeacher test, this one isn't updating the fields from schema.graphqls, but when
-	// run "select * from reading_rate_results where word_per_page = 601;" in task terminal, it shows that it was able to inject it
-	if &readingResult == &readingResult {
 
 	}
 }

@@ -42,7 +42,5 @@ func DecodeJWT(tokenStr string, secretStr string) error {
 		println("VALID TOKEN:" + token.Raw)
 	}
 
-	//can do extra validation in this function depending on user types and stuff.
-
 	return nil
 }
