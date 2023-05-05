@@ -9,7 +9,6 @@ import { FontAwesome5 } from '@expo/vector-icons'
 import {
   NavigationContainer,
   useNavigation,
-  Stack,
 } from "@react-navigation/native";
 import { StyleSheet, Text, View, Button } from "react-native";
 

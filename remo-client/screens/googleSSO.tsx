@@ -10,9 +10,6 @@ import PressableCard from "../components/pressablecard/pressablecard";
 import { checkOnboarded } from "../services/book-services";
 
 
-// import * as WebBrowser from 'expo-web-browser';
-// import { GoogleRectangularButton } from "../../../common/GoogleButton";
-
 export default function GoogleSSO() {
   const navigation = useNavigation();
 

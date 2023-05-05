@@ -78,7 +78,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     paddingHorizontal: 20,
     paddingVertical: 7,
-    // borderBottomWidth: 1,
     borderBottomColor: '#ccc',
     paddingRight: 100,
   },
@@ -98,12 +97,10 @@ const styles = StyleSheet.create({
   },  
   header_data: {
     fontSize: 18,
-    // fontWeight: 'bold',
   },
   note: {
     fontSize: 18,
     paddingRight:250,
-    // fontWeight: 'bold',
   },
   count: {
     fontSize: 18,

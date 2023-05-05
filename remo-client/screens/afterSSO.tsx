@@ -5,19 +5,7 @@ import { useNavigation, useRoute } from "@react-navigation/native";
 import jwt_decode from 'jwt-decode'
 
 export default function AfterSSO() {
-    // how to decode JWT
-    /*
-    Get idToken from OAuth
-    jwt_decode(idToken)
 
-    
-     const id = route.params?.idToken
-
-    const decodedHeader = jwt_decode(id);
-    const pic = decodedHeader.picture
-
-
-    */
 
 
     const route = useRoute()
@@ -25,13 +13,7 @@ export default function AfterSSO() {
 
     const decodedHeader = jwt_decode(id);
     const pic = decodedHeader.picture
-    // console.log(decodedHeader)
-    // const email = decodedHeader[email]
-    // const route = useRoute()
-    // const idtoken = route.params.idToken
-    // const navigation = useNavigation();
-    // navigation.
-    // roAfute.params.paramKey
+
     
 
 

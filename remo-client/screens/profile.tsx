@@ -24,7 +24,7 @@ export default function Profile() {
   const data = route.params?.data;
   const navigation = useNavigation();
 
-  // TODO: CHANGE THIS BACK LATER
+
   const name = data.firstName + " " + data.lastName;
 
   const [prefferedName, setPrefferedName] = useState(name);

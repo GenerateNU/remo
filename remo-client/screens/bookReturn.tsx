@@ -19,7 +19,7 @@ export default function BookReturn() {
   };
 
   const returnB = async () => {
-    console.log("got here");
+
     console.log(data.barcode);
     const response = await returnBook({
       barcode: data.barcode,

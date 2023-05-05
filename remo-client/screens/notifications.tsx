@@ -52,9 +52,7 @@ const Notifications = () => {
 	const toggleSwitch = () => {
 		setIsEnabled((previousState) => !previousState);
 		Notification.cancelAllScheduledNotificationsAsync()
-		// if (!isEnabled) {
-		// 	Notification.cancelAllScheduledNotificationsAsync();
-		// }
+
 	};
 
 	// update display text on settings change/page reload
@@ -114,9 +112,6 @@ const Notifications = () => {
 		}
 		const notifyString: string = `${notifMessage}\nNotify at ${hours}:${minutes} ${ampm}\n${daysAsString}`;
 		setNotifSettings(notifyString);
-
-		// const test: Notification.NotificationRequest[] = Notifications.getAllScheduledNotificationsAsync();
-		// console.log(test);
 	}
 
 	// saves notification settings when button pressed
@@ -165,15 +160,6 @@ const Notifications = () => {
 			console.log("UPDATE: weekdays/time", days, hour, minute, weekdays, time)
 		}
 
-		// if (notifSettings == "No Saved Settings") {
-		// 	console.log("no saved settings wah wah");
-		// 	setIsEnabled(false);
-		// 	setIsEditingSettings(true);
-		// } else {
-		// 	setIsEnabled(true);
-		// 	setIsEditingSettings(false);
-		// }
-	
 	}
 
 	async function schedulePushNotification() {

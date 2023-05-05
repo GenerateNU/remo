@@ -94,9 +94,7 @@ export default function Onboarding() {
     } else if (page === "pagetwelve") {
       setPageNum(11);
       // PUT request to make the user "onboarded"
-      console.log("HELLLLLOOOOOO");
       try{
-        console.log("HELLLLLOOOOOO");
         console.log(data.id)
         const _ =  onboardUser(data.id);
       }catch(e){

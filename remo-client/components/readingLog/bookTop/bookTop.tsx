@@ -40,6 +40,5 @@ const styles = StyleSheet.create({
   header_data: {
     fontSize: 18,
     fontWeight: "200",
-    // fontWeight: 'bold',
   },
 });

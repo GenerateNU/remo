@@ -13,7 +13,6 @@ import { findGoogleBook } from "../services/google-services";
 import { BarCodeScanner } from "expo-barcode-scanner";
 import { BarcodeResponse } from "../types/index";
 import { useNavigation, useRoute } from "@react-navigation/native";
-import { AbsoluteCenter } from "@chakra-ui/react";
 import NavBar from "../components/Navbar/navbar";
 
 export default function BarcodeScanner() {
